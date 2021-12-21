@@ -3,9 +3,8 @@ import { StaticImage } from "gatsby-plugin-image";
 
 import Navigation from '../components/Navigation';
 
-export default function DefaultLayout(props: {children: React.ReactNode, uri: string}) {
+export default function DefaultLayout(props: {children: React.ReactNode, path: string}) {
   const [showDropdown, toggleDropdown] = useReducer((value) => !value, false);
-
   return (
     <div>
       <header className="sticky top-0 z-40 w-full backdrop-blur flex-none duration-500 lg:z-50 lg:border-b lg:border-gray-900/10 bg-blue/95 supports-backdrop-blur:bg-blue/60">
@@ -49,7 +48,7 @@ export default function DefaultLayout(props: {children: React.ReactNode, uri: st
       </header>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         <div className="hidden lg:block fixed z-20 inset-0 top-[61px] left-[max(0px,calc(50%-40rem))] right-auto w-[19.5rem] py-10 px-8 overflow-y-auto">
-          <Navigation uri={props.uri} />
+          <Navigation path={props.path} />
         </div>
         <div className="lg:pl-[19.5rem]">
           <main className="max-w-3xl mx-auto relative z-20 pt-10 xl:max-w-none">

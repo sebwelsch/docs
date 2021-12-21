@@ -1,7 +1,7 @@
 import React from 'react';
 import DefaultLayout from './default';
 
-export default function MdxLayout(props: {children: React.ReactNode, pageContext: any}) {
+export default function MdxLayout(props: {children: React.ReactNode, pageContext: any, uri: string}) {
   const {frontmatter} = props.pageContext;
   return (
     <DefaultLayout {...props}>
