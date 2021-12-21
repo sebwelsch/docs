@@ -23,16 +23,17 @@ function graphQLFetcher(graphQLParams, options) {
 export default function GraphQLExplorer(props: {query?: string, variables?: string | any}) {
   const {query, variables} = props;
 
-  console.log(typeof variables === 'object' ? JSON.stringify(variables) : variables);
   return (
-    <GraphiQL
-      fetcher={graphQLFetcher}
-      defaultVariableEditorOpen={true}
-      defaultSecondaryEditorOpen={true}
-      query={query}
-      variables={typeof variables === 'object' ? JSON.stringify(variables, null, 2) : variables}
-      docExplorerOpen={false}
-      headerEditorEnabled={false}
-    />
+    <div className="hidden lg:block">
+      <GraphiQL
+        fetcher={graphQLFetcher}
+        defaultVariableEditorOpen={true}
+        defaultSecondaryEditorOpen={true}
+        query={query}
+        variables={typeof variables === 'object' ? JSON.stringify(variables, null, 2) : variables}
+        docExplorerOpen={false}
+        headerEditorEnabled={false}
+      />
+    </div>
   );
 }

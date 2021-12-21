@@ -10,7 +10,7 @@
   "scripts": {
     "develop": "gatsby develop",
     "start": "gatsby develop",
-    "codegen": "graphql-codegen -c signatures-codegen.yml",
+    "codegen": "graphql-codegen -c graphql-gatsby-codegen.yml && graphql-codegen -c graphql-signatures-codegen.yml",
     "build": "npm run codegen && gatsby build",
     "serve": "gatsby serve",
     "clean": "gatsby clean"
@@ -36,7 +36,6 @@
     "@graphql-codegen/typescript-operations": "^2.2.1",
     "@tailwindcss/typography": "^0.5.0",
     "autoprefixer": "^10.4.0",
-    "gatsby-plugin-graphql-codegen": "^3.1.0",
     "gatsby-plugin-image": "^2.4.0",
     "gatsby-plugin-postcss": "^5.4.0",
     "gatsby-plugin-sharp": "^4.4.0",

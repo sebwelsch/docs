@@ -3,7 +3,7 @@ import GraphQLExplorer from '../../../../components/GraphQLExplorer';
 import { AddSignatoryInput } from "../../../../../graphql-signatures-types";
 
 export const query = /* Signatures GraphQL */`
-mutation exampleAddSignatory(
+mutation exampleAddSignatoryScoped(
   $input: AddSignatoryInput!
 ) {
   addSignatory(input: $input) {
@@ -24,7 +24,15 @@ mutation exampleAddSignatory(
 
 export const variables = () : {input: AddSignatoryInput} => ({
   input: {
-    signatureOrderId: "[REQUIRED]"
+    signatureOrderId: "[REQUIRED]",
+    documents: [
+      {
+        id: "[REQUIRED]"
+      },
+      {
+        id: "[LEAVE OUT DOCUMENT ID TO REMOVE FOR SIGNATORY]"
+      }
+    ]
   }
 });
 

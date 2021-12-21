@@ -569,9 +569,23 @@ export type ExampleAddSignatoryMutationVariables = Exact<{
 
 export type ExampleAddSignatoryMutation = { __typename?: 'Mutation', addSignatory?: { __typename?: 'AddSignatoryOutput', signatureOrder: { __typename?: 'SignatureOrder', signatories: Array<{ __typename?: 'Signatory', id: string, href: string }> }, signatory: { __typename?: 'Signatory', id: string, href: string } } | null | undefined };
 
-export type ExamplesCreateSignatureOrderMutationVariables = Exact<{
-  input: CreateSignatureOrderInput;
+export type ExampleAddSignatoryEvidenceValidationMutationVariables = Exact<{
+  input: AddSignatoryInput;
 }>;
 
 
-export type ExamplesCreateSignatureOrderMutation = { __typename?: 'Mutation', createSignatureOrder?: { __typename?: 'CreateSignatureOrderOutput', signatureOrder: { __typename?: 'SignatureOrder', id: string, documents: Array<{ __typename?: 'PdfDocument', id: string }>, signatories: Array<{ __typename?: 'Signatory', id: string, status: SignatoryStatus }> } } | null | undefined };
+export type ExampleAddSignatoryEvidenceValidationMutation = { __typename?: 'Mutation', addSignatory?: { __typename?: 'AddSignatoryOutput', signatureOrder: { __typename?: 'SignatureOrder', signatories: Array<{ __typename?: 'Signatory', id: string, href: string }> }, signatory: { __typename?: 'Signatory', id: string, href: string } } | null | undefined };
+
+export type ExampleAddSignatoryPreapprovedMutationVariables = Exact<{
+  input: AddSignatoryInput;
+}>;
+
+
+export type ExampleAddSignatoryPreapprovedMutation = { __typename?: 'Mutation', addSignatory?: { __typename?: 'AddSignatoryOutput', signatureOrder: { __typename?: 'SignatureOrder', signatories: Array<{ __typename?: 'Signatory', id: string, href: string }> }, signatory: { __typename?: 'Signatory', id: string, href: string } } | null | undefined };
+
+export type ExampleAddSignatoryScopedMutationVariables = Exact<{
+  input: AddSignatoryInput;
+}>;
+
+
+export type ExampleAddSignatoryScopedMutation = { __typename?: 'Mutation', addSignatory?: { __typename?: 'AddSignatoryOutput', signatureOrder: { __typename?: 'SignatureOrder', signatories: Array<{ __typename?: 'Signatory', id: string, href: string }> }, signatory: { __typename?: 'Signatory', id: string, href: string } } | null | undefined };

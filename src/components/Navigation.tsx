@@ -1,7 +1,7 @@
 import React from 'react';
-import { useStaticQuery, graphql, Link } from "gatsby";
+import { useStaticQuery, graphql as gatsbyGraphql, Link } from "gatsby";
 
-import { NavigationQuery } from '../../gatsby-graphql-types';
+import { NavigationQuery } from '../../graphql-gatsby-types';
 
 const SIGNATURES_CATEGORIES = [
   "Getting Started",
@@ -13,7 +13,7 @@ function slugToPath(slug: string) {
 }
 
 export default function Navigation() {
-  const data = useStaticQuery<NavigationQuery>(graphql`
+  const data = useStaticQuery<NavigationQuery>(gatsbyGraphql`
     query Navigation {
       signaturesPages: allMdx(
         filter: {

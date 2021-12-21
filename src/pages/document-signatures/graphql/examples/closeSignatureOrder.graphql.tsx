@@ -1,32 +1,30 @@
 import React from 'react';
 import GraphQLExplorer from '../../../../components/GraphQLExplorer';
-import { AddSignatoryInput } from "../../../../../graphql-signatures-types";
+import { CloseSignatureOrderInput } from "../../../../../graphql-signatures-types";
 
 export const query = /* Signatures GraphQL */`
-mutation exampleAddSignatory(
-  $input: AddSignatoryInput!
+mutation examplesCloseSignatureOrder(
+  $input: CloseSignatureOrderInput!
 ) {
-  addSignatory(input: $input) {
+  closeSignatureOrder(input: $input) {
     signatureOrder {
-      signatories {
-        id
-        href
-      }
-    }
-
-    signatory {
       id
-      href
+
+      documents {
+        id
+        blob
+      }
     }
   }
 }
-`;
+`.trim();
 
-export const variables = () : {input: AddSignatoryInput} => ({
+export const variables = () : {input: CloseSignatureOrderInput} => ({
   input: {
     signatureOrderId: "[REQUIRED]"
   }
 });
+
 
 export function Explorer() {
   return (

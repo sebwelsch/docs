@@ -7,12 +7,10 @@ title: Examples
 
 import Layout from '../../../layouts/mdx';
 export default Layout;
-import GraphQLExplorer from '../../../components/GraphQLExplorer';
-
-import {query as createSignatureOrder, Explorer as CreateSignatureOrderExplorer} from './examples/createSignatureOrder.graphql';
-import {query as addSignatory, Explorer as AddSignatoryExplorer} from './examples/addSignatory.graphql';
 
 ## Creating a basic signature order
+
+import {query as createSignatureOrder, Explorer as CreateSignatureOrderExplorer} from './examples/createSignatureOrder.graphql';
 
 Creates a signature order containing PDF documents to be signed.
 
@@ -21,7 +19,50 @@ Creates a signature order containing PDF documents to be signed.
 
 ## Adding a signatory to a signature order
 
+import {query as addSignatory, Explorer as AddSignatoryExplorer} from './examples/addSignatory.graphql';
+
 Signatories are the individuals you wish to have sign a specific `signatureOrder`. Once created they will have a unique link that you can redirect users to.
 
 <CodeBlock text={addSignatory} />
 <AddSignatoryExplorer />
+
+### Evidence validation
+
+import {Explorer as AddSignatoryEvidenceValidationExplorer} from './examples/addSignatoryEvidenceValidation.graphql';
+
+If you wish to validate the user signing you should use the `evidenceValidation` input for `addSignatory`.
+
+Evidence validation keys must match what will be found in the claims token when signing. You can inspect JWT Tokens issued by Criipto Verify to see the necessary keys.
+
+Evidence will be hashed before storage and compared when a user tries to sign. If the evidence does not match an error will be displayed to the user and they will be prompted to try again.
+
+<AddSignatoryEvidenceValidationExplorer />
+
+### Document scoping
+
+import {Explorer as AddSignatoryScopedExplorer} from './examples/addSignatoryScoped.graphql';
+
+By using the `documents` input array for `addSignatory` you can limit what documents a signatory will be shown.
+
+<AddSignatoryScopedExplorer />
+
+### Preapproval
+
+import {Explorer as AddSignatoryPreapprovedExplorer} from './examples/addSignatoryPreapproved.graphql';
+
+For scenarios where you are displaying the PDFs to the users in your own UI you can opt to create a signatory with the documents preapproved.
+
+By preapproving documents for a signatory they are immediately sent to e-ID login to sign and skip the frontend approval flow.
+
+When using preapproval document-scoping is automatically used so make sure that you pass all documents from the signature order to the signatory.
+
+<AddSignatoryPreapprovedExplorer />
+
+## Closing a signature order
+
+import {query as closeSignatureOrder, Explorer as CloseSignatureOrderExplorer} from './examples/closeSignatureOrder.graphql';
+
+When all signatories have signed the signature order you can close it to retrieve your signed PDFs.
+
+<CodeBlock text={closeSignatureOrder} />
+<CloseSignatureOrderExplorer />
