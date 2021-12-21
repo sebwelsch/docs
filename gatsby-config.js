@@ -1,6 +1,6 @@
 module.exports = {
   siteMetadata: {
-    siteUrl: "https://www.yourdomain.tld",
+    siteUrl: "https://criipto-document-signatures-docs.netlify.app",
     title: "Criipto Document Signatures Docs",
   },
   plugins: [
@@ -16,6 +16,7 @@ module.exports = {
       options: {
         name: "pages",
         path: "./src/pages/",
+        ignore: [`**/*\.graphql\.tsx`],
       },
       __key: "pages",
     },

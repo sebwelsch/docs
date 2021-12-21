@@ -11,7 +11,7 @@
     "develop": "gatsby develop",
     "start": "gatsby develop",
     "codegen": "graphql-codegen -c graphql-gatsby-codegen.yml && graphql-codegen -c graphql-signatures-codegen.yml",
-    "build": "npm run codegen && gatsby build",
+    "build": "gatsby build",
     "serve": "gatsby serve",
     "clean": "gatsby clean"
   },

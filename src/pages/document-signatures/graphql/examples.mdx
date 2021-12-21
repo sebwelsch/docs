@@ -10,7 +10,7 @@ export default Layout;
 
 ## Creating a basic signature order
 
-import {query as createSignatureOrder, Explorer as CreateSignatureOrderExplorer} from './examples/createSignatureOrder.graphql';
+import {query as createSignatureOrder, Explorer as CreateSignatureOrderExplorer} from '../../../examples/createSignatureOrder.graphql';
 
 Creates a signature order containing PDF documents to be signed.
 
@@ -19,7 +19,7 @@ Creates a signature order containing PDF documents to be signed.
 
 ## Adding a signatory to a signature order
 
-import {query as addSignatory, Explorer as AddSignatoryExplorer} from './examples/addSignatory.graphql';
+import {query as addSignatory, Explorer as AddSignatoryExplorer} from '../../../examples/addSignatory.graphql';
 
 Signatories are the individuals you wish to have sign a specific `signatureOrder`. Once created they will have a unique link that you can redirect users to.
 
@@ -28,7 +28,7 @@ Signatories are the individuals you wish to have sign a specific `signatureOrder
 
 ### Evidence validation
 
-import {Explorer as AddSignatoryEvidenceValidationExplorer} from './examples/addSignatoryEvidenceValidation.graphql';
+import {Explorer as AddSignatoryEvidenceValidationExplorer} from '../../../examples/addSignatoryEvidenceValidation.graphql';
 
 If you wish to validate the user signing you should use the `evidenceValidation` input for `addSignatory`.
 
@@ -40,7 +40,7 @@ Evidence will be hashed before storage and compared when a user tries to sign. I
 
 ### Document scoping
 
-import {Explorer as AddSignatoryScopedExplorer} from './examples/addSignatoryScoped.graphql';
+import {Explorer as AddSignatoryScopedExplorer} from '../../../examples/addSignatoryScoped.graphql';
 
 By using the `documents` input array for `addSignatory` you can limit what documents a signatory will be shown.
 
@@ -48,7 +48,7 @@ By using the `documents` input array for `addSignatory` you can limit what docum
 
 ### Preapproval
 
-import {Explorer as AddSignatoryPreapprovedExplorer} from './examples/addSignatoryPreapproved.graphql';
+import {Explorer as AddSignatoryPreapprovedExplorer} from '../../../examples/addSignatoryPreapproved.graphql';
 
 For scenarios where you are displaying the PDFs to the users in your own UI you can opt to create a signatory with the documents preapproved.
 
@@ -60,7 +60,7 @@ When using preapproval document-scoping is automatically used so make sure that 
 
 ## Closing a signature order
 
-import {query as closeSignatureOrder, Explorer as CloseSignatureOrderExplorer} from './examples/closeSignatureOrder.graphql';
+import {query as closeSignatureOrder, Explorer as CloseSignatureOrderExplorer} from '../../../examples/closeSignatureOrder.graphql';
 
 When all signatories have signed the signature order you can close it to retrieve your signed PDFs.
 

@@ -1,6 +1,6 @@
 import React from 'react';
-import GraphQLExplorer from '../../../../components/GraphQLExplorer';
-import { CreateSignatureOrderInput, DocumentStorageMode } from "../../../../../graphql-signatures-types";
+import GraphQLExplorer from '../components/GraphQLExplorer';
+import { CreateSignatureOrderInput, DocumentStorageMode } from "../../graphql-signatures-types";
 
 export const query = /* Signatures GraphQL */`
 mutation examplesCreateSignatureOrder(
