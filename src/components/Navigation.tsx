@@ -1,5 +1,5 @@
 import React from 'react';
-import { useStaticQuery, graphql } from "gatsby";
+import { useStaticQuery, graphql, Link } from "gatsby";
 
 import { NavigationQuery } from '../../graphql-types';
 
@@ -11,8 +11,7 @@ function slugToPath(slug: string) {
   return `/${slug}/`;
 }
 
-export default function Navigation(props: {path: string}) {
-  const {path} = props;
+export default function Navigation() {
   const data = useStaticQuery<NavigationQuery>(graphql`
     query Navigation {
       signaturesPages: allMdx(
@@ -47,12 +46,12 @@ export default function Navigation(props: {path: string}) {
           <ul className="space-y-6 lg:space-y-2 border-l border-gray-100">
             {signaturesPages.filter(node => node.frontmatter.category === category).map(page => (
               <li key={page.id}>
-                <a
-                  className={`block border-l pl-4 -ml-px border-transparent ${slugToPath(page.slug) === path ? 'text-blue border-current font-semibold' : 'hover:border-gray-400 text-gray-700 hover:text-gray-900'}`}
-                  href={slugToPath(page.slug)}
+                <Link
+                  to={slugToPath(page.slug)}
+                  getProps={(props) => ({className: `block border-l pl-4 -ml-px border-transparent ${props.isCurrent ? 'text-blue border-current font-semibold' : 'hover:border-gray-400 text-gray-700 hover:text-gray-900'}`})}
                 >
                   {page.frontmatter.title}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>

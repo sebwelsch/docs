@@ -7,6 +7,17 @@ module.exports = {
     colors: {
       ...colors,
       blue: "#204C82"
+    },
+    extend: {
+      typography: {
+        DEFAULT: {
+          css: {
+            h2: {
+              "margin-bottom": "0.6666666666666666em"
+            }
+          }
+        }
+      }
     }
   },
   plugins: [
