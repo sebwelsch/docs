@@ -4,7 +4,8 @@ import { useStaticQuery, graphql, Link } from "gatsby";
 import { NavigationQuery } from '../../graphql-types';
 
 const SIGNATURES_CATEGORIES = [
-  "Getting Started"
+  "Getting Started",
+  "GraphQL"
 ];
 
 function slugToPath(slug: string) {
@@ -40,8 +41,8 @@ export default function Navigation() {
   const signaturesPages = data.signaturesPages.edges.map(edge => edge.node);
   return (
     <ul>
-      {SIGNATURES_CATEGORIES.map(category => (
-        <li key={category}>
+      {SIGNATURES_CATEGORIES.map((category, index) => (
+        <li key={category} className={index > 0 ? 'mt-12 lg:mt-8' : ''}>
           <h5 className="mb-8 lg:mb-3 font-semibold text-blue">{category}</h5>
           <ul className="space-y-6 lg:space-y-2 border-l border-gray-100">
             {signaturesPages.filter(node => node.frontmatter.category === category).map(page => (
