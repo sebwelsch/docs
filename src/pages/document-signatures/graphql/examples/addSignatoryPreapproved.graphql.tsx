@@ -1,6 +1,8 @@
 import React from 'react';
-import GraphQLExplorer, {getExampleData} from '../../../../components/GraphQLExplorer';
+import GraphQLExplorer from '../../../../components/GraphQLExplorer';
 import { AddSignatoryInput } from "../../../../../graphql-signatures-types";
+import { ExampleData } from '../../../../state/store';
+import { useAppSelector } from '../../../../state/hooks';
 
 export const query = /* Signatures GraphQL */`
 mutation exampleAddSignatoryPreapproved(
@@ -15,12 +17,15 @@ mutation exampleAddSignatoryPreapproved(
 }
 `;
 
-export const variables = () : {input: AddSignatoryInput} => ({
+export const variables = (data: ExampleData) : {input: AddSignatoryInput} => ({
   input: {
-    signatureOrderId: getExampleData()['signatureOrder.id'] || "[signatureOrder.id]",
-    documents: [
+    signatureOrderId: data?.createSignatureOrder?.signatureOrder.id || "[signatureOrder.id]",
+    documents: data.createSignatureOrder ? data.createSignatureOrder.signatureOrder.documents.map(document => ({
+      id: document.id,
+      preapproved: true
+    })) : [
       {
-        id: "[REQUIRED]",
+        id: "[signatureOrder.documents[...].id]",
         preapproved: true
       }
     ]
@@ -28,7 +33,9 @@ export const variables = () : {input: AddSignatoryInput} => ({
 });
 
 export function Explorer() {
+  const data = useAppSelector(state => state.exampleData);
+
   return (
-    <GraphQLExplorer query={query.trim()} variables={variables()} />
-  )
+    <GraphQLExplorer query={query.trim()} variables={variables(data)} />
+  );
 }
