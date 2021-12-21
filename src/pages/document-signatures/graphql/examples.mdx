@@ -58,6 +58,16 @@ When using preapproval document-scoping is automatically used so make sure that 
 
 <AddSignatoryPreapprovedExplorer />
 
+### Multiple signatories
+
+import {query as addSignatories, Explorer as AddSignatoriesExplorer} from '../../../examples/addSignatories.graphql';
+
+If you need to add signatories in bulk you can use the `addSignatories` mutation.
+`addSignatories` supports a `signatories` input array, where each array item supports the same input values as `addSignatoryMutation`.
+
+<CodeBlock text={addSignatories} />
+<AddSignatoriesExplorer />
+
 ## Closing a signature order
 
 import {query as closeSignatureOrder, Explorer as CloseSignatureOrderExplorer} from '../../../examples/closeSignatureOrder.graphql';
