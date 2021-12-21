@@ -20,7 +20,7 @@ export default function MdxLayout(props: {children: React.ReactNode, pageContext
     <div>
       <Header />
       <div className="px-4 sm:px-6 md:px-8">
-        <div className="hidden lg:block fixed z-20 inset-0 top-[61px] left-0 right-auto w-[19.5rem] py-10 px-8 overflow-y-auto">
+        <div className="hidden lg:block fixed z-20 inset-0 top-[61px] left-[max(0px,calc(50%-45rem))] right-auto w-[19.5rem] py-10 px-8 overflow-y-auto">
           <Navigation />
         </div>
         <div className="lg:pl-[19.5rem]">
@@ -41,7 +41,7 @@ export default function MdxLayout(props: {children: React.ReactNode, pageContext
                 </CustomMDXProvider>
               </div>
               
-              {headers && headers.length && (
+              {headers && headers.length ? (
                 <div className="fixed z-20 top-[3.8125rem] bottom-0 right-[max(0px,calc(50%-42rem))] w-[19.5rem] py-10 px-8 overflow-y-auto hidden xl:block">
                   <h5 className="text-blue font-semibold mb-4 text-m leading-6">On this page</h5>
                   <ul className="text-gray-700 text-sm leading-6">
@@ -59,7 +59,7 @@ export default function MdxLayout(props: {children: React.ReactNode, pageContext
                     ))}
                   </ul>
                 </div>
-              )}
+              ) : null}
             </div>
           </div>
         </div>
