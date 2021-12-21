@@ -1,5 +1,5 @@
 import React from 'react';
-import GraphQLExplorer from '../../../../components/GraphQLExplorer';
+import GraphQLExplorer, {getExampleData} from '../../../../components/GraphQLExplorer';
 import { AddSignatoryInput } from "../../../../../graphql-signatures-types";
 
 export const query = /* Signatures GraphQL */`
@@ -7,13 +7,6 @@ mutation exampleAddSignatoryEvidenceValidation(
   $input: AddSignatoryInput!
 ) {
   addSignatory(input: $input) {
-    signatureOrder {
-      signatories {
-        id
-        href
-      }
-    }
-
     signatory {
       id
       href
@@ -24,7 +17,7 @@ mutation exampleAddSignatoryEvidenceValidation(
 
 export const variables = () : {input: AddSignatoryInput} => ({
   input: {
-    signatureOrderId: "[REQUIRED]",
+    signatureOrderId: getExampleData()['signatureOrder.id'] || "[signatureOrder.id]",
     evidenceValidation: [
       {key: "cprNumberIdentifier", value: "11223344-5555"}
     ]

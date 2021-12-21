@@ -1,5 +1,5 @@
 import React from 'react';
-import GraphQLExplorer from '../../../../components/GraphQLExplorer';
+import GraphQLExplorer, {getExampleData} from '../../../../components/GraphQLExplorer';
 import { CloseSignatureOrderInput } from "../../../../../graphql-signatures-types";
 
 export const query = /* Signatures GraphQL */`
@@ -21,7 +21,7 @@ mutation examplesCloseSignatureOrder(
 
 export const variables = () : {input: CloseSignatureOrderInput} => ({
   input: {
-    signatureOrderId: "[REQUIRED]"
+    signatureOrderId: getExampleData()['signatureOrder.id'] || "[signatureOrder.id]"
   }
 });
 

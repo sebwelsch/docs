@@ -27,11 +27,6 @@ body {
 body, #___gatsby, #gatsby-focus-wrapper {
   min-height: 100vh;
 }
-
-.graphiql-container {
-  height: 600px !important;
-}
-
 .graphiql-container * {
   box-sizing: initial;
 }
