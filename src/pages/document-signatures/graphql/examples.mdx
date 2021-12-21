@@ -1,0 +1,27 @@
+---
+product: document-signatures
+category: GraphQL
+sort: 0
+title: Examples
+---
+
+import Layout from '../../../layouts/mdx';
+export default Layout;
+import GraphQLExplorer from '../../../components/GraphQLExplorer';
+
+import {query as createSignatureOrder, Explorer as CreateSignatureOrderExplorer} from './examples/createSignatureOrder.graphql';
+import {query as addSignatory, Explorer as AddSignatoryExplorer} from './examples/addSignatory.graphql';
+
+## Creating a basic signature order
+
+Creates a signature order containing PDF documents to be signed.
+
+<CodeBlock text={createSignatureOrder} />
+<CreateSignatureOrderExplorer />
+
+## Adding a signatory to a signature order
+
+Signatories are the individuals you wish to have sign a specific `signatureOrder`. Once created they will have a unique link that you can redirect users to.
+
+<CodeBlock text={addSignatory} />
+<AddSignatoryExplorer />

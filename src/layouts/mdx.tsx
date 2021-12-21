@@ -1,30 +1,8 @@
 import React from 'react';
-import { MDXProvider } from "@mdx-js/react";
 
 import Navigation from '../components/Navigation';
 import Header from '../components/Header';
-
-const textToId = (input: string) => input.toLowerCase().replace(' ', '-');
-const MyH2 = (props: {children: string}) => (
-  <h2 {...props} id={textToId(props.children)} className="group flex whitespace-pre-wrap -ml-4 pl-4">
-    <a
-      href={`#${textToId(props.children)}`}
-      className="absolute -ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100"
-      aria-label="Anchor"
-    >​
-      <div className="w-6 h-6 text-gray-400 ring-1 ring-gray-900/5 rounded-md shadow-sm flex items-center justify-center hover:ring-gray-900/10 hover:shadow hover:text-gray-700">
-        <svg width="12" height="12" fill="none" aria-hidden="true">
-          <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"></path>
-        </svg>
-      </div>
-    </a>
-    {props.children}
-  </h2>
-);
-
-const components = {
-  h2: MyH2
-}
+import CustomMDXProvider, {textToId} from '../components/MdxProvider';
 
 export default function MdxLayout(props: {children: React.ReactNode, pageContext: any, path: string}) {
   const {frontmatter} = props.pageContext;
@@ -47,13 +25,13 @@ export default function MdxLayout(props: {children: React.ReactNode, pageContext
                     {frontmatter.category && (<p className="mb-2 text-m leading-6 font-roboto-slab font-semibold text-blue">{frontmatter.category}</p>)}
                     <h1 className="inline-block text-3xl font-extrabold text-gray-900 tracking-tight">{frontmatter.title}</h1>
                   </div>
-                  {frontmatter.subtitle && (<p className="mt-2 text-lg text-gray-700">{frontmatter.subtitle}</p>)}
+                  {frontmatter.subtitle && (<p className="mt-2 text-lg text-gray-700 max-w-screen-sm">{frontmatter.subtitle}</p>)}
                 </header>
               )}
-              <div className="relative z-20 prose mt-8">
-                <MDXProvider components={components}>
+              <div className="relative z-20 prose max-w-none mt-8">
+                <CustomMDXProvider>
                   {props.children}
-                </MDXProvider>
+                </CustomMDXProvider>
               </div>
               
               {headers && headers.length && (

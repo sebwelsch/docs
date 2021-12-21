@@ -1,7 +1,7 @@
 import React from 'react';
 import { useStaticQuery, graphql, Link } from "gatsby";
 
-import { NavigationQuery } from '../../graphql-types';
+import { NavigationQuery } from '../../gatsby-graphql-types';
 
 const SIGNATURES_CATEGORIES = [
   "Getting Started",

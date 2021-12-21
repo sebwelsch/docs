@@ -10,7 +10,8 @@
   "scripts": {
     "develop": "gatsby develop",
     "start": "gatsby develop",
-    "build": "gatsby build",
+    "codegen": "graphql-codegen -c signatures-codegen.yml",
+    "build": "npm run codegen && gatsby build",
     "serve": "gatsby serve",
     "clean": "gatsby clean"
   },
@@ -22,6 +23,7 @@
     "gatsby-plugin-react-helmet": "^5.4.0",
     "gatsby-plugin-sitemap": "^5.4.0",
     "graphiql": "^1.5.16",
+    "graphql-tag": "^2.12.6",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-helmet": "^6.1.0"
@@ -29,6 +31,9 @@
   "devDependencies": {
     "@fontsource/raleway": "^4.5.0",
     "@fontsource/roboto-slab": "^4.5.1",
+    "@graphql-codegen/cli": "^2.3.0",
+    "@graphql-codegen/typescript": "^2.4.1",
+    "@graphql-codegen/typescript-operations": "^2.2.1",
     "@tailwindcss/typography": "^0.5.0",
     "autoprefixer": "^10.4.0",
     "gatsby-plugin-graphql-codegen": "^3.1.0",

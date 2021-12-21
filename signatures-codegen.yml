@@ -1,0 +1,9 @@
+schema: https://signatures-api-prod.azurewebsites.net/v1/graphql
+generates:
+  signatures-graphql-types.ts:
+    documents: './src/**/*.graphql(.ts|.tsx)?'
+    plugins:
+      - typescript
+      - typescript-operations
+pluckConfig:
+  gqlMagicComment: "Signatures GraphQL"
