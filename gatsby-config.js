@@ -11,6 +11,7 @@ module.exports = {
     "gatsby-plugin-image",
     "gatsby-plugin-sharp",
     "gatsby-transformer-sharp",
+    'gatsby-plugin-graphql-codegen',
     {
       resolve: "gatsby-source-filesystem",
       options: {

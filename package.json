@@ -28,7 +28,9 @@
   "devDependencies": {
     "@fontsource/raleway": "^4.5.0",
     "@fontsource/roboto-slab": "^4.5.1",
+    "@tailwindcss/typography": "^0.5.0",
     "autoprefixer": "^10.4.0",
+    "gatsby-plugin-graphql-codegen": "^3.1.0",
     "gatsby-plugin-image": "^2.4.0",
     "gatsby-plugin-postcss": "^5.4.0",
     "gatsby-plugin-sharp": "^4.4.0",
