@@ -1,0 +1,26 @@
+---
+product: document-signatures
+category: Getting Started
+sort: 2
+title: SDKs/Codegen
+subtitle: While we do not offer any SDKs for our API, GraphQL is ideal for codegenerated clients.
+---
+import Layout from '../../../layouts/mdx';
+
+export default Layout;
+
+The [GraphQL Code Generator project](https://www.graphql-code-generator.com/) supports generating clients for `Node.js`, `C#` and `Java`.
+
+[Snowflaqe](https://github.com/Zaid-Ajaj/Snowflaqe) supports generating clients for `F#`.
+
+## Schema
+
+The GraphQL schema for codegen can be fetched by making a `GET` request to the GraphQL Endpoint `https://signatures-api-prod.azurewebsites.net/v1/graphql`
+
+```
+curl https://signatures-api-prod.azurewebsites.net/v1/graphql
+```
+
+## Node.js
+
+This example uses [GraphQL Code Generator](https://www.graphql-code-generator.com/) and is available at [GitHub](https://github.com/criipto/samples/tree/master/Signing/nodejs)

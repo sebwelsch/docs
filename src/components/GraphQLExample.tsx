@@ -19,8 +19,8 @@ export default function GraphQLExample(props: Props) {
 
   return (
     <React.Fragment>
-      <CodeBlock text={query} className="block lg:hidden" />
-      {variables && (<CodeBlock text={variables} className="block lg:hidden" />)}
+      <CodeBlock text={'# Query\n'+query} className="block lg:hidden" />
+      {variables && (<CodeBlock text={'# Variables\n'+variables} className="block lg:hidden" />)}
       <GraphQLExplorer query={query} variables={variables} className="hidden lg:block" />
     </React.Fragment>
   )
