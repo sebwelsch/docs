@@ -26,7 +26,7 @@ export default function PageNavigation(props: Props) {
       <ul className="text-gray-700 text-sm leading-6">
         {items.map(item => (
           <li key={item.text} className={item.level > 1 ? `ml-4` : ''}>
-            <a href={`#${item.text}`} className="group flex items-start block py-1 hover:text-blue" onClick={(event) => handleClick(event, item)}>
+            <a href={item.link} className="group flex items-start block py-1 hover:text-blue" onClick={(event) => handleClick(event, item)}>
               {item.level > 1 && (
                 <svg width="3" height="24" viewBox="0 -9 3 24" className="mr-2 text-gray-400 overflow-visible group-hover:text-gray-600 dark:text-gray-600 dark:group-hover:text-gray-500">
                   <path d="M0 0L3 3L0 6" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"></path>
