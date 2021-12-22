@@ -596,3 +596,10 @@ export type ExampleAddSignatoryScopedMutationVariables = Exact<{
 
 
 export type ExampleAddSignatoryScopedMutation = { __typename?: 'Mutation', addSignatory?: { __typename?: 'AddSignatoryOutput', signatory: { __typename?: 'Signatory', id: string, href: string } } | null | undefined };
+
+export type SignatoryWebhookQueryVariables = Exact<{
+  signatoryId: Scalars['ID'];
+}>;
+
+
+export type SignatoryWebhookQuery = { __typename?: 'Query', signatory?: { __typename?: 'Signatory', status: SignatoryStatus, signatureOrder: { __typename?: 'SignatureOrder', id: string } } | null | undefined };

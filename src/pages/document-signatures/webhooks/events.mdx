@@ -1,0 +1,41 @@
+---
+product: document-signatures
+category: Webhooks
+sort: 1
+title: Events
+---
+
+import Layout from '../../../layouts/mdx';
+export default Layout;
+
+Webhooks will be executed as `POST` requests against the URl you have defined on your signature order.
+
+The POST request will contain a `JSON` body similar to the events shown below.
+
+You can use the values included in the webhook body to query the GraphQL API for more details.
+
+## SIGNATORY_SIGNED
+
+```
+{
+  "event" = "SIGNATORY_SIGNED",
+  "signatureOrderId" = "[GraphQL ID]"
+  "signatoryId" = "[GraphQL ID]"
+}
+```
+
+## SIGNATORY_REJECTED
+
+```
+{
+  "event" = "SIGNATORY_REJECTED",
+  "signatureOrderId" = "[GraphQL ID]"
+  "signatoryId" = "[GraphQL ID]"
+}
+```
+
+## Query example
+
+import * as signatoryWebhookExample from '../../../examples/signatoryWebhook.graphql';
+
+<CodeBlock text={signatoryWebhookExample.query.trim()} />

@@ -11,11 +11,14 @@ interface Header {
 }
 
 export default function MdxLayout(props: {children: React.ReactNode, pageContext: any, path: string}) {
-  const {frontmatter} = props.pageContext;
+  const children = React.Children.toArray(props.children);
   const headers : Header[] =
-    React.Children.toArray(props.children)
+    children
     .filter((child: any) => child.props.mdxType === "h2" || child.props.mdxType === "h3")
     .map((child: any) => ({type: child.props.mdxType, text: child.props.children}));
+
+  const overviewHeader = 
+    (children[0] as any).props.mdxType === "p" ? {type: "h2", text: "Overview"} : null
 
   return (
     <DefaultLayout {...props}>
@@ -25,7 +28,7 @@ export default function MdxLayout(props: {children: React.ReactNode, pageContext
         </CustomMDXProvider>
       </div>
       <PageNavigation
-        items={headers.map(header => ({
+        items={(overviewHeader ? [overviewHeader] : []).concat(headers).map(header => ({
           level: header.type === 'h3' ? 2 : 1,
           text: header.text,
           link: `#${textToId(header.text)}`

@@ -1,0 +1,31 @@
+---
+product: document-signatures
+category: Webhooks
+sort: 0
+title: Configuration
+---
+
+import Layout from '../../../layouts/mdx';
+export default Layout;
+
+import GraphQLExample from '../../../components/GraphQLExample';
+
+**Webhooks** are configured on a per-SignatureOrder basis.
+
+You simply provide your webhook uri as part of creating a signature order (`createSignatureOrder` mutation) by adding it as an input variable `webhook.uri` as shown below.
+
+## Example
+
+import * as createSignatureOrderExample from '../../../examples/createSignatureOrder.graphql';
+
+<GraphQLExample
+  example={{
+    ...createSignatureOrderExample,
+    variables: () => ({
+      input: {
+        webhook: {uri: 'https://httpbin.org/post'},
+        ...createSignatureOrderExample.variables().input,
+      }
+    })
+  }}
+/>

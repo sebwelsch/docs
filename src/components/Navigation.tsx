@@ -5,7 +5,8 @@ import { NavigationQuery } from '../../graphql-gatsby-types';
 
 const SIGNATURES_CATEGORIES = [
   "Getting Started",
-  "GraphQL"
+  "GraphQL",
+  "Webhooks"
 ];
 
 function slugToPath(slug: string) {
