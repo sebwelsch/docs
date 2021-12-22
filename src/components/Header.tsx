@@ -5,7 +5,7 @@ export default function Header() {
   const [showDropdown, toggleDropdown] = useReducer((value) => !value, false);
   return (
     <header className="sticky top-0 z-40 w-full backdrop-blur flex-none duration-500 lg:z-50 lg:border-b lg:border-gray-900/10 bg-blue/95 supports-backdrop-blur:bg-blue/60">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-screen-2xl mx-auto">
         <div className="py-4 border-b border-gray-900/10 lg:px-8 lg:border-0 mx-4 lg:mx-0">
           <div className="relative flex items-center">
             <a href="/" className="mr-3 flex-none">
