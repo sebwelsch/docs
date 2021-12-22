@@ -1,13 +1,13 @@
 import React from 'react';
 import { MDXProvider } from "@mdx-js/react";
 
-export const textToId = (input: string) => input.toLowerCase().replace(' ', '-');
-const h2 = (props: {children: string}) => (
+export const textToId = (input: string) => input.toLowerCase().replace(/\s/g, '-').replace(':', '');
+export const H2 = (props: {children: string}) => (
   <h2 {...props} className="group flex whitespace-pre-wrap -ml-4 pl-4">
     <a id={textToId(props.children)} style={{position: "relative", top: "-90px"}} />
     <a
       href={`#${textToId(props.children)}`}
-      className="absolute -ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100"
+      className="absolute -ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 z-30"
       aria-label="Anchor"
     >​
       <div className="w-6 h-6 text-gray-400 ring-1 ring-gray-900/5 rounded-md shadow-sm flex items-center justify-center hover:ring-gray-900/10 hover:shadow hover:text-gray-700">
@@ -20,7 +20,7 @@ const h2 = (props: {children: string}) => (
   </h2>
 );
 
-const h3 = (props: {children: string}) => (
+export const H3 = (props: {children: string}) => (
   <h3 {...props} className="group flex whitespace-pre-wrap -ml-4 pl-4">
     <a id={textToId(props.children)} style={{position: "relative", top: "-90px"}} />
     <a
@@ -50,12 +50,14 @@ export const CodeBlock = (props: {text: string, className?: string}) => {
   );
 }
 
+export const Paragraph = (props: any) => (<p {...props} className="max-w-screen-sm">{props.children}</p>)
+
 const components = {
-  h2,
-  h3,
+  h2: H2,
+  h3: H3,
   Text,
   CodeBlock,
-  p: (props: any) => (<p {...props} className="max-w-screen-sm">{props.children}</p>)
+  p: Paragraph
 }
 
 export default function CustomMDXProvider(props: {children: any}) {

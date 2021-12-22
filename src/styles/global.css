@@ -30,3 +30,7 @@ body, #___gatsby, #gatsby-focus-wrapper {
 .graphiql-container * {
   box-sizing: initial;
 }
+
+html {
+  scroll-behavior: smooth;
+}

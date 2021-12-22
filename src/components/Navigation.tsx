@@ -70,3 +70,11 @@ export default function Navigation() {
     </ul>
   );
 }
+
+export function DesktopNavigation() {
+  return (
+    <div className="hidden lg:block fixed z-20 inset-0 top-[61px] left-[max(0px,calc(50%-768px))] right-auto w-[19.5rem] py-10 px-8 overflow-y-auto">
+      <Navigation />
+    </div>
+  );
+}

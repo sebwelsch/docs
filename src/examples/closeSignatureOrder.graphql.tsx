@@ -13,6 +13,10 @@ mutation examplesCloseSignatureOrder(
         id
         blob
       }
+
+      signatories {
+        status
+      }
     }
   }
 }

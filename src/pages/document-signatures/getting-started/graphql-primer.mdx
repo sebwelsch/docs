@@ -11,3 +11,71 @@ export default Layout;
 
 Every GraphQL API, including ours, is backed by a strongly typed GraphQL schema.
 The schema clearly defines what operations are supported by the API, allowing clients to verify correctness ahead of time.
+
+## What's GraphQL?
+
+GraphQL is a query language, created by Facebook in 2012. They have been using it internally and in production for a while, and more recently they have published a specification for it, which has received a really positive response from the developer community. Companies like GitHub, Pinterest, and Coursera, have already started adopting it and using externally and internally.
+
+A few advantages of using GraphQL are:
+
+- **Hierarchical** - query is shaped like the data it returns.
+
+- **Client-specified queries** - queries are encoded in the client rather than the server. They return exactly what the client asks for, and no unnecessary data.
+
+- **Strongly typed** - you can validate a query syntactically and within the GraphQL type system before execution. This also helps leverage powerful tools that improve the development experience, such as code generation.
+
+One big advantage when using GraphQL is having an efficient way to get resources by querying for exactly what you need.
+You will never need to perform multiple API calls to stich together data.
+
+Here's an example GraphQL query to retrieve a specific person from our API:
+
+```
+{
+  signatureOrder(id: "abcd") {
+    status
+    signatories {
+      status
+      href
+    }
+  }
+}
+```
+
+And here is an example response:
+
+```
+{
+  "signatureOrder": {
+    "status": "OPEN",
+    "signatories": [
+      {
+        "status": "SIGNED",
+        "href": "https://example.com/..."
+      },
+      {
+        "status": "REJECTED",
+        "href": "https://example.com/..."
+      },
+      {
+        "status": "OPEN",
+        "href": "https://example.com/..."
+      }
+    ]
+  }
+}
+```
+
+## Using the Criipto GraphQL API
+
+GraphQL queries can be executed against `https://signatures-api-prod.azurewebsites.net/v1/graphql`.
+
+Queries must be sent as a `POST` request containing a `JSON` body with the parameters `query` and optionally `variables`.
+
+You will need a set of API credentials to execute queries, please see [Registering your application](/document-signatures/getting-started/register-application/)
+
+```
+curl -X POST -H "Content-Type: application/json" \
+  -u clientId:clientSecret \
+  --data '{"query": "{ signatureOrder(id: $id) { signatories { status } } }", "variables": {"id": "abcd"}}' \ 
+  https://signatures-api-prod.azurewebsites.net/v1/graphql
+```
