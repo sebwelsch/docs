@@ -28,7 +28,7 @@ export default function MdxLayout(props: {children: React.ReactNode, pageContext
         </CustomMDXProvider>
       </div>
       <PageNavigation
-        items={(overviewHeader ? [overviewHeader] : []).concat(headers).map(header => ({
+        items={(overviewHeader && headers.length ? [overviewHeader] : []).concat(headers).map(header => ({
           level: header.type === 'h3' ? 2 : 1,
           text: header.text,
           link: `#${textToId(header.text)}`
