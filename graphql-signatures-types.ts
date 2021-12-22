@@ -562,6 +562,13 @@ export type Viewer = {
   id: Scalars['ID'];
 };
 
+export type ExampleAddSignatoriesMutationVariables = Exact<{
+  input: AddSignatoriesInput;
+}>;
+
+
+export type ExampleAddSignatoriesMutation = { __typename?: 'Mutation', addSignatories?: { __typename?: 'AddSignatoriesOutput', signatories: Array<{ __typename?: 'Signatory', id: string, href: string }> } | null | undefined };
+
 export type ExampleAddSignatoryMutationVariables = Exact<{
   input: AddSignatoryInput;
 }>;

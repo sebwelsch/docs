@@ -1,4 +1,4 @@
-schema: https://signatures-api-prod.azurewebsites.net/v1/graphql
+schema: ./graphql-signatures-schema.json
 generates:
   graphql-signatures-types.ts:
     documents: "./src/**/*.graphql.tsx"
