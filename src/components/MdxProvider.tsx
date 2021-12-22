@@ -42,9 +42,9 @@ const Text = (props: {text: string}) => {
   return <React.Fragment>{props.text}</React.Fragment>;
 }
 
-const CodeBlock = (props: {text: string}) => {
+export const CodeBlock = (props: {text: string, className?: string}) => {
   return (
-    <pre>
+    <pre className={props.className}>
       <code>{props.text}</code>
     </pre>
   );

@@ -8,27 +8,27 @@ title: Examples
 import Layout from '../../../layouts/mdx';
 export default Layout;
 
+import GraphQLExample from '../../../components/GraphQLExample';
+
 ## Creating a basic signature order
 
-import {query as createSignatureOrder, Explorer as CreateSignatureOrderExplorer} from '../../../examples/createSignatureOrder.graphql';
+import * as createSignatureOrderExample from '../../../examples/createSignatureOrder.graphql';
 
 Creates a signature order containing PDF documents to be signed.
 
-<CodeBlock text={createSignatureOrder} />
-<CreateSignatureOrderExplorer />
+<GraphQLExample example={createSignatureOrderExample} />
 
 ## Adding a signatory to a signature order
 
-import {query as addSignatory, Explorer as AddSignatoryExplorer} from '../../../examples/addSignatory.graphql';
+import * as addSignatoryExample from '../../../examples/addSignatory.graphql';
 
 Signatories are the individuals you wish to have sign a specific `signatureOrder`. Once created they will have a unique link that you can redirect users to.
 
-<CodeBlock text={addSignatory} />
-<AddSignatoryExplorer />
+<GraphQLExample example={addSignatoryExample} />
 
 ### Evidence validation
 
-import {Explorer as AddSignatoryEvidenceValidationExplorer} from '../../../examples/addSignatoryEvidenceValidation.graphql';
+import * as addSignatoryEvidenceValidationExample from '../../../examples/addSignatoryEvidenceValidation.graphql';
 
 If you wish to validate the user signing you should use the `evidenceValidation` input for `addSignatory`.
 
@@ -36,19 +36,19 @@ Evidence validation keys must match what will be found in the claims token when 
 
 Evidence will be hashed before storage and compared when a user tries to sign. If the evidence does not match an error will be displayed to the user and they will be prompted to try again.
 
-<AddSignatoryEvidenceValidationExplorer />
+<GraphQLExample example={addSignatoryEvidenceValidationExample} />
 
 ### Document scoping
 
-import {Explorer as AddSignatoryScopedExplorer} from '../../../examples/addSignatoryScoped.graphql';
+import * as addSignatoryScopedExample from '../../../examples/addSignatoryScoped.graphql';
 
 By using the `documents` input array for `addSignatory` you can limit what documents a signatory will be shown.
 
-<AddSignatoryScopedExplorer />
+<GraphQLExample example={addSignatoryScopedExample} />
 
 ### Preapproval
 
-import {Explorer as AddSignatoryPreapprovedExplorer} from '../../../examples/addSignatoryPreapproved.graphql';
+import * as addSignatoryPreapprovedExample from '../../../examples/addSignatoryPreapproved.graphql';
 
 For scenarios where you are displaying the PDFs to the users in your own UI you can opt to create a signatory with the documents preapproved.
 
@@ -56,32 +56,29 @@ By preapproving documents for a signatory they are immediately sent to e-ID logi
 
 When using preapproval document-scoping is automatically used so make sure that you pass all documents from the signature order to the signatory.
 
-<AddSignatoryPreapprovedExplorer />
+<GraphQLExample example={addSignatoryPreapprovedExample} />
 
 ### Multiple signatories
 
-import {query as addSignatories, Explorer as AddSignatoriesExplorer} from '../../../examples/addSignatories.graphql';
+import * as addSignatoriesExample from '../../../examples/addSignatories.graphql';
 
 If you need to add signatories in bulk you can use the `addSignatories` mutation.
 `addSignatories` supports a `signatories` input array, where each array item supports the same input values as `addSignatoryMutation`.
 
-<CodeBlock text={addSignatories} />
-<AddSignatoriesExplorer />
+<GraphQLExample example={addSignatoriesExample} />
 
 ## Closing a signature order
 
-import {query as closeSignatureOrder, Explorer as CloseSignatureOrderExplorer} from '../../../examples/closeSignatureOrder.graphql';
+import * as closeSignatureOrderExample from '../../../examples/closeSignatureOrder.graphql';
 
 When all signatories have signed the signature order you can close it to retrieve your signed PDFs.
 
-<CodeBlock text={closeSignatureOrder} />
-<CloseSignatureOrderExplorer />
+<GraphQLExample example={closeSignatureOrderExample} />
 
 ## Cancel a signature order
 
-import {query as cancelSignatureOrder, Explorer as CancelSignatureOrderExplorer} from '../../../examples/cancelSignatureOrder.graphql';
+import * as cancelSignatureOrderExample from '../../../examples/cancelSignatureOrder.graphql';
 
 If for any reason you no longer need a signature order you can abandon it by using `cancelSignatureOrder`
 
-<CodeBlock text={closeSignatureOrder} />
-<CancelSignatureOrderExplorer />
+<GraphQLExample example={cancelSignatureOrderExample} />

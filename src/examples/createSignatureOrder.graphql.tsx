@@ -1,5 +1,3 @@
-import React from 'react';
-import GraphQLExplorer from '../components/GraphQLExplorer';
 import { CreateSignatureOrderInput, DocumentStorageMode } from "../../graphql-signatures-types";
 
 export const query = /* Signatures GraphQL */`
@@ -43,10 +41,3 @@ export const variables = () : {input: CreateSignatureOrderInput} => ({
     ]
   }
 });
-
-
-export function Explorer() {
-  return (
-    <GraphQLExplorer query={query.trim()} variables={variables()} />
-  )
-}

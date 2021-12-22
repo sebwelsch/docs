@@ -52,18 +52,18 @@ function graphQLFetcherFactory(credentials: ApiCredentials | null, dispatch: App
   }
 }
 
-export default function GraphQLExplorer(props: {query?: string, variables?: string | any}) {
+export default function GraphQLExplorer(props: {query?: string, variables?: string | any, className?: string}) {
   const {query, variables} = props;
   const credentials = useAppSelector(state => state.auth);
   const dispatch = useAppDispatch();
   const graphqlFetcher = useMemo(() => graphQLFetcherFactory(credentials, dispatch), [credentials, dispatch]);
 
   return (
-    <div className="hidden lg:block">
+    <div className={props.className}>
       <p className="bg-gray-300 p-2 rounded-t text-yellow mb-0">
         Queries are executed against your actual application. Please make sure you are using test credentials.
       </p>
-      <div style={{height: "600px"}} className="relative">
+      <div style={{height: "700px"}} className="relative">
         <GraphiQL
           fetcher={graphqlFetcher}
           defaultVariableEditorOpen={true}
