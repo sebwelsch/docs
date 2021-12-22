@@ -1,7 +1,7 @@
 import React from 'react';
 import { MDXProvider } from "@mdx-js/react";
 
-export const textToId = (input: string) => input.toLowerCase().replace(/\s/g, '-').replace(':', '');
+export const textToId = (input: string) => input.toLowerCase().replace(/\s/g, '-').replace(/([^a-zA-Z0-9-])/g, '');
 export const H2 = (props: {children: string}) => (
   <h2 {...props} className="group flex whitespace-pre-wrap -ml-4 pl-4">
     <a id={textToId(props.children)} style={{position: "relative", top: "-90px"}} />
