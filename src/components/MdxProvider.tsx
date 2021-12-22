@@ -39,7 +39,7 @@ const h3 = (props: {children: string}) => (
 );
 
 const Text = (props: {text: string}) => {
-  return props.text;
+  return <React.Fragment>{props.text}</React.Fragment>;
 }
 
 const CodeBlock = (props: {text: string}) => {
@@ -55,7 +55,7 @@ const components = {
   h3,
   Text,
   CodeBlock,
-  p: (props) => (<p {...props} className="max-w-screen-sm">{props.children}</p>)
+  p: (props: any) => (<p {...props} className="max-w-screen-sm">{props.children}</p>)
 }
 
 export default function CustomMDXProvider(props: {children: any}) {

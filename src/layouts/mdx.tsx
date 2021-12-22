@@ -46,7 +46,7 @@ export default function MdxLayout(props: {children: React.ReactNode, pageContext
                   <h5 className="text-blue font-semibold mb-4 text-m leading-6">On this page</h5>
                   <ul className="text-gray-700 text-sm leading-6">
                     {headers.map(header => (
-                      <li key={textToId(header.text)} className={header.type === 'h3' && `ml-4`}>
+                      <li key={textToId(header.text)} className={header.type === 'h3' ? `ml-4` : ''}>
                         <a href={`#${textToId(header.text)}`} className="group flex items-start block py-1 hover:text-blue">
                           {header.type === 'h3' && (
                             <svg width="3" height="24" viewBox="0 -9 3 24" className="mr-2 text-gray-400 overflow-visible group-hover:text-gray-600 dark:text-gray-600 dark:group-hover:text-gray-500">

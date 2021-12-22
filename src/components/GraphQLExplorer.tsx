@@ -5,17 +5,25 @@ import { Link } from 'gatsby';
 import {ApiCredentials, setApiCredentials, AppDispatch, setCreateSignatureOrder} from '../state/store';
 import {useAppDispatch, useAppSelector} from '../state/hooks';
 
-function graphQLFetcher(graphQLParams, credentials: ApiCredentials) {
+interface GraphQLParams {
+  query: string,
+  variables?: string
+}
+function graphQLFetcher(graphQLParams : GraphQLParams, credentials: ApiCredentials | null) {
+  const headers : RequestInit["headers"] = {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+  };
+
+  if (credentials) {
+    headers.Authorization = `Basic ${btoa(`${credentials.clientID}:${credentials.clientSecret}`)}`
+  }
+
   return fetch(
     'https://signatures-api-prod.azurewebsites.net/v1/graphql',
     {
       method: 'post',
-      headers: Object.assign({
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      }, credentials ? {
-        Authorization: `Basic ${btoa(`${credentials.clientID}:${credentials.clientSecret}`)}`
-      } : {}),
+      headers,
       body: JSON.stringify(graphQLParams),
       credentials: 'omit',
     },
@@ -28,8 +36,8 @@ function graphQLFetcher(graphQLParams, credentials: ApiCredentials) {
   });
 }
 
-function graphQLFetcherFactory(credentials: ApiCredentials, dispatch: AppDispatch) {
-  return (graphQLParams) => {
+function graphQLFetcherFactory(credentials: ApiCredentials | null, dispatch: AppDispatch) {
+  return (graphQLParams: GraphQLParams) => {
     return graphQLFetcher(graphQLParams, credentials).then(response => {
       if (response.data) {
         if (response.data.createSignatureOrder) {
