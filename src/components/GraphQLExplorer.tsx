@@ -84,9 +84,11 @@ export default function GraphQLExplorer(props: GraphQLExplorerProps) {
 
   return (
     <div className={props.className}>
-      <p className="bg-gray-300 p-2 rounded-t mb-0">
-        Queries are executed against your actual application. Please make sure you are using test credentials.
-      </p>
+      {credentials && (
+        <p className="bg-gray-300 p-2 rounded-t mb-0">
+          Queries are executed against your actual application. Please make sure you are using test credentials.
+        </p>
+      )}
       <div style={{height: "700px"}} className="relative">
         <GraphiQL
           fetcher={graphqlFetcher}
