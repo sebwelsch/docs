@@ -1,29 +1,31 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import { Link } from 'gatsby';
 
 import * as createSignatureOrderExample from '../examples/createSignatureOrder.graphql';
 import * as addSignatoryExample from '../examples/addSignatory.graphql';
 import * as closeSignatureOrderExample from '../examples/closeSignatureOrder.graphql';
 import {AddSignatoryOutput} from '../../graphql-signatures-types';
 import { useAppDispatch, useAppSelector } from '../state/hooks';
-import GraphQLExplorer, {GraphQLResponse, GraphQLError} from './GraphQLExplorer';
+import GraphQLExplorer, {GraphQLResponse, GraphQLError, CredentialsForm} from './GraphQLExplorer';
 import {CodeBlock, H2, Paragraph, textToId} from './MdxProvider';
 import PageNavigation from './PageNavigation';
-import { useEffect } from 'react';
 import { clearExampleData } from '../state/store';
 
-type Step = 'createSignatureOrder' | 'addSignatories' | 'sign' | 'closeSignatureOrder';
+type Step = 'authenticate' | 'createSignatureOrder' | 'addSignatories' | 'sign' | 'closeSignatureOrder';
 
 const stepIndex = (s: Step) => {
   switch (s) {
-    case 'createSignatureOrder': return 0;
-    case 'addSignatories': return 1;
-    case 'sign': return 2;
-    case 'closeSignatureOrder': return 2;
+    case 'authenticate': return 0;
+    case 'createSignatureOrder': return 1;
+    case 'addSignatories': return 2;
+    case 'sign': return 3;
+    case 'closeSignatureOrder': return 4;
     default: throw new Error(`stepIndex missing for ${s}`);
   }
 }
 
 const TITLES = {
+  authenticate: 'Step 0: Authenticate',
   createSignatureOrder: 'Step 1: Create a signature order',
   addSignatories: 'Step 2: Add signatories',
   sign: 'Step 3: Sign documents',
@@ -31,7 +33,8 @@ const TITLES = {
 }
 
 export default function InteractiveTour() {
-  const [step, setStep] = useState<Step>('createSignatureOrder');
+  const credentials = useAppSelector(state => state.auth);
+  const [step, setStep] = useState<Step>(credentials ? 'createSignatureOrder' : 'authenticate');
   const [signatories, setSignatories] = useState<AddSignatoryOutput["signatory"][]>([]);
   const exampleData = useAppSelector(state => state.exampleData);
   const dispatch = useAppDispatch();
@@ -68,14 +71,29 @@ export default function InteractiveTour() {
     setErrors([]);
   }, [step]);
 
+  // Automatically skip step 0 when authenticating
+  useEffect(() => {
+    if (!credentials) return;
+    if (step !== 'authenticate') return;
+    setStep('createSignatureOrder');
+  }, [credentials]);
+
   const reset = () => {
     setErrors([]);
     dispatch(clearExampleData());
-  }
+  };
 
   return (
     <React.Fragment>
       <div className="prose max-w-none hidden lg:block">
+        {step === 'authenticate' && (
+          <React.Fragment>
+            <H2>{TITLES.authenticate}</H2>
+            <Paragraph>Please enter your <Link to="/document-signatures/getting-started/register-application/">API credentials</Link> to use this GraphQL Example</Paragraph>
+            <Paragraph>Queries are executed against your actual application. Please make sure you are using test credentials.</Paragraph>
+            <CredentialsForm />
+          </React.Fragment>
+        )}
         {step === 'createSignatureOrder' && (
           <React.Fragment>
             <H2>{TITLES.createSignatureOrder}</H2>

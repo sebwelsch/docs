@@ -29,6 +29,8 @@ export default function PageNavigation(props: Props) {
     items.forEach(item => {
       if (item.link?.startsWith('#')) {
         const element = document.querySelector(item.link)!;
+        if (!element) return;
+
         const value = Math.abs(halfway - element.getBoundingClientRect().y);
         if (!active) {
           active = [item, value];
