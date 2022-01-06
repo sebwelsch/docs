@@ -41,3 +41,15 @@ export const variables = () : {input: CreateSignatureOrderInput} => ({
     ]
   }
 });
+
+export const uiExampleVariables = () : {input: CreateSignatureOrderInput} => {
+  return {
+    input: {
+      ui: {
+        signatoryRedirectUri: 'http://example.com',
+        language: 'DA_DK'
+      },
+      ...variables().input
+    }
+  };
+}

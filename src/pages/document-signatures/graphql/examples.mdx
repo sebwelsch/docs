@@ -67,6 +67,12 @@ If you need to add signatories in bulk you can use the `addSignatories` mutation
 
 <GraphQLExample example={addSignatoriesExample} />
 
+## Signature Order UI Settings
+
+Signatory redirect URI and language can be configured via the `ui` input object on `createSignatureOrder`.
+
+<GraphQLExample example={{...createSignatureOrderExample, variables: createSignatureOrderExample.uiExampleVariables}} />
+
 ## Closing a signature order
 
 import * as closeSignatureOrderExample from '../../../examples/closeSignatureOrder.graphql';
