@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import GraphQLExplorer from './GraphQLExplorer';
 import {CodeBlock} from './MdxProvider';
 
@@ -13,15 +13,16 @@ interface Props {
   example: Example
 }
 export default function GraphQLExample(props: Props) {
+  const [hasSkipped, setSkipped] = useState(false);
   const data = useAppSelector(state => state.exampleData);
   const variables = props.example.variables ? JSON.stringify(props.example.variables(data), null, 2) : null;
   const query = props.example.query.trim();
 
   return (
     <React.Fragment>
-      <CodeBlock text={'# Query\n'+query} className="block lg:hidden" />
-      {variables && (<CodeBlock text={'# Variables\n'+variables} className="block lg:hidden" />)}
-      <GraphQLExplorer query={query} variables={variables} className="hidden lg:block" />
+      <CodeBlock text={'# Query\n'+query} className={hasSkipped ? 'block' : 'block lg:hidden'} />
+      {variables && (<CodeBlock text={'# Variables\n'+variables} className={hasSkipped ? 'block' : 'block lg:hidden'} />)}
+      <GraphQLExplorer query={query} variables={variables} className={hasSkipped ? 'hidden' : 'hidden lg:block'} onSkipCredentials={() => setSkipped(true)} />
     </React.Fragment>
   )
 }

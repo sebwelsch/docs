@@ -34,6 +34,7 @@ export type AddSignatoriesOutput = {
 export type AddSignatoryInput = {
   documents?: InputMaybe<Array<SignatoryDocumentInput>>;
   evidenceValidation?: InputMaybe<Array<SignatoryEvidenceValidationInput>>;
+  /** Will not be displayed to signatories, can be used as a reference to your own system. */
   reference?: InputMaybe<Scalars['String']>;
   signatureOrderId: Scalars['ID'];
 };
@@ -122,7 +123,10 @@ export type CreateSignatureOrderInput = {
   /** By default signatories will be prompted to sign with a Criipto Verify based e-ID, this setting disables it. */
   disableVerifyEvidenceProvider?: InputMaybe<Scalars['Boolean']>;
   documents: Array<DocumentInput>;
+  /** Define evidence providers for signature order if not using built-in Criipto Verify for e-IDs */
   evidenceProviders?: InputMaybe<Array<EvidenceProviderInput>>;
+  /** When this signature order will auto-close/expire. Default 90 days. */
+  expiresInDays?: InputMaybe<Scalars['Int']>;
   /** Attempt to automatically fix document formatting errors if possible. Default 'true'. */
   fixDocumentFormattingErrors?: InputMaybe<Scalars['Boolean']>;
   /** Max allowed signatories (as it influences pages needed for seals). Default 14. */
@@ -149,6 +153,8 @@ export type CreateSignatureOrderSignatoryInput = {
 };
 
 export type CreateSignatureOrderUiInput = {
+  /** The language of texts rendered to the signatory. */
+  language?: InputMaybe<Language>;
   /** The signatory will be redirected to this URL after signing or rejected the signature order. */
   signatoryRedirectUri?: InputMaybe<Scalars['String']>;
 };
@@ -195,9 +201,18 @@ export enum DocumentStorageMode {
   Temporary = 'Temporary'
 }
 
+/** Must define either oidc or noop subsection. */
 export type EvidenceProviderInput = {
-  oidc: OidcEvidenceProviderInput;
+  /** TEST only. Allows empty signatures for testing. */
+  noop?: InputMaybe<NoopEvidenceProviderInput>;
+  /** OIDC/JWT based evidence for signatures. */
+  oidc?: InputMaybe<OidcEvidenceProviderInput>;
 };
+
+export enum Language {
+  DaDk = 'DA_DK',
+  EnUs = 'EN_US'
+}
 
 export type Mutation = {
   __typename?: 'Mutation';
@@ -205,9 +220,9 @@ export type Mutation = {
   addSignatories?: Maybe<AddSignatoriesOutput>;
   /** Add a signatory to your signature order. */
   addSignatory?: Maybe<AddSignatoryOutput>;
-  /** Cancels the signature order without closing it, use if you no longer need a signature order. */
+  /** Cancels the signature order without closing it, use if you no longer need a signature order. Documents are deleted from storage after cancelling. */
   cancelSignatureOrder?: Maybe<CancelSignatureOrderOutput>;
-  /** Finalizes the documents in the signature order and returns them to you as blobs. */
+  /** Finalizes the documents in the signature order and returns them to you as blobs. Documents are deleted from storage after closing. */
   closeSignatureOrder?: Maybe<CloseSignatureOrderOutput>;
   /** Creates a signature application for a given tenant. */
   createApplication?: Maybe<CreateApplicationOutput>;
@@ -223,6 +238,8 @@ export type Mutation = {
   refreshApplicationApiKey?: Maybe<RefreshApplicationApiKeyOutput>;
   /** Used by Signatory frontends to reject a signature order in full. */
   rejectSignatureOrder?: Maybe<RejectSignatureOrderOutput>;
+  /** Used by Signatory frontends to sign the documents in a signature order. */
+  sign?: Maybe<SignOutput>;
   /** Used by Signatory frontends sign the documents in a signature order with OIDC/JWT evidence. */
   signWithOidcJWT?: Maybe<SignWithOidcJwtOutput>;
   /** Signatory frontend use only. */
@@ -287,6 +304,11 @@ export type MutationRejectSignatureOrderArgs = {
 };
 
 
+export type MutationSignArgs = {
+  input: SignInput;
+};
+
+
 export type MutationSignWithOidcJwtArgs = {
   input: SignWithOidcJwtInput;
 };
@@ -301,6 +323,18 @@ export type MutationUpdateSignatoryDocumentStatusArgs = {
   input: UpdateSignatoryDocumentStatusInput;
 };
 
+/** TEST only. Allows empty signatures for testing. */
+export type NoopEvidenceProviderInput = {
+  name: Scalars['String'];
+};
+
+export type NoopSignatureEvidenceProvider = {
+  __typename?: 'NoopSignatureEvidenceProvider';
+  id: Scalars['ID'];
+  name: Scalars['String'];
+};
+
+/** OIDC/JWT based evidence for signatures. */
 export type OidcEvidenceProviderInput = {
   audience: Scalars['String'];
   clientID: Scalars['String'];
@@ -318,6 +352,7 @@ export type OidcJwtSignatureEvidenceProvider = {
 
 export type PadesDocumentInput = {
   blob: Scalars['Blob'];
+  /** Will not be displayed to signatories, can be used as a reference to your own system. */
   reference?: InputMaybe<Scalars['String']>;
   storageMode: DocumentStorageMode;
   title: Scalars['String'];
@@ -392,6 +427,21 @@ export type RejectSignatureOrderInput = {
 
 export type RejectSignatureOrderOutput = {
   __typename?: 'RejectSignatureOrderOutput';
+  viewer: Viewer;
+};
+
+export type SignInput = {
+  id: Scalars['ID'];
+  noop?: InputMaybe<Scalars['Boolean']>;
+  oidc?: InputMaybe<SignOidcInput>;
+};
+
+export type SignOidcInput = {
+  jwt: Scalars['String'];
+};
+
+export type SignOutput = {
+  __typename?: 'SignOutput';
   viewer: Viewer;
 };
 
@@ -475,12 +525,13 @@ export type SignatoryViewer = Viewer & {
   ui: SignatureOrderUi;
 };
 
-export type SignatureEvidenceProvider = OidcJwtSignatureEvidenceProvider;
+export type SignatureEvidenceProvider = NoopSignatureEvidenceProvider | OidcJwtSignatureEvidenceProvider;
 
 export type SignatureOrder = {
   __typename?: 'SignatureOrder';
   application?: Maybe<Application>;
   documents: Array<Document>;
+  evidenceProviders: Array<SignatureEvidenceProvider>;
   id: Scalars['ID'];
   /** List of signatories for the signature order. */
   signatories: Array<Signatory>;
@@ -519,6 +570,7 @@ export enum SignatureOrderStatus {
 
 export type SignatureOrderUi = {
   __typename?: 'SignatureOrderUI';
+  language: Language;
   signatoryRedirectUri?: Maybe<Scalars['String']>;
 };
 

@@ -60,7 +60,8 @@ interface GraphQLExplorerProps {
   query?: string
   variables?: string | any
   className?: string,
-  onResponse?: (response: GraphQLResponse) => void 
+  onResponse?: (response: GraphQLResponse) => void,
+  onSkipCredentials?: () => void
 }
 export default function GraphQLExplorer(props: GraphQLExplorerProps) {
   const {query, variables} = props;
@@ -100,13 +101,13 @@ export default function GraphQLExplorer(props: GraphQLExplorerProps) {
           headerEditorEnabled={false}
         />
 
-        {!credentials && (<CredentialsOverlay />)}
+        {!credentials && (<CredentialsOverlay onSkip={props.onSkipCredentials} />)}
       </div>
     </div>
   );
 }
 
-export function CredentialsForm(props: {className?: string, children?: React.ReactNode}) {
+export function CredentialsForm(props: {className?: string, children?: React.ReactNode, onSkip?: () => void}) {
   const dispatch = useAppDispatch();
 
   const [clientID, setClientID] = useState('');
@@ -154,15 +155,20 @@ export function CredentialsForm(props: {className?: string, children?: React.Rea
         <button className="bg-blue text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
           Submit
         </button>
+        {props.onSkip && (
+          <button className="font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onClick={() => props.onSkip!()}>
+            Skip
+          </button>
+        )}
       </div>
     </form>
   )
 }
 
-function CredentialsOverlay() {
+function CredentialsOverlay(props: {onSkip?: () => void}) {
   return (
     <div className="w-full h-full bg-white/60 backdrop-blur absolute top-0 left-0 z-20 flex flex-col items-center justify-center">
-      <CredentialsForm className="bg-white shadow-md rounded max-w-md">
+      <CredentialsForm className="bg-white shadow-md rounded max-w-md" onSkip={props.onSkip}>
         <p>Please enter your <Link to="/document-signatures/getting-started/register-application/">API credentials</Link> to use this GraphQL Example</p>
         <p>Queries are executed against your actual application. Please make sure you are using test credentials.</p>
       </CredentialsForm>

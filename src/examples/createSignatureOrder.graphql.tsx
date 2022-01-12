@@ -10,6 +10,7 @@ mutation examplesCreateSignatureOrder(
 
       documents {
         id
+        title
       }
 
       signatories {
