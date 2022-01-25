@@ -7,7 +7,11 @@ import {useAppDispatch, useAppSelector} from '../state/hooks';
 
 interface GraphQLParams {
   query: string,
-  variables?: string
+  variables?: any
+}
+
+export interface SignatoryCredentials {
+  token: string
 }
 
 export interface GraphQLError {
@@ -18,14 +22,17 @@ export interface GraphQLResponse<T = any> {
   errors?: GraphQLError[]
 }
 
-export function graphQLFetcher(graphQLParams : GraphQLParams, credentials: ApiCredentials | null) : Promise<GraphQLResponse> {
+export function graphQLFetcher<T = any>(graphQLParams : GraphQLParams, credentials: ApiCredentials | SignatoryCredentials | null) : Promise<GraphQLResponse<T>> {
   const headers : RequestInit["headers"] = {
     Accept: 'application/json',
     'Content-Type': 'application/json',
   };
 
-  if (credentials) {
+  if (credentials && "clientID" in credentials) {
     headers.Authorization = `Basic ${btoa(`${credentials.clientID}:${credentials.clientSecret}`)}`
+  }
+  if (credentials && "token" in credentials) {
+    headers['Signatory-Token'] = credentials.token;
   }
 
   return fetch(
@@ -37,17 +44,18 @@ export function graphQLFetcher(graphQLParams : GraphQLParams, credentials: ApiCr
       credentials: 'omit',
     },
   ).then(function (response) {
-    return response.json().then(response => {
-      return response;
-    }).catch(function () {
-      return response.text().then(error => {
-        throw new Error(error)
+    if (response.ok) {
+      return response.json().then(response => {
+        return response;
       });
+    }
+    return response.text().then(error => {
+      throw new Error(error)
     });
   });
 }
 
-export function graphQLFetcherFactory(credentials: ApiCredentials | null, onResponse: (response: GraphQLResponse) => void) {
+export function graphQLFetcherFactory(credentials: ApiCredentials | null, onResponse: (response: GraphQLResponse<any>) => void) {
   return (graphQLParams: GraphQLParams) => {
     return graphQLFetcher(graphQLParams, credentials).then(response => {
       onResponse(response);

@@ -9,6 +9,7 @@ mutation exampleAddSignatory(
     signatory {
       id
       href
+      token
     }
   }
 }
