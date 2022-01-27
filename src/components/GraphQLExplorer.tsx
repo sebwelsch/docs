@@ -5,9 +5,9 @@ import { Link } from 'gatsby';
 import {ApiCredentials, setApiCredentials, setCreateSignatureOrder, setCloseSignatureOrder, setAddSignatory} from '../state/store';
 import {useAppDispatch, useAppSelector} from '../state/hooks';
 
-interface GraphQLParams {
+interface GraphQLParams<T = any> {
   query: string,
-  variables?: any
+  variables?: T
 }
 
 export interface SignatoryCredentials {
@@ -22,7 +22,7 @@ export interface GraphQLResponse<T = any> {
   errors?: GraphQLError[]
 }
 
-export function graphQLFetcher<T = any>(graphQLParams : GraphQLParams, credentials: ApiCredentials | SignatoryCredentials | null) : Promise<GraphQLResponse<T>> {
+export function graphQLFetcher<R = any, V = any>(graphQLParams : GraphQLParams<V>, credentials: ApiCredentials | SignatoryCredentials | null) : Promise<GraphQLResponse<R>> {
   const headers : RequestInit["headers"] = {
     Accept: 'application/json',
     'Content-Type': 'application/json',
@@ -36,7 +36,7 @@ export function graphQLFetcher<T = any>(graphQLParams : GraphQLParams, credentia
   }
 
   return fetch(
-    'https://signatures-api-prod.azurewebsites.net/v1/graphql',
+    'https://signatures-api-test.azurewebsites.net/v1/graphql',
     {
       method: 'post',
       headers,

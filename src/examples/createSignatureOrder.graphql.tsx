@@ -17,6 +17,16 @@ mutation examplesCreateSignatureOrder(
         id
         status
       }
+
+      evidenceProviders {
+        __typename
+        ... on NoopSignatureEvidenceProvider {
+          id
+        }
+        ... on OidcJWTSignatureEvidenceProvider {
+          id
+        }
+      }
     }
   }
 }
