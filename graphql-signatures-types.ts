@@ -626,7 +626,7 @@ export type ExampleAddSignatoryMutationVariables = Exact<{
 }>;
 
 
-export type ExampleAddSignatoryMutation = { __typename?: 'Mutation', addSignatory?: { __typename?: 'AddSignatoryOutput', signatory: { __typename?: 'Signatory', id: string, href: string } } | null | undefined };
+export type ExampleAddSignatoryMutation = { __typename?: 'Mutation', addSignatory?: { __typename?: 'AddSignatoryOutput', signatory: { __typename?: 'Signatory', id: string, href: string, token: string } } | null | undefined };
 
 export type ExampleAddSignatoryEvidenceValidationMutationVariables = Exact<{
   input: AddSignatoryInput;
