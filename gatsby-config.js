@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 module.exports = {
   siteMetadata: {
     siteUrl: "https://new-docs-test.criipto.com",
@@ -20,6 +22,15 @@ module.exports = {
         ignore: [`**/*\.graphql\.tsx`],
       },
       __key: "pages",
-    },
-  ],
+    }
+  ].concat(process.env.GATSBY_ALGOLIA_APP_ID ? [
+    {
+      resolve: `gatsby-plugin-algolia`,
+      options: {
+        appId: process.env.GATSBY_ALGOLIA_APP_ID,
+        apiKey: process.env.ALGOLIA_ADMIN_KEY,
+        queries: require("./src/utils/algolia-queries")
+      },
+    }
+  ] : []),
 };
