@@ -1,7 +1,7 @@
 module.exports = {
   siteMetadata: {
-    siteUrl: "https://criipto-document-signatures-docs.netlify.app",
-    title: "Criipto Document Signatures Docs",
+    siteUrl: "https://new-docs-test.criipto.com",
+    title: "Criipto Documentation for Verify and Signatures",
   },
   plugins: [
     "gatsby-plugin-postcss",

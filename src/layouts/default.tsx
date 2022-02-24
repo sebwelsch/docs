@@ -7,10 +7,10 @@ export default function DefaultLayout(props: {children: React.ReactNode, pageCon
   const {frontmatter} = props.pageContext;
   return (
     <div>
-      <Header />
+      <Header path={props.path} />
       <div className="px-4 sm:px-6 md:px-8">
         <div className="max-w-screen-2xl mx-auto pt-10 lg:pl-[19.5rem] xl:pr-[19.5rem]">
-          <DesktopNavigation />
+          <DesktopNavigation path={props.path} />
           <a id="overview" style={{position: "relative", top: "-95px"}} />
           {frontmatter && (
             <header id="header" className="relative z-20 mb-8">

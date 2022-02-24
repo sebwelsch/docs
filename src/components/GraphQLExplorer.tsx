@@ -177,7 +177,7 @@ function CredentialsOverlay(props: {onSkip?: () => void}) {
   return (
     <div className="w-full h-full bg-white/60 backdrop-blur absolute top-0 left-0 z-20 flex flex-col items-center justify-center">
       <CredentialsForm className="bg-white shadow-md rounded max-w-md" onSkip={props.onSkip}>
-        <p>Please enter your <Link to="/document-signatures/getting-started/register-application/">API credentials</Link> to use this GraphQL Example</p>
+        <p>Please enter your <Link to="/signatures/getting-started/register-application/">API credentials</Link> to use this GraphQL Example</p>
         <p>Queries are executed against your actual application. Please make sure you are using test credentials.</p>
       </CredentialsForm>
     </div>

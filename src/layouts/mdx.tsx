@@ -18,7 +18,7 @@ export default function MdxLayout(props: {children: React.ReactNode, pageContext
     .map((child: any) => ({type: child.props.mdxType, text: child.props.children}));
 
   const overviewHeader = 
-    (children[0] as any).props.mdxType === "p" ? {type: "h2", text: "Overview"} : null
+    children[0] && (children[0] as any).props.mdxType === "p" ? {type: "h2", text: "Overview"} : null
 
   return (
     <DefaultLayout {...props}>

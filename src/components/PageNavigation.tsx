@@ -60,7 +60,6 @@ export default function PageNavigation(props: Props) {
 
   if (!items.length) return null;
 
-  console.log(active);
   return (
     <div className="fixed z-20 top-[3.8125rem] bottom-0 right-[max(0px,calc(50%-768px))] w-[19.5rem] py-10 px-8 overflow-y-auto hidden xl:block">
       <h5 className="text-blue font-semibold mb-4 text-m leading-6">{props.title || 'On this page'} </h5>

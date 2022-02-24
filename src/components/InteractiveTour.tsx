@@ -89,7 +89,7 @@ export default function InteractiveTour() {
         {step === 'authenticate' && (
           <React.Fragment>
             <H2>{TITLES.authenticate}</H2>
-            <Paragraph>Please enter your <Link to="/document-signatures/getting-started/register-application/">API credentials</Link> to start the interactive tour.</Paragraph>
+            <Paragraph>Please enter your <Link to="/signatures/getting-started/register-application/">API credentials</Link> to start the interactive tour.</Paragraph>
             <Paragraph>Queries are executed against your actual application. Please make sure you are using test credentials.</Paragraph>
             <CredentialsForm />
           </React.Fragment>
