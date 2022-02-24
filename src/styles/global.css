@@ -34,3 +34,11 @@ body, #___gatsby, #gatsby-focus-wrapper {
 html {
   scroll-behavior: smooth;
 }
+
+.mdx-highlight p {
+  margin: 0;
+}
+
+.mdx-highlight p + p {
+  margin-top: 1.25em;
+}

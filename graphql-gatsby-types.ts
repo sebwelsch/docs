@@ -3836,4 +3836,4 @@ export type WebPOptions = {
 export type NavigationQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type NavigationQuery = { __typename?: 'Query', signaturesPages: { __typename?: 'MdxConnection', edges: Array<{ __typename?: 'MdxEdge', node: { __typename: 'Mdx', id: string, slug?: string | null | undefined, frontmatter?: { __typename?: 'MdxFrontmatter', title: string, category?: string | null | undefined } | null | undefined } }> } };
+export type NavigationQuery = { __typename?: 'Query', signaturesPages: { __typename?: 'MdxConnection', edges: Array<{ __typename?: 'MdxEdge', node: { __typename: 'Mdx', id: string, slug?: string | null | undefined, frontmatter?: { __typename?: 'MdxFrontmatter', title: string, category?: string | null | undefined } | null | undefined } }> }, verifyPages: { __typename?: 'MdxConnection', edges: Array<{ __typename?: 'MdxEdge', node: { __typename: 'Mdx', id: string, slug?: string | null | undefined, frontmatter?: { __typename?: 'MdxFrontmatter', title: string, category?: string | null | undefined } | null | undefined } }> } };

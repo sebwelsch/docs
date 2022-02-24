@@ -1,5 +1,7 @@
 import React from 'react';
 import { MDXProvider } from "@mdx-js/react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 export const textToId = (input: string) => input.toLowerCase().replace(/\s/g, '-').replace(/([^a-zA-Z0-9-])/g, '');
 export const H2 = (props: {children: string}) => (
@@ -50,14 +52,28 @@ export const CodeBlock = (props: {text: string, className?: string}) => {
   );
 }
 
-export const Paragraph = (props: any) => (<p {...props} className="max-w-screen-sm">{props.children}</p>)
+export const Highlight = (props: {children: React.ReactNode, icon?: string, warning?: boolean}) => {
+  return (
+    <div className={`mdx-highlight bg-gray-200 ${props.warning ? 'bg-yellow-100' : ''} rounded-md p-4 max-w-screen-md ${props.icon ? 'relative pl-10' : ''}`}>
+      {props.icon ? (
+        <FontAwesomeIcon className="absolute left-4 top-4 text-2xl" icon={`fa-solid fa-${props.icon}` as any} />
+      ) : null}
+      {props.children}
+    </div>
+  );
+}
+
+export const Paragraph = (props: any) => (<p {...props} className="max-w-screen-md">{props.children}</p>)
 
 const components = {
   h2: H2,
   h3: H3,
   Text,
   CodeBlock,
-  p: Paragraph
+  Highlight,
+  p: Paragraph,
+  ol: (props: any) => (<ol {...props} className="max-w-screen-md">{props.children}</ol>),
+  ul: (props: any) => (<ul {...props} className="max-w-screen-md">{props.children}</ul>)
 }
 
 export default function CustomMDXProvider(props: {children: any}) {
