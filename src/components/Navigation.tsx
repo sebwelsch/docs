@@ -10,7 +10,8 @@ const SIGNATURES_CATEGORIES = [
 ];
 
 const VERIFY_CATEGORIES = [
-  "Getting Started"
+  "Getting Started",
+  "e-IDs"
 ];
 
 function slugToPath(slug: string) {

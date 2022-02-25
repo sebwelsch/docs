@@ -1,0 +1,108 @@
+---
+product: verify
+category: e-IDs
+sort: 5
+title: Finnish Trust Network
+---
+import Layout from '../../../layouts/mdx';
+
+export default Layout;
+
+## JWT/Token examples
+
+### BankID
+
+```json
+{
+  "identityscheme": "fitupas",
+  "nameidentifier": "788eb5abb2f84c0994a4d359f416f7ca",
+  "sub": "{788eb5ab-b2f8-4c09-94a4-d359f416f7ca}",
+  "name": "_19cfbd642c4a82b08613b841caf0e153c5956c14",
+  "country": "FI",
+  "given_name": "Väinö",
+  "family_name": "Tunnistus",
+  "birthdate": "1970-07-07",
+  "satu": "",
+  "hetu": "070770-905D"
+}
+```
+The `hetu` field is the personal identity code.
+
+### Mobillivarmenne
+
+Same as BankID, except the `satu` property will have a value as well.
+
+## Test users
+
+A set list of test users for the different banks are given below. Sometimes the test credentials will be shown also on the actual login page at the bank.
+ 
+### Aktia
+
+Käyttäjätunnus: `12345678`<br/>
+Salasana: `123456`<br/>
+Turvaluku: `1234`<br/>
+Turvaluku 2: `1234`<br/>
+
+### Danske Bank
+
+Must use your own customer credentials. No real cash is withdrawn from your bank account.
+ 
+### Handelsbanken
+
+Käyttäjätunnus: `11111111`<br/>
+Salasana: `123456`<br/>
+Turvaluku: `123456`<br/>
+Turvaluku 2: `123456`<br/>
+ 
+### LähiTapiola
+
+Käyttäjätunnus: `12345678`<br/>
+Salasana: any numbers<br/>
+Tunnusluku: any four numbers<br/>
+Tunnusluku 2: any four numbers<br/>
+ 
+### Nordea
+
+Tunnus: `123456`<br/>
+Salasana: `1234`<br/>
+Vahvistustunnus: any four numbers<br/>
+ 
+### OP / Osuuspankki
+
+Käyttäjätunnus: `123456`<br/>
+Salasana: `7890`<br/>
+Avainluku: any four numbers<br/>
+ 
+POP Bank
+Käyttäjätunnus: `11111111`<br/>
+Salasana: `123456`<br/>
+Turvaluku: `123456`<br/>
+Turvaluku 2: `123456`<br/>
+ 
+### S-Bank
+
+Käyttäjätunnus: `12345678`<br/>
+Salasana: any numbers<br/>
+Tunnusluku: any four numbers<br/>
+Tunnusluku 2: any four numbers<br/>
+ 
+### Savings bank
+
+Käyttäjätunnus: `11111111`<br/>
+Salasana: `123456`<br/>
+Turvaluku: `123456`<br/>
+Turvaluku 2: `123456`<br/>
+ 
+### Ålandsbanken
+
+Käyttäjätunnus: `12345678`<br/>
+Salasana: any numbers<br/>
+Tunnusluku: any four numbers<br/>
+Tunnusluku 2: any four numbers<br/>
+ 
+### Oma Säästöpankki
+
+Käyttäjätunnus: `11111111` / `22222222`<br/>
+Salasana: `123456`<br/>
+Turvaluku: `123456`<br/>
+Turvaluku 2: `123456`<br/>
