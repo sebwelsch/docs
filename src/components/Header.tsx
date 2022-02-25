@@ -30,7 +30,7 @@ export default function Header(props: {path: string}) {
               >
                 {isVerify ? (
                   <React.Fragment>
-                    Verify
+                    Verify (e-IDs)
 
                     <svg width="6" height="3" className="ml-2 overflow-visible" aria-hidden="true">
                       <path d="M0 0L3 3L6 0" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"></path>

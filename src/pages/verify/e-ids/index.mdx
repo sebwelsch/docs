@@ -39,6 +39,6 @@ Select any individual e-ID from the list below to see JWT/token details and how 
 
 <ul>
   {props.data.pages.edges.map(edge => (
-    <li key={edge.node.id}><Link to={edge.node.slug}>{edge.node.frontmatter.title}</Link></li>
+    <li key={edge.node.id}><Link to={`/${edge.node.slug}/`}>{edge.node.frontmatter.title}</Link></li>
   ))}
 </ul>
