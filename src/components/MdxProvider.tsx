@@ -3,7 +3,10 @@ import { MDXProvider } from "@mdx-js/react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
-export const textToId = (input: string) => input.toLowerCase().replace(/\s/g, '-').replace(/([^a-zA-Z0-9-])/g, '');
+export const textToId = function (input: string) {
+  if (input.toLowerCase == undefined) console.error(input);
+  return input.toLowerCase().replace(/\s/g, '-').replace(/([^a-zA-Z0-9-])/g, '');
+}
 export const H2 = (props: {children: string}) => (
   <h2 {...props} className="group flex whitespace-pre-wrap -ml-4 pl-4">
     <a id={textToId(props.children)} style={{position: "relative", top: "-90px"}} />

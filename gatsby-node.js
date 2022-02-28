@@ -37,6 +37,12 @@ exports.createPages = ({ actions }) => {
     force: true
   });
   createRedirect({
+    fromPath: "/how-to/get-ready-for-production",
+    toPath: "/verify/guides/production",
+    isPermanent: true, 
+    force: true
+  })
+  createRedirect({
     fromPath: "/how-to/*", 
     toPath: "/verify/how-to/:splat", 
     isPermanent: true, 
