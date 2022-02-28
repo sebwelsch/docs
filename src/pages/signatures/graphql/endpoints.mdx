@@ -10,23 +10,23 @@ export default Layout;
 
 ## Query execution
 
-GraphQL queries can be executed against `https://signatures-api-prod.azurewebsites.net/v1/graphql`. Queries must be sent as a `POST` request containing a `JSON` body with the parameters `query` and optionally `variables`.
+GraphQL queries can be executed against `https://signatures-api.criipto.com/v1/graphql`. Queries must be sent as a `POST` request containing a `JSON` body with the parameters `query` and optionally `variables`.
 
 ```
 curl -X POST -H "Content-Type: application/json" \
   -u clientId:clientSecret \
   --data '{"query": "... graphql query ...", "variables": {"key": "value"}}'\ 
-  https://signatures-api-prod.azurewebsites.net/v1/graphql
+  https://signatures-api.criipto.com/v1/graphql
 ```
 
 ## Schema
 
-If you need to fetch the schema for build/codegen tools you can do so by executing a `GET` request against `https://signatures-api-prod.azurewebsites.net/v1/graphql`.
+If you need to fetch the schema for build/codegen tools you can do so by executing a `GET` request against `https://signatures-api.criipto.com/v1/graphql`.
 
 ```
-curl https://signatures-api-prod.azurewebsites.net/v1/graphql
+curl https://signatures-api.criipto.com/v1/graphql
 ```
 
 ## Explorer
 
-A general purpose GraphQL Explorer is available at [https://signatures-api-prod.azurewebsites.net/v1/explorer](https://signatures-api-prod.azurewebsites.net/v1/explorer)
+A general purpose GraphQL Explorer is available at [https://signatures-api.criipto.com/v1/explorer](https://signatures-api.criipto.com/v1/explorer)

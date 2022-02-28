@@ -126,7 +126,7 @@ export default function Navigation(props: Props) {
               <li>
                 <a
                   className="block border-l pl-4 -ml-px border-transparent hover:border-gray-400 text-gray-700 hover:text-gray-900"
-                  href="https://signatures-api-prod.azurewebsites.net/v1/explorer"
+                  href="https://signatures-api.criipto.com/v1/explorer"
                   target="_blank"
                 >Explorer</a>
               </li>

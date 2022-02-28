@@ -14,7 +14,7 @@
     "codegen:gatsby": "graphql-codegen -c graphql-gatsby-codegen.yml",
     "codegen:signatures": "graphql-codegen -c graphql-signatures-codegen.yml",
     "schema": "npm run schema:signatures",
-    "schema:signatures": "curl https://signatures-api-prod.azurewebsites.net/v1/graphql > graphql-signatures-schema.json",
+    "schema:signatures": "curl https://signatures-api.criipto.com/v1/graphql > graphql-signatures-schema.json",
     "build": "gatsby build",
     "serve": "gatsby serve",
     "clean": "gatsby clean"
