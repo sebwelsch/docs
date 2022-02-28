@@ -22,7 +22,7 @@ export default function MdxLayout(props: {children: React.ReactNode, pageContext
 
   return (
     <DefaultLayout {...props}>
-      <div className="relative z-20 prose max-w-none mb-8">
+      <div className="relative z-20 prose max-w-none mb-48">
         <CustomMDXProvider>
           {props.children}
         </CustomMDXProvider>
