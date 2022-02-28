@@ -1,0 +1,55 @@
+---
+product: verify
+category: Guides
+sort: 1
+title: Prefilled input fields
+subtitle: How to specify input that the user would otherwise be queried for
+---
+import Layout from '../../../layouts/mdx';
+
+export default Layout;
+
+In some login flows, user-specific data other than actual login details are needed to complete the authentication. 
+
+Examples include the CPR number in Denmark for personal NemID and SSN ("personnummer") in Sweden for BankID on another device.
+
+By default the user is prompted for this data when needed, but if you would like to avoid these dialogs, you can specify the values up-front in the request for authentication, via the `login_hint` query parameter. This works for both OpenID Connect and WS-Federation.
+
+The actual support for controlling the input data varies by e-ID method:
+
+1. Danish NemID: Use `login_hint=sub:<CPR>` where `<CPR>` has the format `DDMMYYXXXX`
+2. Swedish BankID: Use `login_hint=sub:<SSN>` where `<SSN>` has the format `YYYYMMDDXXXX`
+3. Norwegian BankID Mobile: Use `login_hint=BIM:<PHONENUMBER>:<BIRTHDATE>` where `<PHONENUMBER>` has 8 digits and `<BIRTHDATE>` has the format `DDMMYY`
+4. Norwegian BankID Kodebrikke: Use `login_hint=BID:<SSN>` where `<SSN>` has the format `DDMMYYXXXXX`
+5. Sofort: You can send the data you want to use for pre-selection of the users bank and the Schufa check in a base64-url-encoded JSON structure in `login_hint=sofort:<base64-url encoded JSON>`. The JSON literal can contain the following properties:
+```json
+{
+    "given_name": "HANS-GERD",
+    "family_name": "WARNECKE",
+    "birthdate": "1953-01-16",
+    "street_address" : "ALTENBURGER STR. 10",
+    "city": "WOLFSBURG",
+    "postal_code": "38444",
+    "address_country_id" : "DE",
+    "account_country_id" : "DE",
+    "bank_code" : "00000"
+}
+```
+The stringified and base64-url-encoded variant of this particular example is
+```
+eyJnaXZlbl9uYW1lIjoiSEFOUy1HRVJEIiwiZmFtaWx5X25hbWUiOiJXQVJORUNLRSIsImJpcnRoZGF0ZSI6IjE5NTMtMDEtMTYiLCJzdHJlZXRfYWRkcmVzcyI6IkFMVEVOQlVSR0VSIFNUUi4gMTAiLCJjaXR5IjoiV09MRlNCVVJHIiwicG9zdGFsX2NvZGUiOiIzODQ0NCIsImFkZHJlc3NfY291bnRyeV9pZCI6IkRFIiwiYWNjb3VudF9jb3VudHJ5X2lkIjoiREUiLCJiYW5rX2NvZGUiOiIwMDAwMCJ9
+```
+and the corresponding `login_hint` query parameter and value is thus
+```
+login_hint=sofort:eyJnaXZlbl9uYW1lIjoiSEFOUy1HRVJEIiwiZmFtaWx5X25hbWUiOiJXQVJORUNLRSIsImJpcnRoZGF0ZSI6IjE5NTMtMDEtMTYiLCJzdHJlZXRfYWRkcmVzcyI6IkFMVEVOQlVSR0VSIFNUUi4gMTAiLCJjaXR5IjoiV09MRlNCVVJHIiwicG9zdGFsX2NvZGUiOiIzODQ0NCIsImFkZHJlc3NfY291bnRyeV9pZCI6IkRFIiwiYWNjb3VudF9jb3VudHJ5X2lkIjoiREUiLCJiYW5rX2NvZGUiOiIwMDAwMCJ9
+```
+ - you can use `btoa(JSON.stringify({...})` in your browsers dev-tools Console tab if you want to try with different settings than the above.
+
+<Highlight icon="file-lines">
+
+Note that you should not include the angle brackets, so for example a Danish NemID prefilled CPR 
+would be passed like this: `login_hint=sub:2201891234`.
+
+</Highlight>
+
+
