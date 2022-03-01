@@ -41,7 +41,26 @@ exports.createPages = ({ actions }) => {
     toPath: "/verify/guides/production",
     isPermanent: true, 
     force: true
-  })
+  });
+  createRedirect({
+    fromPath: "/how-to/get-ready-for-production/",
+    toPath: "/verify/guides/production",
+    isPermanent: true, 
+    force: true
+  });
+  createRedirect({
+    fromPath: "/how-to/apply-custom-styling/",
+    toPath: "/verify/custom-styling",
+    isPermanent: true, 
+    force: true
+  });
+  createRedirect({
+    fromPath: "/how-to/test-users/",
+    toPath: "/verify/e-ids",
+    isPermanent: true, 
+    force: true
+  });
+  
   createRedirect({
     fromPath: "/how-to/*", 
     toPath: "/verify/how-to/:splat", 
