@@ -42,3 +42,26 @@ html {
 .mdx-highlight p + p {
   margin-top: 1.25em;
 }
+
+.ais-SearchBox-form {
+  @apply shadow appearance-none border rounded w-full py-2 px-3 flex ;
+}
+
+.ais-SearchBox-input {
+  @apply text-gray-700 leading-tight focus:outline-none flex-1;
+}
+.ais-SearchBox-submitIcon svg {
+  height: 15px;
+  width: 15px;
+}
+.ais-SearchBox-submitIcon svg path {
+  fill: rgb(32 76 130);
+}
+
+.ais-SearchBox-reset {
+  @apply hidden;
+}
+
+input[type="search"]::-webkit-search-cancel-button {
+  display: none;
+}

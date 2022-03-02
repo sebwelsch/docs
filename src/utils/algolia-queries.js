@@ -30,7 +30,7 @@ const queries = [
   {
     query: pageQuery,
     transformer: ({ data }) => data.pages.edges.map(pageToAlgoliaRecord),
-    indexName: process.env.ALGOLIA_INDEX_NAME || 'test',
+    indexName: process.env.GATSBY_ALGOLIA_INDEX_NAME || 'test',
     settings: { attributesToSnippet: [`excerpt:20`] },
   },
 ]
