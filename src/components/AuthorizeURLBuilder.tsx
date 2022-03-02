@@ -65,6 +65,7 @@ export default function AuthorizeURLBuilder() {
   for (key in options) {
     if (key == 'acr_values') continue;
     if (key == 'acr_values_quirk') continue;
+    if (key == 'domain') continue;
     url.searchParams.set(key, options[key]);
   }
 
