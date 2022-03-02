@@ -1,6 +1,5 @@
 // const escapeStringRegexp = require("escape-string-regexp")
 // const pagePath = `src/pages`
-const indexName = `test`
 const pageQuery = `{
   pages: allMdx {
     edges {
@@ -31,7 +30,7 @@ const queries = [
   {
     query: pageQuery,
     transformer: ({ data }) => data.pages.edges.map(pageToAlgoliaRecord),
-    indexName,
+    indexName: process.env.ALGOLIA_INDEX_NAME || 'test',
     settings: { attributesToSnippet: [`excerpt:20`] },
   },
 ]

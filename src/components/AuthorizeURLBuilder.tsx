@@ -13,8 +13,10 @@ interface AuthorizeURLOptions {
   response_mode: "query" | "fragment",
   acr_values: string[],
   acr_values_quirk: "none" | "login_hint" | "path",
-  nonce: string,
+  nonce: string
 }
+
+const isBrowser = typeof window !== "undefined";
 
 export default function AuthorizeURLBuilder() {
   const [options, setOptions] = useState<AuthorizeURLOptions>({
@@ -25,7 +27,7 @@ export default function AuthorizeURLBuilder() {
     response_mode: 'fragment',
     acr_values: [],
     acr_values_quirk: "none",
-    nonce: `ecnon-${(window.crypto as any).randomUUID()}`
+    nonce: `ecnon-${isBrowser ? (window.crypto as any)?.randomUUID() : ''}`
   });
 
   const updateOption = (key: keyof AuthorizeURLOptions, event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => {
