@@ -12,7 +12,7 @@ const pageQuery = `{
           subtitle
         }
         slug
-        excerpt(pruneLength: 500)
+        excerpt(pruneLength: 5000)
       }
     }
   }
