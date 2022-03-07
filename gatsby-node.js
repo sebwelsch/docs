@@ -14,13 +14,13 @@ exports.createPages = ({ actions }) => {
   });
   createRedirect({
     fromPath: "/authentication/*", 
-    toPath: "/verify/authentication/:splat", 
+    toPath: "/verify/integrations/:splat", 
     isPermanent: true, 
     force: true
   });
   createRedirect({
     fromPath: "/authentication", 
-    toPath: "/verify/authentication", 
+    toPath: "/verify/integrations", 
     isPermanent: true, 
     force: true
   });

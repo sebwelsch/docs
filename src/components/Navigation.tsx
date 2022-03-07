@@ -12,6 +12,7 @@ const SIGNATURES_CATEGORIES = [
 const VERIFY_CATEGORIES = [
   "Getting Started",
   "e-IDs",
+  "Integrations",
   "Guides & Tools"
 ];
 
