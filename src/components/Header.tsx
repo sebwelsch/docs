@@ -13,7 +13,7 @@ export default function Header(props: {path: string}) {
       <div className="max-w-screen-2xl mx-auto">
         <div className="py-4 border-b border-gray-900/10 lg:px-8 lg:border-0 mx-4 lg:mx-0">
           <div className="relative flex items-center">
-            <a href="/" className="mr-3 flex-none">
+            <a href="/" className="mr-3 flex-none text-white text-2xl flex items-center">
               <StaticImage
                 src="../images/criipto-logo.svg"
                 alt="Criipto"
@@ -21,6 +21,7 @@ export default function Header(props: {path: string}) {
                 placeholder='none'
                 quality={90}
               />
+              DOCS
             </a>
 
             <div className="relative">
