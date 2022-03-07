@@ -36,7 +36,7 @@ export function graphQLFetcher<R = any, V = any>(graphQLParams : GraphQLParams<V
   }
 
   return fetch(
-    'https://signatures-api-test.azurewebsites.net/v1/graphql',
+    'https://signatures-api.criipto.com/v1/graphql',
     {
       method: 'post',
       headers,
