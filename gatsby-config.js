@@ -36,6 +36,14 @@ module.exports = {
         ignore: [`**/*\.graphql\.tsx`],
       },
       __key: "pages",
+    },
+    {
+      resolve: "gatsby-source-filesystem",
+      options: {
+        name: "snippets",
+        path: "./src/snippets/"
+      },
+      __key: "snippets",
     }
   ].concat(process.env.GATSBY_ALGOLIA_APP_ID ? [
     {
