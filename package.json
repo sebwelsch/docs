@@ -50,6 +50,7 @@
     "@graphql-codegen/typescript-operations": "^2.2.1",
     "@tailwindcss/typography": "^0.5.0",
     "@types/mdx-js__react": "^1.5.5",
+    "@types/react-helmet": "^6.1.5",
     "@types/react-instantsearch-dom": "^6.12.2",
     "autoprefixer": "^10.4.0",
     "gatsby-plugin-image": "^2.4.0",
