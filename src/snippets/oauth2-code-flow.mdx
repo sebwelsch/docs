@@ -8,15 +8,11 @@ Open the application registration and configure it for the right OAuth2 flow:
 2. Copy the generated client secret. 
 3. Set the user info response strategy to `plainJson` to enable retrieval of plain JSON user information from the `/oauth2/userinfo` endpoint.
 
-import codeFlow from './images/oauth2-code-flow.png';
-
-<img src={codeFlow} alt="OAuth2 code flow" />
+![OAuth2 code flow](./images/oauth2-code-flow.pngg)
 
 _Note that this is the only time you will be shown the actual value of the client secret_. Criipto only stores this as a hashed value, which means you cannot retrieve the value once it has been generated and stored.
 
-import clientSecret from './images/oauth2-client-secret.png';
-
-<img src={clientSecret} alt="OAuth2 client secret" />
+![OAuth2 client secret](./images/oauth2-client-secret.png)
 
 <Highlight icon="file-lines">
 
@@ -26,8 +22,7 @@ Some libraries do not support the final `userinfo` request. In those cases you w
 
 You may configure Criipto Verify  to retrieve the user information from  either the `userinfo` endpoint - the default option - or you may explicitly choose the `fromTokenEndpoint` in the user info response strategy instead:
 
-import userinfo from './images/userinfo-responsestrategy-fromtokenendpoint.png';
 
-<img src={userinfo} alt="User info response strategy" />
+![User info response strategy](./images/userinfo-responsestrategy-fromtokenendpoint.png)
 
 

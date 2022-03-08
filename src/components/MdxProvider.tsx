@@ -68,12 +68,17 @@ export const Highlight = (props: {children: React.ReactNode, icon?: string, warn
 
 export const Paragraph = (props: any) => (<p {...props} className="max-w-screen-md">{props.children}</p>)
 
+export const ImageContainer = (props: {children: React.ReactNode, maxWidth?: number}) => {
+  return (<div style={{maxWidth: props.maxWidth ? `${props.maxWidth}px` : undefined}}>{props.children}</div>);
+}
+
 const components = {
   h2: H2,
   h3: H3,
   Text,
   CodeBlock,
   Highlight,
+  ImageContainer,
   p: Paragraph,
   ol: (props: any) => (<ol {...props} className="max-w-screen-md">{props.children}</ol>),
   ul: (props: any) => (<ul {...props} className="max-w-screen-md">{props.children}</ul>)

@@ -9,6 +9,8 @@ import Layout from '../../../layouts/mdx';
 
 export default Layout;
 
+import {ImageContainer} from '../../../components/MdxProvider';
+
 ## JWT/Token example
 
 ```json
@@ -35,9 +37,7 @@ You create personal MitID test users at [https://pp.mitid.dk/test-tool/frontend]
 2. If you haven't done so already install the test app from [https://pp.mitid.dk/mitid-app/index.html](https://pp.mitid.dk/mitid-app/index.html)
 3. You can test your new users by using the "Flows" menu at the top of the screen.
 
-import image from './images/mitid-testtool.png';
-
-<img src={image} alt="MitID test tool" />
+![MitID test tool](./images/mitid-testtool.png)
 
 ## Order MitID for production
 
@@ -116,9 +116,7 @@ In general, the landing page for MitID may styled by following [the general guid
 As illustrated below, the default landing page has the MitID box - the red rectangle - at the center. 
 It is essential that you do not, under any circumstances, change the styling or layout of anything inside the red rectangle.
 
-import landingPage from './images/mitid-landing-page.png';
-
-<img src={landingPage} alt="MitID default landing page" />
+![MitID default landing page](./images/mitid-landing-page.png)
 
 ### MitiD branding in your application
 
@@ -144,9 +142,11 @@ navigation and screen readers according to the WCAG 3.0 standard.
 
 The MitID button should be shown with lightly rounded corners:
 
-import button from './images/mitid-rounded.png';
+<ImageContainer maxWidth={300}>
 
-<img src={button} alt="Default MitID button" style={{width: "300px", "box-shadow": "none"}} />
+  ![Default MitID Button](./images/mitid-rounded.png)
+
+</ImageContainer>
 
 The key elements of the default styling are shown below, but we suggest to simply inspect the buttons in the MitID applet and copy the corresponding styles.
 
@@ -175,15 +175,17 @@ The text inside the button must be from the set of approved texts:
 
 Just as illustrated above, your app must show a call to action which will open a webview hosting the MitID landing page:
 
-import nativeappbutton from './images/mitid-button-in-native-app.png'
+<ImageContainer maxWidth={300}>
 
-<img src={nativeappbutton} alt="MitID CTA in native app" style={{width: "300px", "box-shadow": "none"}} />
+  ![MitID CTA in native app](./images/mitid-button-in-native-app.png)
+
+</ImageContainer>
 
 Your app must use a platform-specific web view (Custom Tab on Android and Safari View Controller on iOS) which clearly reassures the user that they 
 are on a legitimate mitid.dk domain with appropriate security (TLS and the padlock symbol):
 
-import nativeappcta from './images/mitid-native-app-browser-with-address-visible.png'
+<ImageContainer maxWidth={300}>
 
-<img src={nativeappcta} alt="MitID CTA in native app" style={{width: "300px", "box-shadow": "none"}} />
+  ![MitID CTA in native app](./images/mitid-native-app-browser-with-address-visible.png)
 
-
+</ImageContainer>
