@@ -4,14 +4,27 @@ import { Helmet } from "react-helmet";
 import {DesktopNavigation} from '../components/Navigation';
 import Header from '../components/Header';
 
+function upperFirst(input: string) {
+  if (!input) return input;
+  return input.substr(0, 1).toUpperCase() + input.substr(1);
+}
+
+
 export default function DefaultLayout(props: {children: React.ReactNode, pageContext: any, path: string, pageResources: any}) {
   const {frontmatter} = props.pageContext;
   const description = frontmatter.description || frontmatter.subtitle;
+  const suffix = 
+    frontmatter.title === 'Criipto Documentation' ? '' :
+    frontmatter.product ? ` - Criipto ${upperFirst(frontmatter.product)} Documentation` :
+    ' - Criipto Documentation';
+
+  const category = frontmatter.category ? ` - ${frontmatter.category}` : '';
+
   return (
     <div>
       <Helmet>
         <meta charSet="utf-8" />
-        <title>{frontmatter.title}{frontmatter.title === 'Criipto Documentation' ? null : ' - Criipto Documentation'}</title>
+        <title>{frontmatter.title}{category}{suffix}</title>
         <link rel="canonical" href={`https://new-docs-test.criipto.com${props.pageResources?.page?.path}`} />
         {description && (<meta name="description" content={description} />)}
       </Helmet>
