@@ -31,10 +31,9 @@ export const Hit = ({ hit }: {hit: Hit}) => {
 }
 
 export default function Search() {
-
   return (
     <InstantSearch searchClient={algoliasearch(process.env.GATSBY_ALGOLIA_APP_ID!, process.env.GATSBY_ALGOLIA_SEARCH_KEY!)} indexName={process.env.GATSBY_ALGOLIA_INDEX_NAME!}>
-      <SearchBox autoFocus />
+      <SearchBox autoFocus className="mb-2" />
       <Hits hitComponent={Hit} />
     </InstantSearch>
   );
