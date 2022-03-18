@@ -33,6 +33,8 @@ export type AddSignatoriesOutput = {
 
 export type AddSignatoryInput = {
   documents?: InputMaybe<Array<SignatoryDocumentInput>>;
+  /** Selectively enable evidence providers for this signatory. */
+  evidenceProviders?: InputMaybe<Array<SignatoryEvidenceProviderInput>>;
   evidenceValidation?: InputMaybe<Array<SignatoryEvidenceValidationInput>>;
   /** Will not be displayed to signatories, can be used as a reference to your own system. */
   reference?: InputMaybe<Scalars['String']>;
@@ -132,6 +134,8 @@ export type CreateSignatureOrderInput = {
   /** Max allowed signatories (as it influences pages needed for seals). Default 14. */
   maxSignatories?: InputMaybe<Scalars['Int']>;
   signatories?: InputMaybe<Array<CreateSignatureOrderSignatoryInput>>;
+  /** Timezone to render signature seals in, default UTC. */
+  timezone?: InputMaybe<Scalars['String']>;
   title?: InputMaybe<Scalars['String']>;
   /** Various settings for how the UI is presented to the signatory. */
   ui?: InputMaybe<CreateSignatureOrderUiInput>;
@@ -147,6 +151,8 @@ export type CreateSignatureOrderOutput = {
 
 export type CreateSignatureOrderSignatoryInput = {
   documents?: InputMaybe<Array<SignatoryDocumentInput>>;
+  /** Selectively enable evidence providers for this signatory. */
+  evidenceProviders?: InputMaybe<Array<SignatoryEvidenceProviderInput>>;
   evidenceValidation?: InputMaybe<Array<SignatoryEvidenceValidationInput>>;
   /** Will not be displayed to signatories, can be used as a reference to your own system. */
   reference?: InputMaybe<Scalars['String']>;
@@ -162,6 +168,11 @@ export type CreateSignatureOrderUiInput = {
 export type CreateSignatureOrderWebhookInput = {
   /** Webhook url. POST requests will be executed towards this URL on certain signatory events. */
   url: Scalars['String'];
+};
+
+/** Criipto Verify based evidence for signatures. */
+export type CriiptoVerifyProviderInput = {
+  acrValues?: InputMaybe<Array<Scalars['String']>>;
 };
 
 export type DeleteApplicationApiKeyInput = {
@@ -201,17 +212,45 @@ export enum DocumentStorageMode {
   Temporary = 'Temporary'
 }
 
+/** Hand drawn signature evidence for signatures. */
+export type DrawableEvidenceProviderInput = {
+  requireName?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type DrawableSignatureEvidenceProvider = {
+  __typename?: 'DrawableSignatureEvidenceProvider';
+  id: Scalars['ID'];
+  requireName: Scalars['Boolean'];
+};
+
 /** Must define either oidc or noop subsection. */
 export type EvidenceProviderInput = {
-  /** TEST only. Allows empty signatures for testing. */
+  /** Criipto Verify based evidence for signatures. */
+  criiptoVerify?: InputMaybe<CriiptoVerifyProviderInput>;
+  /** Hand drawn signature evidence for signatures. */
+  drawable?: InputMaybe<DrawableEvidenceProviderInput>;
+  /** Determined if this evidence provider should be enabled by signatories by default. Default true */
+  enabledByDefault?: InputMaybe<Scalars['Boolean']>;
+  /** TEST environment only. Does not manipulate the PDF, use for integration or webhook testing. */
   noop?: InputMaybe<NoopEvidenceProviderInput>;
   /** OIDC/JWT based evidence for signatures. */
   oidc?: InputMaybe<OidcEvidenceProviderInput>;
 };
 
+export type ExtendSignatureOrderInput = {
+  additionalExpirationInDays: Scalars['Int'];
+  signatureOrderId: Scalars['ID'];
+};
+
+export type ExtendSignatureOrderOutput = {
+  __typename?: 'ExtendSignatureOrderOutput';
+  signatureOrder: SignatureOrder;
+};
+
 export enum Language {
   DaDk = 'DA_DK',
-  EnUs = 'EN_US'
+  EnUs = 'EN_US',
+  SvSe = 'SV_SE'
 }
 
 export type Mutation = {
@@ -234,6 +273,8 @@ export type Mutation = {
   deleteApplicationApiKey?: Maybe<DeleteApplicationApiKeyOutput>;
   /** Delete a signatory from a signature order */
   deleteSignatory?: Maybe<DeleteSignatoryOutput>;
+  /** Extends the expiration of the signature order. */
+  extendSignatureOrder?: Maybe<ExtendSignatureOrderOutput>;
   /** Refreshes the client secret for an existing set of API credentials. Warning: The old client secret will stop working immediately. */
   refreshApplicationApiKey?: Maybe<RefreshApplicationApiKeyOutput>;
   /** Used by Signatory frontends to reject a signature order in full. */
@@ -294,6 +335,11 @@ export type MutationDeleteSignatoryArgs = {
 };
 
 
+export type MutationExtendSignatureOrderArgs = {
+  input: ExtendSignatureOrderInput;
+};
+
+
 export type MutationRefreshApplicationApiKeyArgs = {
   input: RefreshApplicationApiKeyInput;
 };
@@ -336,6 +382,7 @@ export type NoopSignatureEvidenceProvider = {
 
 /** OIDC/JWT based evidence for signatures. */
 export type OidcEvidenceProviderInput = {
+  acrValues?: InputMaybe<Array<Scalars['String']>>;
   audience: Scalars['String'];
   clientID: Scalars['String'];
   domain: Scalars['String'];
@@ -344,6 +391,7 @@ export type OidcEvidenceProviderInput = {
 
 export type OidcJwtSignatureEvidenceProvider = {
   __typename?: 'OidcJWTSignatureEvidenceProvider';
+  acrValues: Array<Scalars['String']>;
   clientID: Scalars['String'];
   domain: Scalars['String'];
   id: Scalars['ID'];
@@ -387,6 +435,7 @@ export type Query = {
   signatureOrder?: Maybe<SignatureOrder>;
   /** Tenants are only accessable from user viewers */
   tenant?: Maybe<Tenant>;
+  timezones: Array<Scalars['String']>;
   viewer: Viewer;
 };
 
@@ -423,6 +472,7 @@ export type RefreshApplicationApiKeyOutput = {
 
 export type RejectSignatureOrderInput = {
   dummy: Scalars['Boolean'];
+  reason?: InputMaybe<Scalars['String']>;
 };
 
 export type RejectSignatureOrderOutput = {
@@ -430,7 +480,13 @@ export type RejectSignatureOrderOutput = {
   viewer: Viewer;
 };
 
+export type SignDrawableInput = {
+  image: Scalars['Blob'];
+  name?: InputMaybe<Scalars['String']>;
+};
+
 export type SignInput = {
+  drawable?: InputMaybe<SignDrawableInput>;
   id: Scalars['ID'];
   noop?: InputMaybe<Scalars['Boolean']>;
   oidc?: InputMaybe<SignOidcInput>;
@@ -465,6 +521,8 @@ export type Signatory = {
   signatureOrder: SignatureOrder;
   /** The current status of the signatory. */
   status: SignatoryStatus;
+  /** The reason for the signatory status (rejection reason when rejected). */
+  statusReason?: Maybe<Scalars['String']>;
   /** The signature frontend authentication token, only required if you need to build a custom url. */
   token: Scalars['String'];
 };
@@ -501,6 +559,10 @@ export enum SignatoryDocumentStatus {
   Rejected = 'REJECTED'
 }
 
+export type SignatoryEvidenceProviderInput = {
+  id: Scalars['ID'];
+};
+
 export type SignatoryEvidenceValidationInput = {
   key: Scalars['String'];
   value: Scalars['String'];
@@ -525,7 +587,7 @@ export type SignatoryViewer = Viewer & {
   ui: SignatureOrderUi;
 };
 
-export type SignatureEvidenceProvider = NoopSignatureEvidenceProvider | OidcJwtSignatureEvidenceProvider;
+export type SignatureEvidenceProvider = DrawableSignatureEvidenceProvider | NoopSignatureEvidenceProvider | OidcJwtSignatureEvidenceProvider;
 
 export type SignatureOrder = {
   __typename?: 'SignatureOrder';
@@ -565,6 +627,7 @@ export type SignatureOrderEdge = {
 export enum SignatureOrderStatus {
   Cancelled = 'CANCELLED',
   Closed = 'CLOSED',
+  Expired = 'EXPIRED',
   Open = 'OPEN'
 }
 

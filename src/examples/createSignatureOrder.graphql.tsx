@@ -26,6 +26,9 @@ mutation examplesCreateSignatureOrder(
         ... on OidcJWTSignatureEvidenceProvider {
           id
         }
+        ... on DrawableSignatureEvidenceProvider {
+          id
+        }
       }
     }
   }
@@ -62,6 +65,23 @@ export const uiExampleVariables = () : {input: CreateSignatureOrderInput} => {
         language: 'DA_DK' as Language
       },
       ...variables().input
+    }
+  };
+}
+
+export const drawableExampleVariables = () : {input: CreateSignatureOrderInput} => {
+  return {
+    input: {
+      ...variables().input,
+      disableVerifyEvidenceProvider: false,
+      evidenceProviders: [
+        {
+          enabledByDefault: true,
+          drawable: {
+            requireName: true
+          }
+        }
+      ]
     }
   };
 }

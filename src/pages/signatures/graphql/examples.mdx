@@ -28,27 +28,21 @@ Signatories are the individuals you wish to have sign a specific `signatureOrder
 
 ### Evidence validation
 
-import * as addSignatoryEvidenceValidationExample from '../../../examples/addSignatoryEvidenceValidation.graphql';
-
 If you wish to validate the user signing you should use the `evidenceValidation` input for `addSignatory`.
 
 Evidence validation keys must match what will be found in the claims token when signing. You can inspect JWT Tokens issued by Criipto Verify to see the necessary keys.
 
 Evidence will be hashed before storage and compared when a user tries to sign. If the evidence does not match an error will be displayed to the user and they will be prompted to try again.
 
-<GraphQLExample example={addSignatoryEvidenceValidationExample} />
+<GraphQLExample example={{...addSignatoryExample, variables: addSignatoryExample.evidenceValidationVariables}} />
 
 ### Document scoping
 
-import * as addSignatoryScopedExample from '../../../examples/addSignatoryScoped.graphql';
-
 By using the `documents` input array for `addSignatory` you can limit what documents a signatory will be shown.
 
-<GraphQLExample example={addSignatoryScopedExample} />
+<GraphQLExample example={{...addSignatoryExample, variables: addSignatoryExample.scopedVariables}} />
 
 ### Preapproval
-
-import * as addSignatoryPreapprovedExample from '../../../examples/addSignatoryPreapproved.graphql';
 
 For scenarios where you are displaying the PDFs to the users in your own UI you can opt to create a signatory with the documents preapproved.
 
@@ -56,7 +50,7 @@ By preapproving documents for a signatory they are immediately sent to e-ID logi
 
 When using preapproval document-scoping is automatically used so make sure that you pass all documents from the signature order to the signatory.
 
-<GraphQLExample example={addSignatoryPreapprovedExample} />
+<GraphQLExample example={{...addSignatoryExample, variables: addSignatoryExample.preapprovedVariables}} />
 
 ### Multiple signatories
 
@@ -88,3 +82,17 @@ import * as cancelSignatureOrderExample from '../../../examples/cancelSignatureO
 If for any reason you no longer need a signature order you can abandon it by using `cancelSignatureOrder`
 
 <GraphQLExample example={cancelSignatureOrderExample} />
+
+## Drawable signatures
+
+### Creating a signature order with drawable enabled
+
+Define `evidenceProviders` input when using `createSignatureOrder` to enable drawable signatures.
+
+<GraphQLExample example={{...createSignatureOrderExample, variables: createSignatureOrderExample.drawableExampleVariables}} />
+
+### Adding a signatory with selectively enabled evidence provider
+
+You can define `evidenceProviders` with `enabledByDefault: false` and then selectively enabling them using the `evidenceProviders` array input for `addSignatory`.
+
+<GraphQLExample example={{...addSignatoryExample, variables: addSignatoryExample.drawableExampleVariables}} />
