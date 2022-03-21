@@ -21,13 +21,13 @@ function slugToPath(slug: string) {
 }
 
 interface Props {
-  path: string
+  path: string | undefined
 }
 
 export default function Navigation(props: Props) {
   const {path} = props;
-  const isVerify = path.startsWith('/verify');
-  const isSignatures = path.startsWith('/signatures');
+  const isVerify = path?.startsWith('/verify');
+  const isSignatures = path?.startsWith('/signatures');
   const data = useStaticQuery<NavigationQuery>(gatsbyGraphql`
     query Navigation {
       signaturesPages: allMdx(

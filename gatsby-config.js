@@ -54,5 +54,14 @@ module.exports = {
         queries: require("./src/utils/algolia-queries")
       },
     }
+  ] : [])
+  .concat(process.env.SENTRY_DSN ? [
+    {
+      resolve: "@sentry/gatsby",
+      options: {
+        dsn: process.env.SENTRY_DSN,
+        sampleRate: 0.7,
+      },
+    }
   ] : []),
 };

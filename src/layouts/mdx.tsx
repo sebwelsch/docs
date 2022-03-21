@@ -10,7 +10,7 @@ interface Header {
   text: string
 }
 
-export default function MdxLayout(props: {children: React.ReactNode, pageContext: any, path: string}) {
+export default function MdxLayout(props: {children: React.ReactNode, pageContext: any, path: string, pageResources: any}) {
   const children = React.Children.toArray(props.children);
   const headers : Header[] =
     children

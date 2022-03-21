@@ -4,12 +4,12 @@ import { Link } from "gatsby";
 
 import Search from './Search';
 
-export default function Header(props: {path: string}) {
+export default function Header(props: {path: string | undefined}) {
   const [showDropdown, toggleDropdown] = useReducer((value) => !value, false);
   const [showSearch, toggleSearch] = useReducer(value => !value, false);
   const {path} = props;
-  const isVerify = path.startsWith('/verify');
-  const isSignatures = path.startsWith('/signatures');
+  const isVerify = path?.startsWith('/verify');
+  const isSignatures = path?.startsWith('/signatures');
 
   return (
     <React.Fragment>
