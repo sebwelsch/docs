@@ -17,6 +17,10 @@ function saveCredentials(input: ApiCredentials) {
   sessionStorage.setItem('graphql_api_credentials', JSON.stringify(input));
 }
 
+function clearCredentials() {
+  sessionStorage.removeItem('graphql_api_credentials');
+}
+
 const authSlice = createSlice({
   name: 'auth',
   initialState: loadCredentials(),
@@ -24,6 +28,10 @@ const authSlice = createSlice({
     set: (state: ApiCredentials | null, action: PayloadAction<ApiCredentials>) => {
       saveCredentials(action.payload);
       return action.payload;
+    },
+    clear: () => {
+      clearCredentials();
+      return null;
     }
   }
 });
@@ -71,6 +79,7 @@ export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch
 
 export const setApiCredentials = authSlice.actions.set;
+export const clearApiCredentials = authSlice.actions.clear;
 export const setCreateSignatureOrder = exampleDataSlice.actions.createSignatureOrder;
 export const setCloseSignatureOrder = exampleDataSlice.actions.closeSignatureOrder;
 export const setAddSignatory = exampleDataSlice.actions.addSignatory;

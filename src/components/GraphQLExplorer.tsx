@@ -2,7 +2,7 @@ import React, {useState, useMemo, useCallback} from 'react';
 import GraphiQL from 'graphiql';
 import { Link } from 'gatsby';
 
-import {ApiCredentials, setApiCredentials, setCreateSignatureOrder, setCloseSignatureOrder, setAddSignatory} from '../state/store';
+import {ApiCredentials, setApiCredentials, clearApiCredentials, setCreateSignatureOrder, setCloseSignatureOrder, setAddSignatory} from '../state/store';
 import {useAppDispatch, useAppSelector} from '../state/hooks';
 
 interface GraphQLParams<T = any> {
@@ -171,6 +171,18 @@ export function CredentialsForm(props: {className?: string, children?: React.Rea
       </div>
     </form>
   )
+}
+
+export function ClearCredentialsButton() {
+  const credentials = useAppSelector(state => state.auth);
+  const dispatch = useAppDispatch();
+
+  const handleClick = () => {
+    dispatch(clearApiCredentials());
+  }
+
+  if (!credentials) return <p>No credentials configured.</p>;
+  return <button className="bg-blue text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={handleClick}>Clear credentials</button>;
 }
 
 function CredentialsOverlay(props: {onSkip?: () => void}) {
