@@ -87,6 +87,22 @@ export type CancelSignatureOrderOutput = {
   signatureOrder: SignatureOrder;
 };
 
+export type ChangeSignatoryInput = {
+  documents?: InputMaybe<Array<SignatoryDocumentInput>>;
+  /** Selectively enable evidence providers for this signatory. */
+  evidenceProviders?: InputMaybe<Array<SignatoryEvidenceProviderInput>>;
+  evidenceValidation?: InputMaybe<Array<SignatoryEvidenceValidationInput>>;
+  /** Will not be displayed to signatories, can be used as a reference to your own system. */
+  reference?: InputMaybe<Scalars['String']>;
+  signatoryId: Scalars['ID'];
+};
+
+export type ChangeSignatoryOutput = {
+  __typename?: 'ChangeSignatoryOutput';
+  signatory: Signatory;
+  signatureOrder: SignatureOrder;
+};
+
 export type CloseSignatureOrderInput = {
   signatureOrderId: Scalars['ID'];
 };
@@ -261,6 +277,8 @@ export type Mutation = {
   addSignatory?: Maybe<AddSignatoryOutput>;
   /** Cancels the signature order without closing it, use if you no longer need a signature order. Documents are deleted from storage after cancelling. */
   cancelSignatureOrder?: Maybe<CancelSignatureOrderOutput>;
+  /** Change an existing signatory */
+  changeSignatory?: Maybe<ChangeSignatoryOutput>;
   /** Finalizes the documents in the signature order and returns them to you as blobs. Documents are deleted from storage after closing. */
   closeSignatureOrder?: Maybe<CloseSignatureOrderOutput>;
   /** Creates a signature application for a given tenant. */
@@ -302,6 +320,11 @@ export type MutationAddSignatoryArgs = {
 
 export type MutationCancelSignatureOrderArgs = {
   input: CancelSignatureOrderInput;
+};
+
+
+export type MutationChangeSignatoryArgs = {
+  input: ChangeSignatoryInput;
 };
 
 
@@ -513,6 +536,8 @@ export type SignWithOidcJwtOutput = {
 
 export type Signatory = {
   __typename?: 'Signatory';
+  documents: SignatoryDocumentConnection;
+  evidenceProviders: Array<SignatureEvidenceProvider>;
   /** A link to the signatures frontend, you can send this link to your users to enable them to sign your documents. */
   href: Scalars['String'];
   id: Scalars['ID'];
@@ -691,26 +716,12 @@ export type ExampleAddSignatoryMutationVariables = Exact<{
 
 export type ExampleAddSignatoryMutation = { __typename?: 'Mutation', addSignatory?: { __typename?: 'AddSignatoryOutput', signatory: { __typename?: 'Signatory', id: string, href: string, token: string } } | null | undefined };
 
-export type ExampleAddSignatoryEvidenceValidationMutationVariables = Exact<{
-  input: AddSignatoryInput;
+export type ExampleChangeSignatoryMutationVariables = Exact<{
+  input: ChangeSignatoryInput;
 }>;
 
 
-export type ExampleAddSignatoryEvidenceValidationMutation = { __typename?: 'Mutation', addSignatory?: { __typename?: 'AddSignatoryOutput', signatory: { __typename?: 'Signatory', id: string, href: string } } | null | undefined };
-
-export type ExampleAddSignatoryPreapprovedMutationVariables = Exact<{
-  input: AddSignatoryInput;
-}>;
-
-
-export type ExampleAddSignatoryPreapprovedMutation = { __typename?: 'Mutation', addSignatory?: { __typename?: 'AddSignatoryOutput', signatory: { __typename?: 'Signatory', id: string, href: string } } | null | undefined };
-
-export type ExampleAddSignatoryScopedMutationVariables = Exact<{
-  input: AddSignatoryInput;
-}>;
-
-
-export type ExampleAddSignatoryScopedMutation = { __typename?: 'Mutation', addSignatory?: { __typename?: 'AddSignatoryOutput', signatory: { __typename?: 'Signatory', id: string, href: string } } | null | undefined };
+export type ExampleChangeSignatoryMutation = { __typename?: 'Mutation', changeSignatory?: { __typename?: 'ChangeSignatoryOutput', signatory: { __typename?: 'Signatory', id: string, href: string, token: string } } | null | undefined };
 
 export type SignatoryWebhookQueryVariables = Exact<{
   signatoryId: Scalars['ID'];

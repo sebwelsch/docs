@@ -84,7 +84,7 @@ export default function GraphQLExplorer(props: GraphQLExplorerProps) {
         dispatch(setCloseSignatureOrder(response.data.closeSignatureOrder));
       }
       if (response.data.addSignatory) {
-        dispatch(setAddSignatory(response.data.createSignatureOrder));
+        dispatch(setAddSignatory(response.data.addSignatory));
       }
     }
     if (props.onResponse) props.onResponse(response);

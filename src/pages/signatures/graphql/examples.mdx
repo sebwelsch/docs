@@ -96,3 +96,11 @@ Define `evidenceProviders` input when using `createSignatureOrder` to enable dra
 You can define `evidenceProviders` with `enabledByDefault: false` and then selectively enabling them using the `evidenceProviders` array input for `addSignatory`.
 
 <GraphQLExample example={{...addSignatoryExample, variables: addSignatoryExample.drawableExampleVariables}} />
+
+### Changing a signatory to selectively enable a evidence provider
+
+import * as changeSignatoryExample from '../../../examples/changeSignatory.graphql';
+
+You can define `evidenceProviders` with `enabledByDefault: false` and then selectively enabling them using the `evidenceProviders` array input for `changeSignatory`.
+
+<GraphQLExample example={{...changeSignatoryExample, variables: changeSignatoryExample.drawableExampleVariables}} />
