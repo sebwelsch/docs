@@ -189,6 +189,8 @@ export type CreateSignatureOrderWebhookInput = {
 /** Criipto Verify based evidence for signatures. */
 export type CriiptoVerifyProviderInput = {
   acrValues?: InputMaybe<Array<Scalars['String']>>;
+  /** Enforces that signatories sign by unique evidence by comparing the values of previous evidence on the key you define. For Criipto Verify you likely want to use `sub` which is a unique pseudonym value present in all e-ID tokens issued. */
+  uniqueEvidenceKey?: InputMaybe<Scalars['String']>;
 };
 
 export type DeleteApplicationApiKeyInput = {
@@ -410,6 +412,8 @@ export type OidcEvidenceProviderInput = {
   clientID: Scalars['String'];
   domain: Scalars['String'];
   name: Scalars['String'];
+  /** Enforces that signatories sign by unique evidence by comparing the values of previous evidence on the key you define. */
+  uniqueEvidenceKey?: InputMaybe<Scalars['String']>;
 };
 
 export type OidcJwtSignatureEvidenceProvider = {

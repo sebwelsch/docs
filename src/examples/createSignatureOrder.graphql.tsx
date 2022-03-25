@@ -85,3 +85,18 @@ export const drawableExampleVariables = () : {input: CreateSignatureOrderInput} 
     }
   };
 }
+
+export const uniqueEvidenceExampleVariables = () : {input: CreateSignatureOrderInput} => {
+  return {
+    input: {
+      ...variables().input,
+      evidenceProviders: [
+        {
+          criiptoVerify: {
+            uniqueEvidenceKey: 'sub'
+          }
+        }
+      ]
+    }
+  };
+}

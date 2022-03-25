@@ -83,6 +83,13 @@ If for any reason you no longer need a signature order you can abandon it by usi
 
 <GraphQLExample example={cancelSignatureOrderExample} />
 
+## Requiring unique e-IDs for each signatory
+
+If you do not wish signatories to be able to sign multiple times (i.e. not using a "role" system or just have issues with persons sharing e-ID)
+you can configure the Criipto Verify evidence provider to enforce uniqueness via the `uniqueEvidenceKey: 'sub'` setting.
+
+<GraphQLExample example={{...createSignatureOrderExample, variables: createSignatureOrderExample.uniqueEvidenceExampleVariables}} />
+
 ## Drawable signatures
 
 ### Creating a signature order with drawable enabled
