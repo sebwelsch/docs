@@ -1,6 +1,8 @@
 import React, {useReducer} from 'react';
 import { Link } from "gatsby";
 
+import { OperationsStatusProvider, OperationsStatusIcon, OperationsStatusTrigger } from '@criipto/ui-operations-status';
+
 import Search from './Search';
 
 import logo from '../images/criipto-logo.svg';
@@ -16,8 +18,8 @@ export default function Header(props: {path: string | undefined}) {
     <React.Fragment>
       <header className="sticky top-0 z-40 w-full backdrop-blur flex-none duration-500 lg:z-50 lg:border-b lg:border-gray-900/10 bg-blue/95 supports-backdrop-blur:bg-blue/60">
         <div className="max-w-screen-2xl mx-auto">
-          <div className="py-4 border-b border-gray-900/10 lg:px-8 lg:border-0 mx-4 lg:mx-0 flex justify-between items-center">
-            <div className="relative flex items-center">
+          <div className="py-4 border-b border-gray-900/10 lg:px-8 lg:border-0 mx-4 lg:mx-0 flex justify-between items-center gap-6">
+            <div className="relative flex items-center flex-1">
               <a href="/" className="mr-3 flex-none text-white text-2xl flex items-center">
                 <img src={logo} alt="Criipto" />
                 DOCS
@@ -86,13 +88,23 @@ export default function Header(props: {path: string | undefined}) {
               </button>
             </div>
             
-            <div>
-              <a href="https://manage.criipto.id" target="_blank" className="text-white font-bold mr-2 py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                Log In
-              </a>
-              <a href="https://criipto.com" target="_blank" className="bg-white text-blue font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                Sign Up
-              </a>
+            <div className="flex items-center relative">
+              <OperationsStatusProvider>
+                <OperationsStatusTrigger overlayClassname="top-[35px] right-0">
+                  <OperationsStatusIcon />
+                  <span className="ml-2 inline-block text-white cursor-pointer font-bold hover:text-cyan-300">Operations Status</span>
+                </OperationsStatusTrigger>
+              </OperationsStatusProvider>
+            </div>
+            <div className="flex items-center">
+              <div>
+                <a href="https://manage.criipto.id" target="_blank" className="text-white font-bold mr-2 py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                  Log In
+                </a>
+                <a href="https://criipto.com" target="_blank" className="bg-white text-blue font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                  Sign Up
+                </a>
+              </div>
             </div>
           </div>
         </div>
