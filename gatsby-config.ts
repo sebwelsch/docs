@@ -1,6 +1,8 @@
-require("dotenv").config();
+import type { GatsbyConfig } from "gatsby"
+import {config as dotenv} from 'dotenv';
+dotenv();
 
-module.exports = {
+const config : GatsbyConfig = {
   siteMetadata: {
     siteUrl: "https://new-docs-test.criipto.com",
     title: "Criipto Documentation for Verify and Signatures",
@@ -52,7 +54,7 @@ module.exports = {
         appId: process.env.GATSBY_ALGOLIA_APP_ID,
         apiKey: process.env.ALGOLIA_ADMIN_KEY,
         queries: require("./src/utils/algolia-queries")
-      },
+      } as any,
     }
   ] : [])
   .concat(process.env.SENTRY_DSN ? [
@@ -61,7 +63,9 @@ module.exports = {
       options: {
         dsn: process.env.SENTRY_DSN,
         sampleRate: 0.7,
-      },
+      } as any,
     }
   ] : []),
 };
+
+export default config;
