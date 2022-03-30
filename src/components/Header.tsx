@@ -1,8 +1,9 @@
 import React, {useReducer} from 'react';
-import { StaticImage } from "gatsby-plugin-image";
 import { Link } from "gatsby";
 
 import Search from './Search';
+
+import logo from '../images/criipto-logo.svg';
 
 export default function Header(props: {path: string | undefined}) {
   const [showDropdown, toggleDropdown] = useReducer((value) => !value, false);
@@ -18,13 +19,7 @@ export default function Header(props: {path: string | undefined}) {
           <div className="py-4 border-b border-gray-900/10 lg:px-8 lg:border-0 mx-4 lg:mx-0 flex justify-between items-center">
             <div className="relative flex items-center">
               <a href="/" className="mr-3 flex-none text-white text-2xl flex items-center">
-                <StaticImage
-                  src="../images/criipto-logo.svg"
-                  alt="Criipto"
-                  loading="eager"
-                  placeholder='none'
-                  quality={90}
-                />
+                <img src={logo} alt="Criipto" />
                 DOCS
               </a>
 
