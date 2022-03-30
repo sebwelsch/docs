@@ -115,6 +115,25 @@ The current OTP card(s) can be accessed on the same testtools-site as above.
 Unfortunately, it is not possible to use the testtools-site to create your own test-employee users.
 If you need to have your own test-MOCES accounts created, you must contact NETS directly.
 
+## Available data / scopes
+If you collect the users CPR number, the users current address can also be made available. Address lookups incur an additional charge.
+
+Data processor and dedicated billing agreements are needed, contact sales@criipto.com for the legal and financial arrangements. 
+
+For applications configured to use a `static` `scope` strategy, address data will automatically be added.
+
+For applications configured to use a `dynamic` `scope` strategy, supply `scope=openid address` in the authorize request.
+
+### Example (partial) authorize request with scope
+```
+https://YOUR_SUBDOMAIN.criipto.id/oauth2/authorize?scope=openid address&...
+```
+Alternatively, you can send it in the `login_hint`
+```
+https://YOUR_SUBDOMAIN.criipto.id/oauth2/authorize?...&login_hint=scope:address&...
+```
+which can be a useful if you are working with technology that does not let you control the `scope` value.
+
 ## Order NemID for production
 
 To start accepting real users with Danish NemID, you must first enter into a service provider agreement (Danish: "Tjenestedudbyderaftale") with Nets, the operator of NemID.

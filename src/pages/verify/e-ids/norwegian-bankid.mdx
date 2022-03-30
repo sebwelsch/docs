@@ -54,17 +54,29 @@ For testing you may order up to three test SIM cards through Criipto once you ha
 
 ## Data and consent for Norwegian BankID
 
-### Available data
+### Available data / scopes
 Basic user information, full name, and date of birth are always made available. Additional data may be requested and is released with explicit user consent only.
 
-| **Data type** | **Released** | **Verified** |
-| --- | --- |
-| Full name | Always | Yes |
-| Date of birth | Always | Yes |
-| SSN ("fødselsnummer" in Norwegian) | User consent | Yes |
-| Address | With user consent | No |
-| Email | With user consent | No |
-| Phone number | With user consent | No |
+For applications configured to use a `dynamic` `scope` strategy, the following `scope` tokens can be supplied: `address`, `email`, `phone` and `ssn`.
+
+| **Data type** | **Released** | **Verified** | **scope** | **login_hint**
+| --- | --- | --- | --- | --- |
+| Full name | Always | Yes | | |
+| Date of birth | Always | Yes | | |
+| SSN ("fødselsnummer" in Norwegian) | User consent | Yes | `ssn` | `scope:ssn` |
+| Address | With user consent | No | `address` | `scope:address` |
+| Email | With user consent | No | `email` | `scope:email` |
+| Phone number | With user consent | No | `phone` | `scope:phone` |
+
+#### Example (partial) authorize request with scopes
+```
+https://YOUR_SUBDOMAIN.criipto.id/oauth2/authorize?scope=openid email address&...
+```
+Alternatively, you can send them in the `login_hint`
+```
+https://YOUR_SUBDOMAIN.criipto.id/oauth2/authorize?...&login_hint=scope:email scope:address&...
+```
+which can be a useful if you are working with technology that does not let you control the `scope` value.
 
 Access to the SSN is governed by Norwegian law, as described in the [Ordering Norwegian BankID](/eid-specifics/order-no-bankid) guide.
 
