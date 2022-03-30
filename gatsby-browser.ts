@@ -1,3 +1,4 @@
+import { GatsbyBrowser } from 'gatsby';
 import './src/styles/global.css';
 import '@fontsource/roboto-slab/300.css';
 import '@fontsource/roboto-slab/600.css';
@@ -9,5 +10,5 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 
 import wrapWithProvider from "./src/state/wrap-with-provider";
-export const wrapRootElement = wrapWithProvider;
+export const wrapRootElement : GatsbyBrowser["wrapRootElement"] = wrapWithProvider;
 library.add(fas);
