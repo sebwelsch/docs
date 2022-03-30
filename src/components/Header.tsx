@@ -85,6 +85,15 @@ export default function Header(props: {path: string | undefined}) {
                 </svg>
               </button>
             </div>
+            
+            <div>
+              <a href="https://manage.criipto.id" target="_blank" className="text-white font-bold mr-2 py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                Log In
+              </a>
+              <a href="https://criipto.com" target="_blank" className="bg-white text-blue font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                Sign Up
+              </a>
+            </div>
           </div>
         </div>
       </header>
