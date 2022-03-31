@@ -52,7 +52,7 @@ export const createPages : GatsbyNode["createPages"] = ({ actions }) => {
   });
   createRedirect({
     fromPath: "/how-to/apply-custom-styling/",
-    toPath: "/verify/custom-styling",
+    toPath: "/verify/guides/custom-styling",
     isPermanent: true, 
     force: true
   });
