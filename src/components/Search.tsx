@@ -41,6 +41,7 @@ interface Hit {
 
 interface HitProps {
   hit: Hit;
+  onClick?: React.MouseEventHandler
 }
 
 function upperFirst(input: string) {
@@ -48,9 +49,7 @@ function upperFirst(input: string) {
   return input.substr(0, 1).toUpperCase() + input.substr(1);
 }
 
-export const Hit = ({ hit }: HitProps) => {
-  console.log(hit);
-  // if (toc) console.log(toc);
+export const Hit = ({ hit, onClick }: HitProps) => {
   const path = `/${hit.slug}/`;
 
   const toc = hit.tableOfContents?.items?.map((item, i) => {
@@ -59,11 +58,8 @@ export const Hit = ({ hit }: HitProps) => {
       hasMatch: hit._highlightResult.tableOfContents?.items?.[i].title.matchedWords?.length || false
     }
   }).filter(t => t.hasMatch) || [];
-
-  console.log(toc);
-
   return (
-    <div className="mb-4">
+    <div className="mb-4" onClick={onClick}>
       <Link to={path} className="block text-xl font-extrabold text-gray-900 tracking-tight mb-0 mt-0 no-underline">
         <Highlight attribute="title" hit={hit} tagName="mark" /> - {hit.category}
       </Link>
@@ -75,7 +71,7 @@ export const Hit = ({ hit }: HitProps) => {
       {toc.length ? (
         <ul>
           {toc.map(c => 
-            <li>
+            <li key={c.url}>
               <Link to={`${path}${c.url}`}>
                 {c.title}
               </Link>
@@ -87,19 +83,24 @@ export const Hit = ({ hit }: HitProps) => {
   );
 }
 
-export default function Search() {
+interface SearchProps {
+  onHide?: () => void
+}
+
+export default function Search(props: SearchProps) {
   const [query, setQuery] = useState('');
 
   return (
     <InstantSearch searchClient={algoliasearch(process.env.GATSBY_ALGOLIA_APP_ID!, process.env.GATSBY_ALGOLIA_SEARCH_KEY!)} indexName={process.env.GATSBY_ALGOLIA_INDEX_NAME!}>
       <SearchBox autoFocus className="mb-2" onChange={(event) => setQuery((event.target as any).value)} />
-      {query.length ? <Hits /> : null}
+      {query.length ? <Hits onHitClick={props.onHide} /> : null}
     </InstantSearch>
   );
 }
 
 type HitsProps = {
-  hits: Hit[]
+  hits: Hit[],
+  onHitClick?: React.MouseEventHandler
 };
 
 type HitProductGroup = {
@@ -122,7 +123,7 @@ function HitsComponent(props: HitsProps) {
             Criipto {upperFirst(product)}
           </h2>
             {productGroups[product].map((hit) => (
-              <Hit hit={hit} key={hit.objectID} />
+              <Hit hit={hit} key={hit.objectID} onClick={props.onHitClick} />
             ))}
         </div>
       ))}
@@ -130,4 +131,4 @@ function HitsComponent(props: HitsProps) {
   );
 }
 
-const Hits = connectHits(HitsComponent);
+const Hits = connectHits<any, Hit>(HitsComponent);
