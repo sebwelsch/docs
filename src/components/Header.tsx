@@ -1,4 +1,4 @@
-import React, {useReducer} from 'react';
+import React, {useEffect, useReducer, useState} from 'react';
 import { Link } from "gatsby";
 
 import { OperationsStatusProvider, OperationsStatusIcon, OperationsStatusTrigger } from '@criipto/ui-operations-status';
@@ -9,10 +9,19 @@ import logo from '../images/criipto-logo.svg';
 
 export default function Header(props: {path: string | undefined}) {
   const [showDropdown, toggleDropdown] = useReducer((value) => !value, false);
-  const [showSearch, toggleSearch] = useReducer(value => !value, false);
+  const [showSearch, setShowSearch] = useState(false);
   const {path} = props;
   const isVerify = path?.startsWith('/verify');
   const isSignatures = path?.startsWith('/signatures');
+
+  useEffect(() => {
+    const handler = (event: KeyboardEvent) => {
+      if (event.key === '/') setShowSearch(true);
+    };
+
+    document.addEventListener('keyup', handler);
+    return () => document.removeEventListener('keyup', handler);
+  }, []);
 
   return (
     <React.Fragment>
@@ -72,7 +81,7 @@ export default function Header(props: {path: string | undefined}) {
                 )}
               </div>
 
-              <button onClick={() => toggleSearch()} type="button" className="hidden lg:flex items-center w-64 text-sm leading-6 bg-white text-slate-400 rounded-md ring-1 ring-slate-900/10 shadow-sm py-1.5 pl-2 pr-3 hover:ring-slate-300 ml-4">
+              <button onClick={() => setShowSearch(true)} type="button" className="hidden lg:flex items-center w-64 text-sm leading-6 bg-white text-slate-400 rounded-md ring-1 ring-slate-900/10 shadow-sm py-1.5 pl-2 pr-3 hover:ring-slate-300 ml-4">
                 <svg width="24" height="24" fill="none" aria-hidden="true" className="mr-3 flex-none">
                   <path d="m19 19-3.5-3.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path>
                   <circle cx="11" cy="11" r="6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></circle>
@@ -80,7 +89,7 @@ export default function Header(props: {path: string | undefined}) {
                 Search...
               </button>
 
-              <button onClick={() => toggleSearch()} type="button" className="ml-auto text-white w-8 h-8 -my-1 flex items-center justify-center lg:hidden">
+              <button onClick={() => setShowSearch(true)} type="button" className="ml-auto text-white w-8 h-8 -my-1 flex items-center justify-center lg:hidden">
                 <span className="sr-only">Search</span>
                 <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <path d="m19 19-3.5-3.5"></path><circle cx="11" cy="11" r="6"></circle>
@@ -112,10 +121,10 @@ export default function Header(props: {path: string | undefined}) {
 
       <div
         className={`backdrop-blur-sm bg-black/30 fixed h-screen w-screen top-0 left-0 right-0 z-50 p-4 items-center justify-center ${showSearch ? 'flex' : 'hidden'}`}
-        onClick={() => toggleSearch()}
+        onClick={() => setShowSearch(false)}
       >
         <div className="bg-white rounded-md p-4 w-full h-full max-w-2xl lg:max-h-[42rem] overflow-auto prose" onClick={(event) => event.stopPropagation()}>
-          {showSearch ? <Search /> : null}
+          {showSearch ? <Search onHide={() => setShowSearch(false)} /> : null}
         </div>
       </div>
     </React.Fragment>
