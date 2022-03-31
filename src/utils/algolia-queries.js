@@ -13,6 +13,7 @@ const pageQuery = `{
         }
         slug
         excerpt(pruneLength: 5000)
+        tableOfContents(maxDepth: 3)
       }
     }
   }
