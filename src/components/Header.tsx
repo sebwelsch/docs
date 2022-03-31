@@ -16,11 +16,12 @@ export default function Header(props: {path: string | undefined}) {
 
   useEffect(() => {
     const handler = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setShowSearch(false);
       if (event.key === '/') setShowSearch(true);
     };
 
-    document.addEventListener('keydown', handler);
-    return () => document.removeEventListener('keydown', handler);
+    document.addEventListener('keyup', handler);
+    return () => document.removeEventListener('keyup', handler);
   }, []);
 
   return (
