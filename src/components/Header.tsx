@@ -19,8 +19,8 @@ export default function Header(props: {path: string | undefined}) {
       if (event.key === '/') setShowSearch(true);
     };
 
-    document.addEventListener('keyup', handler);
-    return () => document.removeEventListener('keyup', handler);
+    document.addEventListener('keydown', handler);
+    return () => document.removeEventListener('keydown', handler);
   }, []);
 
   return (
@@ -124,6 +124,9 @@ export default function Header(props: {path: string | undefined}) {
         onClick={() => setShowSearch(false)}
       >
         <div className="bg-white rounded-md p-4 w-full h-full max-w-2xl lg:max-h-[42rem] overflow-auto prose" onClick={(event) => event.stopPropagation()}>
+          <p className="mb-2 text-sm">
+            Tip: You can also use keyboard shortcut '/' to access search
+          </p>
           {showSearch ? <Search onHide={() => setShowSearch(false)} /> : null}
         </div>
       </div>
