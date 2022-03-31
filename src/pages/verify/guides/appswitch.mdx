@@ -3,11 +3,13 @@ product: verify
 category: Guides & Tools
 sort: 1
 title: App switching
-subtitle: How to use Criipto Verify in app-switch mode (native apps)
+subtitle: How to use Criipto Verify in app-switch mode
 ---
 import Layout from '../../../layouts/mdx';
 
 export default Layout;
+
+## Native apps
 
 If you are building a native app, and would like to get the smoothest possible UX, you can use Criipto Verify's app-switching capabilities (for e-ID's that support it).
 
@@ -25,7 +27,7 @@ The value must be sent in the `login_hint` query parameter. Further details on t
 
 Your app is responsible for sending the appropriate value for the platform it is deployed on.
 
-## Swedish BankID
+### Swedish BankID
 App switch is supported for the same-device login flow (`acr_values=urn:grn:authn:se:bankid:same-device`).
 
 We recommend that you use `response_mode=query` for this flow.
@@ -70,7 +72,7 @@ The response will be either a `302 Redirect` (with a `Location` HTTP response he
 
 - `400 Bad Request`: Can have several causes, we recommend that you invoke the `cancelUrl` and present the user with the option to login again.
 
-## Danish MitID
+### Danish MitID
 
 You must (still) use a either a `Custom Tab` (on `Android`) or an `SFAuthenticationSession` (on `iOS`) to run the login flow in your app, but an app-switch button will show up in the MitID Core Client, allowing the user to launch the MitID app from the browser.
 
@@ -81,3 +83,29 @@ On `iOS`, you can also use an `SFSafariViewController` if the `SFAuthenticationS
 </Highlight>
 
 Once the flow completes, the MitID app will perform an app-switch back to your app, which makes the `Custom Tab` / `SFAuthenticationSession` resume its operation, thus completing the login process by issuing an `OAuth2` formatted response to your native app.
+
+
+## Web apps
+
+### Danish MitID
+
+The MitID login UX to web apps can also benefit from app-switching. 
+When using this flow, a "Start the MitID app" button will be presented to the user after they have entered their username, just as in the case for native app targets.
+Clicking this button will launch the MitID app - so the user does not have to find it and open it manually.
+
+You can activate this behavior by adding a `target:web` token in the `login_hint` query parameter.
+
+```text
+You must also add the platform-specific `appswitch:...` token as described above for native apps.
+```
+
+Your web application is responsible for detecting if the user is browsing your site on a mobile device.
+You will need that information to determine whether to send `appswitch:ios` or `appswitch:android`.
+
+In contrast to native apps, there is no way that your web app can determine if the native MitID app is installed on the device.
+Only the end user knows this - so you need to let them choose between the 2 flow options in your web app.
+
+#### Android caveat
+The login flow pauses in the MitID app after the user has authenticated, and the user must manually switch back to the browser.
+The login process will automatically complete after the manual switch-back. 
+This is the same behavior that end-users are familiar with from NemID app-based logins.
