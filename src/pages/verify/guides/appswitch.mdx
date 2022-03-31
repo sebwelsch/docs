@@ -95,9 +95,11 @@ Clicking this button will launch the MitID app - so the user does not have to fi
 
 You can activate this behavior by adding a `target:web` token in the `login_hint` query parameter.
 
-```text
+<Highlight icon="file-lines">
+
 You must also add the platform-specific `appswitch:...` token as described above for native apps.
-```
+
+</Highlight>
 
 Your web application is responsible for detecting if the user is browsing your site on a mobile device.
 You will need that information to determine whether to send `appswitch:ios` or `appswitch:android`.
