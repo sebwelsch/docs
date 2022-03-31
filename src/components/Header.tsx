@@ -88,7 +88,7 @@ export default function Header(props: {path: string | undefined}) {
               </button>
             </div>
             
-            <div className="flex items-center relative">
+            <div className="hidden lg:flex items-center relative">
               <OperationsStatusProvider>
                 <OperationsStatusTrigger overlayClassname="top-[35px] right-0">
                   <OperationsStatusIcon />
@@ -96,7 +96,7 @@ export default function Header(props: {path: string | undefined}) {
                 </OperationsStatusTrigger>
               </OperationsStatusProvider>
             </div>
-            <div className="flex items-center">
+            <div className="hidden lg:flex items-center">
               <div>
                 <a href="https://manage.criipto.id" target="_blank" className="text-white font-bold mr-2 py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                   Log In
