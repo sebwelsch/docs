@@ -13,7 +13,10 @@ interface AuthorizeURLOptions {
   response_mode: "query" | "fragment",
   acr_values: string[],
   acr_values_quirk: "none" | "login_hint" | "path",
-  nonce: string
+  nonce: string,
+  availableScopes : string[]
+  selectedScopes : string []
+  scopes_quirk : string
 }
 
 const isBrowser = typeof window !== "undefined";
@@ -33,7 +36,10 @@ export default function AuthorizeURLBuilder() {
     response_mode: 'fragment',
     acr_values: [],
     acr_values_quirk: "none",
-    nonce: `ecnon-${randomUUID()}`
+    nonce: `ecnon-${randomUUID()}`,
+    availableScopes: [],
+    selectedScopes : [],
+    scopes_quirk : 'none'
   });
 
   const updateOption = (key: keyof AuthorizeURLOptions, event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => {
@@ -60,9 +66,43 @@ export default function AuthorizeURLBuilder() {
         acr_values = acr_values.concat([acrValue]);
       }
 
+      let scopeCandidates =
+        acr_values.flatMap(acrValue => {
+          return PROVIDERS.flatMap(provider => {
+            return provider.authMethods.filter(am => am.acrValue === acrValue);
+          })
+        }).map(authMethod => authMethod.scopes || []);
+
+      let seed = scopeCandidates.shift() || [];
+      let availableScopes = scopeCandidates.reduce((memo, ary) => {
+        return memo.filter(i => ary.includes(i));
+      }, seed);
+
+      let selectedScopes =
+        options.selectedScopes.filter(selScope => {
+          return availableScopes.includes(selScope);
+        });
+
       return {
         ...options,
-        acr_values
+        acr_values,
+        availableScopes,
+        selectedScopes
+      };
+    })
+  }
+
+  const toggleScope = (scope : string) => {
+    setOptions(options => {
+      let selectedScopes = options.selectedScopes;
+      if (selectedScopes.includes(scope)) {
+        selectedScopes = selectedScopes.filter(s => s !== scope);
+      } else {
+        selectedScopes = selectedScopes.concat([scope]);
+      }
+      return {
+        ...options,
+        selectedScopes
       };
     })
   }
@@ -74,17 +114,33 @@ export default function AuthorizeURLBuilder() {
     if (key == 'acr_values') continue;
     if (key == 'acr_values_quirk') continue;
     if (key == 'domain') continue;
+    if (key == 'availableScopes') continue;
+    if (key == 'selectedScopes') continue;
+    if (key == 'scopes_quirk') continue;
     url.searchParams.set(key, options[key]);
   }
 
+  let loginHint = [];
   if (options.acr_values.length) {
     if (options.acr_values_quirk == 'login_hint' && options.acr_values.length === 1) {
-      url.searchParams.set('login_hint', `acr_values:${options.acr_values.join(' ')}`);
+      loginHint.unshift(`acr_values:${options.acr_values.join(' ')}`);
     } else if (options.acr_values_quirk == 'path' && options.acr_values.length === 1) {
       url.pathname = `${btoa(options.acr_values[0])}/oauth2/authorize`;
     } else {
       url.searchParams.set('acr_values', options.acr_values.join(' '));
     }
+  }
+
+  if (options.selectedScopes.length) {
+    if (options.scopes_quirk == 'login_hint') {
+      let tokens = options.selectedScopes.map(s => `scope:${s}`);
+      loginHint.unshift(`${tokens.join(' ')}`);
+    } else {
+      url.searchParams.set('scope', `openid ${options.selectedScopes.join(' ')}`);
+    }
+  }
+  if (loginHint.length > 0) {
+    url.searchParams.set('login_hint', loginHint.join(' '));
   }
 
   return (
@@ -213,6 +269,46 @@ export default function AuthorizeURLBuilder() {
           </div>
         ))}
       </div>
+
+      {options.availableScopes.length > 0 ? (
+        <div>
+          <label>
+            scopes
+          </label>
+          {options.availableScopes.map(scope => (
+            <label className="text-gray-700 text-sm block my-2">
+                <input
+                  type="checkbox"
+                  id={scope}
+                  className="mr-2"
+                  checked={options.selectedScopes.includes(scope)}
+                  onChange={() => toggleScope(scope)}
+                />
+                {scope}
+            </label>
+          ))}
+
+          <div className="mb-4 grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="scopes_quirk">
+                scopes quirk handling
+              </label>
+              <select className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="scopes_quirk"
+                placeholder="scopes quirk handling"
+                value={options.scopes_quirk}
+                onChange={(event) => updateOption('scopes_quirk', event)}
+              >
+                <option value="none">none</option>
+                <option value="login_hint">login_hint</option>
+              </select>
+              <small>
+                Some integrations, like Auth0, require that you pass scopes through the login_hint.<br />
+              </small>
+            </div>
+          </div>
+        </div>
+      ) : null}
       
       {options.acr_values.length == 1 ? (
         <div className="mb-4 grid grid-cols-2 gap-4">
