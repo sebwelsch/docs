@@ -85,13 +85,14 @@ export const Hit = ({ hit, onClick }: HitProps) => {
 
 interface SearchProps {
   onHide?: () => void
+  query?: string
 }
 
 export default function Search(props: SearchProps) {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState(props.query || '');
 
   return (
-    <InstantSearch searchClient={algoliasearch(process.env.GATSBY_ALGOLIA_APP_ID!, process.env.GATSBY_ALGOLIA_SEARCH_KEY!)} indexName={process.env.GATSBY_ALGOLIA_INDEX_NAME!}>
+    <InstantSearch searchState={{query}} searchClient={algoliasearch(process.env.GATSBY_ALGOLIA_APP_ID!, process.env.GATSBY_ALGOLIA_SEARCH_KEY!)} indexName={process.env.GATSBY_ALGOLIA_INDEX_NAME!}>
       <SearchBox autoFocus className="mb-2" onChange={(event) => setQuery((event.target as any).value)} />
       {query.length ? <Hits onHitClick={props.onHide} /> : null}
     </InstantSearch>
