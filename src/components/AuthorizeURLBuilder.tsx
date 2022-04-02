@@ -16,7 +16,7 @@ interface AuthorizeURLOptions {
   nonce: string,
   availableScopes : string[]
   selectedScopes : string []
-  scopes_quirk : string
+  scopes_quirk : "none" | "login_hint"
 }
 
 const isBrowser = typeof window !== "undefined";
@@ -272,7 +272,7 @@ export default function AuthorizeURLBuilder() {
 
       {options.availableScopes.length > 0 ? (
         <div>
-          <label>
+          <label className="block text-gray-700 text-sm font-bold mb-2">
             scopes
           </label>
           {options.availableScopes.map(scope => (
@@ -287,31 +287,31 @@ export default function AuthorizeURLBuilder() {
                 {scope}
             </label>
           ))}
-
-          <div className="mb-4 grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="scopes_quirk">
-                scopes quirk handling
-              </label>
-              <select className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="scopes_quirk"
-                placeholder="scopes quirk handling"
-                value={options.scopes_quirk}
-                onChange={(event) => updateOption('scopes_quirk', event)}
-              >
-                <option value="none">none</option>
-                <option value="login_hint">login_hint</option>
-              </select>
-              <small>
-                Some integrations, like Auth0, require that you pass scopes through the login_hint.<br />
-              </small>
-            </div>
-          </div>
         </div>
       ) : null}
-      
-      {options.acr_values.length == 1 ? (
-        <div className="mb-4 grid grid-cols-2 gap-4">
+
+      <div className="mb-4 grid grid-cols-2 gap-4">
+        {options.availableScopes.length > 0 ? (
+          <div>
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="scopes_quirk">
+              scopes quirk handling
+            </label>
+            <select className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="scopes_quirk"
+              placeholder="scopes quirk handling"
+              value={options.scopes_quirk}
+              onChange={(event) => updateOption('scopes_quirk', event)}
+            >
+              <option value="none">none</option>
+              <option value="login_hint">login_hint</option>
+            </select>
+            <small>
+              Some integrations, like Auth0, require that you pass scopes through the login_hint.<br />
+            </small>
+          </div>
+        ) : null}
+
+        {options.acr_values.length == 1 ? (
           <div>
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="acr_values_quirk">
               acr_values quirk handling
@@ -333,8 +333,8 @@ export default function AuthorizeURLBuilder() {
               (only supported with a single selected acr_value)
             </small>
           </div>
-        </div>
-      ) : null}
+        ) : null}
+      </div>
 
       <URLCodeBlock url={url} />
     </React.Fragment>
