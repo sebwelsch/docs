@@ -27,14 +27,44 @@ export const createPages : GatsbyNode["createPages"] = ({ actions }) => {
     force: true
   });
   createRedirect({
-    fromPath: "/eid-specifics/*", 
-    toPath: "/verify/eid-specifics/:splat", 
+    fromPath: '/eid-specifics/order-dk-nemid',
+    toPath: '/verify/e-ids/danish-nemid/#order-nemid-for-production',
+    isPermanent: true, 
+    force: true
+  });
+  createRedirect({
+    fromPath: '/eid-specifics/order-dk-mitid',
+    toPath: '/verify/e-ids/danish-mitid/#order-mitid-for-production',
+    isPermanent: true, 
+    force: true
+  });
+  createRedirect({
+    fromPath: '/eid-specifics/order-no-bankid',
+    toPath: '/verify/e-ids/norwegian-bankid/#ordering-norwegian-bankid',
+    isPermanent: true, 
+    force: true
+  });
+  createRedirect({
+    fromPath: '/eid-specifics/order-no-vipps',
+    toPath: '/verify/e-ids/norwegian-vipps/#ordering-norwegian-vipps-login',
+    isPermanent: true, 
+    force: true
+  });
+  createRedirect({
+    fromPath: '/eid-specifics/order-se-bankid',
+    toPath: '/verify/e-ids/swedish-bankid/#ordering-swedish-bankid',
+    isPermanent: true, 
+    force: true
+  });
+  createRedirect({
+    fromPath: '/eid-specifics/order-fi-bankid',
+    toPath: '/verify/e-ids/finnish-trust-network/#ordering-a-production-agreement',
     isPermanent: true, 
     force: true
   });
   createRedirect({
     fromPath: "/eid-specifics", 
-    toPath: "/verify/eid-specifics", 
+    toPath: "/verify/e-ids", 
     isPermanent: true, 
     force: true
   });
