@@ -12,6 +12,18 @@ const config : GatsbyConfig = {
     "gatsby-plugin-react-helmet",
     "gatsby-plugin-sitemap",
     {
+      resolve: `gatsby-plugin-manifest`,
+      options: {
+        name: "Criipto Documentation",
+        short_name: "Criipto Docs",
+        start_url: "/",
+        background_color: "#204c82",
+        theme_color: "#204c82",
+        display: "browser",
+        icon: "src/images/icon.png"
+      },
+    },
+    {
       resolve: "gatsby-plugin-mdx",
       options: {
         root: __dirname,
