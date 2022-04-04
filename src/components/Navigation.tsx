@@ -111,14 +111,14 @@ export default function Navigation(props: Props) {
   return (
     <ul>
       {categories.map((category, index) => (
-        <li key={category} className={index > 0 ? 'mt-12 lg:mt-8' : ''}>
-          <h5 className="mb-8 lg:mb-3 font-semibold text-blue">{category}</h5>
-          <ul className="space-y-6 lg:space-y-2 border-l border-gray-100">
+        <li key={category} className={index > 0 ? 'mt-8' : ''}>
+          <h5 className="mb-3 font-semibold text-blue">{category}</h5>
+          <ul className="space-y-2 border-l border-gray-100">
             {pages.filter(node => node.frontmatter?.category === category).map(page => (
               <li key={page.id}>
                 <Link
                   to={slugToPath(page.slug!)}
-                  getProps={(props) => ({className: `block border-l pl-4 -ml-px border-transparent ${props.isCurrent ? 'text-blue border-current font-semibold' : 'hover:border-gray-400 text-gray-700 hover:text-gray-900'}`})}
+                  getProps={(props) => ({className: `block border-l pl-4 py-1 lg:py-0 -ml-px border-transparent ${props.isCurrent ? 'text-blue border-current font-semibold' : 'hover:border-gray-400 text-gray-700 hover:text-gray-900'}`})}
                 >
                   {page.frontmatter!.title}
                 </Link>
