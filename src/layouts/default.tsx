@@ -1,7 +1,7 @@
 import React from 'react';
 import { Helmet } from "react-helmet";
 
-import {DesktopNavigation} from '../components/Navigation';
+import {DesktopNavigation, MobileNavigation} from '../components/Navigation';
 import Header from '../components/Header';
 
 function upperFirst(input: string) {
@@ -30,8 +30,9 @@ export default function DefaultLayout(props: {children: React.ReactNode, pageCon
       </Helmet>
 
       <Header path={props.path} />
+      <MobileNavigation path={props.path} frontmatter={frontmatter} />
       <div className="px-4 sm:px-6 md:px-8">
-        <div className="max-w-screen-2xl mx-auto pt-10 lg:pl-[19.5rem] xl:pr-[19.5rem]">
+        <div className="max-w-screen-2xl mx-auto pt-5 lg:pt-10 lg:pl-[19.5rem] xl:pr-[19.5rem]">
           <DesktopNavigation path={props.path} />
           <a id="overview" style={{position: "relative", top: "-95px"}} />
           {frontmatter && (

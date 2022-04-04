@@ -9,7 +9,7 @@ export const textToId = function (input: string) {
 }
 export const H2 = (props: {children: string}) => (
   <h2 {...props} className="group flex whitespace-pre-wrap -ml-4 pl-4">
-    <a id={textToId(props.children)} style={{position: "relative", top: "-90px"}} />
+    <a id={textToId(props.children)} className="relative top-[-150px] lg:top-[-90px]"/>
     <a
       href={`#${textToId(props.children)}`}
       className="absolute -ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 z-30"
@@ -27,7 +27,7 @@ export const H2 = (props: {children: string}) => (
 
 export const H3 = (props: {children: string}) => (
   <h3 {...props} className="group flex whitespace-pre-wrap -ml-4 pl-4">
-    <a id={textToId(props.children)} style={{position: "relative", top: "-90px"}} />
+    <a id={textToId(props.children)} className="relative top-[-150px] lg:top-[-90px]" />
     <a
       href={`#${textToId(props.children)}`}
       className="absolute -ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100"

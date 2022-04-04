@@ -6,6 +6,7 @@ import { OperationsStatusProvider, OperationsStatusIcon, OperationsStatusTrigger
 import Search from './Search';
 
 import logo from '../images/criipto-logo.svg';
+import lock from '../images/criipto-lock.svg';
 
 export default function Header(props: {path: string | undefined}) {
   const [showDropdown, toggleDropdown] = useReducer((value) => !value, false);
@@ -31,7 +32,8 @@ export default function Header(props: {path: string | undefined}) {
           <div className="py-4 border-b border-gray-900/10 lg:px-8 lg:border-0 mx-4 lg:mx-0 flex justify-between items-center gap-6">
             <div className="relative flex items-center flex-1">
               <a href="/" className="mr-3 flex-none text-white text-2xl flex items-center">
-                <img src={logo} alt="Criipto" />
+                <img src={logo} alt="Criipto" className="hidden lg:inline" />
+                <img src={lock} alt="Criipto" className="lg:hidden h-[20px] mr-1" />
                 DOCS
               </a>
 
@@ -61,7 +63,7 @@ export default function Header(props: {path: string | undefined}) {
                   )}
                 </button>
                 {showDropdown && (
-                  <div className="absolute top-full mt-1 py-2 w-60 rounded-lg bg-white shadow ring-1 ring-gray-900/5 text-sm leading-6 font-semibold text-gray-700">
+                  <div className="absolute top-full mt-1 py-2 w-60 rounded-lg bg-white shadow ring-1 ring-gray-900/5 text-sm leading-6 font-semibold text-gray-700 z-60">
                     <Link to="/verify">
                       <span className="flex items-center justify-between px-3 py-1 text-blue">
                         Verify (e-IDs)
@@ -125,7 +127,14 @@ export default function Header(props: {path: string | undefined}) {
         onClick={() => setShowSearch(false)}
       >
         <div className="bg-white rounded-md p-4 w-full h-full max-w-2xl lg:max-h-[42rem] overflow-auto prose" onClick={(event) => event.stopPropagation()}>
-          <p className="mb-2 text-sm">
+          <button onClick={() => setShowSearch(false)} type="button" className="absolute z-10 top-5 right-5 w-8 h-8 flex items-center justify-center text-slate-500 hover:text-slate-600 dark:text-slate-400 dark:hover:text-slate-300">
+            <span className="sr-only">Close search</span>
+            <svg viewBox="0 0 10 10" className="w-2.5 h-2.5 overflow-visible">
+              <path d="M0 0L10 10M10 0L0 10" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"></path>
+            </svg>
+          </button>
+
+          <p className="mb-2 mt-0 text-sm">
             Tip: You can also use keyboard shortcut '/' to access search
           </p>
           {showSearch ? <Search onHide={() => setShowSearch(false)} /> : null}
