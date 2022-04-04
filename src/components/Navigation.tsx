@@ -189,7 +189,7 @@ export function MobileNavigation(props: Props & {frontmatter: any}) {
 
       <div className={`fixed z-50 inset-0 overscroll-contain overflow-y-auto ${showNavigation ? 'block' : 'hidden'}`}>
         <div className="fixed inset-0 bg-black/20 backdrop-blur-sm" onClick={() => setShowNavigation(false)}></div>
-        <div className="relative bg-white w-80 max-w-[calc(100%-3rem)] p-6" onClick={(event) => event.stopPropagation()}>
+        <div className="relative bg-white min-h-full w-80 max-w-[calc(100%-3rem)] p-6" onClick={(event) => event.stopPropagation()}>
           <button onClick={() => setShowNavigation(false)} type="button" className="absolute z-10 top-5 right-5 w-8 h-8 flex items-center justify-center text-slate-500 hover:text-slate-600 dark:text-slate-400 dark:hover:text-slate-300">
             <span className="sr-only">Close navigation</span>
             <svg viewBox="0 0 10 10" className="w-2.5 h-2.5 overflow-visible">
