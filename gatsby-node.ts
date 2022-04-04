@@ -81,6 +81,12 @@ export const createPages : GatsbyNode["createPages"] = ({ actions }) => {
     force: true
   });
   createRedirect({
+    fromPath: "/how-to/acr-values",
+    toPath: "/verify/guides/authorize-url-builder/#auth-methods--acr-values",
+    isPermanent: true, 
+    force: true
+  });
+  createRedirect({
     fromPath: "/how-to/apply-custom-styling/",
     toPath: "/verify/guides/custom-styling",
     isPermanent: true, 
