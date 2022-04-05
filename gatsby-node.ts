@@ -3,6 +3,12 @@ import type { GatsbyNode } from 'gatsby';
 export const createPages : GatsbyNode["createPages"] = ({ actions }) => {
   const { createRedirect } = actions;
   createRedirect({
+    fromPath: '/getting-started/dk-mitid',
+    toPath: '/verify/e-ids/danish-mitid', 
+    isPermanent: true, 
+    force: true
+  });
+  createRedirect({
     fromPath: "/getting-started/*", 
     toPath: "/verify/getting-started/:splat", 
     isPermanent: true, 
