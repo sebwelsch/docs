@@ -9,6 +9,12 @@ export const createPages : GatsbyNode["createPages"] = ({ actions }) => {
     force: true
   });
   createRedirect({
+    fromPath: '/getting-started/no-bankid',
+    toPath: '/verify/e-ids/norwegian-bankid', 
+    isPermanent: true, 
+    force: true
+  });
+  createRedirect({
     fromPath: "/getting-started/*", 
     toPath: "/verify/getting-started/:splat", 
     isPermanent: true, 
