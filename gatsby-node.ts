@@ -39,6 +39,12 @@ export const createPages : GatsbyNode["createPages"] = ({ actions }) => {
     force: true
   });
   createRedirect({
+    fromPath: '/eid-specifics/mitid-ux-reqs',
+    toPath: '/verify/e-ids/danish-mitid/#mitid-user-interface-requirements',
+    isPermanent: true, 
+    force: true
+  });
+  createRedirect({
     fromPath: '/eid-specifics/order-dk-mitid',
     toPath: '/verify/e-ids/danish-mitid/#order-mitid-for-production',
     isPermanent: true, 
