@@ -116,18 +116,41 @@ export default function GraphQLExplorer(props: GraphQLExplorerProps) {
 }
 
 export function CredentialsForm(props: {className?: string, children?: React.ReactNode, onSkip?: () => void}) {
+  const [pending, setPending] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const dispatch = useAppDispatch();
 
   const [clientID, setClientID] = useState('');
   const [clientSecret, setClientSecret] = useState('');
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    if (pending) return;
 
-    dispatch(setApiCredentials({
+    setError(null);
+    setPending(true);
+
+    const response = await graphQLFetcher<{viewer: {__typename: string}}>({
+      query: `{ viewer { __typename }}`
+    }, {
       clientID,
       clientSecret
-    }));
+    });
+
+    setPending(false);
+
+    if (response.errors) {
+      setError(response.errors[0].message);
+    } else {
+      if (response.data?.viewer.__typename !== 'Application') {
+        setError('Invalid credentials');
+      } else {
+        dispatch(setApiCredentials({
+          clientID,
+          clientSecret
+        }));
+      }
+    }
   };
 
   return (
@@ -159,8 +182,13 @@ export function CredentialsForm(props: {className?: string, children?: React.Rea
           required
         />
       </div>
+      {error ? (
+        <div className="mt-4 mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+          {error}
+        </div>
+      ) : null}
       <div className="flex items-center justify-between">
-        <button className="bg-blue text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+        <button className="bg-blue text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:bg-blue/50" type="submit" disabled={pending}>
           Submit
         </button>
         {props.onSkip && (
