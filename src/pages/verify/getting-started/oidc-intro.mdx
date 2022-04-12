@@ -189,3 +189,18 @@ Use cases:
 - [Quirks mode](/verify/guides/authorize-url-builder)
 - ['Dynamic' styling](/verify/guides/custom-styling/#dynamic-style-sheets)
 - [DK MitID for business](/verify/e-ids/danish-mitid/#business)
+- [Action specifiers](#action-specifiers)
+
+## Action specifiers
+
+For DK and the SE another-device flows, you can add the following values to the `login_hint` query parameter to change the default wording used during login/signing.
+- `action:confirm`
+- `action:accept`
+- `action:approve`
+- `action:login`
+- `action:sign`
+
+Sending, say, `action:approve` will change "Login at ..." worded elements to "Approve at ...".
+
+For DK MitId specifically, you may also send a base64-url-encoded message via `message:<BASE64-URL ENCODED TEXT>`, which will be shown to the end user in the MitID app in some cases.
+For example, if you want to show a "Transfer EUR 1000 to us" message to the user, add a `message:VHJhbnNmZXIgRVVSIDEwMDAgdG8gdXM=` value to the `login_hint`.
