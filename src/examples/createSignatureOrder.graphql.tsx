@@ -62,7 +62,12 @@ export const uiExampleVariables = () : {input: CreateSignatureOrderInput} => {
     input: {
       ui: {
         signatoryRedirectUri: 'http://example.com',
-        language: 'DA_DK' as Language
+        language: 'DA_DK' as Language,
+        logo: {
+          src: 'https://www.criipto.com/hubfs/logo.svg',
+          href: 'https://www.criipto.com'
+        },
+        stylesheet: 'https://signatures-storybook.criipto.com/custom.css'
       },
       ...variables().input
     }

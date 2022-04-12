@@ -177,8 +177,12 @@ export type CreateSignatureOrderSignatoryInput = {
 export type CreateSignatureOrderUiInput = {
   /** The language of texts rendered to the signatory. */
   language?: InputMaybe<Language>;
+  /** Define a logo to be shown in the signatory UI. */
+  logo?: InputMaybe<SignatureOrderUiLogoInput>;
   /** The signatory will be redirected to this URL after signing or rejected the signature order. */
   signatoryRedirectUri?: InputMaybe<Scalars['String']>;
+  /** Add stylesheet/css via an absolute HTTPS URL. */
+  stylesheet?: InputMaybe<Scalars['String']>;
 };
 
 export type CreateSignatureOrderWebhookInput = {
@@ -663,7 +667,22 @@ export enum SignatureOrderStatus {
 export type SignatureOrderUi = {
   __typename?: 'SignatureOrderUI';
   language: Language;
+  logo?: Maybe<SignatureOrderUiLogo>;
   signatoryRedirectUri?: Maybe<Scalars['String']>;
+  stylesheet?: Maybe<Scalars['String']>;
+};
+
+export type SignatureOrderUiLogo = {
+  __typename?: 'SignatureOrderUILogo';
+  href?: Maybe<Scalars['String']>;
+  src: Scalars['String'];
+};
+
+export type SignatureOrderUiLogoInput = {
+  /** Turns your logo into a link with the defined href. */
+  href?: InputMaybe<Scalars['String']>;
+  /** The image source for the logo. Must be an absolute HTTPS URL. */
+  src: Scalars['String'];
 };
 
 export type Tenant = {
