@@ -18,6 +18,12 @@ interface AuthorizeURLOptions {
 
 const isBrowser = typeof window !== "undefined";
 
+function randomUUID() {
+  if (!isBrowser) return '';
+  if (window.crypto.getRandomValues !== undefined) return window.crypto.randomUUID();
+  return (Math.random() + 1).toString(36).substring(2) + (Math.random() + 1).toString(36).substring(2) + (Math.random() + 1).toString(36).substring(2);
+}
+
 export default function AuthorizeURLBuilder() {
   const [options, setOptions] = useState<AuthorizeURLOptions>({
     domain: 'criipto-verify-prod.criipto.id',
@@ -27,7 +33,7 @@ export default function AuthorizeURLBuilder() {
     response_mode: 'fragment',
     acr_values: [],
     acr_values_quirk: "none",
-    nonce: `ecnon-${isBrowser ? (window.crypto as any)?.randomUUID() : ''}`
+    nonce: `ecnon-${randomUUID()}`
   });
 
   const updateOption = (key: keyof AuthorizeURLOptions, event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => {
