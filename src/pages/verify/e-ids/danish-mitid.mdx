@@ -39,6 +39,14 @@ You create personal MitID test users at [https://pp.mitid.dk/test-tool/frontend]
 
 ![MitID test tool](./images/mitid-testtool.png)
 
+## Collecting CPR numbers
+You must enable the "Add CPR for MitID logins" toggle in the [management dashboard](https://manage.criipto.id/providers/DK_MITID).
+Criipto Verify will prompt the user for their CPR number and validate that it belongs to the MitID user that is logging in.
+
+For applications configured to use a `static` `scope` strategy, the CPR will be added to the issued token.
+
+For applications configured to use a `dynamic` `scope` strategy, supply `scope=openid ssn` in the authorize request.
+
 ## Collecting user addresses
 If you collect the users CPR number, the users current address can also be made available.
 
@@ -47,6 +55,14 @@ Data processor and dedicated billing agreements are needed, contact sales@criipt
 For applications configured to use a `static` `scope` strategy, address data will automatically be added.
 
 For applications configured to use a `dynamic` `scope` strategy, supply `scope=openid address` in the authorize request.
+
+<Highlight icon="file-lines">
+
+If you do not also request the `ssn` scope, Criipto Verify will query the user for the CPR number anyway, as this is needed to look up the users address.
+
+The CPR number _will not_ be issued in the JWT in this case, even if the user was prompted for it during login.
+
+</Highlight>
 
 ### Example (partial) authorize request with scope
 ```
