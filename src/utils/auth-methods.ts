@@ -11,7 +11,7 @@ type Provider = {
   page: string
 }
 
-const dkScopes = ['address']
+const dkScopes = ['address', 'ssn']
 const noBankIdScopes = ['email', 'phone', 'address', 'ssn']
 const noVippsScopes = ['email', 'phone', 'address', 'birthdate', 'ssn']
 
