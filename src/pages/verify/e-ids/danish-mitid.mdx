@@ -74,6 +74,13 @@ https://YOUR_SUBDOMAIN.criipto.id/oauth2/authorize?...&login_hint=scope:address&
 ```
 which can be a useful if you are working with technology that does not let you control the `scope` value.
 
+## MitID for business
+
+You can request a login in business context by sending a `login_hint=business` query parameter in the authorize request.
+This will allow company signatories to log in to your site with their personal MitID.
+
+You can read more about the [`login_hint` here](/verify/getting-started/oidc-intro/#the-loginhint-parameter).
+
 ## Order MitID for production
 
 <Highlight icon="file-lines">
