@@ -2,6 +2,7 @@
 type AuthMethod = {
   title: string
   acrValue: string
+  scopes? : string[]
 }
 
 type Provider = {
@@ -9,6 +10,10 @@ type Provider = {
   authMethods: AuthMethod[]
   page: string
 }
+
+const dkScopes = ['address', 'ssn']
+const noBankIdScopes = ['email', 'phone', 'address', 'ssn']
+const noVippsScopes = ['email', 'phone', 'address', 'birthdate', 'ssn']
 
 export const PROVIDERS : Provider[] = [
   {
@@ -34,7 +39,8 @@ export const PROVIDERS : Provider[] = [
     authMethods: [
       {
         title: 'Personal with code card',
-        acrValue: 'urn:grn:authn:dk:nemid:poces'
+        acrValue: 'urn:grn:authn:dk:nemid:poces',
+        scopes: dkScopes
       },
       {
         title: 'Employee with code card',
@@ -52,11 +58,13 @@ export const PROVIDERS : Provider[] = [
     authMethods: [
       {
         title: 'Low',
-        acrValue: 'urn:grn:authn:dk:mitid:low'
+        acrValue: 'urn:grn:authn:dk:mitid:low',
+        scopes: dkScopes
       },
       {
         title: 'Substantial',
-        acrValue: 'urn:grn:authn:dk:mitid:substantial'
+        acrValue: 'urn:grn:authn:dk:mitid:substantial',
+        scopes: dkScopes
       }
     ],
     page: '/verify/e-ids/danish-mitid'
@@ -93,7 +101,8 @@ export const PROVIDERS : Provider[] = [
     title: 'Norwegian BankID',
     authMethods: [{
       title: 'Norwegian BankID',
-      acrValue: 'urn:grn:authn:no:bankid'
+      acrValue: 'urn:grn:authn:no:bankid',
+      scopes: noBankIdScopes
     }],
     page: '/verify/e-ids/norwegian-bankid'
   },
@@ -101,7 +110,8 @@ export const PROVIDERS : Provider[] = [
     title: 'Norwegian Vipps',
     authMethods: [{
       title: 'Norwegian Vipps',
-      acrValue: 'urn:grn:authn:no:vipps'
+      acrValue: 'urn:grn:authn:no:vipps',
+      scopes: noVippsScopes
     }],
     page: '/verify/e-ids/norwegian-vipps'
   },
