@@ -56,7 +56,7 @@ export const CodeBlock = (props: {text: string, className?: string}) => {
 }
 
 export const InlineCode = (props: {children: React.ReactNode}) => {
-  return <span className="not-prose"><code className="bg-gray-100 py-0.5 px-1.5 rounded-md">{props.children}</code></span>;
+  return <span className="not-prose"><code className="bg-gray-100 py-0.5 px-1.5 rounded-md font-semibold text-sm">{props.children}</code></span>;
 };
 
 export const Highlight = (props: {children: React.ReactNode, icon?: string, warning?: boolean}) => {
