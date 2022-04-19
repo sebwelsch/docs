@@ -9,16 +9,21 @@ export interface PageNavigationItem {
 }
 interface Props {
   items: PageNavigationItem[],
-  title?: string
+  title?: string,
+  onNavigate?: () => void
 }
 export function PageNavigation(props: Props) {
-  const {items} = props;
+  const {items, onNavigate} = props;
   const [active, setActive] = useState<PageNavigationItem | null>(null);
 
   const handleClick = (event: React.MouseEvent, item: PageNavigationItem) => {
     if (item.onClick) {
       event.preventDefault();
       item.onClick();
+    }
+
+    if (onNavigate) {
+      onNavigate();
     }
   }
 

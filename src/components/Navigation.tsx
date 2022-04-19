@@ -228,7 +228,7 @@ export function MobileNavigation(props: Props & MobileProps) {
               </svg>
             </button>
 
-            <PageNavigation items={props.pageNavigationItems} />
+            <PageNavigation items={props.pageNavigationItems} onNavigate={() => setPageShowNavigation(false)} />
           </div>
         </div>
       ) : null}
