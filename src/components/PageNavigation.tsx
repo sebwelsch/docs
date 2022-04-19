@@ -9,16 +9,21 @@ export interface PageNavigationItem {
 }
 interface Props {
   items: PageNavigationItem[],
-  title?: string
+  title?: string,
+  onNavigate?: () => void
 }
-export default function PageNavigation(props: Props) {
-  const {items} = props;
+export function PageNavigation(props: Props) {
+  const {items, onNavigate} = props;
   const [active, setActive] = useState<PageNavigationItem | null>(null);
 
   const handleClick = (event: React.MouseEvent, item: PageNavigationItem) => {
     if (item.onClick) {
       event.preventDefault();
       item.onClick();
+    }
+
+    if (onNavigate) {
+      onNavigate();
     }
   }
 
@@ -61,7 +66,7 @@ export default function PageNavigation(props: Props) {
   if (!items.length) return null;
 
   return (
-    <div className="fixed z-20 top-[3.8125rem] bottom-0 right-[max(0px,calc(50%-768px))] w-[19.5rem] py-10 px-8 overflow-y-auto hidden xl:block">
+    <React.Fragment>
       <h5 className="text-blue font-semibold mb-4 text-m leading-6">{props.title || 'On this page'} </h5>
       <ul className="text-gray-700 text-sm leading-6">
         {items.map(item => (
@@ -81,6 +86,14 @@ export default function PageNavigation(props: Props) {
           </li>
         ))}
       </ul>
-    </div>
+    </React.Fragment>
   );
+}
+
+export function DesktopPageNavigation(props: Props) {
+  return (
+    <div className="fixed z-20 top-[3.8125rem] bottom-0 right-[max(0px,calc(50%-768px))] w-[19.5rem] py-10 px-8 overflow-y-auto hidden xl:block">
+      <PageNavigation {...props} />
+    </div>
+  )
 }

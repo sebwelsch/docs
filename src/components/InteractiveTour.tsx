@@ -8,7 +8,7 @@ import {AddSignatoryOutput} from '../../graphql-signatures-types';
 import { useAppDispatch, useAppSelector } from '../state/hooks';
 import GraphQLExplorer, {GraphQLResponse, GraphQLError, CredentialsForm} from './GraphQLExplorer';
 import {CodeBlock, H2, Paragraph, textToId} from './MdxProvider';
-import PageNavigation from './PageNavigation';
+import {DesktopPageNavigation} from './PageNavigation';
 import { clearExampleData } from '../state/store';
 
 type Step = 'authenticate' | 'createSignatureOrder' | 'addSignatories' | 'sign' | 'closeSignatureOrder';
@@ -210,7 +210,7 @@ export default function InteractiveTour() {
           Our interactive tour is only available on larger screens.    
         </p>
       </div>
-      <PageNavigation
+      <DesktopPageNavigation
         title="Tour Steps"
         items={
           [
