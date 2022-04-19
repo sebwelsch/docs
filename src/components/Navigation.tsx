@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useStaticQuery, graphql as gatsbyGraphql, Link } from "gatsby";
 
 import { NavigationQuery } from '../../graphql-gatsby-types';
+import { PageNavigation, PageNavigationItem } from './PageNavigation';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const SIGNATURES_CATEGORIES = [
   "Getting Started",
@@ -159,31 +161,45 @@ export function DesktopNavigation(props: Props) {
   );
 }
 
-export function MobileNavigation(props: Props & {frontmatter: any}) {
+type MobileProps = Props & {
+  frontmatter: any,
+  pageNavigationItems?: PageNavigationItem[]
+}
+export function MobileNavigation(props: Props & MobileProps) {
   const category = props.frontmatter.category;
   const title = props.frontmatter.title;
   const [showNavigation, setShowNavigation] = useState(false);
+  const [showPageNavigation, setPageShowNavigation] = useState(false);
 
   return (
     <React.Fragment>
-      <div className="flex lg:hidden sticky top-[65px] z-30 backdrop-blur duration-500 border-b border-gray-900/20 bg-white/95 supports-backdrop-blur:bg-white/60 p-4">
-        <button type="button" className="text-slate-500" onClick={() => setShowNavigation(true)}>
-          <span className="sr-only">Navigation</span>
-          <svg width="24" height="24"><path d="M5 6h14M5 12h14M5 18h14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"></path></svg>
-        </button>
+      <div className="flex justify-between lg:hidden sticky top-[65px] z-30 backdrop-blur duration-500 border-b border-gray-900/20 bg-white/95 supports-backdrop-blur:bg-white/60 p-4">
+        <div className="flex">
+          <button type="button" className="text-slate-500" onClick={() => setShowNavigation(true)}>
+            <span className="sr-only">Navigation</span>
+            <svg width="24" height="24"><path d="M5 6h14M5 12h14M5 18h14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"></path></svg>
+          </button>
 
-        {(category && title) ? (
-          <ol className="ml-4 flex text-sm leading-6 whitespace-nowrap min-w-0">
-            <li className="flex items-center">
-              {category}
-              <svg width="3" height="6" aria-hidden="true" className="mx-3 overflow-visible text-slate-400">
-                <path d="M0 0L3 3L0 6" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"></path>
-              </svg>
-            </li>
-            <li className="font-semibold text-slate-900 truncate ">
-              {title}
-            </li>
-          </ol>
+          {(category && title) ? (
+            <ol className="ml-4 flex text-sm leading-6 whitespace-nowrap min-w-0">
+              <li className="flex items-center">
+                {category}
+                <svg width="3" height="6" aria-hidden="true" className="mx-3 overflow-visible text-slate-400">
+                  <path d="M0 0L3 3L0 6" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"></path>
+                </svg>
+              </li>
+              <li className="font-semibold text-slate-900 truncate ">
+                {title}
+              </li>
+            </ol>
+          ) : null}
+        </div>
+
+        {props.pageNavigationItems ? (
+          <button type="button" className="text-slate-500" onClick={() => setPageShowNavigation(true)}>
+            <span className="sr-only">Table of contents</span>
+            <FontAwesomeIcon icon={`fa-solid fa-book-open` as any} />
+          </button>
         ) : null}
       </div>
 
@@ -200,6 +216,22 @@ export function MobileNavigation(props: Props & {frontmatter: any}) {
           <Navigation {...props} />
         </div>
       </div>
+
+      {props.pageNavigationItems ? (
+        <div className={`fixed z-50 inset-0 overscroll-contain overflow-y-auto ${showPageNavigation ? 'block' : 'hidden'}`}>
+          <div className="fixed inset-0 bg-black/20 backdrop-blur-sm" onClick={() => setPageShowNavigation(false)}></div>
+          <div className="absolute bg-white min-h-full w-80 max-w-[calc(100%-3rem)] p-6 right-0" onClick={(event) => event.stopPropagation()}>
+            <button onClick={() => setPageShowNavigation(false)} type="button" className="absolute z-10 top-5 right-5 w-8 h-8 flex items-center justify-center text-slate-500 hover:text-slate-600 dark:text-slate-400 dark:hover:text-slate-300">
+              <span className="sr-only">Close table of contents</span>
+              <svg viewBox="0 0 10 10" className="w-2.5 h-2.5 overflow-visible">
+                <path d="M0 0L10 10M10 0L0 10" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"></path>
+              </svg>
+            </button>
+
+            <PageNavigation items={props.pageNavigationItems} />
+          </div>
+        </div>
+      ) : null}
     </React.Fragment>
   );
 }

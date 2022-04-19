@@ -3,6 +3,7 @@ import { Helmet } from "react-helmet";
 
 import {DesktopNavigation, MobileNavigation} from '../components/Navigation';
 import Header from '../components/Header';
+import { PageNavigationItem } from '../components/PageNavigation';
 
 function upperFirst(input: string) {
   if (!input) return input;
@@ -10,7 +11,7 @@ function upperFirst(input: string) {
 }
 
 
-export default function DefaultLayout(props: {children: React.ReactNode, pageContext: any, path: string, pageResources: any}) {
+export default function DefaultLayout(props: {children: React.ReactNode, pageContext: any, path: string, pageResources: any, pageNavigationItems?: PageNavigationItem[]}) {
   const {frontmatter} = props.pageContext;
   const description = frontmatter.description || frontmatter.subtitle;
   const suffix = 
@@ -30,7 +31,7 @@ export default function DefaultLayout(props: {children: React.ReactNode, pageCon
       </Helmet>
 
       <Header path={props.path} />
-      <MobileNavigation path={props.path} frontmatter={frontmatter} />
+      <MobileNavigation path={props.path} frontmatter={frontmatter} pageNavigationItems={props.pageNavigationItems} />
       <div className="px-4 sm:px-6 md:px-8">
         <div className="max-w-screen-2xl mx-auto pt-5 lg:pt-10 lg:pl-[19.5rem] xl:pr-[19.5rem]">
           <DesktopNavigation path={props.path} />
