@@ -245,7 +245,7 @@ export default function AuthorizeURLBuilder() {
         You can click the individual e-ID headlines or use the navigation to your left to learn more about each e-ID.
       </Paragraph>
       <Paragraph>
-        If you select multiple e-IDs the user will be presented with a landing page where they can use their e-ID of choice.
+        If you select multiple (or zero) e-IDs the user will be presented with a landing page where they can use their e-ID of choice.
       </Paragraph>
       <Paragraph>
         Some features, like <strong>input prefill</strong> and <strong>acr_values quirk handling</strong> is only available if you only select a <strong>single acr_values</strong>
