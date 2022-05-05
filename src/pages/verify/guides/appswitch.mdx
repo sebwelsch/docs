@@ -30,7 +30,7 @@ Your app is responsible for sending the appropriate value for the platform it is
 ### Swedish BankID
 App switch is supported for the same-device login flow (`acr_values=urn:grn:authn:se:bankid:same-device`).
 
-We recommend that you use `response_mode=query` for this flow.
+We recommend that you use `response_mode=json` or `response_mode=query` for this flow.
 
 For the `redirect_uri` in the authorize request, you can experiment with using either a universal link for your app, or a custom file handler. Which one is more robust depends on the version of the OS you are on. Newer OS versions typically work best with universal links.
 
@@ -66,9 +66,11 @@ When that happens, the BankID login for the specified SSN is blocked for a few m
 
 When control returns to your app, issue an HTTP GET to the `completeUrl` (without any modifications).
 Expect an OAuth2-formatted response.
-The response will be either a `302 Redirect` (with a `Location` HTTP response header value), or a `400 Bad Request`.
+Depending on the value of the `response_mode` you use in your authorize request, the response will be either a `200 OK`, a `302 Redirect`, or a `400 Bad Request`.
 
-- `302 Redirect`: The Location response header value value will be a URL where the relevant response parameters are in the query section (if you used response_mode=query as recommended above). You should start by checking for errors (an "error" query parameter will be present in the response). If not an error, pick out the "code" and "state" parameters and use your OIDC library to exhange the code to an id_token.
+- `200 OK`: (when sending `response_mode=json`) The response payload will be a JSON literal with a string-valued `location` property. The value will be a URL where the relevant response parameters are in the query section. You should start by checking for errors (an `error` query parameter will be present in the response). If not an error, pick out the `code` and `state` parameters and use your OIDC library to exhange the `code` to an `id_token`.
+
+- `302 Redirect`: (when sending `response_mode=query`) The Location response header value value will be a URL where the relevant response parameters are in the query section. You should perform the same OAuth2-response processing as described for the `200 OK` case.
 
 - `400 Bad Request`: Can have several causes, we recommend that you invoke the `cancelUrl` and present the user with the option to login again.
 
