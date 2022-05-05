@@ -150,6 +150,8 @@ export type CreateSignatureOrderInput = {
   /** Max allowed signatories (as it influences pages needed for seals). Default 14. */
   maxSignatories?: InputMaybe<Scalars['Int']>;
   signatories?: InputMaybe<Array<CreateSignatureOrderSignatoryInput>>;
+  /** Configure appearance of signatures inside documents */
+  signatureAppearance?: InputMaybe<SignatureAppearanceInput>;
   /** Timezone to render signature seals in, default UTC. */
   timezone?: InputMaybe<Scalars['String']>;
   title?: InputMaybe<Scalars['String']>;
@@ -175,6 +177,8 @@ export type CreateSignatureOrderSignatoryInput = {
 };
 
 export type CreateSignatureOrderUiInput = {
+  /** Removes the UI options to reject a document or signature order. */
+  disableRejection?: InputMaybe<Scalars['Boolean']>;
   /** The language of texts rendered to the signatory. */
   language?: InputMaybe<Language>;
   /** Define a logo to be shown in the signatory UI. */
@@ -193,6 +197,7 @@ export type CreateSignatureOrderWebhookInput = {
 /** Criipto Verify based evidence for signatures. */
 export type CriiptoVerifyProviderInput = {
   acrValues?: InputMaybe<Array<Scalars['String']>>;
+  alwaysRedirect?: InputMaybe<Scalars['Boolean']>;
   /** Enforces that signatories sign by unique evidence by comparing the values of previous evidence on the key you define. For Criipto Verify you likely want to use `sub` which is a unique pseudonym value present in all e-ID tokens issued. */
   uniqueEvidenceKey?: InputMaybe<Scalars['String']>;
 };
@@ -412,6 +417,7 @@ export type NoopSignatureEvidenceProvider = {
 /** OIDC/JWT based evidence for signatures. */
 export type OidcEvidenceProviderInput = {
   acrValues?: InputMaybe<Array<Scalars['String']>>;
+  alwaysRedirect?: InputMaybe<Scalars['Boolean']>;
   audience: Scalars['String'];
   clientID: Scalars['String'];
   domain: Scalars['String'];
@@ -423,6 +429,7 @@ export type OidcEvidenceProviderInput = {
 export type OidcJwtSignatureEvidenceProvider = {
   __typename?: 'OidcJWTSignatureEvidenceProvider';
   acrValues: Array<Scalars['String']>;
+  alwaysRedirect: Scalars['Boolean'];
   clientID: Scalars['String'];
   domain: Scalars['String'];
   id: Scalars['ID'];
@@ -620,19 +627,28 @@ export type SignatoryViewer = Viewer & {
   ui: SignatureOrderUi;
 };
 
+export type SignatureAppearanceInput = {
+  /** Render evidence claim as identifier in the signature appearance inside the document. You can supply multiple keys and they will be tried in order. If no key is found a GUID will be rendered. */
+  identifierFromEvidence: Array<Scalars['String']>;
+};
+
 export type SignatureEvidenceProvider = DrawableSignatureEvidenceProvider | NoopSignatureEvidenceProvider | OidcJwtSignatureEvidenceProvider;
 
 export type SignatureOrder = {
   __typename?: 'SignatureOrder';
   application?: Maybe<Application>;
+  closedAt?: Maybe<Scalars['DateTime']>;
+  createdAt: Scalars['DateTime'];
   documents: Array<Document>;
   evidenceProviders: Array<SignatureEvidenceProvider>;
+  expiresAt: Scalars['DateTime'];
   id: Scalars['ID'];
   /** List of signatories for the signature order. */
   signatories: Array<Signatory>;
   status: SignatureOrderStatus;
   /** Tenants are only accessable from user viewers */
   tenant?: Maybe<Tenant>;
+  timezone: Scalars['String'];
   title?: Maybe<Scalars['String']>;
   ui: SignatureOrderUi;
 };
@@ -666,6 +682,7 @@ export enum SignatureOrderStatus {
 
 export type SignatureOrderUi = {
   __typename?: 'SignatureOrderUI';
+  disableRejection: Scalars['Boolean'];
   language: Language;
   logo?: Maybe<SignatureOrderUiLogo>;
   signatoryRedirectUri?: Maybe<Scalars['String']>;

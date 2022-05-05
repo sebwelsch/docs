@@ -67,6 +67,16 @@ Signatory redirect URI, language, logo and stylesheet can be configured via the 
 
 <GraphQLExample example={{...createSignatureOrderExample, variables: createSignatureOrderExample.uiExampleVariables}} />
 
+## Signature Apperance
+
+Signature apperance (inside the PDF/document) can be configured via the `signatureAppearance` input object on `createSignatureOrder`.
+
+The example below shows how you might configure it to show the `social number / cpr number` instead of a GUID for any SE/DK/NO login while also accounting for simple and complex claim types.
+
+If dealing with a single e-ID (like Swedish BankID) and only simple claims you can configure it as simply `identifierFromEvidence: ["ssn"]`
+
+<GraphQLExample example={{...createSignatureOrderExample, variables: createSignatureOrderExample.signatureAppearanceExampleVariables}} />
+
 ## Closing a signature order
 
 import * as closeSignatureOrderExample from '../../../examples/closeSignatureOrder.graphql';

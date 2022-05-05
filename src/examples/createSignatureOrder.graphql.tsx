@@ -74,6 +74,24 @@ export const uiExampleVariables = () : {input: CreateSignatureOrderInput} => {
   };
 }
 
+export const signatureAppearanceExampleVariables = () : {input: CreateSignatureOrderInput} => {
+  return {
+    input: {
+      signatureAppearance: {
+        identifierFromEvidence: [
+          'cprNumberIdentifier',
+          'dk:gov:saml:attribute:CprNumberIdentifier',
+          'ssn',
+          'http://schemas.grean.id/claims/se/ssn',
+          'socialno',
+          'http://schemas.grean.id/claims/no/socialno'
+        ]
+      },
+      ...variables().input
+    }
+  };
+}
+
 export const drawableExampleVariables = () : {input: CreateSignatureOrderInput} => {
   return {
     input: {
