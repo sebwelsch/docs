@@ -76,15 +76,16 @@ Depending on the value of the `response_mode` you use in your authorize request,
 
 ### Danish MitID
 
-You must (still) use a either a `Custom Tab` (on `Android`) or an `SFAuthenticationSession` (on `iOS`) to run the login flow in your app, but an app-switch button will show up in the MitID Core Client, allowing the user to launch the MitID app from the browser.
+You must (still) use a either a `Custom Tab` (on `Android`) or an `ASWebAuthenticationSession` (on `iOS`) to run the login flow in your app, but an app-switch button will show up in the MitID Core Client, allowing the user to launch the MitID app from the browser.
 
 <Highlight icon="file-lines">
 
-On `iOS`, you can also use an `SFSafariViewController` if the `SFAuthenticationSession` is unavailable.
+On `iOS`, you can also use `SFAuthenticationSession` if the `ASWebAuthenticationSession` is unavailable for the version you are targeting.
+If you must target very old OS versions, `SFSafariViewController` can be used as a fallback, but some features might not work properly.
 
 </Highlight>
 
-Once the flow completes, the MitID app will perform an app-switch back to your app, which makes the `Custom Tab` / `SFAuthenticationSession` resume its operation, thus completing the login process by issuing an `OAuth2` formatted response to your native app.
+Once the flow completes, the MitID app will perform an app-switch back to your app, which makes the `Custom Tab` / `ASWebAuthenticationSession` resume its operation, thus completing the login process by issuing an `OAuth2` formatted response to your native app.
 
 
 ## Web apps
