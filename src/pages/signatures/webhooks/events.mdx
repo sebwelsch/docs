@@ -19,7 +19,7 @@ You can use the values included in the webhook body to query the GraphQL API for
 ```
 {
   "event" = "SIGNATORY_SIGNED",
-  "signatureOrderId" = "[GraphQL ID]"
+  "signatureOrderId" = "[GraphQL ID]",
   "signatoryId" = "[GraphQL ID]"
 }
 ```
@@ -29,7 +29,18 @@ You can use the values included in the webhook body to query the GraphQL API for
 ```
 {
   "event" = "SIGNATORY_REJECTED",
-  "signatureOrderId" = "[GraphQL ID]"
+  "signatureOrderId" = "[GraphQL ID]",
+  "signatoryId" = "[GraphQL ID]"
+}
+```
+
+## SIGNATORY_SIGN_ERROR
+
+```
+{
+  "event" = "SIGNATORY_SIGN_ERROR",
+  "error" = "[ERROR MESSAGE"],
+  "signatureOrderId" = "[GraphQL ID]",
   "signatoryId" = "[GraphQL ID]"
 }
 ```
