@@ -20,13 +20,14 @@ export default function DefaultLayout(props: {children: React.ReactNode, pageCon
     ' - Criipto Documentation';
 
   const category = frontmatter.category ? ` - ${frontmatter.category}` : '';
+  const title = frontmatter.title + category + suffix;
 
   return (
     <div>
       <Helmet>
         <meta charSet="utf-8" />
-        <title>{frontmatter.title}{category}{suffix}</title>
-        <link rel="canonical" href={`https://new-docs-test.criipto.com${props.pageResources?.page?.path}`} />
+        {title && (<title>{title}</title>)}
+        <link rel="canonical" href={`https://docs.criipto.com${props.pageResources?.page?.path}`} />
         {description && (<meta name="description" content={description} />)}
       </Helmet>
 
