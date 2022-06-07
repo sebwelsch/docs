@@ -113,8 +113,8 @@ export default function Header(props: {path: string | undefined}) {
                 <a href="https://dashboard.criipto.com" target="_blank" className="text-white font-bold mr-2 py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                   Dashboard
                 </a>
-                <a href="https://criipto.com" target="_blank" className="bg-white text-blue font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                  Sign Up
+                <a href="https://www.criipto.com/signup?utm_source=docs" target="_blank" className="bg-white text-blue font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                  Sign up
                 </a>
               </div>
             </div>
