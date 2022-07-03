@@ -5,7 +5,14 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 export const textToId = function (input: string) {
   if (input.toLowerCase == undefined) console.error(input);
+  if (input.includes('#')) {
+    return input.split('#')[1].trim();
+  }
   return input.toLowerCase().replace(/\s/g, '-').replace(/([^a-zA-Z0-9-])/g, '');
+}
+export function parseHeader(input: string) {
+  const id = textToId(input);
+  return input.replace(`#${id}`, '');
 }
 export const H2 = (props: {children: string}) => (
   <h2 {...props} className="group flex whitespace-pre-wrap -ml-4 pl-4">
@@ -21,7 +28,7 @@ export const H2 = (props: {children: string}) => (
         </svg>
       </div>
     </a>
-    {props.children}
+    {parseHeader(props.children)}
   </h2>
 );
 
@@ -39,7 +46,7 @@ export const H3 = (props: {children: string}) => (
         </svg>
       </div>
     </a>
-    {props.children}
+    {parseHeader(props.children)}
   </h3>
 );
 
