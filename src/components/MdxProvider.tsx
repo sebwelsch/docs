@@ -12,7 +12,7 @@ export const textToId = function (input: string) {
 }
 export function parseHeader(input: string) {
   const id = textToId(input);
-  return input.replace(`#${id}`, '');
+  return input.replace(`#${id}`, '').trim();
 }
 export const H2 = (props: {children: string}) => (
   <h2 {...props} className="group flex whitespace-pre-wrap -ml-4 pl-4">
