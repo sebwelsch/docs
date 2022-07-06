@@ -5,7 +5,7 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 export const textToId = function (input: string) {
   if (input.toLowerCase == undefined) console.error(input);
-  if (input.includes('#')) {
+  if (input.includes('#') && !input.endsWith('#')) {
     return input.split('#')[1].trim();
   }
   return input.toLowerCase().replace(/\s/g, '-').replace(/([^a-zA-Z0-9-])/g, '');
