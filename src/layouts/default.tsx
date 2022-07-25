@@ -12,7 +12,7 @@ function upperFirst(input: string) {
 }
 
 
-export default function DefaultLayout(props: {children: React.ReactNode, location: Location, pageContext: any, path: string, pageResources: any, pageNavigationItems?: PageNavigationItem[]}) {
+export default function DefaultLayout(props: {children: React.ReactNode, location: Location, pageContext: any, pageNavigationItems?: PageNavigationItem[]}) {
   const {frontmatter} = props.pageContext;
   const description = frontmatter.description || frontmatter.subtitle;
   const suffix = 
@@ -20,7 +20,7 @@ export default function DefaultLayout(props: {children: React.ReactNode, locatio
     frontmatter.product ? ` - Criipto ${upperFirst(frontmatter.product)} Documentation` :
     ' - Criipto Documentation';
 
-  const isEmbedded = useMemo(() => props.location.search ? props.location.search.includes('embedded') : false, [props.location.search]);
+  const isEmbedded = props.pageContext?.isEmbedded;
   const category = frontmatter.category ? ` - ${frontmatter.category}` : '';
   const title = frontmatter.title + category + suffix;
 
@@ -29,12 +29,12 @@ export default function DefaultLayout(props: {children: React.ReactNode, locatio
       <Helmet>
         <meta charSet="utf-8" />
         {title && (<title>{title}</title>)}
-        <link rel="canonical" href={`https://docs.criipto.com${props.pageResources?.page?.path}`} />
+        <link rel="canonical" href={`https://docs.criipto.com${props.location.pathname}`} />
         {description && (<meta name="description" content={description} />)}
       </Helmet>
 
-      <Header path={props.path} className={isEmbedded ? 'hidden' : ''} />
-      <MobileNavigation key="mobileNav" path={props.path} frontmatter={frontmatter} pageNavigationItems={props.pageNavigationItems} isEmbedded={isEmbedded} />
+      <Header path={props.location.pathname} className={isEmbedded ? 'hidden' : ''} />
+      <MobileNavigation key="mobileNav" path={props.location.pathname}  frontmatter={frontmatter} pageNavigationItems={props.pageNavigationItems} isEmbedded={isEmbedded} />
       <div className="px-4 sm:px-6 md:px-8" key="content">
         <div
           className={cx(
@@ -42,7 +42,7 @@ export default function DefaultLayout(props: {children: React.ReactNode, locatio
             {'mx-auto max-w-screen-2xl lg:pl-[19.5rem] xl:pr-[19.5rem]': !isEmbedded}
           )}
         >
-          <DesktopNavigation key="desktopNav" path={props.path} hidden={isEmbedded} />
+          <DesktopNavigation key="desktopNav" path={props.location.pathname} hidden={isEmbedded} />
           <a id="overview" style={{position: "relative", top: "-95px"}} />
           {frontmatter && (
             <header id="header" className="relative z-20 mb-8">

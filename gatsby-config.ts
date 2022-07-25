@@ -4,7 +4,7 @@ dotenv();
 
 const config : GatsbyConfig = {
   siteMetadata: {
-    siteUrl: "https://new-docs-test.criipto.com",
+    siteUrl: "https://docs.criipto.com",
     title: "Criipto Documentation for Verify and Signatures",
   },
   plugins: [

@@ -1,5 +1,18 @@
 import type { GatsbyNode } from 'gatsby';
 
+export const onCreatePage : GatsbyNode["onCreatePage"] = ({ page, actions }) => {
+  const { createPage } = actions;
+
+  createPage({
+    path: `/_embedded${page.path}`,
+    component: page.component,
+    context: {
+      ...page.context,
+      isEmbedded: true
+    }
+  });
+}
+
 export const createPages : GatsbyNode["createPages"] = ({ actions }) => {
   const { createRedirect } = actions;
   createRedirect({

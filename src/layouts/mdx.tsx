@@ -31,7 +31,7 @@ export default function MdxLayout(props: {children: React.ReactNode, location: L
       };
     });
 
-  const isEmbedded = useMemo(() => props.location.search ? props.location.search.includes('embedded') : false, [props.location.search]);
+  const isEmbedded = props.pageContext?.isEmbedded;
 
   return (
     <DefaultLayout {...props} pageNavigationItems={pageNavigationItems}>
