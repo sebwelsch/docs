@@ -8,7 +8,7 @@ import Search from './Search';
 import logo from '../images/criipto-logo.svg';
 import lock from '../images/criipto-lock.svg';
 
-export default function Header(props: {path: string | undefined}) {
+export default function Header(props: {path: string | undefined, className?: string}) {
   const [showDropdown, toggleDropdown] = useReducer((value) => !value, false);
   const [showSearch, setShowSearch] = useState(false);
   const {path} = props;
@@ -27,7 +27,7 @@ export default function Header(props: {path: string | undefined}) {
 
   return (
     <React.Fragment>
-      <header className="sticky top-0 z-40 w-full backdrop-blur flex-none duration-500 lg:z-50 lg:border-b lg:border-gray-900/10 bg-blue/95 supports-backdrop-blur:bg-blue/60">
+      <header className={`sticky top-0 z-40 w-full backdrop-blur flex-none duration-500 lg:z-50 lg:border-b lg:border-gray-900/10 bg-blue/95 supports-backdrop-blur:bg-blue/60 ${props.className}`}>
         <div className="max-w-screen-2xl mx-auto">
           <div className="py-4 border-b border-gray-900/10 lg:px-8 lg:border-0 mx-4 lg:mx-0 flex justify-between items-center gap-6">
             <div className="relative flex items-center flex-1">

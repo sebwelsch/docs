@@ -25,6 +25,7 @@ function slugToPath(slug: string) {
 
 interface Props {
   path: string | undefined
+  hidden?: boolean
 }
 
 export default function Navigation(props: Props) {
@@ -154,9 +155,9 @@ export default function Navigation(props: Props) {
   );
 }
 
-export function DesktopNavigation(props: Props) {
+export function DesktopNavigation(props: Props ) {
   return (
-    <div className="hidden lg:block fixed z-20 inset-0 top-[61px] left-[max(0px,calc(50%-768px))] right-auto w-[17.5rem] py-10 pl-8 mr-8 overflow-y-auto">
+    <div className={`hidden ${props.hidden !== true ? 'lg:block' : ''} fixed z-20 inset-0 top-[61px] left-[max(0px,calc(50%-768px))] right-auto w-[17.5rem] py-10 pl-8 mr-8 overflow-y-auto`}>
       <Navigation {...props} />
     </div>
   );

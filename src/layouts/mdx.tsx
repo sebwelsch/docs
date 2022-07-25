@@ -31,8 +31,7 @@ export default function MdxLayout(props: {children: React.ReactNode, location: L
       };
     });
 
-  const search = useMemo(() => new URLSearchParams(props.location.search), [props.location.search]);
-  const isEmbedded = search.get('embedded') !== null;
+  const isEmbedded = useMemo(() => props.location.search ? props.location.search.includes('embedded') : false, [props.location.search]);
 
   return (
     <DefaultLayout {...props} pageNavigationItems={pageNavigationItems}>

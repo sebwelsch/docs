@@ -20,8 +20,7 @@ export default function DefaultLayout(props: {children: React.ReactNode, locatio
     frontmatter.product ? ` - Criipto ${upperFirst(frontmatter.product)} Documentation` :
     ' - Criipto Documentation';
 
-  const search = useMemo(() => new URLSearchParams(props.location.search), [props.location.search]);
-  const isEmbedded = search.get('embedded') !== null;
+  const isEmbedded = useMemo(() => props.location.search ? props.location.search.includes('embedded') : false, [props.location.search]);
   const category = frontmatter.category ? ` - ${frontmatter.category}` : '';
   const title = frontmatter.title + category + suffix;
 
@@ -34,18 +33,16 @@ export default function DefaultLayout(props: {children: React.ReactNode, locatio
         {description && (<meta name="description" content={description} />)}
       </Helmet>
 
-      {!isEmbedded && (
-        <Header path={props.path} />
-      )}
-      <MobileNavigation path={props.path} frontmatter={frontmatter} pageNavigationItems={props.pageNavigationItems} isEmbedded={isEmbedded} />
-      <div className="px-4 sm:px-6 md:px-8">
+      <Header path={props.path} className={isEmbedded ? 'hidden' : ''} />
+      <MobileNavigation key="mobileNav" path={props.path} frontmatter={frontmatter} pageNavigationItems={props.pageNavigationItems} isEmbedded={isEmbedded} />
+      <div className="px-4 sm:px-6 md:px-8" key="content">
         <div
           className={cx(
             'pt-5 lg:pt-10',
             {'mx-auto max-w-screen-2xl lg:pl-[19.5rem] xl:pr-[19.5rem]': !isEmbedded}
           )}
         >
-          {!isEmbedded && (<DesktopNavigation path={props.path} />)}
+          <DesktopNavigation key="desktopNav" path={props.path} hidden={isEmbedded} />
           <a id="overview" style={{position: "relative", top: "-95px"}} />
           {frontmatter && (
             <header id="header" className="relative z-20 mb-8">
