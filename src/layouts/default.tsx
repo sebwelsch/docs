@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Helmet } from "react-helmet";
+import cx from 'classnames';
 
 import {DesktopNavigation, MobileNavigation} from '../components/Navigation';
 import Header from '../components/Header';
@@ -11,7 +12,7 @@ function upperFirst(input: string) {
 }
 
 
-export default function DefaultLayout(props: {children: React.ReactNode, pageContext: any, path: string, pageResources: any, pageNavigationItems?: PageNavigationItem[]}) {
+export default function DefaultLayout(props: {children: React.ReactNode, location: Location, pageContext: any, path: string, pageResources: any, pageNavigationItems?: PageNavigationItem[]}) {
   const {frontmatter} = props.pageContext;
   const description = frontmatter.description || frontmatter.subtitle;
   const suffix = 
@@ -19,6 +20,8 @@ export default function DefaultLayout(props: {children: React.ReactNode, pageCon
     frontmatter.product ? ` - Criipto ${upperFirst(frontmatter.product)} Documentation` :
     ' - Criipto Documentation';
 
+  const search = useMemo(() => new URLSearchParams(props.location.search), [props.location.search]);
+  const isEmbedded = search.get('embedded') !== null;
   const category = frontmatter.category ? ` - ${frontmatter.category}` : '';
   const title = frontmatter.title + category + suffix;
 
@@ -31,11 +34,18 @@ export default function DefaultLayout(props: {children: React.ReactNode, pageCon
         {description && (<meta name="description" content={description} />)}
       </Helmet>
 
-      <Header path={props.path} />
-      <MobileNavigation path={props.path} frontmatter={frontmatter} pageNavigationItems={props.pageNavigationItems} />
+      {!isEmbedded && (
+        <Header path={props.path} />
+      )}
+      <MobileNavigation path={props.path} frontmatter={frontmatter} pageNavigationItems={props.pageNavigationItems} isEmbedded={isEmbedded} />
       <div className="px-4 sm:px-6 md:px-8">
-        <div className="max-w-screen-2xl mx-auto pt-5 lg:pt-10 lg:pl-[19.5rem] xl:pr-[19.5rem]">
-          <DesktopNavigation path={props.path} />
+        <div
+          className={cx(
+            'pt-5 lg:pt-10',
+            {'mx-auto max-w-screen-2xl lg:pl-[19.5rem] xl:pr-[19.5rem]': !isEmbedded}
+          )}
+        >
+          {!isEmbedded && (<DesktopNavigation path={props.path} />)}
           <a id="overview" style={{position: "relative", top: "-95px"}} />
           {frontmatter && (
             <header id="header" className="relative z-20 mb-8">

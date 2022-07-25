@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import { useCallback } from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
+import cx from 'classnames';
 
 export interface PageNavigationItem {
   level: number,
@@ -10,7 +10,8 @@ export interface PageNavigationItem {
 interface Props {
   items: PageNavigationItem[],
   title?: string,
-  onNavigate?: () => void
+  onNavigate?: () => void,
+  isEmbedded: boolean
 }
 export function PageNavigation(props: Props) {
   const {items, onNavigate} = props;
@@ -92,7 +93,13 @@ export function PageNavigation(props: Props) {
 
 export function DesktopPageNavigation(props: Props) {
   return (
-    <div className="fixed z-20 top-[3.8125rem] bottom-0 right-[max(0px,calc(50%-768px))] w-[19.5rem] py-10 px-8 overflow-y-auto hidden xl:block">
+    <div className={cx(
+      'fixed z-20 bottom-0 w-[19.5rem] py-10 px-8 overflow-y-auto hidden xl:block',
+      {
+        'top-[3.8125rem] right-[max(0px,calc(50%-768px))]': !props.isEmbedded,
+        'top-0 right-0': props.isEmbedded
+      }
+    )}>
       <PageNavigation {...props} />
     </div>
   )

@@ -29,6 +29,7 @@
     "@reduxjs/toolkit": "^1.7.1",
     "@sentry/gatsby": "^6.18.2",
     "algoliasearch": "^4.12.2",
+    "classnames": "^2.3.1",
     "dotenv": "^16.0.0",
     "gatsby": "^4.11.0",
     "gatsby-plugin-algolia": "^0.26.0",

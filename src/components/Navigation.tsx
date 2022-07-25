@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import cx from 'classnames';
 import { useStaticQuery, graphql as gatsbyGraphql, Link } from "gatsby";
 
 import { NavigationQuery } from '../../graphql-gatsby-types';
@@ -163,7 +164,8 @@ export function DesktopNavigation(props: Props) {
 
 type MobileProps = Props & {
   frontmatter: any,
-  pageNavigationItems?: PageNavigationItem[]
+  pageNavigationItems?: PageNavigationItem[],
+  isEmbedded: boolean
 }
 export function MobileNavigation(props: Props & MobileProps) {
   const category = props.frontmatter.category;
@@ -173,15 +175,23 @@ export function MobileNavigation(props: Props & MobileProps) {
 
   return (
     <React.Fragment>
-      <div className="flex justify-between lg:hidden sticky top-[65px] z-30 backdrop-blur duration-500 border-b border-gray-900/20 bg-white/95 supports-backdrop-blur:bg-white/60 p-4">
+      <div className={cx(
+        'flex justify-between lg:hidden sticky z-30 backdrop-blur duration-500 border-b border-gray-900/20 bg-white/95 supports-backdrop-blur:bg-white/60 p-4',
+        {
+          'top-[65px]': !props.isEmbedded,
+          'top-0': props.isEmbedded
+        }
+      )}>
         <div className="flex">
-          <button type="button" className="text-slate-500" onClick={() => setShowNavigation(true)}>
-            <span className="sr-only">Navigation</span>
-            <svg width="24" height="24"><path d="M5 6h14M5 12h14M5 18h14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"></path></svg>
-          </button>
+          {!props.isEmbedded && (
+            <button type="button" className="text-slate-500 mr-4" onClick={() => setShowNavigation(true)}>
+              <span className="sr-only">Navigation</span>
+              <svg width="24" height="24"><path d="M5 6h14M5 12h14M5 18h14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"></path></svg>
+            </button>
+          )}
 
           {(category && title) ? (
-            <ol className="ml-4 flex text-sm leading-6 whitespace-nowrap min-w-0">
+            <ol className="flex text-sm leading-6 whitespace-nowrap min-w-0">
               <li className="flex items-center">
                 {category}
                 <svg width="3" height="6" aria-hidden="true" className="mx-3 overflow-visible text-slate-400">
@@ -228,7 +238,7 @@ export function MobileNavigation(props: Props & MobileProps) {
               </svg>
             </button>
 
-            <PageNavigation items={props.pageNavigationItems} onNavigate={() => setPageShowNavigation(false)} />
+            <PageNavigation items={props.pageNavigationItems} onNavigate={() => setPageShowNavigation(false)} isEmbedded={props.isEmbedded} />
           </div>
         </div>
       ) : null}

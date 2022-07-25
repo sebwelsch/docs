@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import DefaultLayout from './default';
 import Header from '../components/Header';
@@ -10,7 +10,7 @@ interface Header {
   text: string
 }
 
-export default function MdxLayout(props: {children: React.ReactNode, pageContext: any, path: string, pageResources: any}) {
+export default function MdxLayout(props: {children: React.ReactNode, location: Location, pageContext: any, path: string, pageResources: any}) {
   const children = React.Children.toArray(props.children);
   const headers : Header[] =
     children
@@ -31,6 +31,9 @@ export default function MdxLayout(props: {children: React.ReactNode, pageContext
       };
     });
 
+  const search = useMemo(() => new URLSearchParams(props.location.search), [props.location.search]);
+  const isEmbedded = search.get('embedded') !== null;
+
   return (
     <DefaultLayout {...props} pageNavigationItems={pageNavigationItems}>
       <div className="relative z-20 prose max-w-none pb-48">
@@ -39,6 +42,7 @@ export default function MdxLayout(props: {children: React.ReactNode, pageContext
         </CustomMDXProvider>
       </div>
       <DesktopPageNavigation
+        isEmbedded={isEmbedded}
         items={pageNavigationItems}
       />
     </DefaultLayout>
