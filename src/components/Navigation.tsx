@@ -10,6 +10,7 @@ import { isIndexPage } from '../utils';
 const SIGNATURES_CATEGORIES = [
   "Getting Started",
   "GraphQL",
+  "Integrations",
   "Webhooks"
 ];
 

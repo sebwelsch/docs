@@ -1,0 +1,48 @@
+---
+product: signatures
+category: Integrations
+sort: 0
+title: Integrate with Criipto Signatures
+---
+import Layout from '../../../layouts/mdx';
+export default Layout;
+
+import {isIndexPage} from '../../../utils';
+
+import { graphql as gatsbyGraphql, Link } from "gatsby";
+export const pageQuery = gatsbyGraphql`
+  query SignaturesIntegrations {
+    pages: allMdx(
+      filter: {
+        frontmatter: {
+          product: { eq: "signatures" }
+          category: { eq: "Integrations" }
+        }
+      }
+      sort: { fields: [frontmatter___sort], order: ASC }
+    ) {
+      edges {
+        node {
+          __typename
+          id
+          slug
+          fileAbsolutePath
+          frontmatter {
+            title
+            subtitle
+            category
+          }
+        }
+      }
+    }
+  }
+`;
+
+<ul>
+  {props.data.pages.edges.map(edge => edge.node).filter(node => !isIndexPage(node)).map(node => (
+    <li key={node.id}>
+      <Link to={`/${node.slug}/`}>{node.frontmatter.title}</Link><br />
+      {node.frontmatter.subtitle}
+    </li>
+  ))}
+</ul>
