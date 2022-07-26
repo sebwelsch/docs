@@ -1,8 +1,8 @@
 ---
-product: verify
-category: Integrations
+product: signatures
+category: GraphQL
 sort: 0
-title: Integrate with Criipto Verify from various providers and technologies
+title: Working with the Criipto Signatures GraphQL API
 ---
 import Layout from '../../../layouts/mdx';
 export default Layout;
@@ -11,12 +11,12 @@ import {isIndexPage} from '../../../utils';
 
 import { graphql as gatsbyGraphql, Link } from "gatsby";
 export const pageQuery = gatsbyGraphql`
-  query Integrations {
+  query SignaturesGraphQL {
     pages: allMdx(
       filter: {
         frontmatter: {
-          product: { eq: "verify" }
-          category: { eq: "Integrations" }
+          product: { eq: "signatures" }
+          category: { eq: "GraphQL" }
         }
       }
       sort: { fields: [frontmatter___sort], order: ASC }

@@ -1,10 +1,13 @@
 ---
 product: verify
+category: e-IDs
 sort: 0
 title: e-IDS supported by Criipto Verify
 ---
 import Layout from '../../../layouts/mdx';
 export default Layout;
+
+import {isIndexPage} from '../../../utils';
 
 import { graphql as gatsbyGraphql, Link } from "gatsby";
 export const pageQuery = gatsbyGraphql`
@@ -23,8 +26,10 @@ export const pageQuery = gatsbyGraphql`
           __typename
           id
           slug
+          fileAbsolutePath
           frontmatter {
             title
+            subtitle
             category
           }
         }
@@ -38,7 +43,10 @@ Criipto Verify supports authentication via a number of e-IDs
 Select any individual e-ID from the list below to see JWT/token details, how to find/create test users and how to order a specific e-ID for production.
 
 <ul>
-  {props.data.pages.edges.map(edge => (
-    <li key={edge.node.id}><Link to={`/${edge.node.slug}/`}>{edge.node.frontmatter.title}</Link></li>
+  {props.data.pages.edges.map(edge => edge.node).filter(node => !isIndexPage(node)).map(node => (
+    <li key={node.id}>
+      <Link to={`/${node.slug}/`}>{node.frontmatter.title}</Link><br />
+      {node.frontmatter.subtitle}
+    </li>
   ))}
 </ul>

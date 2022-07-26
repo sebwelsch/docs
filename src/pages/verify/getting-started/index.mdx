@@ -1,8 +1,8 @@
 ---
 product: verify
-category: Integrations
+category: Getting Started
 sort: 0
-title: Integrate with Criipto Verify from various providers and technologies
+title: Get started with Criipto Verify
 ---
 import Layout from '../../../layouts/mdx';
 export default Layout;
@@ -11,12 +11,12 @@ import {isIndexPage} from '../../../utils';
 
 import { graphql as gatsbyGraphql, Link } from "gatsby";
 export const pageQuery = gatsbyGraphql`
-  query Integrations {
+  query GettingStarted {
     pages: allMdx(
       filter: {
         frontmatter: {
           product: { eq: "verify" }
-          category: { eq: "Integrations" }
+          category: { eq: "Getting Started" }
         }
       }
       sort: { fields: [frontmatter___sort], order: ASC }
@@ -29,14 +29,16 @@ export const pageQuery = gatsbyGraphql`
           fileAbsolutePath
           frontmatter {
             title
-            subtitle
             category
+            subtitle
           }
         }
       }
     }
   }
 `;
+
+Below you will find a list of topics to get you started with Criipto Verify:
 
 <ul>
   {props.data.pages.edges.map(edge => edge.node).filter(node => !isIndexPage(node)).map(node => (

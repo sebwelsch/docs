@@ -1,8 +1,8 @@
 ---
 product: verify
-category: Integrations
+category: Guides & Tools
 sort: 0
-title: Integrate with Criipto Verify from various providers and technologies
+title: Various tools and examples to help you use Criipto Verify
 ---
 import Layout from '../../../layouts/mdx';
 export default Layout;
@@ -11,12 +11,12 @@ import {isIndexPage} from '../../../utils';
 
 import { graphql as gatsbyGraphql, Link } from "gatsby";
 export const pageQuery = gatsbyGraphql`
-  query Integrations {
+  query GuidesTools {
     pages: allMdx(
       filter: {
         frontmatter: {
           product: { eq: "verify" }
-          category: { eq: "Integrations" }
+          category: { eq: "Guides & Tools" }
         }
       }
       sort: { fields: [frontmatter___sort], order: ASC }
@@ -29,8 +29,8 @@ export const pageQuery = gatsbyGraphql`
           fileAbsolutePath
           frontmatter {
             title
-            subtitle
             category
+            subtitle
           }
         }
       }

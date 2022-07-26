@@ -1,8 +1,8 @@
 ---
-product: verify
-category: Integrations
+product: signatures
+category: Webhooks
 sort: 0
-title: Integrate with Criipto Verify from various providers and technologies
+title: Use webhooks to integrate your app with Criipto Signatures
 ---
 import Layout from '../../../layouts/mdx';
 export default Layout;
@@ -11,12 +11,12 @@ import {isIndexPage} from '../../../utils';
 
 import { graphql as gatsbyGraphql, Link } from "gatsby";
 export const pageQuery = gatsbyGraphql`
-  query Integrations {
+  query SignaturesWebhooks {
     pages: allMdx(
       filter: {
         frontmatter: {
-          product: { eq: "verify" }
-          category: { eq: "Integrations" }
+          product: { eq: "signatures" }
+          category: { eq: "Webhooks" }
         }
       }
       sort: { fields: [frontmatter___sort], order: ASC }
