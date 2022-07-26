@@ -1,7 +1,8 @@
 import React from 'react';
 import { MDXProvider } from "@mdx-js/react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import SyntaxHighlighter from 'react-syntax-highlighter';
+import { vs2015 } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 
 export const textToId = function (input: string) {
   if (input.toLowerCase == undefined) console.error(input);
@@ -62,6 +63,41 @@ export const CodeBlock = (props: {text: string, className?: string}) => {
   );
 }
 
+export const Pre = (props: {children: React.ReactNode}) => {
+  const child = React.Children.only(props.children);
+
+  if (child && typeof child === "object" && "props" in child) {
+    if (child.props.mdxType === "code") {
+      return props.children; // Let syntax highlighter handle it.
+    }
+  }
+
+  return <pre>{props.children}</pre>;
+}
+
+export const Code = (props: {className?: string, children: string}) => {
+  const language = props.className?.startsWith('language-') ? props.className.replace('language-', '') : undefined;
+  if (language && SyntaxHighlighter.supportedLanguages.includes(language)) {
+    return (
+      <SyntaxHighlighter
+        language={language}
+        style={vs2015}
+        customStyle={{
+          padding: '0.85em 1.14em'
+        }}
+      >
+        {props.children}
+      </SyntaxHighlighter>
+    )
+  }
+
+  return (
+    <pre style={{background: 'rgb(30, 30, 30)', color: 'rgb(220, 220, 220)'}}>
+      <code >{props.children}</code>
+    </pre>
+  );
+}
+
 export const InlineCode = (props: {children: React.ReactNode}) => {
   return <span className="not-prose"><code className="bg-gray-100 py-0.5 px-1.5 rounded-md font-semibold text-sm">{props.children}</code></span>;
 };
@@ -88,6 +124,8 @@ const components = {
   h3: H3,
   Text,
   CodeBlock,
+  code: Code,
+  pre: Pre,
   inlineCode: InlineCode,
   Highlight,
   ImageContainer,

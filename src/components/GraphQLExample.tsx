@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import GraphQLExplorer from './GraphQLExplorer';
-import {CodeBlock} from './MdxProvider';
 
 import { ExampleData } from '../state/store';
 import { useAppSelector } from '../state/hooks';
