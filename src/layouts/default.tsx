@@ -35,11 +35,15 @@ export default function DefaultLayout(props: {children: React.ReactNode, locatio
 
       <Header path={props.location.pathname} className={isEmbedded ? 'hidden' : ''} />
       <MobileNavigation key="mobileNav" path={props.location.pathname}  frontmatter={frontmatter} pageNavigationItems={props.pageNavigationItems} isEmbedded={isEmbedded} />
-      <div className="px-4 sm:px-6 md:px-8" key="content">
+      <div
+        className={cx({
+          'px-4 sm:px-6 md:px-8': !isEmbedded
+        })}
+        key="content"
+      > 
         <div
           className={cx(
-            'pt-5 lg:pt-10',
-            {'mx-auto max-w-screen-2xl lg:pl-[19.5rem] xl:pr-[19.5rem]': !isEmbedded}
+            {'mx-auto max-w-screen-2xl pt-5 lg:pt-10 lg:pl-[19.5rem] xl:pr-[19.5rem]': !isEmbedded}
           )}
         >
           <DesktopNavigation key="desktopNav" path={props.location.pathname} hidden={isEmbedded} />

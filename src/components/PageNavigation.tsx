@@ -94,9 +94,9 @@ export function PageNavigation(props: Props) {
 export function DesktopPageNavigation(props: Props) {
   return (
     <div className={cx(
-      'fixed z-20 bottom-0 w-[19.5rem] py-10 px-8 overflow-y-auto hidden xl:block',
+      'fixed z-20 bottom-0 w-[19.5rem] px-8 overflow-y-auto hidden xl:block',
       {
-        'top-[3.8125rem] right-[max(0px,calc(50%-768px))]': !props.isEmbedded,
+        'top-[3.8125rem] right-[max(0px,calc(50%-768px))] py-10': !props.isEmbedded,
         'top-0 right-0': props.isEmbedded
       }
     )}>
