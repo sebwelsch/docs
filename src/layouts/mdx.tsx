@@ -1,4 +1,5 @@
-import React, { useMemo } from 'react';
+import React from 'react';
+import cx from 'classnames';
 
 import DefaultLayout from './default';
 import Header from '../components/Header';
@@ -35,7 +36,12 @@ export default function MdxLayout(props: {children: React.ReactNode, location: L
 
   return (
     <DefaultLayout {...props} pageNavigationItems={pageNavigationItems}>
-      <div className="relative z-20 prose max-w-none pb-48">
+      <div
+        className={cx(
+          'relative z-20 prose max-w-none',
+          {'pb-48': !isEmbedded}
+        )}
+      >
         <CustomMDXProvider>
           {props.children}
         </CustomMDXProvider>

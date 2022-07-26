@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useLayoutEffect, useMemo } from 'react';
 import { Helmet } from "react-helmet";
 import cx from 'classnames';
 
@@ -23,6 +23,13 @@ export default function DefaultLayout(props: {children: React.ReactNode, locatio
   const isEmbedded = props.pageContext?.isEmbedded;
   const category = frontmatter.category ? ` - ${frontmatter.category}` : '';
   const title = frontmatter.title + category + suffix;
+
+  useLayoutEffect(() => {
+    if (!isEmbedded) return;
+    if (!window || !window.parent) return;
+
+    window.parent.postMessage(`height:${document.body.offsetHeight}`, '*');
+  }, [isEmbedded]);
 
   return (
     <div>
