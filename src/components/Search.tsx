@@ -55,7 +55,7 @@ export const Hit = ({ hit, onClick }: HitProps) => {
   const toc = hit.tableOfContents?.items?.map((item, i) => {
     return {
       ...item,
-      hasMatch: hit._highlightResult.tableOfContents?.items?.[i].title.matchedWords?.length || false
+      hasMatch: hit._highlightResult.tableOfContents?.items?.[i].title?.matchedWords?.length || false
     }
   }).filter(t => t.hasMatch) || [];
   return (
