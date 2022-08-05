@@ -1,0 +1,163 @@
+---
+product: verify
+category: Integrations
+sort: 0
+title: ASP.NET Core 6.0
+subtitle: Accept MitID, Swedish BankID, Norwegian BankID and other e-ID logins with ASP.NET Core 6.0 and Criipto Verify
+---
+import Layout from '../../../layouts/mdx';
+export default Layout;
+
+This tutorial demonstrates how to integrate Criipto Verify into a fresh ASP.NET Core 6.0 application created with `dotnet new mvc`.
+The principles should apply to any ASP.NET Core 6.0 application.
+
+You can download a [sample application from GitHub](https://github.com/criipto/samples/tree/master/Verify/dotnet-core-v6.x)
+
+## Register Your Application in Criipto Verify
+
+After you signed up for Criipto Verify, you must register an application before you can actually try logging in with any e-ID.
+
+Once you register your application you will also need some of the information for communicating with Criipto Verify. You get these details from the settings of the application in the dashboard.
+
+Specifically you need the following information to configure you application
+
+- _Client ID_ to identify you application to Criipto Verify. In the case below we chose `urn:criipto:samples:no1`
+- _Domain_ on which you will be communicating with Criipto Verify. Could be for example `samples.criipto.id`
+
+![Register App](/images/register-app.png)
+
+### Register callback URLs
+
+Before you can start sending authentication requests to Criipto Verify you need to register the URLs on which you want to receive the returned *JSON Web Token*, JWT.
+
+The Callback URL of your application is the URL where Criipto Verify will redirect to after the user has authenticated in order for the OpenID Connect ASP.NET middleware to complete the authentication process.
+
+You will need to add these URLs to the list of allowed URLs for your application:
+
+```shell
+https://localhost:5001/callback
+http://localhost:5000/callback
+https://localhost:5001/signout
+http://localhost:5000/signout
+``` 
+
+If you deploy your application to a different URL you will also need to ensure to add that URL to the Callback URLs. 
+
+## Configure the OAuth2 code flow
+
+import CodeFlowSnippet from '../../../snippets/oauth2-code-flow.mdx';
+
+<CodeFlowSnippet />
+
+## Install dependencies
+
+To integrate Criipto Verify with ASP.NET Core you will use the Cookie and OpenID Connect (OIDC) authentication handlers. `Microsoft.AspNetCore.Authentication.Cookies` is usually included but `Microsoft.AspNetCore.Authentication.OpenIdConnect` will need to be installed:
+
+```shell
+dotnet add package Microsoft.AspNetCore.Authentication.OpenIdConnect
+```
+
+### Configure OpenID Connect Middleware
+
+To enable authentication in your ASP.NET Core application, use the OpenID Connect (OIDC) middleware.
+
+To add the authentication services, call the `AddAuthentication` method. To enable cookie authentication, call the `AddCookie` method.
+
+Next, configure the OIDC authentication handler. Add a call to `AddOpenIdConnect`. Configure the necessary parameters, such as `ClientId`, `ClientSecret`, `ResponseType`, and not least the `Authority`. The latter is used by the middleware to get the metadata describing the relevant endpoints, the signing keys etc.
+
+The OIDC middleware requests both the `openid` and `profile` scopes by default, but note that Criipto Verify by nature returns only the information derived from the underlying e-ID service. Changing the scopes does not affect the amount and nature of information delivered from the user information endpoint.
+
+```csharp
+// Program.cs
+
+builder.Services.Configure<CookiePolicyOptions>(options =>
+{
+    // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+    options.CheckConsentNeeded = context => true;
+    options.MinimumSameSitePolicy = SameSiteMode.None;
+});
+
+builder.Services.AddAuthentication(options => {
+    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+})
+.AddCookie()
+.AddOpenIdConnect(options => {
+    options.ClientId = builder.Configuration["Criipto:ClientId"]; // ClientID from application registration
+    options.ClientSecret = builder.Configuration["Criipto:ClientSecret"]; // Client from application registration
+    options.Authority = $"https://{builder.Configuration["Criipto:Domain"]}/"; // Domain from application registration
+    options.ResponseType = "code";
+
+    // The next to settings must match the Callback URLs in Criipto Verify
+    options.CallbackPath = new PathString("/callback"); 
+    options.SignedOutCallbackPath = new PathString("/signout");
+});
+```
+
+You can have a look at our [sample Program.cs](https://github.com/criipto/samples/blob/master/Verify/dotnet-core-v6.x/Program.cs) to see how it fits together with the rest of Program.cs
+
+### Enable the OpenID Connect middleware
+
+To enable the OIDC middleware you must configure your application to use authentication and authorization:
+
+```csharp
+// Program.cs
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+```
+
+You can have a look at our [sample Program.cs](https://github.com/criipto/samples/blob/master/Verify/dotnet-core-v6.x/Program.cs) to see how it fits together with the rest of Program.cs
+
+## Trigger Login and Logout in Your Application
+
+After the middleware for performing the authentication is wired up, the next step is to perform the actual authentication.
+
+### Protected resources trigger login
+
+One way to trigger the authentication flow is to tag routes in ASP.NET MVC with the `Authorize`. This is a way of telling the framework to only allow requests from authenticated users.
+
+```csharp
+[Authorize] // If not already authenticated, this kicks off the process
+public IActionResult Protected()
+{
+    return View();
+}
+```
+
+Note that you may plug in your own Authorization handlers derived from `Microsoft.AspNetCore.Authorization.AuthorizationHandler<TRequirement>` to add additional guards beyond just authentication.
+
+### Explicit logout
+
+Logout requires both terminating the local session by removing the cookies as well as telling Criipto Verify that the session is over.
+
+```csharp
+public async Task Logout()
+{
+    // Call the server to terminate the session
+    await HttpContext.SignOutAsync(OpenIdConnectDefaults.AuthenticationScheme);
+
+    // Remove authnetication cookies
+    await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+}
+``` 
+
+## The runtime flow
+
+In summary, the steps above will lead to a runtime flow looks like this:
+
+1. The web server starts the application which configures and initializes the OpenID Connect middleware. The middleware is configured with a URL from which it retrieves the metadata describing the various endpoints and encryption keys, such as the token and userinfo endpoints as well the token signing certificates
+2. A request for a resource protected by the `[Authorization]` kicks off the OIDC middleware login flow
+3. The user's browser is redirected to the Criipto Verify service where actual login happens
+4. A callback with an issued _authorization code_ is sent back to the application and intercepted by the OIDC middleware
+5. The middleware calls the Criipto Verify service to exchange the code for an _access token_. Note that this is a direct server to server call which - unlike the other communication - does not pass through the browser
+6. The access token is used by the OIDC middleware to retrieve the available user information which is set as claims on the user principal.
+
+If you want to inspect what is actually going on you may see much of it if you use for example chrome and turn on the developer tools to inspect the network traffic.
+
+## Setting up for Production
+
+import ProductionSnippet from '../../../snippets/set-up-production.mdx';
+
+<ProductionSnippet />
