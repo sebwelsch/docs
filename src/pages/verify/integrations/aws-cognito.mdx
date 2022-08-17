@@ -56,3 +56,7 @@ Make sure you have configured a Amazon Cognito domain for your AWS Cognito user 
 ## Perform a login
 
 Launch the hosted UI for your AWS Cognito domain/client or perform an authorize request.
+
+## Common errors
+
+- `invalid token_type in idp oauth response`: Make sure "User info response strategy" is configured as "plainJson"
