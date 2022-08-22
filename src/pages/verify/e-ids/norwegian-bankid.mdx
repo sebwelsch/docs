@@ -88,7 +88,38 @@ Test users are created through the web page at [https://ra-preprod.bankidnorge.n
 4. Click "Order" to initiate the process
 5. Once the process complete you now have a test user. User name is the generated SSN, one time password (OTP) is always "otp", and password is always "qwer1234"  
 
+<Highlight icon="info">
+
+It can take up to 1 hour before a newly created test user is activated.
+
+</Highlight>
+
 You can test it out at [our authentication demo site](https://verify-login.azurewebsites.net), which is a small sample hosted by Criipto.
+
+### Testing BankID Biometric
+Start by creating a netcentric test user as described above, and add an email and a phone number to the user.
+
+Install the test-version of the BankID App (on `iOS`, it is distributed via `TestFlight`).
+
+The app must be activated before first use:
+
+1. Press the Get started button
+2. Press the Activate BankID App button
+3. Press Continue
+4. Enter the birth number (SSN) for the test user you created and press the Next button
+5. Press the Get activation codes button
+6. Press the Next button
+7. Enter the phone number you associated to the test user and press the Next button
+8. Open the following page to get your activation codes (after replacing the `{yourTestSsn}` placeholder with your actual test-SSN): https://ra-preprod.bankidnorge.no/notification-console/content/{yourTestSsn}
+9. Type the one-time code that is shown on the website into the app and press the Next button
+10. Press the Next button in the "Is this your email?” screen
+11. Type the code words that is shown on the website into the app and press the Next button
+12. Press the Next button in the "Log in using BankID to complete the activation” screen
+13. Wait until BankID client has loaded in the browser. Pick BankID app in the method list if it is not already preselected.
+14. Type "qwer1234” as personal password and click the blue arrow button to the right
+15. A progress bar will appear and when finished you will be activated
+16. Enable biometrics (which will take you through a flow where you must agree to the terms and conditions).
+17. Run your first biometrics-based login.
 
 ### Testing Mobile BankID 
 
