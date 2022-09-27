@@ -123,3 +123,15 @@ import * as changeSignatoryExample from '../../../examples/changeSignatory.graph
 You can define `evidenceProviders` with `enabledByDefault: false` and then selectively enabling them using the `evidenceProviders` array input for `changeSignatory`.
 
 <GraphQLExample example={{...changeSignatoryExample, variables: changeSignatoryExample.drawableExampleVariables}} />
+
+### Sign acting as a signatory
+
+The common case is to let signatories sign via their browser with an e-ID, this also provides the highest level of evidence.
+
+However if you wish to sign acting as a signatory, for example to automatically counter-sign documents with a specific image, you can use the `signActingAs` mutation.
+
+Any signatory used **MUST be **[**preapproved**](#preapproval) as the API can no longer garantuee that the signatory has seen and approved the document.
+
+import * as signActingAsExample from '../../../examples/signActingAs.graphql';
+
+<GraphQLExample example={signActingAsExample} />

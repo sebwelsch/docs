@@ -76,7 +76,14 @@ export type ApplicationApiKey = {
   clientId: Scalars['String'];
   clientSecret?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
+  mode: ApplicationApiKeyMode;
+  note?: Maybe<Scalars['String']>;
 };
+
+export enum ApplicationApiKeyMode {
+  ReadOnly = 'READ_ONLY',
+  ReadWrite = 'READ_WRITE'
+}
 
 export type CancelSignatureOrderInput = {
   signatureOrderId: Scalars['ID'];
@@ -103,7 +110,18 @@ export type ChangeSignatoryOutput = {
   signatureOrder: SignatureOrder;
 };
 
+export type CleanupSignatureOrderInput = {
+  signatureOrderId: Scalars['ID'];
+};
+
+export type CleanupSignatureOrderOutput = {
+  __typename?: 'CleanupSignatureOrderOutput';
+  signatureOrder: SignatureOrder;
+};
+
 export type CloseSignatureOrderInput = {
+  /** Retains documents on Criipto servers after closing a signature order. You MUST manually call the cleanupSignatureOrder mutation when you are sure you have downloaded the blobs. Maximum value is 7 days. */
+  retainDocumentsForDays?: InputMaybe<Scalars['Int']>;
   signatureOrderId: Scalars['ID'];
 };
 
@@ -114,6 +132,8 @@ export type CloseSignatureOrderOutput = {
 
 export type CreateApplicationApiKeyInput = {
   applicationId: Scalars['ID'];
+  mode?: InputMaybe<ApplicationApiKeyMode>;
+  note?: InputMaybe<Scalars['String']>;
 };
 
 export type CreateApplicationApiKeyOutput = {
@@ -202,6 +222,16 @@ export type CriiptoVerifyProviderInput = {
   uniqueEvidenceKey?: InputMaybe<Scalars['String']>;
 };
 
+export type CriiptoVerifySignatureEvidenceProvider = {
+  __typename?: 'CriiptoVerifySignatureEvidenceProvider';
+  acrValues: Array<Scalars['String']>;
+  alwaysRedirect: Scalars['Boolean'];
+  clientID: Scalars['String'];
+  domain: Scalars['String'];
+  id: Scalars['ID'];
+  name: Scalars['String'];
+};
+
 export type DeleteApplicationApiKeyInput = {
   apiKeyId: Scalars['ID'];
   applicationId: Scalars['ID'];
@@ -226,6 +256,7 @@ export type Document = {
   blob?: Maybe<Scalars['Blob']>;
   id: Scalars['ID'];
   reference?: Maybe<Scalars['String']>;
+  signatures?: Maybe<Array<Signature>>;
   title: Scalars['String'];
 };
 
@@ -244,10 +275,20 @@ export type DrawableEvidenceProviderInput = {
   requireName?: InputMaybe<Scalars['Boolean']>;
 };
 
+export type DrawableSignature = Signature & {
+  __typename?: 'DrawableSignature';
+  signatory?: Maybe<Signatory>;
+};
+
 export type DrawableSignatureEvidenceProvider = {
   __typename?: 'DrawableSignatureEvidenceProvider';
   id: Scalars['ID'];
   requireName: Scalars['Boolean'];
+};
+
+export type EmptySignature = Signature & {
+  __typename?: 'EmptySignature';
+  signatory?: Maybe<Signatory>;
 };
 
 /** Must define either oidc or noop subsection. */
@@ -274,6 +315,11 @@ export type ExtendSignatureOrderOutput = {
   signatureOrder: SignatureOrder;
 };
 
+export type JwtSignature = Signature & {
+  __typename?: 'JWTSignature';
+  signatory?: Maybe<Signatory>;
+};
+
 export enum Language {
   DaDk = 'DA_DK',
   EnUs = 'EN_US',
@@ -290,6 +336,8 @@ export type Mutation = {
   cancelSignatureOrder?: Maybe<CancelSignatureOrderOutput>;
   /** Change an existing signatory */
   changeSignatory?: Maybe<ChangeSignatoryOutput>;
+  /** Cleans up the signature order and removes any saved documents from the servers. */
+  cleanupSignatureOrder?: Maybe<CleanupSignatureOrderOutput>;
   /** Finalizes the documents in the signature order and returns them to you as blobs. Documents are deleted from storage after closing. */
   closeSignatureOrder?: Maybe<CloseSignatureOrderOutput>;
   /** Creates a signature application for a given tenant. */
@@ -310,6 +358,8 @@ export type Mutation = {
   rejectSignatureOrder?: Maybe<RejectSignatureOrderOutput>;
   /** Used by Signatory frontends to sign the documents in a signature order. */
   sign?: Maybe<SignOutput>;
+  /** Sign with API credentials acting as a specific signatory. The signatory MUST be preapproved in this case. */
+  signActingAs?: Maybe<SignActingAsOutput>;
   /** Used by Signatory frontends sign the documents in a signature order with OIDC/JWT evidence. */
   signWithOidcJWT?: Maybe<SignWithOidcJwtOutput>;
   /** Signatory frontend use only. */
@@ -336,6 +386,11 @@ export type MutationCancelSignatureOrderArgs = {
 
 export type MutationChangeSignatoryArgs = {
   input: ChangeSignatoryInput;
+};
+
+
+export type MutationCleanupSignatureOrderArgs = {
+  input: CleanupSignatureOrderInput;
 };
 
 
@@ -386,6 +441,11 @@ export type MutationRejectSignatureOrderArgs = {
 
 export type MutationSignArgs = {
   input: SignInput;
+};
+
+
+export type MutationSignActingAsArgs = {
+  input: SignActingAsInput;
 };
 
 
@@ -462,6 +522,7 @@ export type PdfDocument = Document & {
   blob?: Maybe<Scalars['Blob']>;
   id: Scalars['ID'];
   reference?: Maybe<Scalars['String']>;
+  signatures?: Maybe<Array<Signature>>;
   title: Scalars['String'];
 };
 
@@ -518,13 +579,30 @@ export type RejectSignatureOrderOutput = {
   viewer: Viewer;
 };
 
+export type SignActingAsInput = {
+  evidence: SignInput;
+  signatoryId: Scalars['ID'];
+};
+
+export type SignActingAsOutput = {
+  __typename?: 'SignActingAsOutput';
+  signatory: Signatory;
+  signatureOrder: SignatureOrder;
+};
+
+export type SignCriiptoVerifyInput = {
+  jwt: Scalars['String'];
+};
+
 export type SignDrawableInput = {
   image: Scalars['Blob'];
   name?: InputMaybe<Scalars['String']>;
 };
 
 export type SignInput = {
+  criiptoVerify?: InputMaybe<SignCriiptoVerifyInput>;
   drawable?: InputMaybe<SignDrawableInput>;
+  /** EvidenceProvider id */
   id: Scalars['ID'];
   noop?: InputMaybe<Scalars['Boolean']>;
   oidc?: InputMaybe<SignOidcInput>;
@@ -609,6 +687,7 @@ export type SignatoryEvidenceValidationInput = {
 };
 
 export enum SignatoryStatus {
+  Deleted = 'DELETED',
   Error = 'ERROR',
   Open = 'OPEN',
   Rejected = 'REJECTED',
@@ -622,9 +701,15 @@ export type SignatoryViewer = Viewer & {
   evidenceProviders: Array<SignatureEvidenceProvider>;
   id: Scalars['ID'];
   signatoryId: Scalars['ID'];
+  signatureOrderStatus: SignatureOrderStatus;
   signer: Scalars['Boolean'];
   status: SignatoryStatus;
   ui: SignatureOrderUi;
+};
+
+/** Represents a signature on a document. */
+export type Signature = {
+  signatory?: Maybe<Signatory>;
 };
 
 export type SignatureAppearanceInput = {
@@ -632,7 +717,7 @@ export type SignatureAppearanceInput = {
   identifierFromEvidence: Array<Scalars['String']>;
 };
 
-export type SignatureEvidenceProvider = DrawableSignatureEvidenceProvider | NoopSignatureEvidenceProvider | OidcJwtSignatureEvidenceProvider;
+export type SignatureEvidenceProvider = CriiptoVerifySignatureEvidenceProvider | DrawableSignatureEvidenceProvider | NoopSignatureEvidenceProvider | OidcJwtSignatureEvidenceProvider;
 
 export type SignatureOrder = {
   __typename?: 'SignatureOrder';
