@@ -50,11 +50,13 @@ export default function AuthorizeURLBuilder() {
     const domain = url.searchParams.get('domain');
     const client_id = url.searchParams.get('client_id');
     const redirect_uri = url.searchParams.get('redirect_uri');
+    const acr_values = url.searchParams.get('acr_values')?.split(" ");
     setOptions(options => ({
       ...options,
       domain: domain ?? options.domain,
       client_id: client_id ?? options.client_id,
-      redirect_uri: redirect_uri ?? options.redirect_uri
+      redirect_uri: redirect_uri ?? options.redirect_uri,
+      acr_values: acr_values ?? options.acr_values
     }));
   }, []);
 
