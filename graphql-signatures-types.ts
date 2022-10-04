@@ -218,6 +218,8 @@ export type CreateSignatureOrderWebhookInput = {
 export type CriiptoVerifyProviderInput = {
   acrValues?: InputMaybe<Array<Scalars['String']>>;
   alwaysRedirect?: InputMaybe<Scalars['Boolean']>;
+  /** Messages displayed when performing authentication (only supported by DKMitID currently). */
+  message?: InputMaybe<Scalars['String']>;
   /** Enforces that signatories sign by unique evidence by comparing the values of previous evidence on the key you define. For Criipto Verify you likely want to use `sub` which is a unique pseudonym value present in all e-ID tokens issued. */
   uniqueEvidenceKey?: InputMaybe<Scalars['String']>;
 };
@@ -229,6 +231,7 @@ export type CriiptoVerifySignatureEvidenceProvider = {
   clientID: Scalars['String'];
   domain: Scalars['String'];
   id: Scalars['ID'];
+  message?: Maybe<Scalars['String']>;
   name: Scalars['String'];
 };
 
@@ -360,8 +363,6 @@ export type Mutation = {
   sign?: Maybe<SignOutput>;
   /** Sign with API credentials acting as a specific signatory. The signatory MUST be preapproved in this case. */
   signActingAs?: Maybe<SignActingAsOutput>;
-  /** Used by Signatory frontends sign the documents in a signature order with OIDC/JWT evidence. */
-  signWithOidcJWT?: Maybe<SignWithOidcJwtOutput>;
   /** Signatory frontend use only. */
   signatoryBeacon?: Maybe<SignatoryBeaconOutput>;
   /** Used by Signatory frontends to mark documents as opened, approved or rejected. */
@@ -446,11 +447,6 @@ export type MutationSignArgs = {
 
 export type MutationSignActingAsArgs = {
   input: SignActingAsInput;
-};
-
-
-export type MutationSignWithOidcJwtArgs = {
-  input: SignWithOidcJwtInput;
 };
 
 
@@ -614,16 +610,6 @@ export type SignOidcInput = {
 
 export type SignOutput = {
   __typename?: 'SignOutput';
-  viewer: Viewer;
-};
-
-export type SignWithOidcJwtInput = {
-  id: Scalars['ID'];
-  jwt: Scalars['String'];
-};
-
-export type SignWithOidcJwtOutput = {
-  __typename?: 'SignWithOidcJWTOutput';
   viewer: Viewer;
 };
 
@@ -847,6 +833,13 @@ export type ExampleChangeSignatoryMutationVariables = Exact<{
 
 
 export type ExampleChangeSignatoryMutation = { __typename?: 'Mutation', changeSignatory?: { __typename?: 'ChangeSignatoryOutput', signatory: { __typename?: 'Signatory', id: string, href: string, token: string } } | null | undefined };
+
+export type ExampleSignActingAsMutationVariables = Exact<{
+  input: SignActingAsInput;
+}>;
+
+
+export type ExampleSignActingAsMutation = { __typename?: 'Mutation', signActingAs?: { __typename?: 'SignActingAsOutput', signatory: { __typename?: 'Signatory', id: string, status: SignatoryStatus } } | null | undefined };
 
 export type SignatoryWebhookQueryVariables = Exact<{
   signatoryId: Scalars['ID'];

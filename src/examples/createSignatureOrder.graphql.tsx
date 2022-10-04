@@ -26,6 +26,9 @@ mutation examplesCreateSignatureOrder(
         ... on OidcJWTSignatureEvidenceProvider {
           id
         }
+        ... on CriiptoVerifySignatureEvidenceProvider {
+          id
+        }
         ... on DrawableSignatureEvidenceProvider {
           id
         }
