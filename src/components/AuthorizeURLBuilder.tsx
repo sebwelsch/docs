@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 
 import { H3, Paragraph } from "./MdxProvider";
 import URLCodeBlock from './URLCodeBlock';
@@ -43,6 +43,20 @@ export default function AuthorizeURLBuilder() {
     scopes_quirk : 'none',
     prompt: null
   });
+
+  useEffect(() => {
+    if (!isBrowser) return;
+    const url = new URL(location.href);
+    const domain = url.searchParams.get('domain');
+    const client_id = url.searchParams.get('client_id');
+    const redirect_uri = url.searchParams.get('redirect_uri');
+    setOptions(options => ({
+      ...options,
+      domain: domain ?? options.domain,
+      client_id: client_id ?? options.client_id,
+      redirect_uri: redirect_uri ?? options.redirect_uri
+    }));
+  }, []);
 
   const updateOption = (key: keyof AuthorizeURLOptions, event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => {
     setOptions(options => ({
