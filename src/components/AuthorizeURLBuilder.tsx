@@ -5,6 +5,24 @@ import URLCodeBlock from './URLCodeBlock';
 import {PROVIDERS} from '../utils/auth-methods';
 import { Link } from "gatsby";
 
+const ACTION_SUPPORTING_ACR_VALUES = [
+  'urn:grn:authn:dk:mitid:low',
+  'urn:grn:authn:dk:mitid:substantial',
+  'urn:grn:authn:dk:mitid:high',
+  'urn:grn:authn:se:bankid:same-device',
+  'urn:grn:authn:se:bankid:another-device',
+  'urn:grn:authn:se:bankid:another-device:qr',
+];
+
+const MESSAGE_SUPPORTING_ACR_VALUES = [
+  'urn:grn:authn:dk:mitid:low',
+  'urn:grn:authn:dk:mitid:substantial',
+  'urn:grn:authn:dk:mitid:high'
+];
+
+const actions = ['login', 'confirm', 'accept', 'approve', 'sign'] as const;
+type Action = typeof actions[number];
+
 interface AuthorizeURLOptions {
   domain: string,
   client_id: string
@@ -18,6 +36,8 @@ interface AuthorizeURLOptions {
   selectedScopes : string []
   scopes_quirk : "none" | "login_hint"
   prompt: "login" | "none" | "consent" | "consent_revoke" | null
+  action: Action | null,
+  message: string | null
 }
 
 const isBrowser = typeof window !== "undefined";
@@ -41,7 +61,9 @@ export default function AuthorizeURLBuilder() {
     availableScopes: [],
     selectedScopes : [],
     scopes_quirk : 'none',
-    prompt: null
+    prompt: null,
+    action: null,
+    message: null
   });
 
   useEffect(() => {
@@ -51,14 +73,26 @@ export default function AuthorizeURLBuilder() {
     const client_id = url.searchParams.get('client_id');
     const redirect_uri = url.searchParams.get('redirect_uri');
     const acr_values = url.searchParams.get('acr_values')?.split(" ");
+    const action = url.searchParams.get('action') as Action | null;
     setOptions(options => ({
       ...options,
       domain: domain ?? options.domain,
       client_id: client_id ?? options.client_id,
       redirect_uri: redirect_uri ?? options.redirect_uri,
-      acr_values: acr_values ?? options.acr_values
+      acr_values: acr_values ?? options.acr_values,
+      action: action ?? options.action,
+      message: url.searchParams.get('message') ?? options.message
     }));
   }, []);
+
+  const supportsAction =
+    options.acr_values.length === 1 ? ACTION_SUPPORTING_ACR_VALUES.includes(options.acr_values[0]) :
+    options.acr_values.length >= 2 ? options.acr_values.some(v => ACTION_SUPPORTING_ACR_VALUES.includes(v)) :
+    true;
+  const supportsMessage =
+    options.acr_values.length === 1 ? MESSAGE_SUPPORTING_ACR_VALUES.includes(options.acr_values[0]) :
+    options.acr_values.length >= 2 ? options.acr_values.some(v => MESSAGE_SUPPORTING_ACR_VALUES.includes(v)) :
+    false;
 
   const updateOption = (key: keyof AuthorizeURLOptions, event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => {
     setOptions(options => ({
@@ -135,6 +169,8 @@ export default function AuthorizeURLBuilder() {
     if (key == 'availableScopes') continue;
     if (key == 'selectedScopes') continue;
     if (key == 'scopes_quirk') continue;
+    if (key == 'action') continue;
+    if (key == 'message') continue;
     if (!options[key]) continue;
     url.searchParams.set(key, options[key]!);
   }
@@ -158,6 +194,15 @@ export default function AuthorizeURLBuilder() {
       url.searchParams.set('scope', `openid ${options.selectedScopes.join(' ')}`);
     }
   }
+
+  if (supportsAction && options.action) {
+    loginHint.push(`action:${options.action}`);
+  }
+
+  if (supportsMessage && options.message) {
+    loginHint.push(`message:${btoa(options.message)}`);
+  }
+
   if (loginHint.length > 0) {
     url.searchParams.set('login_hint', loginHint.join(' '));
   }
@@ -380,6 +425,44 @@ export default function AuthorizeURLBuilder() {
           </div>
         ) : null}
       </div>
+
+      {(supportsAction || supportsMessage) ? (
+        <React.Fragment>
+          <div className="mb-4 grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="action">
+                Action
+              </label>
+              <select
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="action"
+                placeholder="Action"
+                value={options.action || ""}
+                onChange={(event) => updateOption('action', event)}
+              >
+                {actions.map(action => (
+                  <option key={action} value={action}>{action}</option>
+                ))}
+              </select>
+              <small>Setting action will change header texts on Criipto pages and also the action text inside the MitID login box.</small>
+            </div>
+            <div>
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="message">
+                Message
+              </label>
+              <input
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="message"
+                type="text"
+                placeholder="Message"
+                value={options.message || ""}
+                onChange={(event) => updateOption('message', event)}
+              />
+              <small>DK MitID only. Will display a message to the end user in the MitID app.</small>
+            </div>
+          </div>
+        </React.Fragment>
+      ) : null}
 
       <URLCodeBlock url={url} />
     </React.Fragment>

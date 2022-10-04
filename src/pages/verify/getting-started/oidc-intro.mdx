@@ -202,10 +202,14 @@ For DK and the SE another-device flows, you can add the following values to the 
 
 Sending, say, `action:approve` will change "Login at ..." worded elements to "Approve at ...".
 
+[Authorize URL builder example](/verify/guides/authorize-url-builder/?acr_values=urn:grn:authn:dk:mitid:low&action=approve)
+
 <Highlight icon="info">
 
 Note that specifically for [Danish MitID](/verify/e-ids/danish-mitid), you may also send a base64-url-encoded message via `message:<BASE64-URL ENCODED TEXT>`, which will be shown to the end user in the MitID app.
 For example, if you want to show a *Transfer EUR 100 to IBAN DK123456781234* message to the user, add a `message:VHJhbnNmZXIgRVVSIDEwMCB0byBJQkFOIERLMTIzNDU2NzgxMjM0` value to the `login_hint`.
+
+[Authorize URL builder example](/verify/guides/authorize-url-builder/?acr_values=urn:grn:authn:dk:mitid:low&action=approve&message=Transfer%20EUR%20100%20to%20IBAN%20DK123456781234)
 
 </Highlight>
 
