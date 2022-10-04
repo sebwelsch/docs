@@ -17,6 +17,7 @@ interface AuthorizeURLOptions {
   availableScopes : string[]
   selectedScopes : string []
   scopes_quirk : "none" | "login_hint"
+  prompt: "login" | "none" | "consent" | "consent_revoke" | null
 }
 
 const isBrowser = typeof window !== "undefined";
@@ -39,7 +40,8 @@ export default function AuthorizeURLBuilder() {
     nonce: `ecnon-${randomUUID()}`,
     availableScopes: [],
     selectedScopes : [],
-    scopes_quirk : 'none'
+    scopes_quirk : 'none',
+    prompt: null
   });
 
   const updateOption = (key: keyof AuthorizeURLOptions, event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => {
@@ -117,7 +119,8 @@ export default function AuthorizeURLBuilder() {
     if (key == 'availableScopes') continue;
     if (key == 'selectedScopes') continue;
     if (key == 'scopes_quirk') continue;
-    url.searchParams.set(key, options[key]);
+    if (!options[key]) continue;
+    url.searchParams.set(key, options[key]!);
   }
 
   let loginHint = [];
@@ -237,6 +240,32 @@ export default function AuthorizeURLBuilder() {
             onChange={(event) => updateOption('nonce', event)}
           />
           <small>Should be a cryptographically strong value</small>
+        </div>
+
+        <div>
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="prompt">
+            Prompt
+          </label>
+          <select
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="prompt"
+            placeholder="Prompt"
+            value={options.prompt || ""}
+            onChange={(event) => updateOption('prompt', event)}
+          >
+            <option value="">Not set</option>
+            <option value="none">none</option>
+            <option value="login">login</option>
+            <option value="consent">consent</option>
+            <option value="consent_revoke">consent_revoke</option>
+          </select>
+          {options.prompt === 'login' ? (
+            <small>`prompt=login` will force a login regardless of SSO state.</small>
+          ) : options.prompt === 'none' ? (
+            <small>`prompt=none` will use existing SSO session or fail with `login_required`.</small>
+          ) : options.prompt === 'consent_revoke' ? (
+            <small>`prompt=consent_revoke` will revoke any existing SSN consent.</small>
+          ) : null}
         </div>
       </div>
 
