@@ -23,6 +23,9 @@ const MESSAGE_SUPPORTING_ACR_VALUES = [
 const actions = ['login', 'confirm', 'accept', 'approve', 'sign'] as const;
 type Action = typeof actions[number];
 
+const prompts = ["login", "none", "consent", "consent_revoke"] as const;
+type Prompt = typeof prompts[number];
+
 interface AuthorizeURLOptions {
   domain: string,
   client_id: string
@@ -35,7 +38,7 @@ interface AuthorizeURLOptions {
   availableScopes : string[]
   selectedScopes : string []
   scopes_quirk : "none" | "login_hint"
-  prompt: "login" | "none" | "consent" | "consent_revoke" | null
+  prompt: Prompt | null
   action: Action | null,
   message: string | null
 }
@@ -74,6 +77,7 @@ export default function AuthorizeURLBuilder() {
     const redirect_uri = url.searchParams.get('redirect_uri');
     const acr_values = url.searchParams.get('acr_values')?.split(" ");
     const action = url.searchParams.get('action') as Action | null;
+    const prompt = url.searchParams.get('prompt') as Prompt | null;
     setOptions(options => ({
       ...options,
       domain: domain ?? options.domain,
@@ -81,7 +85,8 @@ export default function AuthorizeURLBuilder() {
       redirect_uri: redirect_uri ?? options.redirect_uri,
       acr_values: acr_values ?? options.acr_values,
       action: action ?? options.action,
-      message: url.searchParams.get('message') ?? options.message
+      message: url.searchParams.get('message') ?? options.message,
+      prompt: prompt ?? options.prompt
     }));
   }, []);
 
@@ -315,10 +320,9 @@ export default function AuthorizeURLBuilder() {
             onChange={(event) => updateOption('prompt', event)}
           >
             <option value="">Not set</option>
-            <option value="none">none</option>
-            <option value="login">login</option>
-            <option value="consent">consent</option>
-            <option value="consent_revoke">consent_revoke</option>
+            {prompts.map(prompt => (
+                <option key={prompt} value={prompt}>{prompt}</option>
+              ))}
           </select>
           {options.prompt === 'login' ? (
             <small>`prompt=login` will force a login regardless of SSO state.</small>
