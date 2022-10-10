@@ -62,6 +62,22 @@ export const scopedVariables = (data: ExampleData) : {input: AddSignatoryInput} 
   }
 });
 
+export const sealPositionVariables = (data: ExampleData) : {input: AddSignatoryInput} => ({
+  input: {
+    signatureOrderId: data?.createSignatureOrder?.signatureOrder.id || "[signatureOrder.id]",
+    documents: [
+      {
+        id: data.createSignatureOrder?.signatureOrder.documents[1].id || "[signatureOrder.documents[...].id]",
+        pdfSealPosition: {
+          page: 1,
+          x: 15,
+          y: 15
+        }
+      }
+    ]
+  }
+});
+
 export const evidenceValidationVariables = (data: ExampleData) : {input: AddSignatoryInput} => ({
   input: {
     signatureOrderId: data?.createSignatureOrder?.signatureOrder.id || "[signatureOrder.id]",

@@ -280,6 +280,8 @@ export type DrawableEvidenceProviderInput = {
 
 export type DrawableSignature = Signature & {
   __typename?: 'DrawableSignature';
+  image: Scalars['Blob'];
+  name?: Maybe<Scalars['String']>;
   signatory?: Maybe<Signatory>;
 };
 
@@ -320,6 +322,8 @@ export type ExtendSignatureOrderOutput = {
 
 export type JwtSignature = Signature & {
   __typename?: 'JWTSignature';
+  jwks: Scalars['String'];
+  jwt: Scalars['String'];
   signatory?: Maybe<Signatory>;
 };
 
@@ -522,9 +526,16 @@ export type PdfDocument = Document & {
   title: Scalars['String'];
 };
 
+export type PdfSealPosition = {
+  page: Scalars['Int'];
+  x: Scalars['Float'];
+  y: Scalars['Float'];
+};
+
 export type Query = {
   __typename?: 'Query';
   application?: Maybe<Application>;
+  document?: Maybe<Document>;
   /** Query a signatory by id. Useful when using webhooks. */
   signatory?: Maybe<Signatory>;
   signatureOrder?: Maybe<SignatureOrder>;
@@ -536,6 +547,11 @@ export type Query = {
 
 
 export type QueryApplicationArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryDocumentArgs = {
   id: Scalars['ID'];
 };
 
@@ -653,6 +669,8 @@ export type SignatoryDocumentEdge = {
 
 export type SignatoryDocumentInput = {
   id: Scalars['ID'];
+  /** Define custom position for PDF seal. Uses PDF coordinate system (bottom-left as 0,0). If defined for one signatory/document, must be defined for all. */
+  pdfSealPosition?: InputMaybe<PdfSealPosition>;
   preapproved?: InputMaybe<Scalars['Boolean']>;
 };
 

@@ -52,6 +52,14 @@ When using preapproval document-scoping is automatically used so make sure that 
 
 <GraphQLExample example={{...addSignatoryExample, variables: addSignatoryExample.preapprovedVariables}} />
 
+### Custom seal position
+
+If you do not wish to use the default seal positions (placed in two columns on a blank page appended to the order) you can define a set of custom seal positions.
+
+When using custom seal positions, they must be defined for all signatories added to the order.
+
+<GraphQLExample example={{...addSignatoryExample, variables: addSignatoryExample.sealPositionVariables}} />
+
 ### Multiple signatories
 
 import * as addSignatoriesExample from '../../../examples/addSignatories.graphql';
