@@ -265,6 +265,8 @@ export type Document = {
 
 export type DocumentInput = {
   pdf: PadesDocumentInput;
+  /** When enabled, will remove any existing signatures from the document before storing. */
+  removePreviousSignatures?: InputMaybe<Scalars['Boolean']>;
 };
 
 /** Document storage mode. Temporary documents will be deleted once completed. */
@@ -330,6 +332,7 @@ export type JwtSignature = Signature & {
 export enum Language {
   DaDk = 'DA_DK',
   EnUs = 'EN_US',
+  NbNo = 'NB_NO',
   SvSe = 'SV_SE'
 }
 

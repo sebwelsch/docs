@@ -60,6 +60,18 @@ export const variables = (extra?: Partial<CreateSignatureOrderInput>) : {input: 
   }
 });
 
+export const removePreviousSignaturesVariables = () => {
+  return {
+    input: {
+      ...variables().input,
+      documents: variables().input.documents.map(doc => ({
+        ...doc,
+        removePreviousSignatures: true
+      }))
+    }
+  };
+}
+
 export const uiExampleVariables = () : {input: CreateSignatureOrderInput} => {
   return {
     input: {

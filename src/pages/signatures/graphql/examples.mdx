@@ -18,6 +18,12 @@ Creates a signature order containing PDF documents to be signed.
 
 <GraphQLExample example={createSignatureOrderExample} />
 
+### Removing existing signatures
+
+It is currently not possible to sign documents that have previously been signed, the documents will be rejected unless you use `removePreviousSignatures`.
+
+<GraphQLExample example={{...createSignatureOrderExample, variables: createSignatureOrderExample.removePreviousSignaturesVariables}} />
+
 ## Adding a signatory to a signature order
 
 import * as addSignatoryExample from '../../../examples/addSignatory.graphql';
