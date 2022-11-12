@@ -279,6 +279,6 @@ You must take a few steps if you wish to stop offering NemID alongside MitID log
 
 - Remove the NemID option from any of your applications.
 - Disable "Also offer MitID login when NemID is requested" on your [MitID identity provider settings](https://dashboard.criipto.com/production/providers/DK_MITID) page
-- Remove or swap `urn:grn:dk:nemid:*` acr_values from any of your authorize requests.
+- Remove or swap `urn:grn:authn:dk:nemid:*` acr_values from any of your authorize requests.
 
 If you are currently starting your authorize request on a non-MitID domain you can also consider swapping to use the MitID domain directly.
