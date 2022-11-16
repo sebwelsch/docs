@@ -99,7 +99,7 @@ const redirectPassport = new CriiptoVerifyRedirectPassportStrategy(
     redirectUri: '/login',
     postLogoutRedirectUri: '/',
 
-    // Ammend authorize request if you wish
+    // Amend authorize request if you wish
     beforeAuthorize(req, options) {
       return {
         ...options,
@@ -145,7 +145,7 @@ const expressRedirect = new CriiptoVerifyExpressRedirect({
   redirectUri: '/login',
   postLogoutRedirectUri: '/',
 
-  // Ammend authorize request if you wish
+  // Amend authorize request if you wish
   beforeAuthorize(req, options) {
     return {
       ...options,
