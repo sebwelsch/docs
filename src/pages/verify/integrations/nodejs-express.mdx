@@ -77,6 +77,8 @@ app.use(
 ```javascript
 // server.js
 
+const CriiptoVerifyRedirectPassportStrategy = require('@criipto/verify-express').CriiptoVerifyRedirectPassportStrategy;
+
 app.use(passport.initialize());
 app.use(passport.session());
 passport.serializeUser(function(user, done) {
@@ -90,7 +92,7 @@ const redirectPassport = new CriiptoVerifyRedirectPassportStrategy(
   {
     domain: "{{YOUR_CRIIPTO_DOMAIN}}",
     clientID: "{{YOUR_CLIENT_ID}}",
-    clientSecret: CRIIPTO_CLIENT_SECRET,
+    clientSecret: "{{YOUR_CLIENT_SECRET}}",
     // Should match an express route that is an allowed callback URL in your application
     // This route should also have the authentication middleware applied.
     redirectUri: '/login',
@@ -130,10 +132,13 @@ app.get('/error', function (req, res, next) {
 ### Plain express
 
 ```javascript
+
+const CriiptoVerifyExpressRedirect = require('@criipto/verify-express').CriiptoVerifyExpressRedirect;
+
 const expressRedirect = new CriiptoVerifyExpressRedirect({
   domain: "{{YOUR_CRIIPTO_DOMAIN}}",
   clientID: "{{YOUR_CLIENT_ID}}",
-  clientSecret: CRIIPTO_CLIENT_SECRET,
+  clientSecret: "{{YOUR_CLIENT_SECRET}}",
   // Should match an express route that is an allowed callback URL in your application
   // This route should also have the authentication middleware applied.
   redirectUri: '/login',
