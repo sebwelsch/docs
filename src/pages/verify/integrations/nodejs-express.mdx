@@ -56,7 +56,7 @@ Sessions must be setup when using redirect based authentication.
 
 You must also register a Callback URL on your Criipto Application matching the URL of your redirect handling route.
 
-```js
+```javascript
 // server.js
 
 const express = require('express');
@@ -74,7 +74,7 @@ app.use(
 
 ### Passport
 
-```js
+```javascript
 // server.js
 
 app.use(passport.initialize());
@@ -129,7 +129,7 @@ app.get('/error', function (req, res, next) {
 
 ### Plain express
 
-```js
+```javascript
 const expressRedirect = new CriiptoVerifyExpressRedirect({
   domain: "{{YOUR_CRIIPTO_DOMAIN}}",
   clientID: "{{YOUR_CLIENT_ID}}",
@@ -176,7 +176,7 @@ You must register a Callback URL on your Criipto Application matching the `href`
 
 ### Passport
 
-```js
+```javascript
 // server.js
 const express = require('express');
 const passport = require('passport');
@@ -223,7 +223,7 @@ fetch(`{server}/jwt-protected-route`, {
 
 ### Plain express
 
-```js
+```javascript
 // server.js
 
 const express = require('express');
