@@ -12,7 +12,9 @@ export default Layout;
 import {ImageContainer} from '../../../components/MdxProvider';
 import ConsentRevocation from '../../../components/ConsentRevocation';
 
-## JWT/Token example
+## JWT/Token examples
+
+### MitID for citizens
 
 ```json
 {
@@ -29,6 +31,41 @@ import ConsentRevocation from '../../../components/ConsentRevocation';
 }
 ```
 The `cprNumberIdentifier` field is the social security number.
+
+### MitID for company signatories
+
+```json
+{
+  "identityscheme": "dkmitid",
+  "nameidentifier": "0f9960a0d28d4353a3e2ea07f8ffa185",
+  "sub": "{0f9960a0-d28d-4353-a3e2-ea07f8ffa185}",
+  "uuid": "74ffcd31-fbaf-4c33-bdac-169f25c1e416",
+  "cprNumberIdentifier": "2101270087",
+  "birthdate": "1927-01-21",
+  "age": "93",
+  "name": "Ditlev Von Testesen",
+  "cvrNumberIdentifier": "12345678",
+  "2.5.4.10": "Testorganisation nr. 12345678",
+  "country": "DK"
+}
+```
+
+### MitID for business ('MitID Erhverv')
+
+```json
+{
+  "identityscheme": "dkmitid",
+  "nameidentifier": "159d89fca2db4300a52ab7865f7b1ff3",
+  "sub": "{159d89fc-a2db-4300-a52a-b7865f7b1ff3}",
+  "uuid": "3c6d9757-1e70-438a-8dd3-5f84398c2e25",
+  "cvrNumberIdentifier": "12345678",
+  "2.5.4.10": "Testorganisation nr. 12345678",
+  "name": "Firstname Lastname",
+  "country": "DK"
+}
+```
+
+The `uuid` value here will not be the same as for a citizen-MitID login, even if the user chose to use their personal MitID for login.
 
 ## Test users
 
@@ -91,10 +128,16 @@ MitID supports a "ReAuthentication" flow where the username input step can be sk
 
 `login_hint=uuid:<uuid>` to trigger re-authentication when UUID is known.
 
-## MitID for business
+## MitID for business ('MitID Erhverv')
 
 You can request a login in business context by sending a `login_hint=business` query parameter in the authorize request.
 This will allow company signatories to log in to your site with their personal MitID.
+
+<Highlight icon="info">
+
+In the very near future, this will also allow employees to log in, either with their personal MitID or with a dedicated MitID.
+
+</Highlight>
 
 You can read more about the [`login_hint` here](/verify/getting-started/oidc-intro/#the-loginhint-parameter).
 
