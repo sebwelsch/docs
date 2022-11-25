@@ -16,6 +16,8 @@ You can use the values included in the webhook body to query the GraphQL API for
 
 ## SIGNATORY_SIGNED
 
+Triggered when a signatory successfully signs the order.
+
 ```
 {
   "event" = "SIGNATORY_SIGNED",
@@ -26,6 +28,8 @@ You can use the values included in the webhook body to query the GraphQL API for
 
 ## SIGNATORY_REJECTED
 
+Triggered when a signatory rejects the signature order via the UI.
+
 ```
 {
   "event" = "SIGNATORY_REJECTED",
@@ -35,6 +39,8 @@ You can use the values included in the webhook body to query the GraphQL API for
 ```
 
 ## SIGNATORY_SIGN_ERROR
+
+Triggered when a signatory experiences an error as part of signing.
 
 ```
 {
