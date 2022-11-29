@@ -26,6 +26,7 @@ export function graphQLFetcher<R = any, V = any>(graphQLParams : GraphQLParams<V
   const headers : RequestInit["headers"] = {
     Accept: 'application/json',
     'Content-Type': 'application/json',
+    'Criipto-Sdk': 'docs.criipto.com'
   };
 
   if (credentials && "clientID" in credentials) {
