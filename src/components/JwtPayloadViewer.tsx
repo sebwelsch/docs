@@ -7,6 +7,6 @@ interface Props {
 }
 export default function JwtPayloadViewer(props: Props) {
   return (
-    <PayloadViewer payload={props.payload} className="p-1 border rounded max-w-screen-md" />
+    <PayloadViewer payload={props.payload} className="p-3 border rounded max-w-screen-md" />
   );
 }
