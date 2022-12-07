@@ -6,6 +6,7 @@ title: Sofort
 subtitle: Learn more about Sofort token contents, how to create test users and how to gain access to production.
 ---
 import Layout from '../../../layouts/mdx';
+import JwtPayloadViewer from '../../../components/JwtPayloadViewer';
 
 export default Layout;
 
@@ -13,24 +14,26 @@ export default Layout;
 
 Schufa age-check is always included
 
-```json
-{
-  "identityscheme": "germansofort",
-  "nameidentifier": "e59be66bf048495f97aca1db8e597fe2",
-  "sub": "{e59be66b-f048-495f-97ac-a1db8e597fe2}",
-  "given_name": "HANS-GERD",
-  "family_name": "WARNECKE",
-  "age": "67",
-  "birthdate": "1953-01-16",
-  "agecheck_result": "valid",
-  "address": {
-    "street_address": "ALTENBURGER STR. 10",
-    "postal_code": "38444",
-    "city": "WOLFSBURG",
-    "country": "DE"
+<JwtPayloadViewer
+  payload={
+    {
+      "identityscheme": "germansofort",
+      "nameidentifier": "e59be66bf048495f97aca1db8e597fe2",
+      "sub": "{e59be66b-f048-495f-97ac-a1db8e597fe2}",
+      "given_name": "HANS-GERD",
+      "family_name": "WARNECKE",
+      "age": "67",
+      "birthdate": "1953-01-16",
+      "agecheck_result": "valid",
+      "address": {
+        "street_address": "ALTENBURGER STR. 10",
+        "postal_code": "38444",
+        "city": "WOLFSBURG",
+        "country": "DE"
+      }
+    }
   }
-}
-```
+/>
 
 ## Test users
 

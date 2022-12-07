@@ -6,24 +6,27 @@ title: Swedish BankID
 subtitle: Learn more about Swedish BankID token contents, how to create test users and how to gain access to production.
 ---
 import Layout from '../../../layouts/mdx';
+import JwtPayloadViewer from '../../../components/JwtPayloadViewer';
 
 export default Layout;
 
 ## JWT/Token example
 
-```json
-{
-  "identityscheme": "sebankid",
-  "nameidentifier": "1373c272b61a4cb588b29c44883fe62f",
-  "sub": "{1373c272-b61a-4cb5-88b2-9c44883fe62f}",
-  "ssn": "196802020575",
-  "name": "Terne Paulsen",
-  "given_name": "Terne",
-  "family_name": "Paulsen",
-  "ipaddress": "77.241.128.160",
-  "country": "SE"
-}
-```
+<JwtPayloadViewer
+  payload={
+    {
+      "identityscheme": "sebankid",
+      "nameidentifier": "1373c272b61a4cb588b29c44883fe62f",
+      "sub": "{1373c272-b61a-4cb5-88b2-9c44883fe62f}",
+      "ssn": "196802020575",
+      "name": "Terne Paulsen",
+      "given_name": "Terne",
+      "family_name": "Paulsen",
+      "ipaddress": "77.241.128.160",
+      "country": "SE"
+    }
+  }
+/>
 
 The `ssn` field is the social security number.
 
