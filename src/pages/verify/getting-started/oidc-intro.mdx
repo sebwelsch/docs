@@ -133,7 +133,7 @@ You <strong>must also x-www-form-urlencode</strong> the values of the `CLIENT_ID
 ```text
 HTTP POST https://YOUR_SUBDOMAIN.criipto.id/oauth2/token
 Content-Type: application/x-www-form-urlencoded
-Authorization: Basic <BASE64(xWwwFormUrlEncode(CLIENT_ID):xWwwFormUrlEncode(CLIENT_SECRET))>
+Authorization: Basic BASE64(xWwwFormUrlEncode(CLIENT_ID):xWwwFormUrlEncode(CLIENT_SECRET))
 
 grant_type=authorization_code&code=AUTHORIZATION_CODE&client_id=CLIENT_ID&redirect_uri=YOUR_RETURN_URL
 ```
