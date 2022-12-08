@@ -308,7 +308,7 @@ For example, if you want to show a *Transfer EUR 100 to IBAN DK123456781234* mes
 'Authorization': "Basic " + Buffer.from(`${encodeURIComponent(CRIIPTO_CLIENT_ID)}:${encodeURIComponent(CRIIPTO_SECRET)}`).toString('base64')
 
 // Javascript
-'Authorization': "Basic " + btoa(`${encodeURIComponent(CRIIPTO_CLIENT_ID)}:${CRIIPTO_SECRET}`)
+'Authorization': "Basic " + btoa(`${encodeURIComponent(CRIIPTO_CLIENT_ID)}:${encodeURIComponent(CRIIPTO_SECRET)}`)
 ```
 
 ```csharp
