@@ -96,7 +96,22 @@ You can <a href="https://acme-corp.criipto.id/oauth2/authorize?response_type=id_
 
 For more about how to handle the implicit flow, see below. 
 
-### Response for back-channel code flow
+## Authenticate with back-channel code flow
+
+### Example request
+
+```
+GET https://YOUR_SUBDOMAIN.criipto.id/oauth2/authorize?
+    response_type=code&
+    response_mode=query
+    client_id=CLIENT_ID&
+    redirect_uri=YOUR_RETURN_URL&
+    acr_values=CHOSEN_IDENTITY_SERVICE&
+    scope=openid&
+    state=YOUR_STATE
+```
+
+### Example response
 
 For the code flow, when you used `response_type=code`, you will receive an `HTTP 302` response which redirects your browser to your specified `redirect_uri` with the authorization code included at the end of the URL:
 
@@ -105,21 +120,25 @@ HTTP/1.1 302 Found
 Location: YOUR_RETURN_URL?code=AUTHORIZATION_CODE&state=YOUR_STATE
 ```
 
-#### Exchange the code for a token
+### Exchange the code for a token
+
 For the code flow you will need to exchange the returned code for an actual token. This is done by posting the authorization code received from the previous step to the token endpoint.
 
 For PKCE-enabled clients, this exchange is based on a one-time secret created by the OIDC library you use to handle the flow, and the exchange will also be handled by the same library.
 
-For traditional back-channel flows, note that you must use a HTML-form-style HTTP POST here, and preferably send the credentials in the `Authorization` HTTP header. You must also x-www-form-urlencode the values of the `CLIENT_ID` and `CLIENT_SECRET`, respectively, before constructing the `Authorization` header in `Basic` format.
+For traditional back-channel flows, note that you must use a HTML-form-style HTTP POST here, and preferably send the credentials in the `Authorization` HTTP header.
+You <strong>must also x-www-form-urlencode</strong> the values of the `CLIENT_ID` and `CLIENT_SECRET`, respectively, before constructing the `Authorization` header in `Basic` format.
 
 
 ```text
 HTTP POST https://YOUR_SUBDOMAIN.criipto.id/oauth2/token
 Content-Type: application/x-www-form-urlencoded
-Authorization: Basic <BASE64(xWwwFormUrlEncode(CLIENT_ID):xWwwFormUrlEncode(CLIENT_SECRET))>
+Authorization: Basic BASE64(xWwwFormUrlEncode(CLIENT_ID):xWwwFormUrlEncode(CLIENT_SECRET))
 
 grant_type=authorization_code&code=AUTHORIZATION_CODE&client_id=CLIENT_ID&redirect_uri=YOUR_RETURN_URL
 ```
+
+[See more code exchange authorization examples in various languages.](#code-exchange-authorization-examples)
 
 ***Note*** _We do also support receiving the client credentials in the payload, but this usage is discouraged by the OAuth2 specification, and we strongly recommend that you send the credentials in the `Authorization: Basic ...` HTTP header value as described above._
 
@@ -133,13 +152,77 @@ For PKCE-enabled clients, the secret is generated on-the-fly, and no special han
 
 </Highlight>
 
+## Authenticate with PKCE
 
-### Response for implicit flow
+PKCE allows you use use one-time secrets to perform code exchange.
 
-In the implicit flow, when you asked for `response_type=id_token`, the token is returned directly to the application on a URL query parameter. If you are building a Single-Page Application, you can specify `response_mode=fragment` to get the `id_token` returned on the `#` part of the URL. This will ensure that the `id_token` is only available to the client, typically your Javascript in the browser.
+[@criipto/auth-js](https://github.com/criipto/criipto-auth.js) and [@criipto/verify-react](https://github.com/criipto/criipto-verify-react) support PKCE.
+
+### Example request #example-request-pkce
+
+```
+GET https://YOUR_SUBDOMAIN.criipto.id/oauth2/authorize?
+    response_type=code&
+    response_mode=query&
+    client_id=CLIENT_ID&
+    redirect_uri=YOUR_RETURN_URL&
+    acr_values=CHOSEN_IDENTITY_SERVICE&
+    scope=openid&
+    state=YOUR_STATE&
+    code_challenge=YOUR_CODE_CHALLENGE&
+    code_challenge_method=S256
+```
+
+### Example response #example-response-pkce
+
+For authentication using code flow, you will receive an `HTTP 302` response which redirects your browser to your specified `redirect_uri` with the authorization code included at the end of the URL:
+
+```text
+HTTP/1.1 302 Found
+Location: YOUR_RETURN_URL?code=AUTHORIZATION_CODE&state=YOUR_STATE
+```
+
+### Code exchange #code-exchange-pkce
+
+```text
+HTTP POST https://YOUR_SUBDOMAIN.criipto.id/oauth2/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=authorization_code&code=AUTHORIZATION_CODE&client_id=CLIENT_ID&redirect_uri=YOUR_RETURN_URL&code_verifier=YOUR_CODE_VERIFIER
+```
+
+## Authenticate with implicit flow
+
+Implicit flow, which returns an `id_token` directly in the browser via the `#` fragment, is supported, but not recommended.
+
+[@criipto/auth-js](https://github.com/criipto/criipto-auth.js) supports implicit flow.
+
+### Example request #example-request-implicit
+
+```
+GET https://YOUR_SUBDOMAIN.criipto.id/oauth2/authorize?
+    response_type=id_token&
+    response_mode=fragment&
+    client_id=CLIENT_ID&
+    redirect_uri=YOUR_RETURN_URL&
+    acr_values=CHOSEN_IDENTITY_SERVICE&
+    scope=openid&
+    state=YOUR_STATE
+```
+
+### Example response #example-response-implicit
+
+```
+HTTP/1.1 302 Found
+Location: YOUR_RETURN_URL#id_token=eyJ[...].eyJ[...].Sfl[...]&state=[...]
+```
 
 ## Validate the response
-You can now proceed with validating the returned `JWT` and access the contained end-user information. The validation step is required - if you do not validate the signature, you cannot trust the contained end-user information. We strongly recommend that you find a battle-hardened library for you specific platfrom to do this heavy lifting. The sample applications you can find [here](/authentication) all adhere to this recommendation. If we do not have a sample for your particular technology stack, you can find an extensive list of libraries on [jwt.io](https://jwt.io) (scroll down to the `Libraries for Token Signing/Verification` section).
+
+You can now proceed with validating the returned `JWT` and access the contained end-user information.
+The validation step is required - if you do not validate the signature, you cannot trust the contained end-user information.
+We strongly recommend that you find a battle-hardened library for you specific platfrom to do this heavy lifting.
+Criipto has a list of [integrations](/verify/integrations) and you can find an extensive list of libraries on [jwt.io](https://jwt.io) (scroll down to the `Libraries for Token Signing/Verification` section).
 
 ## The 'scope' parameter
 
@@ -206,10 +289,34 @@ Sending, say, `action:approve` will change "Login at ..." worded elements to "Ap
 
 <Highlight icon="info">
 
-Note that specifically for [Danish MitID](/verify/e-ids/danish-mitid), you may also send a base64-url-encoded message via `message:<BASE64-URL ENCODED TEXT>`, which will be shown to the end user in the MitID app.
+Note that specifically for [Danish MitID](/verify/e-ids/danish-mitid), you may also send a base64-url-encoded message via `message:BASE64URL(...text...)`, which will be shown to the end user in the MitID app.
 For example, if you want to show a *Transfer EUR 100 to IBAN DK123456781234* message to the user, add a `message:VHJhbnNmZXIgRVVSIDEwMCB0byBJQkFOIERLMTIzNDU2NzgxMjM0` value to the `login_hint`.
 
 [Authorize URL builder example](/verify/guides/authorize-url-builder/?acr_values=urn:grn:authn:dk:mitid:low&action=approve&message=Transfer%20EUR%20100%20to%20IBAN%20DK123456781234)
 
 </Highlight>
 
+## Code exchange authorization examples
+
+```php
+# PHP
+"Authorization" => "Basic ".base64_encode(urlencode(CRIIPTO_CLIENT_ID).":".urlencode(CRIIPTO_SECRET))
+```
+
+```javascript
+// Node.js
+'Authorization': "Basic " + Buffer.from(`${encodeURIComponent(CRIIPTO_CLIENT_ID)}:${encodeURIComponent(CRIIPTO_SECRET)}`).toString('base64')
+
+// Javascript
+'Authorization': "Basic " + btoa(`${encodeURIComponent(CRIIPTO_CLIENT_ID)}:${encodeURIComponent(CRIIPTO_SECRET)}`)
+```
+
+```csharp
+// C#
+using System;
+"Basic " + Convert.ToBase64String(Uri.EscapeDataString(CRIIPTO_CLIENT_ID) + ":" + Uri.EscapeDataString(CRIIPTO_SECRET))
+
+// C# - if you have a dependency on System.Web.dll or you are willing to take it
+using System.Web.Security.AntiXss;
+"Basic " + Convert.ToBase64String(AntiXssEncoder.UrlEncode(CRIIPTO_CLIENT_ID) + ":" + AntiXssEncoder.UrlEncode(CRIIPTO_SECRET))
+```
