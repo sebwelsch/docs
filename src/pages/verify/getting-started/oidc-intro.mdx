@@ -138,7 +138,7 @@ Authorization: Basic BASE64(xWwwFormUrlEncode(CLIENT_ID):xWwwFormUrlEncode(CLIEN
 grant_type=authorization_code&code=AUTHORIZATION_CODE&client_id=CLIENT_ID&redirect_uri=YOUR_RETURN_URL
 ```
 
-[See more code exchange authorization examples in various languages.](#code exchange authorization examples)
+[See more code exchange authorization examples in various languages.](#code-exchange-authorization-examples)
 
 ***Note*** _We do also support receiving the client credentials in the payload, but this usage is discouraged by the OAuth2 specification, and we strongly recommend that you send the credentials in the `Authorization: Basic ...` HTTP header value as described above._
 
@@ -289,7 +289,7 @@ Sending, say, `action:approve` will change "Login at ..." worded elements to "Ap
 
 <Highlight icon="info">
 
-Note that specifically for [Danish MitID](/verify/e-ids/danish-mitid), you may also send a base64-url-encoded message via `message:<BASE64-URL ENCODED TEXT>`, which will be shown to the end user in the MitID app.
+Note that specifically for [Danish MitID](/verify/e-ids/danish-mitid), you may also send a base64-url-encoded message via `message:BASE64URL(...text...)`, which will be shown to the end user in the MitID app.
 For example, if you want to show a *Transfer EUR 100 to IBAN DK123456781234* message to the user, add a `message:VHJhbnNmZXIgRVVSIDEwMCB0byBJQkFOIERLMTIzNDU2NzgxMjM0` value to the `login_hint`.
 
 [Authorize URL builder example](/verify/guides/authorize-url-builder/?acr_values=urn:grn:authn:dk:mitid:low&action=approve&message=Transfer%20EUR%20100%20to%20IBAN%20DK123456781234)
@@ -313,5 +313,10 @@ For example, if you want to show a *Transfer EUR 100 to IBAN DK123456781234* mes
 
 ```csharp
 // C#
-"Basic " + Convert.ToBase64String(HttpUtility.UrlEncode(CRIIPTO_CLIENT_ID) + ":" + HttpUtility.UrlEncode(CRIIPTO_SECRET))
+using System;
+"Basic " + Convert.ToBase64String(Uri.EscapeDataString(CRIIPTO_CLIENT_ID) + ":" + Uri.EscapeDataString(CRIIPTO_SECRET))
+
+// C# - if you have a dependency on System.Web.dll or you are willing to take it
+using System.Web.Security.AntiXss;
+"Basic " + Convert.ToBase64String(AntiXssEncoder.UrlEncode(CRIIPTO_CLIENT_ID) + ":" + AntiXssEncoder.UrlEncode(CRIIPTO_SECRET))
 ```
