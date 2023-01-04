@@ -1,0 +1,51 @@
+---
+product: verify
+category: Integrations
+sort: 10
+title: PHP
+subtitle: Accept MitID, Swedish BankID, Norwegian BankID and other e-ID logins with PHP and Criipto Verify
+---
+import Layout from '../../../layouts/mdx';
+export default Layout;
+
+## Setup OpenID-Connect-PHP
+
+### Requirements
+
+1. PHP 5.4 or greater
+2. CURL extension
+3. JSON extension
+4. XML extension
+
+### Install
+
+1. Install library using composer
+```
+composer require jumbojett/openid-connect-php
+```
+
+2. Include composer autoloader
+```php
+require __DIR__ . '/vendor/autoload.php';
+```
+
+## Implementation
+
+```php
+require __DIR__ . '/vendor/autoload.php';
+use Jumbojett\OpenIDConnectClient;
+
+$oidc = new OpenIDConnectClient('https://{{YOUR_CRIIPTO_DOMAIN}}',
+                                '{{YOUR_CLIENT_ID}}',
+                                '{{YOUR_CLIENT_SECRET}}');
+
+$oidc->authenticate();
+// Or any other available claim based on your used authentication method: https://docs.criipto.com/verify/e-ids/
+$name = $oidc->getVerifiedClaims('name');
+```
+
+## Register callback URLs
+
+You will need to register whichever URL you are calling `$oidc->authenticate()` on as a Callback URL on your Criipto Application.
+
+If you're testing locally using `php -S localhost:8000` and a file called `auth.php` the callback url, as an example, would be `https://localhost:8000/auth.php`
