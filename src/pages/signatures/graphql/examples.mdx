@@ -24,6 +24,29 @@ It is currently not possible to sign documents that have previously been signed,
 
 <GraphQLExample example={{...createSignatureOrderExample, variables: createSignatureOrderExample.removePreviousSignaturesVariables}} />
 
+### Changing authentication options
+
+You can change authentication methods displayed or disable popups by modifying the Criipto Verify evidence provider settings as such:
+
+<GraphQLExample
+  example={{
+    ...createSignatureOrderExample,
+    variables: (extra) => ({
+      input: {
+        evidenceProviders: [
+          {
+            criiptoVerify: {
+              acrValues: ["urn:grn:authn:se:bankid:same-device"],
+              alwaysRedirect: true
+            }
+          }
+        ],
+        ...(createSignatureOrderExample.variables(extra).input)
+      }
+    })
+  }}
+/>
+
 ## Adding a signatory to a signature order
 
 import * as addSignatoryExample from '../../../examples/addSignatory.graphql';
