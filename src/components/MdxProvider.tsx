@@ -1,9 +1,10 @@
 import React, { useMemo } from 'react';
 import { MDXProvider } from "@mdx-js/react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import SyntaxHighlighter from 'react-syntax-highlighter';
+import {default as SyntaxHighlighter, Prism} from 'react-syntax-highlighter';
 import { useLocation } from '@reach/router';
 import { vs2015 } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import { vscDarkPlus as vsprism } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 function useQueryParams() {
   const location = useLocation();
@@ -106,6 +107,19 @@ export const Code = (props: {className?: string, children: string}) => {
       >
         {text}
       </SyntaxHighlighter>
+    )
+  }
+  if (language && Prism.supportedLanguages.includes(language)) {
+    return (
+      <Prism
+        language={language}
+        style={vsprism}
+        customStyle={{
+          padding: '0.85em 1.14em'
+        }}
+      >
+        {text}
+      </Prism>
     )
   }
 
