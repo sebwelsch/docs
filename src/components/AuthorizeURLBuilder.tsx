@@ -35,6 +35,8 @@ interface AuthorizeURLOptions {
   acr_values: string[],
   acr_values_quirk: "none" | "login_hint" | "path",
   nonce: string,
+  state: string | null,
+  login_hint: string | null,
   availableScopes : string[]
   selectedScopes : string []
   scopes_quirk : "none" | "login_hint"
@@ -61,6 +63,8 @@ export default function AuthorizeURLBuilder() {
     acr_values: [],
     acr_values_quirk: "none",
     nonce: `ecnon-${randomUUID()}`,
+    state: null,
+    login_hint: null,
     availableScopes: [],
     selectedScopes : [],
     scopes_quirk : 'none',
@@ -176,11 +180,12 @@ export default function AuthorizeURLBuilder() {
     if (key == 'scopes_quirk') continue;
     if (key == 'action') continue;
     if (key == 'message') continue;
+    if (key == 'login_hint') continue;
     if (!options[key]) continue;
     url.searchParams.set(key, options[key]!);
   }
 
-  let loginHint = [];
+  let loginHint = options.login_hint ? [options.login_hint ] : [];
   if (options.acr_values.length) {
     if (options.acr_values_quirk == 'login_hint' && options.acr_values.length === 1) {
       loginHint.unshift(`acr_values:${options.acr_values.join(' ')}`);
@@ -332,6 +337,36 @@ export default function AuthorizeURLBuilder() {
             <small>`prompt=consent_revoke` will revoke any existing SSN consent.</small>
           ) : null}
         </div>
+
+        <div>
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="state">
+            State
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="state"
+            type="text"
+            placeholder="state"
+            value={options.state ?? ''}
+            onChange={(event) => updateOption('state', event)}
+          />
+          <small>Can be any value supplied by your application, often used to carry information about the original users session.</small>
+        </div>
+
+        <div>
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="login_hint">
+            Login hint
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="login_hint"
+            type="text"
+            placeholder="login_hint"
+            value={options.login_hint ?? ''}
+            onChange={(event) => updateOption('login_hint', event)}
+          />
+          <small>Login hints are used for <a href="/verify/guides/prefilled-fields/">prefilling values</a>, <a href="/verify/guides/appswitch/">triggering appswitch</a> and eID unique features like `message` (see example below after picking MitID)</small>
+        </div>
       </div>
 
       <H3>Auth methods / acr values</H3>
@@ -428,45 +463,44 @@ export default function AuthorizeURLBuilder() {
             </small>
           </div>
         ) : null}
-      </div>
 
-      {(supportsAction || supportsMessage) ? (
-        <React.Fragment>
-          <div className="mb-4 grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="action">
-                Action
-              </label>
-              <select
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="action"
-                placeholder="Action"
-                value={options.action || ""}
-                onChange={(event) => updateOption('action', event)}
-              >
-                {actions.map(action => (
-                  <option key={action} value={action}>{action}</option>
-                ))}
-              </select>
-              <small>Setting action will change header texts on Criipto pages and also the action text inside the MitID login box.</small>
-            </div>
-            <div>
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="message">
-                Message
-              </label>
-              <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="message"
-                type="text"
-                placeholder="Message"
-                value={options.message || ""}
-                onChange={(event) => updateOption('message', event)}
-              />
-              <small>DK MitID only. Will display a message to the end user in the MitID app.</small>
-            </div>
+        {supportsAction && (
+          <div>
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="action">
+              Action
+            </label>
+            <select
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="action"
+              placeholder="Action"
+              value={options.action || ""}
+              onChange={(event) => updateOption('action', event)}
+            >
+              {actions.map(action => (
+                <option key={action} value={action}>{action}</option>
+              ))}
+            </select>
+            <small>Setting action will change header texts on Criipto pages and also the action text inside the MitID login box.</small>
           </div>
-        </React.Fragment>
-      ) : null}
+        )}
+
+        {supportsMessage && (
+          <div>
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="message">
+              Message
+            </label>
+            <input
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="message"
+              type="text"
+              placeholder="Message"
+              value={options.message || ""}
+              onChange={(event) => updateOption('message', event)}
+            />
+            <small>DK MitID only. Will display a message to the end user in the MitID app.</small>
+          </div>
+        )}
+      </div>
 
       <URLCodeBlock url={url} />
     </React.Fragment>
