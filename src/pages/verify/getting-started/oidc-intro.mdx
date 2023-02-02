@@ -120,6 +120,15 @@ HTTP/1.1 302 Found
 Location: YOUR_RETURN_URL?code=AUTHORIZATION_CODE&state=YOUR_STATE
 ```
 
+#### Error response
+
+In case the authentication request fails, you will receive an `HTTP 302` response which redirects your browser to your specified `redirect_uri` with error included at the end of the URL:
+
+```text
+HTTP/1.1 302 Found
+Location: YOUR_RETURN_URL?error=ERROR_CODE&error_description=...&state=YOUR_STATE
+```
+
 ### Exchange the code for a token
 
 For the code flow you will need to exchange the returned code for an actual token. This is done by posting the authorization code received from the previous step to the token endpoint.
