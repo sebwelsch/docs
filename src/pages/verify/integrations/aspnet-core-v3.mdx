@@ -62,15 +62,7 @@ import CodeFlowSnippet from '../../../snippets/oauth2-code-flow.mdx';
 
 <CodeFlowSnippet />
 
-## Configure Your Application to Use Criipto Verify
-
-Most of the e-ID services supported by Criipto are suited for _iframe_ integration into your web pages. The approach described here does not make any assumptions about that, but simply shows how to enable Criipto Verify authentication in a web application.
-
-<!--
-For more on how to make it work in an iframe using the _postMessage()_ functionality please check our guide to [iframed authentication](/authentication/iframe.md). 
--->
-
-# Install dependencies
+## Install dependencies
 
 To integrate Criipto Verify with ASP.NET Core you will use the Cookie and OpenID Connect (OIDC) authentication handlers. The seed project already references the ASP.NET Core meta package (Microsoft.AspNetCore.App) which includes all NuGet packages shipped by Microsoft as part of ASP.NET Core 3.1, including the packages for the Cookie and OIDC authentication handlers.
 
