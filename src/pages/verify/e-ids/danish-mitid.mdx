@@ -170,6 +170,22 @@ MitID supports a "ReAuthentication" flow where the username input step can be sk
 
 `login_hint=uuid:<uuid>` to trigger re-authentication when UUID is known.
 
+## Levels of assurance
+
+MitID via Criipto currently offers two levels of assurance via the acr_values `urn:grn:authn:dk:mitid:low` + `urn:grn:authn:dk:mitid:substantial`.
+
+If in doubt, our recommendation would generally be to go with Substantial (`urn:grn:authn:dk:mitid:substantial`)
+
+[Read more about eIDAS Levels of Assurance](https://ec.europa.eu/digital-building-blocks/wikis/display/DIGITAL/eIDAS+Levels+of+Assurance)
+
+### Substantial
+
+`urn:grn:authn:dk:mitid:substantial` allows users to login with username + a secondary authentication mechanism, like the MitID app or a MitID code display.
+
+### Low
+
+`urn:grn:authn:dk:mitid:low` allows users to login with username + password and any `substantial` authenticator.
+
 ## MitID for business ('MitID Erhverv')
 
 You can request a login in business context by sending a `login_hint=business` query parameter in the authorize request.
