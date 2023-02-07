@@ -5,6 +5,7 @@ import {default as SyntaxHighlighter, Prism} from 'react-syntax-highlighter';
 import { useLocation } from '@reach/router';
 import { vs2015 } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { vscDarkPlus as vsprism } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { href } from '@criipto/ui-operations-status';
 
 function useQueryParams() {
   const location = useLocation();
@@ -159,6 +160,10 @@ export const QueryParam = (props: {param: string, fallback?: string}) => {
   return params.get(param) ?? fallback;
 };
 
+export const Anchor = (props: {children: React.ReactNode, href: string}) => {
+  return <a target={href.startsWith('http') ? '_top' : undefined} {...props} />;
+}
+
 const components = {
   h2: H2,
   h3: H3,
@@ -172,7 +177,8 @@ const components = {
   p: Paragraph,
   ol: (props: any) => (<ol {...props} className="max-w-screen-md">{props.children}</ol>),
   ul: (props: any) => (<ul {...props} className="max-w-screen-md">{props.children}</ul>),
-  QueryParam
+  QueryParam,
+  a: Anchor
 }
 
 export default function CustomMDXProvider(props: {children: any}) {
