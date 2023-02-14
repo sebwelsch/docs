@@ -27,3 +27,39 @@ export const variables = (data: ExampleData) : {input: CloseSignatureOrderInput}
     signatureOrderId: data.createSignatureOrder?.signatureOrder.id || "[signatureOrder.id]"
   }
 });
+
+export const retentionVariables = (data: ExampleData) : {input: CloseSignatureOrderInput} => ({
+  input: {
+    signatureOrderId: data.createSignatureOrder?.signatureOrder.id || "[signatureOrder.id]",
+    retainDocumentsForDays: 7
+  }
+});
+
+export const signaturesQuery = /* Signatures GraphQL */`
+mutation examplesCloseSignatureOrder(
+  $input: CloseSignatureOrderInput!
+) {
+  closeSignatureOrder(input: $input) {
+    signatureOrder {
+      id
+
+      documents {
+        id
+        blob
+
+        signatures {
+          __typename
+          signatory {
+            id
+          }
+
+          ... on JWTSignature {
+            jwt
+            jwks
+          }
+        }
+      }
+    }
+  }
+}
+`.trim();

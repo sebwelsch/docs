@@ -122,9 +122,21 @@ import * as closeSignatureOrderExample from '../../../examples/closeSignatureOrd
 
 When all signatories have signed the signature order you can close it to retrieve your signed PDFs.
 
-The PDFs are deleted from Criipto servers upon calling `closeSignatureOrder`.
+The PDFs are deleted from Criipto servers upon calling `closeSignatureOrder`. (Unless you define the `retainDocumentsForDays` setting.)
 
 <GraphQLExample example={closeSignatureOrderExample} />
+
+### With document retention
+
+If you wish, you can ask Criipto to retain the documents for up to 7 days after closing the signature order:
+
+<GraphQLExample example={{...closeSignatureOrderExample, variables: closeSignatureOrderExample.retentionVariables}} />
+
+### Include signature information
+
+When retrieving document blobs for a signature order, you can also request information about the signatures embedded in the document:
+
+<GraphQLExample example={{...closeSignatureOrderExample, query: closeSignatureOrderExample.signaturesQuery}} />
 
 ## Cancel a signature order
 
