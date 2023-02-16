@@ -1,0 +1,209 @@
+---
+product: verify
+category: Integrations
+sort: 0
+title: JavaScript
+subtitle: Accept MitID, NemID, Swedish BankID, Norwegian BankID and more eID logins in your JavaScript application with @criipto/auth-js.
+---
+
+import Layout from '../../../layouts/mdx';
+export default Layout;
+
+This guide shows how to use Criipto Verify in a JavaScript application with plain HTML.
+
+You can also use `@criipto/auth-js` with Vue.js, Angular and other frontend frameworks, and we will be adding more integration guides in the future. For React applications, you can use our [@criipto/verify-react library](/verify/integrations/react) instead.
+
+The full documentation is available [on Github](https://github.com/criipto/criipto-auth.js).
+
+## Register Your Application in Criipto Verify
+
+After you signed up for Criipto Verify, you must [register an application](https://dashboard.criipto.com/applications/add) before you can try logging in with any e-ID.
+
+Once your application is registered, the dashboard will contain the necessary details to configure your application to communicate with Criipto Verify.
+You will need the following information from the General tab of your application settings:
+
+- _Client ID_ to identify your application to Criipto Verify.
+- _Domain_ on which you will be communicating with Criipto Verify.
+
+### Register callback URLs
+
+Before you can start sending authentication requests to Criipto Verify, you need to register the URLs on which you want to receive the returned *JSON Web Token*, JWT.
+
+The Callback URL of your application is the URL where Criipto Verify will redirect to after the user has authenticated in order for the OpenID Connect middleware to complete the authentication process.
+
+You will need to add this URL to the list of allowed URLs for your application.
+
+If you are developing with plain HTML and running your application locally, your callback URL might look like this:
+
+```
+http://localhost:3000/example/index.html
+```
+
+When you deploy your application to a different URL, you will also need to ensure you add that URL to the Callback URLs field in your application settings.
+
+## Install SDK
+
+You can include the library directly into your HTML file by loading it from [unpkg](https://www.npmjs.com/package/unpkg):
+
+```html
+<!-- index.html -->
+
+<script type="text/javascript" src="https://unpkg.com/@criipto/auth-js"></script>
+```
+
+Or install the package using [npm](https://npmjs.org/):
+
+```sh
+npm install --save @criipto/auth-js
+```
+
+## Initialize SDK with your application details
+
+If using the library from `unpkg`, you will have access to the global variable `CriiptoAuth`:
+
+```js
+// index.js
+
+var criiptoAuth = new CriiptoAuth({
+  domain: '{YOUR_CRIIPTO_DOMAIN}',
+  clientID: '{YOUR_CRIIPTO_APPLICATION_ID}',
+  store: sessionStorage,
+});
+```
+
+Or import the library if you are using npm:
+
+```js
+// index.js
+
+import CriiptoAuth from '@criipto/auth-js';
+
+var criiptoAuth = new CriiptoAuth({
+  domain: '{YOUR_CRIIPTO_DOMAIN}',
+  clientID: '{YOUR_CRIIPTO_APPLICATION_ID}',
+  store: sessionStorage,
+});
+```
+
+The `CriiptoAuth` constructor takes an object with the following parameters:
+
+- `domain (required, string)`: The domain your Criipto Application belongs to, such as `example.criipto.id`.
+- `clientID (required, string)`: The Client ID for your Criipto Application.
+
+Use your application's [domain and client ID](#register-your-application-in-criipto-verify) as the values for `domain` and `clientID` respectively.
+
+Additional authorization parameters can be passed in the `CriiptoAuth` constructor as well. A full list of supported parameters can be found [here](/verify/getting-started/oidc-intro/#example-authentication-url). 
+
+## Authorization methods
+
+You can use the following methods to authorize the user:
+
+- [`criiptoAuth.popup.authorize`](#authorization-with-popup) - Opens a popup window to authenticate the user.
+- [`criiptoAuth.redirect.authorize`](#authorization-with-redirect) - Redirects the user to the Criipto Verify login page.
+
+### Authorization with popup
+
+Will open a popup window to authenticate the user.
+
+#### authorize
+
+```html
+<!-- index.html -->
+...
+<button id="login-button-popup">Login</button>
+<div id="result"></div>
+...
+
+<script type="text/javascript">
+  document
+    .getElementById('login-button-popup')
+    .addEventListener('click', () => {
+      criiptoAuth.popup
+        .authorize({
+          width: 300,
+          height: 400,
+          redirectUri: 'http://localhost:8000/example/index.html',
+          acrValues: 'urn:grn:authn:dk:nemid:poces',
+        })
+        .then((result) => {
+          console.log(result, result.id_token, result.claims);
+          document.getElementById('result').textContent =
+            JSON.stringify(result);
+        });
+    });
+</script>
+```
+
+### Authorization with redirect
+
+Will redirect the user to the Criipto Verify login page.
+
+#### authorize
+
+Redirects the users browser tab to the authorization url. After authorization, the user will be redirected back to the provided `redirectUri`.
+The `redirectUri` should be [whitelisted in the "Callback URLs" section](#register-callback-URLs) in your Criipto application settings. 
+
+#### match
+
+Will check for the `code` or `id_token` parameter in the URL query parameters or hash of the current `window.location`.
+
+- If the `id_token` parameter is present, it will return the result.
+- If the `code` parameter is present, it will perform a PKCE token exchange and return the result. For more information, see [this section](/verify/getting-started/oidc-intro/#exchange-the-code-for-a-token).
+
+As soon as the user has been redirected back to your application after authentication, you can call the `match` method to get the `id_token` or `code` parameter.
+
+```js
+const match = await criiptoAuth.redirect.match();
+console.log(match.code);
+console.log(match.id_token, match.claims);
+```
+
+```html
+<!-- index.html -->
+...
+<button id="login-button-redirect">Login</button>
+<div id="result"></div>
+...
+
+<script type="text/javascript">
+  document
+    .getElementById('login-button-redirect')
+    .addEventListener('click', () => {
+      criiptoAuth.redirect.authorize({
+        redirectUri: 'http://localhost:8000/callback.html',
+        prompt: 'login',
+      });
+    });
+</script>
+
+<!-- callback.html -->
+...
+<h2>Hello, <span id="user-name">user</span></h2>
+...
+
+<script type="text/javascript">
+  criiptoAuth.redirect
+    .match()
+    .then((result) => {
+      if (result && result.claims) {
+        const userName = document.getElementById('user-name');
+        userName.textContent = result.claims.name;
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+</script>
+```
+
+`prompt: 'login'` will force the user to re-authenticate even if they have already logged in. See [the list of supported parameters](/verify/getting-started/oidc-intro/#example-authentication-url) for more information.
+
+## Logging user out
+
+If you have SSO enabled for your domain and you are not using `prompt='login'` you can use `logout()` to clear the users SSO session.
+
+```js
+criiptoAuth.logout({
+  redirectUri: 'http://localhost:8000/example/index.html',
+});
+```
