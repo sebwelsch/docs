@@ -97,7 +97,7 @@ export const Code = (props: {className?: string, children: string}) => {
   const language = props.className?.startsWith('language-') ? props.className.replace('language-', '') : undefined;
   const text = replaceParams(props.children, params);
 
-  if (language && SyntaxHighlighter.supportedLanguages.includes(language)) {
+  if (language && SyntaxHighlighter.supportedLanguages.includes(language) || language === 'html') {
     return (
       <SyntaxHighlighter
         language={language}

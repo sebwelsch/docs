@@ -61,7 +61,7 @@ npm install --save @criipto/auth-js
 
 If using the library from `unpkg`, you will have access to the global variable `CriiptoAuth`:
 
-```js
+```javascript
 // index.js
 
 var criiptoAuth = new CriiptoAuth({
@@ -73,7 +73,7 @@ var criiptoAuth = new CriiptoAuth({
 
 Or import the library if you are using npm:
 
-```js
+```javascript
 // index.js
 
 import CriiptoAuth from '@criipto/auth-js';
@@ -152,7 +152,7 @@ Will check for the `code` or `id_token` parameter in the URL query parameters or
 
 As soon as the user has been redirected back to your application after authentication, you can call the `match` method to get the `id_token` or `code` parameter.
 
-```js
+```javascript
 const match = await criiptoAuth.redirect.match();
 console.log(match.code);
 console.log(match.id_token, match.claims);
@@ -202,7 +202,7 @@ console.log(match.id_token, match.claims);
 
 If you have SSO enabled for your domain and you are not using `prompt='login'` you can use `logout()` to clear the users SSO session.
 
-```js
+```javascript
 criiptoAuth.logout({
   redirectUri: 'http://localhost:8000/example/index.html',
 });
