@@ -38,6 +38,9 @@ export type AddSignatoryInput = {
   evidenceValidation?: InputMaybe<Array<SignatoryEvidenceValidationInput>>;
   /** Will not be displayed to signatories, can be used as a reference to your own system. */
   reference?: InputMaybe<Scalars['String']>;
+  /** Define a role for the signatory, i.e. 'Chairman'. Will be visible in the document output. */
+  role?: InputMaybe<Scalars['String']>;
+  signatureAppearance?: InputMaybe<SignatureAppearanceInput>;
   signatureOrderId: Scalars['ID'];
 };
 
@@ -101,7 +104,10 @@ export type ChangeSignatoryInput = {
   evidenceValidation?: InputMaybe<Array<SignatoryEvidenceValidationInput>>;
   /** Will not be displayed to signatories, can be used as a reference to your own system. */
   reference?: InputMaybe<Scalars['String']>;
+  /** Define a role for the signatory, i.e. 'Chairman'. Will be visible in the document output. */
+  role?: InputMaybe<Scalars['String']>;
   signatoryId: Scalars['ID'];
+  signatureAppearance?: InputMaybe<SignatureAppearanceInput>;
 };
 
 export type ChangeSignatoryOutput = {
@@ -158,10 +164,10 @@ export type CreateApplicationOutput = {
 };
 
 export type CreateSignatureOrderInput = {
-  /** By default signatories will be prompted to sign with a Criipto Verify based eID, this setting disables it. */
+  /** By default signatories will be prompted to sign with a Criipto Verify based e-ID, this setting disables it. */
   disableVerifyEvidenceProvider?: InputMaybe<Scalars['Boolean']>;
   documents: Array<DocumentInput>;
-  /** Define evidence providers for signature order if not using built-in Criipto Verify for eIDs */
+  /** Define evidence providers for signature order if not using built-in Criipto Verify for e-IDs */
   evidenceProviders?: InputMaybe<Array<EvidenceProviderInput>>;
   /** When this signature order will auto-close/expire. Default 90 days. */
   expiresInDays?: InputMaybe<Scalars['Int']>;
@@ -194,6 +200,9 @@ export type CreateSignatureOrderSignatoryInput = {
   evidenceValidation?: InputMaybe<Array<SignatoryEvidenceValidationInput>>;
   /** Will not be displayed to signatories, can be used as a reference to your own system. */
   reference?: InputMaybe<Scalars['String']>;
+  /** Define a role for the signatory, i.e. 'Chairman'. Will be visible in the document output. */
+  role?: InputMaybe<Scalars['String']>;
+  signatureAppearance?: InputMaybe<SignatureAppearanceInput>;
 };
 
 export type CreateSignatureOrderUiInput = {
@@ -218,9 +227,11 @@ export type CreateSignatureOrderWebhookInput = {
 export type CriiptoVerifyProviderInput = {
   acrValues?: InputMaybe<Array<Scalars['String']>>;
   alwaysRedirect?: InputMaybe<Scalars['Boolean']>;
+  /** Set a custom login_hint for the underlying authentication request. */
+  loginHint?: InputMaybe<Scalars['String']>;
   /** Messages displayed when performing authentication (only supported by DKMitID currently). */
   message?: InputMaybe<Scalars['String']>;
-  /** Enforces that signatories sign by unique evidence by comparing the values of previous evidence on the key you define. For Criipto Verify you likely want to use `sub` which is a unique pseudonym value present in all eID tokens issued. */
+  /** Enforces that signatories sign by unique evidence by comparing the values of previous evidence on the key you define. For Criipto Verify you likely want to use `sub` which is a unique pseudonym value present in all e-ID tokens issued. */
   uniqueEvidenceKey?: InputMaybe<Scalars['String']>;
 };
 
@@ -231,6 +242,7 @@ export type CriiptoVerifySignatureEvidenceProvider = {
   clientID: Scalars['String'];
   domain: Scalars['String'];
   id: Scalars['ID'];
+  loginHint?: Maybe<Scalars['String']>;
   message?: Maybe<Scalars['String']>;
   name: Scalars['String'];
 };
@@ -259,6 +271,7 @@ export type Document = {
   blob?: Maybe<Scalars['Blob']>;
   id: Scalars['ID'];
   reference?: Maybe<Scalars['String']>;
+  signatoryViewerStatus?: Maybe<SignatoryDocumentStatus>;
   signatures?: Maybe<Array<Signature>>;
   title: Scalars['String'];
 };
@@ -274,6 +287,19 @@ export enum DocumentStorageMode {
   /** Temporary documents will be deleted once completed. */
   Temporary = 'Temporary'
 }
+
+export type DownloadVerificationCriiptoVerifyInput = {
+  jwt: Scalars['String'];
+};
+
+export type DownloadVerificationInput = {
+  criiptoVerify?: InputMaybe<DownloadVerificationCriiptoVerifyInput>;
+  oidc?: InputMaybe<DownloadVerificationOidcInput>;
+};
+
+export type DownloadVerificationOidcInput = {
+  jwt: Scalars['String'];
+};
 
 /** Hand drawn signature evidence for signatures. */
 export type DrawableEvidenceProviderInput = {
@@ -313,6 +339,7 @@ export type EvidenceProviderInput = {
 };
 
 export type ExtendSignatureOrderInput = {
+  /** Expiration to add to order, in days, max 30. */
   additionalExpirationInDays: Scalars['Int'];
   signatureOrderId: Scalars['ID'];
 };
@@ -372,6 +399,8 @@ export type Mutation = {
   signActingAs?: Maybe<SignActingAsOutput>;
   /** Signatory frontend use only. */
   signatoryBeacon?: Maybe<SignatoryBeaconOutput>;
+  /** Signatory frontend use only. */
+  trackSignatory?: Maybe<TrackSignatoryOutput>;
   /** Used by Signatory frontends to mark documents as opened, approved or rejected. */
   updateSignatoryDocumentStatus?: Maybe<UpdateSignatoryDocumentStatusOutput>;
 };
@@ -462,6 +491,11 @@ export type MutationSignatoryBeaconArgs = {
 };
 
 
+export type MutationTrackSignatoryArgs = {
+  input: TrackSignatoryInput;
+};
+
+
 export type MutationUpdateSignatoryDocumentStatusArgs = {
   input: UpdateSignatoryDocumentStatusInput;
 };
@@ -525,6 +559,7 @@ export type PdfDocument = Document & {
   blob?: Maybe<Scalars['Blob']>;
   id: Scalars['ID'];
   reference?: Maybe<Scalars['String']>;
+  signatoryViewerStatus?: Maybe<SignatoryDocumentStatus>;
   signatures?: Maybe<Array<Signature>>;
   title: Scalars['String'];
 };
@@ -635,11 +670,14 @@ export type SignOutput = {
 export type Signatory = {
   __typename?: 'Signatory';
   documents: SignatoryDocumentConnection;
+  /** A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention. */
+  downloadHref?: Maybe<Scalars['String']>;
   evidenceProviders: Array<SignatureEvidenceProvider>;
   /** A link to the signatures frontend, you can send this link to your users to enable them to sign your documents. */
   href: Scalars['String'];
   id: Scalars['ID'];
   reference?: Maybe<Scalars['String']>;
+  role?: Maybe<Scalars['String']>;
   /** Signature order for the signatory. */
   signatureOrder: SignatureOrder;
   /** The current status of the signatory. */
@@ -693,6 +731,11 @@ export type SignatoryEvidenceValidationInput = {
   value: Scalars['String'];
 };
 
+export enum SignatoryFrontendEvent {
+  DownloadLinkOpened = 'DOWNLOAD_LINK_OPENED',
+  SignLinkOpened = 'SIGN_LINK_OPENED'
+}
+
 export enum SignatoryStatus {
   Deleted = 'DELETED',
   Error = 'ERROR',
@@ -705,6 +748,7 @@ export type SignatoryViewer = Viewer & {
   __typename?: 'SignatoryViewer';
   authenticated: Scalars['Boolean'];
   documents: SignatoryDocumentConnection;
+  download?: Maybe<SignatoryViewerDownload>;
   evidenceProviders: Array<SignatureEvidenceProvider>;
   id: Scalars['ID'];
   signatoryId: Scalars['ID'];
@@ -712,6 +756,19 @@ export type SignatoryViewer = Viewer & {
   signer: Scalars['Boolean'];
   status: SignatoryStatus;
   ui: SignatureOrderUi;
+};
+
+
+export type SignatoryViewerDownloadArgs = {
+  verification?: InputMaybe<DownloadVerificationInput>;
+};
+
+export type SignatoryViewerDownload = {
+  __typename?: 'SignatoryViewerDownload';
+  documents?: Maybe<SignatoryDocumentConnection>;
+  expired: Scalars['Boolean'];
+  verificationEvidenceProvider?: Maybe<SignatureEvidenceProvider>;
+  verificationRequired: Scalars['Boolean'];
 };
 
 /** Represents a signature on a document. */
@@ -798,6 +855,20 @@ export type Tenant = {
   __typename?: 'Tenant';
   applications: Array<Application>;
   id: Scalars['ID'];
+};
+
+
+export type TenantApplicationsArgs = {
+  domain?: InputMaybe<Scalars['String']>;
+};
+
+export type TrackSignatoryInput = {
+  event: SignatoryFrontendEvent;
+};
+
+export type TrackSignatoryOutput = {
+  __typename?: 'TrackSignatoryOutput';
+  viewer: Viewer;
 };
 
 export type UpdateSignatoryDocumentStatusInput = {

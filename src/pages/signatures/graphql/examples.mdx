@@ -65,6 +65,12 @@ Evidence will be hashed before storage and compared when a user tries to sign. I
 
 <GraphQLExample example={{...addSignatoryExample, variables: addSignatoryExample.evidenceValidationVariables}} />
 
+### Signing with a role
+
+You can define a role for signatories, if you wish for them to sign in a specific role (if perhaps, signing multiple times with the same eID).
+
+<GraphQLExample example={{...addSignatoryExample, variables: addSignatoryExample.roleVariables}} />
+
 ### Document scoping
 
 By using the `documents` input array for `addSignatory` you can limit what documents a signatory will be shown.

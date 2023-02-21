@@ -86,3 +86,10 @@ export const evidenceValidationVariables = (data: ExampleData) : {input: AddSign
     ]
   }
 });
+
+export const roleVariables = (data: ExampleData) : {input: AddSignatoryInput} => ({
+  input: {
+    signatureOrderId: data?.createSignatureOrder?.signatureOrder.id || "[signatureOrder.id]",
+    role: 'Chairman'
+  }
+});
