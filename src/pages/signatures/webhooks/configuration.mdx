@@ -21,11 +21,6 @@ import * as createSignatureOrderExample from '../../../examples/createSignatureO
 <GraphQLExample
   example={{
     ...createSignatureOrderExample,
-    variables: () => ({
-      input: {
-        webhook: {uri: 'https://httpbin.org/post'},
-        ...createSignatureOrderExample.variables().input,
-      }
-    })
+    variables: createSignatureOrderExample.webhookExampleVariables
   }}
 />
