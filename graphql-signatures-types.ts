@@ -169,6 +169,8 @@ export type CreateSignatureOrderInput = {
   documents: Array<DocumentInput>;
   /** Define evidence providers for signature order if not using built-in Criipto Verify for e-IDs */
   evidenceProviders?: InputMaybe<Array<EvidenceProviderInput>>;
+  /** Defines when a signatory must be validated, default is when signing, but can be expanded to also be required when viewing documents. */
+  evidenceValidationStages?: InputMaybe<Array<EvidenceValidationStage>>;
   /** When this signature order will auto-close/expire. Default 90 days. */
   expiresInDays?: InputMaybe<Scalars['Int']>;
   /** Attempt to automatically fix document formatting errors if possible. Default 'true'. */
@@ -337,6 +339,12 @@ export type EvidenceProviderInput = {
   /** OIDC/JWT based evidence for signatures. */
   oidc?: InputMaybe<OidcEvidenceProviderInput>;
 };
+
+export enum EvidenceValidationStage {
+  Sign = 'SIGN',
+  /** Require the signatory to be validated before viewing documents */
+  View = 'VIEW'
+}
 
 export type ExtendSignatureOrderInput = {
   /** Expiration to add to order, in days, max 30. */
@@ -869,6 +877,15 @@ export type TrackSignatoryInput = {
 export type TrackSignatoryOutput = {
   __typename?: 'TrackSignatoryOutput';
   viewer: Viewer;
+};
+
+export type UnvalidatedSignatoryViewer = Viewer & {
+  __typename?: 'UnvalidatedSignatoryViewer';
+  authenticated: Scalars['Boolean'];
+  evidenceProviders: Array<SignatureEvidenceProvider>;
+  id: Scalars['ID'];
+  signatoryId: Scalars['ID'];
+  ui: SignatureOrderUi;
 };
 
 export type UpdateSignatoryDocumentStatusInput = {

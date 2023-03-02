@@ -47,6 +47,12 @@ You can change authentication methods displayed or disable popups by modifying t
   }}
 />
 
+### Requiring evidence validation before viewing documents
+
+If your documents contain PII (before being signed) you may wish to enforce that the signatory validates their identitiy before viewing the documents.
+
+<GraphQLExample example={{...createSignatureOrderExample, variables: createSignatureOrderExample.evidenceValidationStagesVariables}} />
+
 ## Adding a signatory to a signature order
 
 import * as addSignatoryExample from '../../../examples/addSignatory.graphql';

@@ -1,4 +1,4 @@
-import { CreateSignatureOrderInput, DocumentStorageMode, Language } from "../../graphql-signatures-types";
+import { CreateSignatureOrderInput, DocumentStorageMode, EvidenceValidationStage, Language } from "../../graphql-signatures-types";
 import { ExampleData } from "../state/store";
 
 export const query = /* Signatures GraphQL */`
@@ -144,6 +144,15 @@ export const webhookExampleVariables = () : {input: CreateSignatureOrderInput} =
     input: {
       webhook: {url: 'https://httpbin.org/post'},
       ...variables().input,
+    }
+  };
+}
+
+export const evidenceValidationStagesVariables = () : {input: CreateSignatureOrderInput} => {
+  return {
+    input: {
+      ...variables().input,
+      evidenceValidationStages: [EvidenceValidationStage.View, EvidenceValidationStage.Sign]
     }
   };
 }
