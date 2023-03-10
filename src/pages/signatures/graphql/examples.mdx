@@ -128,6 +128,18 @@ If dealing with a single eID (like Swedish BankID) and only simple claims you ca
 
 <GraphQLExample example={{...createSignatureOrderExample, variables: createSignatureOrderExample.signatureAppearanceExampleVariables}} />
 
+### Seal display name
+
+By default the seal renders a name via the standard JWT name claim or via drawable name input.
+
+This can be customized (per signatory) to either override the name completely, or build a new name syntax from available claims.
+
+Below is an example of how one might render a business name together with the username, and fallback to a non-business scenario.
+
+This feature currently ONLY works with CriiptoVerify/OIDC based signatures.
+
+<GraphQLExample example={{...addSignatoryExample, variables: addSignatoryExample.displayNameVariables}} />
+
 ## Closing a signature order
 
 import * as closeSignatureOrderExample from '../../../examples/closeSignatureOrder.graphql';
