@@ -785,8 +785,19 @@ export type Signature = {
 };
 
 export type SignatureAppearanceInput = {
+  displayName?: InputMaybe<Array<SignatureAppearanceTemplateInput>>;
   /** Render evidence claim as identifier in the signature appearance inside the document. You can supply multiple keys and they will be tried in order. If no key is found a GUID will be rendered. */
   identifierFromEvidence: Array<Scalars['String']>;
+};
+
+export type SignatureAppearanceTemplateInput = {
+  replacements?: InputMaybe<Array<SignatureAppearanceTemplateReplacementInput>>;
+  template: Scalars['String'];
+};
+
+export type SignatureAppearanceTemplateReplacementInput = {
+  fromEvidence: Array<Scalars['String']>;
+  placeholder: Scalars['String'];
 };
 
 export type SignatureEvidenceProvider = CriiptoVerifySignatureEvidenceProvider | DrawableSignatureEvidenceProvider | NoopSignatureEvidenceProvider | OidcJwtSignatureEvidenceProvider;
@@ -882,10 +893,16 @@ export type TrackSignatoryOutput = {
 export type UnvalidatedSignatoryViewer = Viewer & {
   __typename?: 'UnvalidatedSignatoryViewer';
   authenticated: Scalars['Boolean'];
+  download?: Maybe<SignatoryViewerDownload>;
   evidenceProviders: Array<SignatureEvidenceProvider>;
   id: Scalars['ID'];
   signatoryId: Scalars['ID'];
   ui: SignatureOrderUi;
+};
+
+
+export type UnvalidatedSignatoryViewerDownloadArgs = {
+  verification?: InputMaybe<DownloadVerificationInput>;
 };
 
 export type UpdateSignatoryDocumentStatusInput = {

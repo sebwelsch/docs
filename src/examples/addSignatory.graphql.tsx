@@ -87,6 +87,50 @@ export const evidenceValidationVariables = (data: ExampleData) : {input: AddSign
   }
 });
 
+export const displayNameVariables = (data: ExampleData) : {input: AddSignatoryInput} => ({
+  input: {
+    signatureOrderId: data?.createSignatureOrder?.signatureOrder.id || "[signatureOrder.id]",
+    signatureAppearance: {
+      identifierFromEvidence: [],
+      displayName: [
+        {
+          template: '{{name}} of {{company}}',
+          replacements: [
+            {
+              placeholder: 'name',
+              fromEvidence: [
+                'name',
+                'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'
+              ]
+            },
+            {
+              placeholder: 'company',
+              fromEvidence: [
+                '2.5.4.10',
+              ]
+            }
+          ]
+        },
+        {
+          template: '{{name}}',
+          replacements: [
+            {
+              placeholder: 'name',
+              fromEvidence: [
+                'name',
+                'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'
+              ]
+            }
+          ]
+        },
+        {
+          template: 'Anonymous'
+        }
+      ]
+    }
+  }
+});
+
 export const roleVariables = (data: ExampleData) : {input: AddSignatoryInput} => ({
   input: {
     signatureOrderId: data?.createSignatureOrder?.signatureOrder.id || "[signatureOrder.id]",
