@@ -51,6 +51,67 @@ Triggered when a signatory experiences an error as part of signing.
 }
 ```
 
+## SIGNATORY_SIGN_LINK_OPENED
+
+Triggered when a signatory opens the sign link `href`
+
+```
+{
+  "event" = "SIGNATORY_SIGN_LINK_OPENED",
+  "signatureOrderId" = "[GraphQL ID]",
+  "signatoryId" = "[GraphQL ID]"
+}
+```
+
+## SIGNATORY_DOWNLOAD_LINK_OPENED
+
+Triggered when a signatory opens the download link `downloadHref`
+
+```
+{
+  "event" = "SIGNATORY_DOWNLOAD_LINK_OPENED",
+  "signatureOrderId" = "[GraphQL ID]",
+  "signatoryId" = "[GraphQL ID]"
+}
+```
+
+## SIGNATORY_DOCUMENT_STATUS_CHANGED
+
+Triggered when a signatory opens, approves or rejects a document.
+
+```
+{
+  "event" = "SIGNATORY_DOWNLOAD_LINK_OPENED",
+  "signatureOrderId" = "[GraphQL ID]",
+  "signatoryId" = "[GraphQL ID]",
+  "documentId" = "[GraphQL ID]",
+  "status" = "OPENED|APPROVED|REJECTED|%future%"
+}
+```
+
+## SIGNATURE_ORDER_EXPIRED
+
+Triggered when a signature order has expired and is cleaned up.
+
+```
+{
+  "event" = "SIGNATURE_ORDER_EXPIRED",
+  "signatureOrderId" = "[GraphQL ID]"
+}
+```
+
+## WEBHOOK_VALIDATION
+
+Triggered when a signature order is created with webhook validation.
+
+Make sure to respond with `200`/`OK` our your signature order will not be created.
+
+```
+{
+  "event" = "WEBHOOK_VALIDATION"
+}
+```
+
 ## Query example
 
 import * as signatoryWebhookExample from '../../../examples/signatoryWebhook.graphql';
