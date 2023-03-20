@@ -142,7 +142,10 @@ export const uniqueEvidenceExampleVariables = () : {input: CreateSignatureOrderI
 export const webhookExampleVariables = () : {input: CreateSignatureOrderInput} => {
   return {
     input: {
-      webhook: {url: 'https://httpbin.org/post'},
+      webhook: {
+        url: 'https://httpbin.org/post',
+        validateConnectivity: true
+      },
       ...variables().input,
     }
   };

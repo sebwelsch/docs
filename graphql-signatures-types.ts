@@ -223,6 +223,8 @@ export type CreateSignatureOrderUiInput = {
 export type CreateSignatureOrderWebhookInput = {
   /** Webhook url. POST requests will be executed towards this URL on certain signatory events. */
   url: Scalars['String'];
+  /** Validates webhook connectivity by triggering a WEBHOOK_VALIDATION event, your webhook must respond within 5 seconds with 200/OK or the signature order creation will fail. */
+  validateConnectivity?: InputMaybe<Scalars['Boolean']>;
 };
 
 /** Criipto Verify based evidence for signatures. */

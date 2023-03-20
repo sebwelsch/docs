@@ -78,7 +78,8 @@ export default function WebhookTester() {
               }
             ],
             webhook: {
-              url
+              url,
+              validateConnectivity: true
             },
             disableVerifyEvidenceProvider: true,
             evidenceProviders: [
