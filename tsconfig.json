@@ -1,5 +1,9 @@
 {
-  "include": ["./src/**/*"],
+  "include": [
+    "./raw-loader.d.ts",
+    "./image-loader.d.ts",
+    "./src/**/*"
+  ],
   "compilerOptions": {
     "target": "esnext",
     "module": "esnext",
@@ -12,9 +16,6 @@
     "emitDecoratorMetadata": true,
     "noEmit": true,
     "skipLibCheck": true,
-    "noImplicitAny": true,
-    "types": [
-      "raw-loader.d.ts"
-    ]
+    "noImplicitAny": true
   }
 }

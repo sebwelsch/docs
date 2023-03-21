@@ -80,7 +80,7 @@ export const CodeBlock = (props: {text: string, className?: string}) => {
   );
 }
 
-export const Pre = (props: {children: React.ReactNode}) => {
+export const Pre = (props: {children: React.ReactElement}) => {
   const child = React.Children.only(props.children);
 
   if (child && typeof child === "object" && "props" in child) {
@@ -179,7 +179,6 @@ const components = {
   p: Paragraph,
   ol: (props: any) => (<ol {...props} className="max-w-screen-md">{props.children}</ol>),
   ul: (props: any) => (<ul {...props} className="max-w-screen-md">{props.children}</ul>),
-  QueryParam,
   a: Anchor
 }
 

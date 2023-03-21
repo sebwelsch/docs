@@ -4,6 +4,7 @@
   "private": true,
   "description": "Criipto Document Signatures Docs",
   "author": "Mick Hansen",
+  "type": "module",
   "keywords": [
     "gatsby"
   ],
@@ -15,6 +16,8 @@
     "codegen:signatures": "npm run codegen:signatures:graphql && npm run  codegen:signatures:csharp",
     "codegen:signatures:graphql": "graphql-codegen -c graphql-signatures-codegen.yml",
     "codegen:signatures:csharp": "cd src/examples && dotnet build",
+    "check": "tsc --noEmit && npm run check:signatures:csharp",
+    "check:signatures:csharp": "./check-signatures-csharp.sh",
     "schema": "npm run schema:signatures",
     "schema:signatures": "curl https://signatures-api.criipto.com/v1/graphql > graphql-signatures-schema.json",
     "build": "gatsby build",
@@ -71,6 +74,7 @@
     "gatsby-source-filesystem": "^4.4.0",
     "gatsby-transformer-sharp": "^4.10.0",
     "postcss": "^8.4.5",
-    "tailwindcss": "^3.0.7"
+    "tailwindcss": "^3.0.7",
+    "ts-node": "^10.9.1"
   }
 }
