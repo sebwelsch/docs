@@ -70,7 +70,8 @@ interface GraphQLExplorerProps {
   variables?: string | any
   className?: string,
   onResponse?: (response: GraphQLResponse) => void,
-  onSkipCredentials?: () => void
+  onSkipCredentials?: () => void,
+  style?: React.CSSProperties
 }
 export default function GraphQLExplorer(props: GraphQLExplorerProps) {
   const {query, variables} = props;
@@ -95,7 +96,7 @@ export default function GraphQLExplorer(props: GraphQLExplorerProps) {
   return (
     <div className={props.className}>
       {credentials && (
-        <p className="bg-gray-300 p-2 rounded-t mb-0">
+        <p className="bg-gray-300 p-2 rounded-t mb-0" style={props.style}>
           Queries are executed against your actual application. Please make sure you are using test credentials.
         </p>
       )}

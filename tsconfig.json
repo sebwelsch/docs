@@ -1,5 +1,9 @@
 {
-  "include": ["./src/**/*"],
+  "include": [
+    "./raw-loader.d.ts",
+    "./image-loader.d.ts",
+    "./src/**/*"
+  ],
   "compilerOptions": {
     "target": "esnext",
     "module": "esnext",

@@ -211,6 +211,7 @@ export default function InteractiveTour() {
         </p>
       </div>
       <DesktopPageNavigation
+        isEmbedded={false}
         title="Tour Steps"
         items={
           [

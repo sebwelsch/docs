@@ -1,5 +1,6 @@
 import { configureStore, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {CreateSignatureOrderOutput, AddSignatoryOutput, CloseSignatureOrderOutput} from '../../graphql-signatures-types';
+import { ExampleLanguage } from '../examples/misc';
 
 export interface ApiCredentials {
   clientID: string
@@ -39,12 +40,14 @@ const authSlice = createSlice({
 export type ExampleData = {
   createSignatureOrder?: CreateSignatureOrderOutput | null,
   closeSignatureOrder?: CloseSignatureOrderOutput | null,
-  addSignatory?: AddSignatoryOutput | null
+  addSignatory?: AddSignatoryOutput | null,
+  language: ExampleLanguage
 }
 const exampleDataInitialState : ExampleData = {
   createSignatureOrder: null,
   closeSignatureOrder: null,
-  addSignatory: null
+  addSignatory: null,
+  language: 'graphql'
 };
 const exampleDataSlice = createSlice({
   name: 'exampleData',
@@ -62,6 +65,10 @@ const exampleDataSlice = createSlice({
     addSignatory: (state: ExampleData, action: PayloadAction<AddSignatoryOutput>) => ({
       ...state,
       addSignatory: action.payload
+    }),
+    language: (state: ExampleData, action: PayloadAction<ExampleData["language"]>) => ({
+      ...state,
+      language: action.payload
     })
   }
 });
@@ -83,4 +90,5 @@ export const clearApiCredentials = authSlice.actions.clear;
 export const setCreateSignatureOrder = exampleDataSlice.actions.createSignatureOrder;
 export const setCloseSignatureOrder = exampleDataSlice.actions.closeSignatureOrder;
 export const setAddSignatory = exampleDataSlice.actions.addSignatory;
+export const setLanguage = exampleDataSlice.actions.language;
 export const clearExampleData = exampleDataSlice.actions.clear;
