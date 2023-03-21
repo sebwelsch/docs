@@ -28,7 +28,7 @@ export function toExampleDisplay(input: Example) {
     return 'GraphQL';
   }
   if ("csharp" in input) {
-    return 'C#';
+    return '.NET (C#)';
   }
 
   assertUnreachable(input);
