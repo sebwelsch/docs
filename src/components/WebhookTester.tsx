@@ -6,7 +6,7 @@ import {graphQLFetcher} from './GraphQLExplorer';
 
 import { AddSignatoryOutput, CreateSignatureOrderOutput, RejectSignatureOrderInput, SignInput, DocumentStorageMode, UpdateSignatoryDocumentStatusInput, SignatoryDocumentStatus } from '../../graphql-signatures-types';
 
-import {query as createSignatureOrderQuery, variables as createSignatureOrderVariables} from '../examples/createSignatureOrder.graphql';
+import {query as createSignatureOrderQuery} from '../examples/createSignatureOrder.graphql';
 import {query as addSignatoryQuery} from '../examples/addSignatory.graphql';
 
 type WEBHOOK_EVENT = 'SIGNATORY_REJECTED' | 'SIGNATORY_SIGNED';
