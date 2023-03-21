@@ -12,6 +12,9 @@
     "emitDecoratorMetadata": true,
     "noEmit": true,
     "skipLibCheck": true,
-    "noImplicitAny": true
+    "noImplicitAny": true,
+    "types": [
+      "raw-loader.d.ts"
+    ]
   }
 }

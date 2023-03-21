@@ -9,20 +9,23 @@ import Layout from '../../../layouts/mdx';
 export default Layout;
 
 import GraphQLExample from '../../../components/GraphQLExample';
+import * as createSignatureOrderExample from '../../../examples/createSignatureOrder.graphql';
 
 ## Creating a basic signature order
 
-import * as createSignatureOrderExample from '../../../examples/createSignatureOrder.graphql';
+import basicCreateSignatureOrderExample from '../../../examples/createSignatureOrder/basic';
 
 Creates a signature order containing PDF documents to be signed.
 
-<GraphQLExample example={createSignatureOrderExample} />
+<GraphQLExample example={basicCreateSignatureOrderExample} />
 
 ### Removing existing signatures
 
+import removePreviousSignaturesExample from '../../../examples/createSignatureOrder/removePreviousSignatures';
+
 It is currently not possible to sign documents that have previously been signed, the documents will be rejected unless you use `removePreviousSignatures`.
 
-<GraphQLExample example={{...createSignatureOrderExample, variables: createSignatureOrderExample.removePreviousSignaturesVariables}} />
+<GraphQLExample example={removePreviousSignaturesExample} />
 
 ### Changing authentication options
 

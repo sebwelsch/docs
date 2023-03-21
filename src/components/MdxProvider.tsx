@@ -92,7 +92,7 @@ export const Pre = (props: {children: React.ReactNode}) => {
   return <pre>{props.children}</pre>;
 }
 
-export const Code = (props: {className?: string, children: string}) => {
+export const Code = (props: {className?: string, children: string, style?: React.CSSProperties}) => {
   const params = useQueryParams();
   const language = props.className?.startsWith('language-') ? props.className.replace('language-', '') : undefined;
   const text = replaceParams(props.children, params);
@@ -103,7 +103,8 @@ export const Code = (props: {className?: string, children: string}) => {
         language={language}
         style={vs2015}
         customStyle={{
-          padding: '0.85em 1.14em'
+          padding: '0.85em 1.14em',
+          ...props.style
         }}
       >
         {text}
@@ -116,7 +117,8 @@ export const Code = (props: {className?: string, children: string}) => {
         language={language}
         style={vsprism}
         customStyle={{
-          padding: '0.85em 1.14em'
+          padding: '0.85em 1.14em',
+          ...props.style
         }}
       >
         {text}
@@ -125,7 +127,7 @@ export const Code = (props: {className?: string, children: string}) => {
   }
 
   return (
-    <pre style={{background: 'rgb(30, 30, 30)', color: 'rgb(220, 220, 220)'}}>
+    <pre style={{background: 'rgb(30, 30, 30)', color: 'rgb(220, 220, 220)', ...props.style}}>
       <code>{text}</code>
     </pre>
   );
