@@ -9,9 +9,8 @@ import Layout from '../../../layouts/mdx';
 export default Layout;
 
 import GraphQLExample from '../../../components/GraphQLExample';
-import * as createSignatureOrderExample from '../../../examples/createSignatureOrder.graphql';
 
-## Creating a basic signature order
+## Creating a signature order
 
 import basicCreateSignatureOrderExample from '../../../examples/createSignatureOrder/basic';
 
@@ -31,30 +30,34 @@ It is currently not possible to sign documents that have previously been signed,
 
 You can change authentication methods displayed or disable popups by modifying the Criipto Verify evidence provider settings as such:
 
-<GraphQLExample
-  example={{
-    ...createSignatureOrderExample,
-    variables: (extra) => ({
-      input: {
-        evidenceProviders: [
-          {
-            criiptoVerify: {
-              acrValues: ["urn:grn:authn:se:bankid:same-device"],
-              alwaysRedirect: true
-            }
-          }
-        ],
-        ...(createSignatureOrderExample.variables(extra).input)
-      }
-    })
-  }}
-/>
+import criiptoVerifyOptionsExample from '../../../examples/createSignatureOrder/criiptoVerifyOptions';
+
+<GraphQLExample example={criiptoVerifyOptionsExample} />
 
 ### Requiring evidence validation before viewing documents
 
 If your documents contain PII (before being signed) you may wish to enforce that the signatory validates their identitiy before viewing the documents.
 
-<GraphQLExample example={{...createSignatureOrderExample, variables: createSignatureOrderExample.evidenceValidationStagesVariables}} />
+import evidenceValidationStagesExample from '../../../examples/createSignatureOrder/evidenceValidationStages';
+
+<GraphQLExample example={evidenceValidationStagesExample} />
+
+### UI Settings
+
+Signatory redirect URI, language, logo and stylesheet can be configured via the `ui` input object on `createSignatureOrder`.
+
+import uiExample from '../../../examples/createSignatureOrder/ui';
+
+<GraphQLExample example={uiExample} />
+
+### Requiring unique eIDs for each signatory
+
+If you do not wish signatories to be able to sign multiple times (i.e. not using a "role" system or just have issues with persons sharing eID).
+you can configure the Criipto Verify evidence provider to enforce uniqueness via the `uniqueEvidenceKey: 'sub'` setting.
+
+import uniqueEvidenceKeyExample from '../../../examples/createSignatureOrder/uniqueEvidenceKey';
+
+<GraphQLExample example={uniqueEvidenceKeyExample} />
 
 ## Adding a signatory to a signature order
 
@@ -115,12 +118,6 @@ If you need to add signatories in bulk you can use the `addSignatories` mutation
 
 <GraphQLExample example={addSignatoriesExample} />
 
-## Signature Order UI Settings
-
-Signatory redirect URI, language, logo and stylesheet can be configured via the `ui` input object on `createSignatureOrder`.
-
-<GraphQLExample example={{...createSignatureOrderExample, variables: createSignatureOrderExample.uiExampleVariables}} />
-
 ## Signature Apperance
 
 Signature apperance (inside the PDF/document) can be configured via the `signatureAppearance` input object on `createSignatureOrder`.
@@ -129,7 +126,9 @@ The example below shows how you might configure it to show the `social number / 
 
 If dealing with a single eID (like Swedish BankID) and only simple claims you can configure it as simply `identifierFromEvidence: ["ssn"]`
 
-<GraphQLExample example={{...createSignatureOrderExample, variables: createSignatureOrderExample.signatureAppearanceExampleVariables}} />
+import createSignatureAppearanceExample from '../../../examples/createSignatureOrder/signatureAppearance';
+
+<GraphQLExample example={createSignatureAppearanceExample} />
 
 ### Seal display name
 
@@ -175,20 +174,15 @@ If for any reason you no longer need a signature order you can abandon it by usi
 
 <GraphQLExample example={cancelSignatureOrderExample} />
 
-## Requiring unique eIDs for each signatory
-
-If you do not wish signatories to be able to sign multiple times (i.e. not using a "role" system or just have issues with persons sharing eID).
-you can configure the Criipto Verify evidence provider to enforce uniqueness via the `uniqueEvidenceKey: 'sub'` setting.
-
-<GraphQLExample example={{...createSignatureOrderExample, variables: createSignatureOrderExample.uniqueEvidenceExampleVariables}} />
-
 ## Drawable signatures
 
 ### Creating a signature order with drawable enabled
 
 Define `evidenceProviders` input when using `createSignatureOrder` to enable drawable signatures.
 
-<GraphQLExample example={{...createSignatureOrderExample, variables: createSignatureOrderExample.drawableExampleVariables}} />
+import createDrawableExample from '../../../examples/createSignatureOrder/drawable';
+
+<GraphQLExample example={createDrawableExample} />
 
 ### Adding a signatory with selectively enabled evidence provider
 
