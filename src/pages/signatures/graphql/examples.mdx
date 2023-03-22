@@ -156,25 +156,29 @@ import addSignatoryDisplayNameExample from '../../../examples/addSignatory/displ
 
 ## Closing a signature order
 
-import * as closeSignatureOrderExample from '../../../examples/closeSignatureOrder.graphql';
-
 When all signatories have signed the signature order you can close it to retrieve your signed PDFs.
 
 The PDFs are deleted from Criipto servers upon calling `closeSignatureOrder`. (Unless you define the `retainDocumentsForDays` setting.)
 
-<GraphQLExample example={closeSignatureOrderExample} />
+import basicCloseSignatureOrderExample from '../../../examples/closeSignatureOrder/basic';
+
+<GraphQLExample example={basicCloseSignatureOrderExample} />
 
 ### With document retention
 
 If you wish, you can ask Criipto to retain the documents for up to 7 days after closing the signature order:
 
-<GraphQLExample example={{...closeSignatureOrderExample, variables: closeSignatureOrderExample.retentionVariables}} />
+import retentionCloseSignatureOrderExample from '../../../examples/closeSignatureOrder/retention';
+
+<GraphQLExample example={retentionCloseSignatureOrderExample} />
 
 ### Include signature information
 
 When retrieving document blobs for a signature order, you can also request information about the signatures embedded in the document.
 
 For users signing with an eID, this will include the `jwt` issued which can be validated against the also-returned `jwks` and decoded to provide the underlying claims (like ssn or other eID claim values).
+
+import * as closeSignatureOrderExample from '../../../examples/closeSignatureOrder.graphql';
 
 <GraphQLExample example={{...closeSignatureOrderExample, query: closeSignatureOrderExample.signaturesQuery}} />
 
