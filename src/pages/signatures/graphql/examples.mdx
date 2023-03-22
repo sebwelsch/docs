@@ -206,11 +206,11 @@ import addSignatoryDrawableExample from '../../../examples/addSignatory/drawable
 
 ### Changing a signatory to selectively enable a evidence provider
 
-import * as changeSignatoryExample from '../../../examples/changeSignatory.graphql';
-
 You can define `evidenceProviders` with `enabledByDefault: false` and then selectively enabling them using the `evidenceProviders` array input for `changeSignatory`.
 
-<GraphQLExample example={{...changeSignatoryExample, variables: changeSignatoryExample.drawableExampleVariables}} />
+import changeSignatoryDrawableExample from '../../../examples/changeSignatory/drawable';
+
+<GraphQLExample example={changeSignatoryDrawableExample} />
 
 ### Sign acting as a signatory
 

@@ -1,5 +1,5 @@
-import { ChangeSignatoryInput } from "../../graphql-signatures-types";
-import { ExampleData } from '../state/store';
+import { ChangeSignatoryInput } from "../../../graphql-signatures-types";
+import { ExampleData } from '../../state/store';
 
 export const query = /* Signatures GraphQL */`
 mutation exampleChangeSignatory(
