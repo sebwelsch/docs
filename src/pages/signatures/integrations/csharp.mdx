@@ -2,11 +2,111 @@
 product: signatures
 category: Integrations
 sort: 1
-title: C#/dotnet
+title: .NET (C#)
 subtitle: Integrate Criipto Signatures with C#/dotnet to sign PDFs using MitID, Swedish BankID, Norwegian BankId or other eIDs.
 ---
 import Layout from '../../../layouts/mdx';
 export default Layout;
 
-A GraphQL-wrapper SDK, `Criipto.Signatures` is available for dotnet,
-you can learn more about the SDK and see basic examples on [GitHub](https://github.com/criipto/criipto-signatures-dotnet)
+This guide shows you how to use implement Criipto Signatures in .NET to sign
+PAdeS-LTA documents using MitID, BankID or any other eID supported by Criipto Verify.
+
+## Getting started
+
+### Requirements
+
+This library supports .NET 6 and .NET 7.
+
+### Installation
+
+The SDK is available on [Nuget](https://www.nuget.org/packages/Criipto.Signatures) and can be installed using the Package Manager Console or the dotnet CLI:
+
+```
+Install-Package Criipto.Signatures
+dotnet add package Criipto.Signatures
+```
+
+### Configure the SDK
+
+```csharp
+var client = new CriiptoSignaturesClient("{YOUR_CRIIPTO_CLIENT_ID}", "{YOUR_CRIIPTO_CLIENT_SECRET}");
+```
+
+## Creating your first signature order
+
+Create a signature order by 
+
+```csharp
+using Criipto.Signatures;
+using Criipto.Signatures.Models;
+
+using (var client = new CriiptoSignaturesClient("{YOUR_CRIIPTO_CLIENT_ID}", "{YOUR_CRIIPTO_CLIENT_SECRET}")) {
+    var pdfFile = File.ReadAllBytes("...some pdf file");
+
+    // Setup document input
+    var documents = new List<DocumentInput>{
+        new DocumentInput {
+            pdf = new PadesDocumentInput {
+                title = "Dotnet Sample",
+                blob = pdfFile,
+                storageMode = DocumentStorageMode.Temporary
+            }
+        }
+    };
+
+    // Setup signature order input
+    var createSignatureOrderInput = new CreateSignatureOrderInput
+    {
+        title = "Dotnet Sample",
+        documents = documents
+    };
+
+    // Create signature order
+    var signatureOrder = await client.CreateSignatureOrder(createSignatureOrderInput);
+
+    // ... store the signatureOrder.id
+}
+```
+
+### Adding signatories
+
+Signatories are the individuals you wish to sign your documents.
+
+```csharp
+using Criipto.Signatures;
+using Criipto.Signatures.Models;
+
+using (var client = new CriiptoSignaturesClient("{YOUR_CRIIPTO_CLIENT_ID}", "{YOUR_CRIIPTO_CLIENT_SECRET}")) {
+    var signatureOrderId = "..." // The id from when you previosuly created the signature order
+
+    // Add signatory to signature order
+    var signatory = await client.AddSignatory(signatureOrderId);
+
+    Console.WriteLine(signatory.href); // The signatory.href is the signing link that you can show or send to your users
+}
+```
+
+### Closing the signature order
+
+Once everyone has signed you must close the signature order to finalize the process and extract the signed documents.
+
+```csharp
+using Criipto.Signatures;
+using Criipto.Signatures.Models;
+
+using (var client = new CriiptoSignaturesClient("{YOUR_CRIIPTO_CLIENT_ID}", "{YOUR_CRIIPTO_CLIENT_SECRET}")) {
+    var signatureOrderId = "..." // The id from when you previosuly created the signature order
+
+    // Close signature order
+    var closedSignatureOrder = await client.CloseSignatureOrder(signatureOrderId);
+
+    foreach (var document in closedSignatureOrder.documents)
+    {
+        // document.blob is a byte array containing the signed PDF
+    }
+}
+```
+
+## More examples
+
+More [.NET/C# examples](/signatures/graphql/examples/) are provided for all the options supported by the Criipto Signatures API.
