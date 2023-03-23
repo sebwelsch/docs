@@ -19,7 +19,7 @@
     "check:signatures:csharp": "./check-signatures-csharp.sh",
     "schema": "npm run schema:signatures",
     "schema:signatures": "curl https://signatures-api.criipto.com/v1/graphql > graphql-signatures-schema.json",
-    "build": "gatsby build",
+    "build": "rm -rf .cache/ && gatsby build",
     "serve": "gatsby serve",
     "clean": "gatsby clean"
   },

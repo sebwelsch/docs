@@ -1,5 +1,5 @@
-import { CancelSignatureOrderInput } from "../../graphql-signatures-types";
-import { ExampleData } from '../state/store';
+import { CancelSignatureOrderInput } from "../../../graphql-signatures-types";
+import { ExampleData } from '../../state/store';
 
 export const query = /* Signatures GraphQL */`
 mutation examplesCancelSignatureOrder(

@@ -61,11 +61,11 @@ import uniqueEvidenceKeyExample from '../../../examples/createSignatureOrder/uni
 
 ## Adding a signatory to a signature order
 
-import * as addSignatoryExample from '../../../examples/addSignatory.graphql';
-
 Signatories are the individuals you wish to have sign a specific `signatureOrder`. Once created they will have a unique link that you can redirect users to.
 
-<GraphQLExample example={addSignatoryExample} />
+import addSignatoryBasicExample from '../../../examples/addSignatory/basic';
+
+<GraphQLExample example={addSignatoryBasicExample} />
 
 ### Evidence validation
 
@@ -75,19 +75,25 @@ Evidence validation keys must match what will be found in the claims token when 
 
 Evidence will be hashed before storage and compared when a user tries to sign. If the evidence does not match an error will be displayed to the user and they will be prompted to try again.
 
-<GraphQLExample example={{...addSignatoryExample, variables: addSignatoryExample.evidenceValidationVariables}} />
+import addSignatoryEvidenceValidationExample from '../../../examples/addSignatory/evidenceValidation';
+
+<GraphQLExample example={addSignatoryEvidenceValidationExample} />
 
 ### Signing with a role
 
 You can define a role for signatories, if you wish for them to sign in a specific role (if perhaps, signing multiple times with the same eID).
 
-<GraphQLExample example={{...addSignatoryExample, variables: addSignatoryExample.roleVariables}} />
+import addSignatoryRoleExample from '../../../examples/addSignatory/role';
+
+<GraphQLExample example={addSignatoryRoleExample} />
 
 ### Document scoping
 
 By using the `documents` input array for `addSignatory` you can limit what documents a signatory will be shown.
 
-<GraphQLExample example={{...addSignatoryExample, variables: addSignatoryExample.scopedVariables}} />
+import addSignatoryDocumentsExample from '../../../examples/addSignatory/documents';
+
+<GraphQLExample example={addSignatoryDocumentsExample} />
 
 ### Preapproval
 
@@ -97,7 +103,9 @@ By preapproving documents for a signatory they are immediately sent to eID login
 
 When using preapproval document-scoping is automatically used so make sure that you pass all documents from the signature order to the signatory.
 
-<GraphQLExample example={{...addSignatoryExample, variables: addSignatoryExample.preapprovedVariables}} />
+import addSignatoryPreapprovedExample from '../../../examples/addSignatory/preapproved';
+
+<GraphQLExample example={addSignatoryPreapprovedExample} />
 
 ### Custom seal position
 
@@ -107,14 +115,16 @@ When using custom seal positions, they must be defined for all signatories added
 
 The coordinates defined for custom seal positions use the PDF coordinate system (0,0 is bottom left).
 
-<GraphQLExample example={{...addSignatoryExample, variables: addSignatoryExample.sealPositionVariables}} />
+import addSignatorySealPositionExample from '../../../examples/addSignatory/sealPosition';
+
+<GraphQLExample example={addSignatorySealPositionExample} />
 
 ### Multiple signatories
 
-import * as addSignatoriesExample from '../../../examples/addSignatories.graphql';
-
 If you need to add signatories in bulk you can use the `addSignatories` mutation.
 `addSignatories` supports a `signatories` input array, where each array item supports the same input values as `addSignatoryMutation`.
+
+import addSignatoriesExample from '../../../examples/addSignatories/basic';
 
 <GraphQLExample example={addSignatoriesExample} />
 
@@ -140,23 +150,27 @@ Below is an example of how one might render a business name together with the us
 
 This feature currently ONLY works with CriiptoVerify/OIDC based signatures.
 
-<GraphQLExample example={{...addSignatoryExample, variables: addSignatoryExample.displayNameVariables}} />
+import addSignatoryDisplayNameExample from '../../../examples/addSignatory/displayName';
+
+<GraphQLExample example={addSignatoryDisplayNameExample} />
 
 ## Closing a signature order
-
-import * as closeSignatureOrderExample from '../../../examples/closeSignatureOrder.graphql';
 
 When all signatories have signed the signature order you can close it to retrieve your signed PDFs.
 
 The PDFs are deleted from Criipto servers upon calling `closeSignatureOrder`. (Unless you define the `retainDocumentsForDays` setting.)
 
-<GraphQLExample example={closeSignatureOrderExample} />
+import basicCloseSignatureOrderExample from '../../../examples/closeSignatureOrder/basic';
+
+<GraphQLExample example={basicCloseSignatureOrderExample} />
 
 ### With document retention
 
 If you wish, you can ask Criipto to retain the documents for up to 7 days after closing the signature order:
 
-<GraphQLExample example={{...closeSignatureOrderExample, variables: closeSignatureOrderExample.retentionVariables}} />
+import retentionCloseSignatureOrderExample from '../../../examples/closeSignatureOrder/retention';
+
+<GraphQLExample example={retentionCloseSignatureOrderExample} />
 
 ### Include signature information
 
@@ -164,13 +178,15 @@ When retrieving document blobs for a signature order, you can also request infor
 
 For users signing with an eID, this will include the `jwt` issued which can be validated against the also-returned `jwks` and decoded to provide the underlying claims (like ssn or other eID claim values).
 
+import * as closeSignatureOrderExample from '../../../examples/closeSignatureOrder.graphql';
+
 <GraphQLExample example={{...closeSignatureOrderExample, query: closeSignatureOrderExample.signaturesQuery}} />
 
 ## Cancel a signature order
 
-import * as cancelSignatureOrderExample from '../../../examples/cancelSignatureOrder.graphql';
-
 If for any reason you no longer need a signature order you can abandon it by using `cancelSignatureOrder`
+
+import cancelSignatureOrderExample from '../../../examples/cancelSignatureOrder/basic';
 
 <GraphQLExample example={cancelSignatureOrderExample} />
 
@@ -188,15 +204,17 @@ import createDrawableExample from '../../../examples/createSignatureOrder/drawab
 
 You can define `evidenceProviders` with `enabledByDefault: false` and then selectively enabling them using the `evidenceProviders` array input for `addSignatory`.
 
-<GraphQLExample example={{...addSignatoryExample, variables: addSignatoryExample.drawableExampleVariables}} />
+import addSignatoryDrawableExample from '../../../examples/addSignatory/drawable';
+
+<GraphQLExample example={addSignatoryDrawableExample} />
 
 ### Changing a signatory to selectively enable a evidence provider
 
-import * as changeSignatoryExample from '../../../examples/changeSignatory.graphql';
-
 You can define `evidenceProviders` with `enabledByDefault: false` and then selectively enabling them using the `evidenceProviders` array input for `changeSignatory`.
 
-<GraphQLExample example={{...changeSignatoryExample, variables: changeSignatoryExample.drawableExampleVariables}} />
+import changeSignatoryDrawableExample from '../../../examples/changeSignatory/drawable';
+
+<GraphQLExample example={changeSignatoryDrawableExample} />
 
 ### Sign acting as a signatory
 
