@@ -941,26 +941,12 @@ export type Viewer = {
   id: Scalars['ID'];
 };
 
-export type ExampleAddSignatoriesMutationVariables = Exact<{
-  input: AddSignatoriesInput;
-}>;
-
-
-export type ExampleAddSignatoriesMutation = { __typename?: 'Mutation', addSignatories?: { __typename?: 'AddSignatoriesOutput', signatories: Array<{ __typename?: 'Signatory', id: string, href: string }> } | null | undefined };
-
 export type ExampleAddSignatoryMutationVariables = Exact<{
   input: AddSignatoryInput;
 }>;
 
 
 export type ExampleAddSignatoryMutation = { __typename?: 'Mutation', addSignatory?: { __typename?: 'AddSignatoryOutput', signatory: { __typename?: 'Signatory', id: string, href: string, token: string } } | null | undefined };
-
-export type ExampleChangeSignatoryMutationVariables = Exact<{
-  input: ChangeSignatoryInput;
-}>;
-
-
-export type ExampleChangeSignatoryMutation = { __typename?: 'Mutation', changeSignatory?: { __typename?: 'ChangeSignatoryOutput', signatory: { __typename?: 'Signatory', id: string, href: string, token: string } } | null | undefined };
 
 export type ExampleSignActingAsMutationVariables = Exact<{
   input: SignActingAsInput;

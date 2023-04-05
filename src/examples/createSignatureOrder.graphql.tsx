@@ -21,7 +21,7 @@ mutation examplesCreateSignatureOrder(
 
       evidenceProviders {
         __typename
-        evidenceProviders
+        id
       }
     }
   }
