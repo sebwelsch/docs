@@ -100,15 +100,15 @@ export default function Navigation(props: Props) {
     return (
       <ul>
         <li>
-          <Link to="/verify" className="block mb-3 font-semibold text-blue">
+          <Link to="/verify" className="block mb-3 font-medium text-primary-600 text-lg">
             Criipto Verify
           </Link>
-          <ul className="space-y-2 border-l border-gray-100">
+          <ul className="space-y-2 border-l border-gray-100 text-md font-normal">
             {VERIFY_CATEGORIES.map((category, index) => (
               <li key={category}>
                 <Link
                   to={slugToPath(findIndexPage(category, verifyPages)!.slug!)}
-                  className="block border-l pl-4 py-1 lg:py-0 -ml-px border-transparent hover:border-gray-400 text-gray-700 hover:text-gray-900"
+                  className="block border-l pl-4 py-1 lg:py-0 -ml-px border-transparent hover:border-gray-400 text-primary-600 hover:text-deep-purple-900 hover:font-medium"
                 >
                   {category}
                 </Link>
@@ -117,15 +117,15 @@ export default function Navigation(props: Props) {
           </ul>
         </li>
         <li className="mt-8">
-          <Link to="/signatures" className="block mb-3 font-semibold text-blue">
+          <Link to="/signatures" className="block mb-3 font-medium text-primary-600 text-lg">
             Criipto Signatures
           </Link>
-          <ul className="space-y-2 border-l border-gray-100">
+          <ul className="space-y-2 border-l border-gray-100 text-md font-normal">
             {SIGNATURES_CATEGORIES.map((category, index) => (
               <li key={category}>
                 <Link
                   to={slugToPath(findIndexPage(category, signaturesPages)!.slug!)}
-                  className="block border-l pl-4 py-1 lg:py-0 -ml-px border-transparent hover:border-gray-400 text-gray-700 hover:text-gray-900"
+                  className="block border-l pl-4 py-1 lg:py-0 -ml-px border-transparent hover:border-gray-400 text-primary-600 hover:text-deep-purple-900 hover:font-medium"
                 >
                   {category}
                 </Link>
@@ -145,16 +145,16 @@ export default function Navigation(props: Props) {
       {categories.map((category, index) => (
         <li key={category} className={index > 0 ? 'mt-8' : ''}>
           {findIndexPage(category, pages) ? (
-            <Link to={slugToPath(findIndexPage(category, pages)!.slug!)} className="block mb-3 font-semibold text-blue">{category}</Link>
+            <Link to={slugToPath(findIndexPage(category, pages)!.slug!)} className="block mb-3 font-medium text-primary-600">{category}</Link>
           ) : (
-            <h5 className="mb-3 font-semibold text-blue">{category}</h5>
+            <h5 className="mb-3 font-medium text-primary-600">{category}</h5>
           )}
-          <ul className="space-y-2 border-l border-gray-100">
+          <ul className="space-y-2 border-l border-gray-100 text-md font-normal">
             {pages.filter(node => !isIndexPage(node) && node.frontmatter?.category === category).map(page => (
               <li key={page.id}>
                 <Link
                   to={slugToPath(page.slug!)}
-                  getProps={(props) => ({className: `block border-l pl-4 py-1 lg:py-0 -ml-px border-transparent ${props.isCurrent ? 'text-blue border-current font-semibold' : 'hover:border-gray-400 text-gray-700 hover:text-gray-900'}`})}
+                  getProps={(props) => ({className: `block border-l pl-4 py-1 lg:py-0 -ml-px border-transparent ${props.isCurrent ? 'text-deep-purple-900 border-current font-medium' : 'hover:border-gray-400 text-primary-600 hover:text-deep-purple-900 hover:font-medium'}`})}
                 >
                   {page.frontmatter!.title}
                 </Link>
@@ -163,7 +163,7 @@ export default function Navigation(props: Props) {
             {isSignatures && category === 'GraphQL' && (
               <li>
                 <a
-                  className="block border-l pl-4 -ml-px border-transparent hover:border-gray-400 text-gray-700 hover:text-gray-900"
+                  className="block border-l pl-4 -ml-px border-transparent hover:border-gray-400 text-primary-600 hover:text-deep-purple-900 hover:font-medium"
                   href="https://signatures-api.criipto.com/v1/explorer"
                   target="_blank"
                 >Explorer</a>
@@ -172,7 +172,7 @@ export default function Navigation(props: Props) {
             {isVerify && category === 'Guides & Tools' && (
               <li>
                 <a
-                  className="block border-l pl-4 -ml-px border-transparent hover:border-gray-400 text-gray-700 hover:text-gray-900"
+                  className="block border-l pl-4 -ml-px border-transparent hover:border-gray-400 text-primary-600 hover:text-deep-purple-900 hover:font-medium"
                   href="https://docs-old.criipto.com/"
                   target="_blank"
                 >
@@ -211,7 +211,7 @@ export function MobileNavigation(props: Props & MobileProps) {
       <div className={cx(
         'flex justify-between lg:hidden sticky z-30 backdrop-blur duration-500 border-b border-gray-900/20 bg-white/95 supports-backdrop-blur:bg-white/60 p-4',
         {
-          'top-[65px]': !props.isEmbedded,
+          'top-[45px]': !props.isEmbedded,
           'top-0': props.isEmbedded
         }
       )}>
@@ -231,7 +231,7 @@ export function MobileNavigation(props: Props & MobileProps) {
                   <path d="M0 0L3 3L0 6" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"></path>
                 </svg>
               </li>
-              <li className="font-semibold text-slate-900 truncate ">
+              <li className="font-medium text-slate-900 truncate ">
                 {title}
               </li>
             </ol>

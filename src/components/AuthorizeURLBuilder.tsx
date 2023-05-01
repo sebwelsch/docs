@@ -222,7 +222,7 @@ export default function AuthorizeURLBuilder() {
       <H3>General parameters</H3>
       <div className="mb-4 grid grid-cols-3 gap-4">
         <div>
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="domain">
+          <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="domain">
             Domain
           </label>
           <input
@@ -235,7 +235,7 @@ export default function AuthorizeURLBuilder() {
           />
         </div>
         <div>
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="clientID">
+          <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="clientID">
             Client ID
           </label>
           <input
@@ -249,7 +249,7 @@ export default function AuthorizeURLBuilder() {
           <small>Also known as 'realm'</small>
         </div>
         <div>
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="redirectURI">
+          <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="redirectURI">
             Redirect URI
           </label>
           <input
@@ -266,7 +266,7 @@ export default function AuthorizeURLBuilder() {
 
       <div className="mb-4 grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="responseType">
+          <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="responseType">
             Response type
           </label>
           <select
@@ -283,7 +283,7 @@ export default function AuthorizeURLBuilder() {
         </div>
 
         <div>
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="responseMode">
+          <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="responseMode">
             Response mode
           </label>
           <select
@@ -299,7 +299,7 @@ export default function AuthorizeURLBuilder() {
         </div>
 
         <div>
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="nonce">
+          <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="nonce">
             Nonce
           </label>
           <input
@@ -314,7 +314,7 @@ export default function AuthorizeURLBuilder() {
         </div>
 
         <div>
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="prompt">
+          <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="prompt">
             Prompt
           </label>
           <select
@@ -339,7 +339,7 @@ export default function AuthorizeURLBuilder() {
         </div>
 
         <div>
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="state">
+          <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="state">
             State
           </label>
           <input
@@ -354,7 +354,7 @@ export default function AuthorizeURLBuilder() {
         </div>
 
         <div>
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="login_hint">
+          <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="login_hint">
             Login hint
           </label>
           <input
@@ -382,7 +382,7 @@ export default function AuthorizeURLBuilder() {
       <div className="mb-4 grid grid-cols-4 gap-4">
         {PROVIDERS.map(provider => (
           <div>
-            <Link to={provider.page} className="font-bold no-underline text-sm" title={`Learn more about ${provider.title}`} target="_blank">{provider.title}</Link><br />
+            <Link to={provider.page} className="font-medium no-underline text-sm" title={`Learn more about ${provider.title}`} target="_blank">{provider.title}</Link><br />
             {provider.authMethods.map(authMethod => (
               <label className="text-gray-700 text-sm block my-2">
                 <input
@@ -401,7 +401,7 @@ export default function AuthorizeURLBuilder() {
 
       {options.availableScopes.length > 0 ? (
         <div>
-          <label className="block text-gray-700 text-sm font-bold mb-2">
+          <label className="block text-gray-700 text-sm font-medium mb-2">
             scopes
           </label>
           {options.availableScopes.map(scope => (
@@ -422,7 +422,7 @@ export default function AuthorizeURLBuilder() {
       <div className="mb-4 grid grid-cols-2 gap-4">
         {options.availableScopes.length > 0 ? (
           <div>
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="scopes_quirk">
+            <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="scopes_quirk">
               scopes quirk handling
             </label>
             <select className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -442,7 +442,7 @@ export default function AuthorizeURLBuilder() {
 
         {options.acr_values.length == 1 ? (
           <div>
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="acr_values_quirk">
+            <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="acr_values_quirk">
               acr_values quirk handling
             </label>
             <select
@@ -466,7 +466,7 @@ export default function AuthorizeURLBuilder() {
 
         {supportsAction && (
           <div>
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="action">
+            <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="action">
               Action
             </label>
             <select
@@ -486,7 +486,7 @@ export default function AuthorizeURLBuilder() {
 
         {supportsMessage && (
           <div>
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="message">
+            <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="message">
               Message
             </label>
             <input

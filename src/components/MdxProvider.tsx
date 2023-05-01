@@ -5,7 +5,6 @@ import {default as SyntaxHighlighter, Prism} from 'react-syntax-highlighter';
 import { useLocation } from '@reach/router';
 import { vs2015 } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { vscDarkPlus as vsprism } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { href } from '@criipto/ui-operations-status';
 
 function useQueryParams() {
   const location = useLocation();
@@ -33,14 +32,14 @@ export function parseHeader(input: string) {
   return input.replace(`#${id}`, '').trim();
 }
 export const H2 = (props: {children: string}) => (
-  <h2 {...props} className="group flex whitespace-pre-wrap -ml-4 pl-4">
+  <h2 {...props} className="group flex whitespace-pre-wrap -ml-4 pl-4 text-gray-ash-900 text-medium text-display-md">
     <a id={textToId(props.children)} className="relative top-[-150px] lg:top-[-90px]"/>
     <a
       href={`#${textToId(props.children)}`}
       className="absolute -ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 z-30"
       aria-label="Anchor"
     >​
-      <div className="w-6 h-6 text-gray-400 ring-1 ring-gray-900/5 rounded-md shadow-sm flex items-center justify-center hover:ring-gray-900/10 hover:shadow hover:text-gray-700">
+      <div className="w-6 h-6 text-gray-ash-900 ring-1 ring-gray-900/5 rounded-md shadow-sm flex items-center justify-center hover:ring-gray-900/10 hover:shadow hover:text-gray-700">
         <svg width="12" height="12" fill="none" aria-hidden="true">
           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"></path>
         </svg>
@@ -51,14 +50,14 @@ export const H2 = (props: {children: string}) => (
 );
 
 export const H3 = (props: {children: string}) => (
-  <h3 {...props} className="group flex whitespace-pre-wrap -ml-4 pl-4">
+  <h3 {...props} className="group flex whitespace-pre-wrap -ml-4 pl-4 text-gray-ash-900 text-medium text-display-sm">
     <a id={textToId(props.children)} className="relative top-[-150px] lg:top-[-90px]" />
     <a
       href={`#${textToId(props.children)}`}
       className="absolute -ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100"
       aria-label="Anchor"
     >​
-      <div className="w-6 h-6 text-gray-400 ring-1 ring-gray-900/5 rounded-md shadow-sm flex items-center justify-center hover:ring-gray-900/10 hover:shadow hover:text-gray-700">
+      <div className="w-6 h-6 text-gray-ash-900 font-medium ring-1 ring-gray-900/5 rounded-md shadow-sm flex items-center justify-center hover:ring-gray-900/10 hover:shadow hover:text-gray-700">
         <svg width="12" height="12" fill="none" aria-hidden="true">
           <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"></path>
         </svg>
@@ -163,7 +162,7 @@ export const QueryParam = (props: {param: string, fallback?: string}) => {
 };
 
 export const Anchor = (props: {children: React.ReactNode, href: string}) => {
-  return <a target={href.startsWith('http') ? '_top' : undefined} {...props} />;
+  return <a target={props.href?.startsWith('http') ? '_top' : undefined} {...props} />;
 }
 
 const components = {

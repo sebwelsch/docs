@@ -159,7 +159,7 @@ export function CredentialsForm(props: {className?: string, children?: React.Rea
     <form className={`px-8 pt-6 pb-8 mb-4 ${props.className || ''}`} onSubmit={handleSubmit}>
       {props.children}
       <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="clientID">
+        <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="clientID">
           Client ID
         </label>
         <input
@@ -172,7 +172,7 @@ export function CredentialsForm(props: {className?: string, children?: React.Rea
         />
       </div>
       <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="clientSecret">
+        <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="clientSecret">
           Client Secret
         </label>
         <input
@@ -190,11 +190,11 @@ export function CredentialsForm(props: {className?: string, children?: React.Rea
         </div>
       ) : null}
       <div className="flex items-center justify-between">
-        <button className="bg-blue text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:bg-blue/50" type="submit" disabled={pending}>
+        <button className="bg-primary-600 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:bg-primary-600/50" type="submit" disabled={pending}>
           Submit
         </button>
         {props.onSkip && (
-          <button className="font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onClick={() => props.onSkip!()}>
+          <button className="font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onClick={() => props.onSkip!()}>
             Skip
           </button>
         )}
@@ -212,7 +212,7 @@ export function ClearCredentialsButton() {
   }
 
   if (!credentials) return <p>No credentials configured.</p>;
-  return <button className="bg-blue text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={handleClick}>Clear credentials</button>;
+  return <button className="bg-primary-600 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={handleClick}>Clear credentials</button>;
 }
 
 function CredentialsOverlay(props: {onSkip?: () => void}) {

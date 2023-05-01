@@ -91,7 +91,7 @@ export default function CreateSignatureOrderQueryBuilder() {
       <div className="mb-4 grid grid-cols-3 gap-4">
         {documents.map((document, index) => (
           <div key={index}>
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor={`document_${index}_title`}>
+            <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor={`document_${index}_title`}>
               Title
             </label>
             <input
@@ -106,14 +106,14 @@ export default function CreateSignatureOrderQueryBuilder() {
           </div>
         ))}
         <div>
-          <label htmlFor="pdf_file_select" className="block text-gray-700 text-sm font-bold mb-2">Add document</label>
+          <label htmlFor="pdf_file_select" className="block text-gray-700 text-sm font-medium mb-2">Add document</label>
           <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="file" id="pdf_file_select" multiple onChange={handleAddDocument} />
         </div>
       </div>
       <H3>General Settings</H3>
       <div className="mb-4 grid grid-cols-3 gap-4">
         <div>
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="input.title">
+          <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="input.title">
             Title
           </label>
           <input
@@ -126,7 +126,7 @@ export default function CreateSignatureOrderQueryBuilder() {
           />
         </div>
         <div>
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="input.maxSignatories">
+          <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="input.maxSignatories">
             Max Signatories
           </label>
           <input
@@ -139,7 +139,7 @@ export default function CreateSignatureOrderQueryBuilder() {
           />
         </div>
         <div>
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="input.expiresInDays">
+          <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="input.expiresInDays">
             Automatic Expiration (in days)
           </label>
           <input
@@ -153,7 +153,7 @@ export default function CreateSignatureOrderQueryBuilder() {
           <small>Old signature orders that are not cancelled or closed are automatically cleaned up.</small>
         </div>
         <div>
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="webhook.uri">
+          <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="webhook.uri">
             Webhook URL
           </label>
           <input
@@ -170,7 +170,7 @@ export default function CreateSignatureOrderQueryBuilder() {
       <H3>UI Settings</H3>
       <div className="mb-4 grid grid-cols-4 gap-4">
         <div>
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="ui.signatoryRedirectUri">
+          <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="ui.signatoryRedirectUri">
             Signatory redirect URI
           </label>
           <input
@@ -183,7 +183,7 @@ export default function CreateSignatureOrderQueryBuilder() {
           />
         </div>
         <div>
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="ui.language">
+          <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="ui.language">
             Language
           </label>
           <select

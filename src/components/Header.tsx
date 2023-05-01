@@ -3,10 +3,9 @@ import { Link } from "gatsby";
 
 import { OperationsStatusProvider, OperationsStatusIcon, OperationsStatusTrigger } from '@criipto/ui-operations-status';
 
+import '@criipto/ui-operations-status/dist/index.css';
 import Search from './Search';
-
-import logo from '../images/criipto-logo.svg';
-import lock from '../images/criipto-lock.svg';
+import logo from '../images/criipto-logo.png';
 
 export default function Header(props: {path: string | undefined, className?: string}) {
   const [showDropdown, toggleDropdown] = useReducer((value) => !value, false);
@@ -27,19 +26,18 @@ export default function Header(props: {path: string | undefined, className?: str
 
   return (
     <React.Fragment>
-      <header className={`sticky top-0 z-40 w-full backdrop-blur flex-none duration-500 lg:z-50 lg:border-b lg:border-gray-900/10 bg-blue/95 supports-backdrop-blur:bg-blue/60 ${props.className}`}>
+      <header className={`sticky top-0 z-40 w-full backdrop-blur flex-none duration-500 lg:z-50 bg-light-blue-300 text-md text-deep-purple-900 supports-backdrop-blur:bg-blue/60 font-medium font-sans ${props.className}`}>
         <div className="max-w-screen-2xl mx-auto">
-          <div className="py-4 border-b border-gray-900/10 lg:px-8 lg:border-0 mx-4 lg:mx-0 flex justify-between items-center gap-6">
+          <div className="py-2 border-b border-gray-900/10 lg:px-8 lg:border-0 mx-4 lg:mx-0 flex justify-between items-center gap-6">
             <div className="relative flex items-center flex-1">
-              <a href="/" className="mr-3 flex-none text-white text-2xl flex items-center">
-                <img src={logo} alt="Criipto" className="hidden lg:inline" />
-                <img src={lock} alt="Criipto" className="lg:hidden h-[20px] mr-1" />
-                DOCS
+              <a href="/" className="mr-3 flex flex-row gap-6 items-center h-[19px]">
+                <img src={logo} alt="Criipto" className="h-[19px]" />
+                <span className="hidden lg:inline uppercase text-deep-purple-900 font-sans font-medium">Documentation</span>
               </a>
 
               <div className="relative">
                 <button
-                  className="text-xs text-white leading-5 font-semibold bg-gray-400/20 rounded-full py-1 px-3 flex items-center space-x-2 hover:bg-gray-400/40"
+                  className="leading-5 bg-gray-400/20 rounded-full py-1 px-3 flex items-center uppercase space-x-2 hover:bg-gray-400/40 text-deep-purple-900 hover:text-primary-600"
                   onClick={toggleDropdown}
                 >
                   {isVerify ? (
@@ -63,9 +61,9 @@ export default function Header(props: {path: string | undefined, className?: str
                   )}
                 </button>
                 {showDropdown && (
-                  <div className="absolute top-full mt-1 py-2 w-60 rounded-lg bg-white shadow ring-1 ring-gray-900/5 text-sm leading-6 font-semibold text-gray-700 z-60">
+                  <div className="absolute top-full mt-1 py-2 w-60 rounded-lg bg-white shadow ring-1 ring-gray-900/5 leading-6 font-medium uppercase text-deep-purple-900 z-60">
                     <Link to="/verify">
-                      <span className="flex items-center justify-between px-3 py-1 text-blue">
+                      <span className="flex items-center justify-between px-3 py-1 text-deep-purple-900 hover:text-primary-600">
                         Verify (eIDs)
                         {isVerify && (
                           <svg width="24" height="24" fill="none"><path d="m7.75 12.75 2.25 2.5 6.25-6.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path></svg>
@@ -73,7 +71,7 @@ export default function Header(props: {path: string | undefined, className?: str
                       </span>
                     </Link>
                     <Link to="/signatures">
-                      <span className="flex items-center justify-between px-3 py-1 text-blue">
+                      <span className="flex items-center justify-between px-3 py-1 text-deep-purple-900 hover:text-primary-600">
                         Signatures
                         {isSignatures && (
                           <svg width="24" height="24" fill="none"><path d="m7.75 12.75 2.25 2.5 6.25-6.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path></svg>
@@ -104,16 +102,16 @@ export default function Header(props: {path: string | undefined, className?: str
               <OperationsStatusProvider>
                 <OperationsStatusTrigger overlayClassname="top-[35px] right-0">
                   <OperationsStatusIcon />
-                  <span className="ml-2 inline-block text-white cursor-pointer font-bold hover:text-cyan-300">Operations Status</span>
+                  <span className="ml-2 inline-block text-white cursor-pointer font-medium uppercase text-deep-purple-900 hover:text-primary-600">Operations Status</span>
                 </OperationsStatusTrigger>
               </OperationsStatusProvider>
             </div>
             <div className="hidden lg:flex items-center">
               <div>
-                <a href="https://dashboard.criipto.com" target="_blank" className="text-white font-bold mr-2 py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                <a href="https://dashboard.criipto.com" target="_blank" className="text-white font-medium mr-2 py-2 px-4 rounded uppercase text-deep-purple-900 hover:text-primary-600 focus:outline-none focus:shadow-outline">
                   Dashboard
                 </a>
-                <a href="https://www.criipto.com/signup?utm_source=docs" target="_blank" className="bg-white text-blue font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                <a href="https://www.criipto.com/signup?utm_source=docs" target="_blank" className="bg-white font-medium py-2 px-4 rounded uppercase text-deep-purple-900 hover:text-primary-600 focus:outline-none focus:shadow-outline">
                   Sign up
                 </a>
               </div>

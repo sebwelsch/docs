@@ -128,7 +128,7 @@ export default function InteractiveTour() {
                   <strong>{signatories.length} signatories added.</strong>
                   When you have added as many signatories as you want, you can proceed via the button below.
                 </Paragraph>
-                <button className="bg-blue text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={() => setStep('sign')}>
+                <button className="bg-primary-600 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={() => setStep('sign')}>
                   Proceed to next step
                 </button>
               </React.Fragment>
@@ -160,7 +160,7 @@ export default function InteractiveTour() {
             <Paragraph>
               When you haved signed or rejected the signature order with all the signatories you added you can proceed to the next step.
             </Paragraph>
-            <button className="bg-blue text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={() => setStep('closeSignatureOrder')}>
+            <button className="bg-primary-600 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={() => setStep('closeSignatureOrder')}>
               Proceed to next step
             </button>
           </React.Fragment>

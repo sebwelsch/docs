@@ -189,7 +189,7 @@ export default function WebhookTester() {
     <form onSubmit={handleSubmit}>
       <div className="mb-4 grid grid-cols-3 gap-4">
         <div>
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="url">
+          <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="url">
             Webhook URL
           </label>
           <input
@@ -203,7 +203,7 @@ export default function WebhookTester() {
           />
         </div>
         <div>
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="event">
+          <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="event">
             Event
           </label>
           <select
@@ -221,12 +221,12 @@ export default function WebhookTester() {
 
       {error ? (
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
-          <strong className="font-bold text-red-700 block">An error occurred!</strong>
+          <strong className="font-medium text-red-700 block">An error occurred!</strong>
           <span className="block sm:inline">{error}</span>
         </div>
       ) : null}
 
-      <button className="bg-blue text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" disabled={pending} type="submit">
+      <button className="bg-primary-600 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline" disabled={pending} type="submit">
         {pending ? 'Executing ...' : 'Execute'}
       </button>
 

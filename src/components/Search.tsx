@@ -60,7 +60,7 @@ export const Hit = ({ hit, onClick }: HitProps) => {
   }).filter(t => t.hasMatch) || [];
   return (
     <div className="mb-4" onClick={onClick}>
-      <Link to={path} className="block text-xl font-extrabold text-gray-900 tracking-tight mb-0 mt-0 no-underline">
+      <Link to={path} className="block text-xl font-medium text-gray-900 tracking-tight mb-0 mt-0 no-underline">
         <Highlight attribute="title" hit={hit} tagName="mark" /> - {hit.category}
       </Link>
 
@@ -120,7 +120,7 @@ function HitsComponent(props: HitsProps) {
     <div>
       {Object.keys(productGroups).map(product => (
         <div key={product}>
-          <h2 className="block text-lg tracking-tight mb-4 mt-4 no-underline font-roboto-slab font-semibold text-blue">
+          <h2 className="block text-lg tracking-tight mb-4 mt-4 no-underline font-medium text-blue">
             Criipto {upperFirst(product)}
           </h2>
             {productGroups[product].map((hit) => (

@@ -74,7 +74,7 @@ export default function AddSignatoryQueryBuilder() {
     <React.Fragment>
       <div className="mb-4 grid grid-cols-3 gap-4">
         <div>
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="input.signatureOrderId">
+          <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="input.signatureOrderId">
             Signature Order ID
           </label>
           <input
@@ -87,7 +87,7 @@ export default function AddSignatoryQueryBuilder() {
           />
         </div>
         <div>
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="input.reference">
+          <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="input.reference">
             Reference
           </label>
           <input
@@ -109,7 +109,7 @@ export default function AddSignatoryQueryBuilder() {
       <div className="mb-4 grid grid-cols-3 gap-4">
         {evidenceValidation.map((item, index) => (
           <div key={index}>
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor={`evidence_validation_${index}_key`}>
+            <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor={`evidence_validation_${index}_key`}>
               Key
             </label>
             <input
@@ -120,7 +120,7 @@ export default function AddSignatoryQueryBuilder() {
               value={item.key || ''}
               onChange={(event) => handleChangeEvidenceValidation(item, 'key', event.target.value)}
             />
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor={`evidence_validation_${index}value`}>
+            <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor={`evidence_validation_${index}value`}>
               Value
             </label>
             <input
@@ -135,7 +135,7 @@ export default function AddSignatoryQueryBuilder() {
           </div>
         ))}
       </div>
-      <button className="bg-blue text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onClick={handleAddEvidenceValidation}>
+      <button className="bg-primary-600 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onClick={handleAddEvidenceValidation}>
         Add
       </button>
       <H3>Documents</H3>
@@ -154,11 +154,11 @@ export default function AddSignatoryQueryBuilder() {
       <div className="mb-4 grid grid-cols-3 gap-4">
         {documents.map(document => (
           <div>
-            <div className="font-bold mb-2">
+            <div className="font-medium mb-2">
               {(data.createSignatureOrder?.signatureOrder.documents.find(s => s.id == document.id))?.title || ''}
             </div>
             <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor={`documents_${document.id}id`}>
+              <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor={`documents_${document.id}id`}>
                 Document ID
               </label>
               <input
@@ -171,7 +171,7 @@ export default function AddSignatoryQueryBuilder() {
               />
             </div>
             <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor={`documents_${document.id}_preapproved`}>
+              <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor={`documents_${document.id}_preapproved`}>
                 Preapproved
               </label>
               <input
