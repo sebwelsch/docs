@@ -189,8 +189,10 @@ export default function Navigation(props: Props) {
 
 export function DesktopNavigation(props: Props ) {
   return (
-    <div className={`hidden ${props.hidden !== true ? 'lg:block' : ''} fixed z-20 inset-0 top-[61px] left-[max(0px,calc(50%-768px))] right-auto w-[17.5rem] py-10 pl-8 mr-8 overflow-y-auto`}>
-      <Navigation {...props} />
+    <div className={`hidden ${props.hidden !== true ? 'lg:block' : ''} bg-gray-ash-25 fixed z-20 inset-0 top-[51px] left-0 w-[max(17.5rem, calc(50%-768px+17.5rem))] pl-[calc(50%-768px)] right-auto overflow-y-auto mr-8`}>
+      <div className="w-[17.5rem] py-10 pl-8">
+        <Navigation {...props} />
+      </div>
     </div>
   );
 }
@@ -209,7 +211,7 @@ export function MobileNavigation(props: Props & MobileProps) {
   return (
     <React.Fragment>
       <div className={cx(
-        'flex justify-between lg:hidden sticky z-30 backdrop-blur duration-500 border-b border-gray-900/20 bg-white/95 supports-backdrop-blur:bg-white/60 p-4',
+        'flex justify-between lg:hidden sticky z-30 backdrop-blur duration-500 bg-gray-ash-25 supports-backdrop-blur:bg-white/60 p-4',
         {
           'top-[45px]': !props.isEmbedded,
           'top-0': props.isEmbedded
@@ -248,7 +250,7 @@ export function MobileNavigation(props: Props & MobileProps) {
 
       <div className={`fixed z-50 inset-0 overscroll-contain overflow-y-auto ${showNavigation ? 'block' : 'hidden'}`}>
         <div className="fixed inset-0 bg-black/20 backdrop-blur-sm" onClick={() => setShowNavigation(false)}></div>
-        <div className="relative bg-white min-h-full w-80 max-w-[calc(100%-3rem)] p-6" onClick={(event) => event.stopPropagation()}>
+        <div className="relative bg-gray-ash-25 min-h-full w-80 max-w-[calc(100%-3rem)] p-6" onClick={(event) => event.stopPropagation()}>
           <button onClick={() => setShowNavigation(false)} type="button" className="absolute z-10 top-5 right-5 w-8 h-8 flex items-center justify-center text-slate-500 hover:text-slate-600 dark:text-slate-400 dark:hover:text-slate-300">
             <span className="sr-only">Close navigation</span>
             <svg viewBox="0 0 10 10" className="w-2.5 h-2.5 overflow-visible">
@@ -263,7 +265,7 @@ export function MobileNavigation(props: Props & MobileProps) {
       {props.pageNavigationItems ? (
         <div className={`fixed z-50 inset-0 overscroll-contain overflow-y-auto ${showPageNavigation ? 'block' : 'hidden'}`}>
           <div className="fixed inset-0 bg-black/20 backdrop-blur-sm" onClick={() => setPageShowNavigation(false)}></div>
-          <div className="absolute bg-white min-h-full w-80 max-w-[calc(100%-3rem)] p-6 right-0" onClick={(event) => event.stopPropagation()}>
+          <div className="absolute bg-gray-ash-25 min-h-full w-80 max-w-[calc(100%-3rem)] p-6 right-0" onClick={(event) => event.stopPropagation()}>
             <button onClick={() => setPageShowNavigation(false)} type="button" className="absolute z-10 top-5 right-5 w-8 h-8 flex items-center justify-center text-slate-500 hover:text-slate-600 dark:text-slate-400 dark:hover:text-slate-300">
               <span className="sr-only">Close table of contents</span>
               <svg viewBox="0 0 10 10" className="w-2.5 h-2.5 overflow-visible">
