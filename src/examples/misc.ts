@@ -9,8 +9,12 @@ export interface CSharpExample {
   csharp: string
 }
 
-export type Example = GraphQLExample | CSharpExample;
-export type ExampleLanguage = 'graphql' | 'csharp';
+export interface NodeJSExample {
+  nodejs: string
+}
+
+export type Example = GraphQLExample | CSharpExample | NodeJSExample;
+export type ExampleLanguage = 'graphql' | 'csharp' | "javascript";
 
 export function toExampleLanguage(input: Example) : ExampleLanguage {
   if ("query" in input) {
@@ -18,6 +22,9 @@ export function toExampleLanguage(input: Example) : ExampleLanguage {
   }
   if ("csharp" in input) {
     return 'csharp';
+  }
+  if ("nodejs" in input) {
+    return 'javascript';
   }
 
   assertUnreachable(input);
@@ -29,6 +36,9 @@ export function toExampleDisplay(input: Example) {
   }
   if ("csharp" in input) {
     return '.NET (C#)';
+  }
+  if ("nodejs" in input) {
+    return 'Node.js';
   }
 
   assertUnreachable(input);

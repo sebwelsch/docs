@@ -78,6 +78,10 @@ export default function SignaturesExample(props: Props) {
         <Code className="language-csharp" style={{marginTop: '1px'}}>
           {example.csharp}
         </Code>
+      ) : "nodejs" in example ? (
+        <Code className="language-javascript" style={{marginTop: '1px'}}>
+          {example.nodejs}
+        </Code>
       ) : "query" in example ? (
         <GraphQLExampleComponent example={example} style={{marginTop: '1px'}} />
       ) : null}
