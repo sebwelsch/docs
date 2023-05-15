@@ -323,9 +323,12 @@ For example, if you want to show a *Transfer EUR 100 to IBAN DK123456781234* mes
 ```csharp
 // C#
 using System;
-"Basic " + Convert.ToBase64String(Uri.EscapeDataString(CRIIPTO_CLIENT_ID) + ":" + Uri.EscapeDataString(CRIIPTO_SECRET))
+using System.Text;
+"Basic " + Convert.ToBase64String(Encoding.UTF8.GetBytes(Uri.EscapeDataString(CRIIPTO_CLIENT_ID) + ":" + Uri.EscapeDataString(CRIIPTO_SECRET)))
 
 // C# - if you have a dependency on System.Web.dll or you are willing to take it
+using System;
+using System.Text;
 using System.Web.Security.AntiXss;
-"Basic " + Convert.ToBase64String(AntiXssEncoder.UrlEncode(CRIIPTO_CLIENT_ID) + ":" + AntiXssEncoder.UrlEncode(CRIIPTO_SECRET))
+"Basic " + Convert.ToBase64String(Encoding.UTF8.GetBytes(AntiXssEncoder.UrlEncode(CRIIPTO_CLIENT_ID) + ":" + AntiXssEncoder.UrlEncode(CRIIPTO_SECRET)))
 ```
