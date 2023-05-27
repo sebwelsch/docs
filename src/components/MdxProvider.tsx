@@ -144,6 +144,7 @@ export const Highlight = (props: {children: React.ReactNode, icon?: string, warn
       {props.icon ? (
         <FontAwesomeIcon className="absolute left-4 top-4 text-2xl" icon={`fa-solid fa-${props.icon}` as any} />
       ) : null}
+      
       {props.children}
     </div>
   );
