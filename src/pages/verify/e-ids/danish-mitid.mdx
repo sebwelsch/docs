@@ -200,8 +200,11 @@ If in doubt, our recommendation would generally be to go with Substantial (`urn:
 
 ## MitID for business ('MitID Erhverv')
 
-You can request a login in business context by sending a `login_hint=business` query parameter in the authorize request.
-This will allow company signatories to log in to your site with their personal MitID.
+You can request a login in business context by sending a `login_hint=business` or `login_hint=business_optional` query parameter in the authorize request.
+This will allow company signatories to log in to your site or application with their personal MitID.
+
+`login_hint=business` will allow logging in as a business user.  
+`login_hint=business_optional` will give an option to choose to log in as a private individual, or a business user, depending on CVR registrations. 
 
 <Highlight icon="info">
 
