@@ -134,7 +134,12 @@ If you must target very old OS versions, `SFSafariViewController` can be used as
 
 </Highlight>
 
-Once the flow completes, the MitID app will perform an app-switch back to your app, which makes the `Custom Tab` / `ASWebAuthenticationSession` resume its operation, thus completing the login process by issuing an `OAuth2` formatted response to your native app.
+Once the flow completes, the MitID app will perform an app-switch back to your app, which makes the `Custom Tab` / `ASWebAuthenticationSession` resume its operation,
+this initial resuming of your app will not include any `OAuth2` parameters, however in resuming your app the MitID login request will continue in the web component, 
+completing the login process which will issue an `OAuth2` formatted response.
+
+Assuming your `redirect_uri` is also pointing to your native app, you will need to handle two sets of deep links,
+one initial from MitID with no parameters, and a second one from Criipto with parameters.
 
 #### Android notes
 
