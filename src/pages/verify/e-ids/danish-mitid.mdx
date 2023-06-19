@@ -69,46 +69,6 @@ Address lookups is available as an add-on for MitID.
   }}
 />
 
-### MitID for company signatories #jwttoken-examples-mitid-companysignatory
-
-<JwtPayloadViewer
-  payload={
-    {
-      "identityscheme": "dkmitid",
-      "nameidentifier": "0f9960a0d28d4353a3e2ea07f8ffa185",
-      "sub": "{0f9960a0-d28d-4353-a3e2-ea07f8ffa185}",
-      "uuid": "74ffcd31-fbaf-4c33-bdac-169f25c1e416",
-      "cprNumberIdentifier": "2101270087",
-      "birthdate": "1927-01-21",
-      "age": "93",
-      "name": "Ditlev Von Testesen",
-      "cvrNumberIdentifier": "12345678",
-      "2.5.4.10": "Testorganisation nr. 12345678",
-      "companySignatory" : "true",
-      "country": "DK"
-    }
-  }
-/>
-
-### MitID for business ('MitID Erhverv') #jwttoken-examples-mitid-business
-
-<JwtPayloadViewer
-  payload={
-    {
-      "identityscheme": "dkmitid",
-      "nameidentifier": "159d89fca2db4300a52ab7865f7b1ff3",
-      "sub": "{159d89fc-a2db-4300-a52a-b7865f7b1ff3}",
-      "uuid": "3c6d9757-1e70-438a-8dd3-5f84398c2e25",
-      "cvrNumberIdentifier": "12345678",
-      "2.5.4.10": "Testorganisation nr. 12345678",
-      "name": "Firstname Lastname",
-      "country": "DK"
-    }
-  }
-/>
-
-The `sub`, `nameidentifier` and `uuid` values here will not be the same as for a corresponding citizen-MitID login, even if the user chose to use their personal MitID for login.
-
 ## Test users
 
 You create personal MitID test users at [https://pp.mitid.dk/test-tool/frontend](https://pp.mitid.dk/test-tool/frontend):
@@ -118,6 +78,12 @@ You create personal MitID test users at [https://pp.mitid.dk/test-tool/frontend]
 3. You can test your new users by using the "Flows" menu at the top of the screen.
 
 ![MitID test tool](./images/mitid-testtool.png)
+
+<Highlight icon="info">
+
+To create MitID Erhverv users, [follow these steps](/verify/e-ids/danish-mitid-erhverv/#test-users). 
+
+</Highlight>
 
 ## Collecting CPR numbers
 You must enable the "Add CPR for MitID logins" toggle in the [management dashboard](https://dashboard.criipto.com/providers/DK_MITID).
@@ -200,19 +166,7 @@ If in doubt, our recommendation would generally be to go with Substantial (`urn:
 
 ## MitID for business ('MitID Erhverv')
 
-You can request a login in business context by sending a `login_hint=business` or `login_hint=business_optional` query parameter in the authorize request.
-This will allow company signatories to log in to your site or application with their personal MitID.
-
-`login_hint=business` will allow logging in as a business user.  
-`login_hint=business_optional` will give an option to choose to log in as a private individual, or a business user, depending on CVR registrations. 
-
-<Highlight icon="info">
-
-In the very near future, this will also allow employees to log in, either with their personal MitID or with a dedicated MitID.
-
-</Highlight>
-
-You can read more about the [`login_hint` here](/verify/getting-started/oidc-intro/#the-loginhint-parameter).
+You can find the details regarding MitID Erhverv [here](/verify/e-ids/danish-mitid-erhverv/). 
 
 ## Order MitID for production
 
