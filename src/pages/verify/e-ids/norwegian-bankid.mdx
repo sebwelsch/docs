@@ -103,6 +103,19 @@ It can take up to 1 hour before a newly created test user is activated.
 
 You can test it out at [our authentication demo site](https://verify-login.azurewebsites.net), which is a small sample hosted by Criipto.
 
+### Renewing netcentric test users
+
+If you run into issues with test users created earlier (e.g. errors when entering the one time password), your test user certificate might have expired.
+
+![BankID test user error](./images/no-bank-id-error.png)
+
+This can be fixed by ordering a new netcentric BankID:
+
+- Find your test user by entering its Personal ID Number number at [https://ra-preprod.bankidnorge.no/#/search/endUser](https://ra-preprod.bankidnorge.no/#/search/endUser)
+- Fill in the form to order the new netcentric BankID, choosing BankID TestBank in HA Services, and click "Order"
+
+![Order new BankID](./images/no-bank-id-order-new-bankid.png)
+
 ### Testing BankID Biometric
 Start by creating a netcentric test user as described above, and add an email and a phone number to the user.
 
