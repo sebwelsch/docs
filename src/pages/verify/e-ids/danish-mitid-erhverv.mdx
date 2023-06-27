@@ -84,20 +84,29 @@ To test business logins with MitID Erhverv, you will start by [creating a test o
 
 3. The organization admin can then log in with username and password in the "Test login" tab in the NemLog-in IdP (aka "EIA"): [https://erhvervsadministration.test-devtest4-nemlog-in.dk/](https://erhvervsadministration.test-devtest4-nemlog-in.dk/)
 
-![Nemlog-in test login](./images/nemlog-in.png)
+![Nemlog-in test login](./images/mitid-erhverv-nemlog-in.png)
 
 4. After you login with the organization admin user, you must explicitly enable the use of personal MitID (per organization) under Settings (Indstillinger => Identifikationsmidler). 
 
-![Private MitID](./images/privat-mitid.png)
+![Private MitID](./images/mitid-erhverv-privat.png)
 
 ### Create test users
 
 Manually create a test user in both:
-- MitID Simulator: [https://mitidsimulator.test-devtest4-nemlog-in.dk/Home/Create](https://mitidsimulator.test-devtest4-nemlog-in.dk/Home/Create)  
-- MitID Test Tool: [https://pp.mitid.dk/test-tool/frontend/#/create-identity](https://pp.mitid.dk/test-tool/frontend/#/create-identity)  
+- MitID Test Tool: [https://pp.mitid.dk/test-tool/frontend/#/create-identity](https://pp.mitid.dk/test-tool/frontend/#/create-identity)
+- MitID Simulator: [https://mitidsimulator.test-devtest4-nemlog-in.dk/Home/Create](https://mitidsimulator.test-devtest4-nemlog-in.dk/Home/Create)    
 
-Test users MUST HAVE the same CPR number.  
-Test users CAN HAVE the same user ID.  
+*Test users CAN HAVE the same user ID.*  
+*Test users MUST HAVE a CPR number, and it MUST BE the same in the 2 test-user creation tools listed above.*
+When creating a test user [with MitID Simulator](https://mitidsimulator.test-devtest4-nemlog-in.dk/Home/Create), make sure to add a CPR number and check the Private MitID checkbox: 
+
+![MitID Simulator form](./images/mitid-erhverv-cpr.png)
+
+<Highlight icon="info">
+
+In general, and most likely for MitID Erhverv production, CPR numbers are expected to be optional.
+
+</Highlight>
 
 ### Connect user to organization as an employee
 
