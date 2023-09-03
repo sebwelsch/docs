@@ -115,6 +115,25 @@ In general, and most likely for MitID Erhverv production, CPR numbers are expect
 
 1. Once the test users are created, the organization admin can create an employee [in EIA](https://erhvervsadministration.test-devtest4-nemlog-in.dk/).  
 
+<Highlight icon="info">
+
+When logged in as an admin user, you have the option to choose additional information to include when creating test users. For instance:
+
+- SE number (administrative unit a user belongs to)
+- P number (location a user is associated with)
+- RID (Resource Identification Number, can be used for linking to NemID)
+
+This can be done under Settings (Indstillinger => Oprettelse af brugere): 
+
+![Test Users Additional Info](./images/mitid-erhverv-test-user-additional-info.png)
+
+If P and SE numbers are enabled for an organization after test users have been created, each user must be manually updated to get these values.  
+This is done by editing the user configuration section, under "Organisation":
+
+![Add P- and SE- numbers to users](./images/danish-mitid-erhverv-userconfig.png)
+
+</Highlight>
+
 2. An activation link will be sent to the specified employee email. You can use your personal email for both the organization admin and the employee email.  
 If you followed the steps correctly, your EIA dashboard will look something like this:
 ![EIA Success State](./images/mitid-erhverv-eia-success-state.png)
