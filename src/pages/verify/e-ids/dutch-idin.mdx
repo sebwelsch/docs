@@ -24,7 +24,7 @@ Four different authentication options are available:
 
 Different options will render user profiles with different JWT claims.
 
-Developers can specify the user profile per authorize request by providing the `login_hint` parameter with the required value. Alternatively, the value can be supplied in the `scope` parameter.
+Developers can specify the user profile by providing the required value in the `scope` parameter. Alternatively, the value can be supplied in the `login_hint`.
 
 <Highlight icon="info">
 
@@ -34,7 +34,7 @@ The level of assurance for iDIN (all options) is: Substantial
 
 ### Full identification
 
-Add `login_hint=scope:idin:full-id` to the authorize request to get this profile:
+Use `scope=idin:full-id`, or add `login_hint=scope:idin:full-id` to the authorize request to get this profile:
 
 <JwtPayloadViewer
   payload={{
@@ -90,7 +90,7 @@ Add `login_hint=scope:idin:full-id` to the authorize request to get this profile
 
 ### Re-identification
 
-Add `login_hint=scope:idin:re-id` to the authorize request to get this profile:
+Use `scope=idin:re-id`, or add `login_hint=scope:idin:re-id` to the authorize request to get this profile:
 
 <JwtPayloadViewer
   payload={{
@@ -139,7 +139,7 @@ Add `login_hint=scope:idin:re-id` to the authorize request to get this profile:
 
 ### Safe login:
 
-Add `login_hint=scope:idin:safe-login` to the authorize request to get this profile:
+Use `scope=idin:safe-login`, or add `login_hint=scope:idin:safe-login` to the authorize request to get this profile:
 
 <JwtPayloadViewer
   payload={{
@@ -191,7 +191,7 @@ Re-identification and Safe login return the same user data. However, the UI text
 ### Age verification
 
 The default age verification is set to 18+.  
-Add `login_hint=scope:idin:age-verification` to the authorize request to get this profile:
+Use `scope=idin:age-verification`, or add `login_hint=scope:idin:age-verification` to the authorize request to get this profile:
 
 <JwtPayloadViewer
   payload={{
