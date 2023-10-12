@@ -1,0 +1,171 @@
+---
+product: verify
+category: eIDs
+sort: 10
+title: Dutch iDIN
+subtitle: Learn more about Dutch iDIN token contents available in the four different user profiles.
+---
+
+import Layout from '../../../layouts/mdx';
+import JwtPayloadViewer from '../../../components/JwtPayloadViewer';
+
+export default Layout;
+
+## JWT/Token examples
+
+The Dutch iDIN is provided by the Dutch banks through the Dutch Payments Association. The user experience will vary depending on the type of authentication requested.
+
+Four different authentication options are available:
+
+- [Full identification](/verify/e-ids/dutch-idin/#full-identification)
+- [Re-identification](/verify/e-ids/dutch-idin/#re-identification)
+- [Safe login](/verify/e-ids/dutch-idin/#safe-login)
+- [Age verification](/verify/e-ids/dutch-idin/#age-verification)
+
+Different options will render user profiles with different JWT claims.
+
+Developers can specify the user profile by providing the required value in the `scope` parameter. Alternatively, the value can be supplied in the `login_hint`.
+
+<Highlight icon="info">
+
+The level of assurance for iDIN (all options) is: Substantial
+
+</Highlight>
+
+### Full identification
+
+Use `scope=idin:full-id`, or add `login_hint=scope:idin:full-id` to the authorize request to get this profile:
+
+<JwtPayloadViewer
+  payload={{
+    iss: 'https://localhost:44362',
+    aud: 'https://localhost:44301/',
+    nonce: 'ecnon',
+    identityscheme: 'nlidin',
+    authenticationtype: 'urn:grn:authn:nl:idin',
+    'http://schemas.microsoft.com/ws/2008/06/identity/claims/authenticationmethod': 'urn:grn:authn:nl:idin',
+    'http://schemas.microsoft.com/ws/2008/06/identity/claims/authenticationinstant': '2023-10-11T19:32:59.952Z',
+    'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier': '7d704c6d4d1245a0ba8d135d18f9d518',
+    sub: '{7d704c6d-4d12-45a0-ba8d-135d18f9d518}',
+    'http://schemas.grean.id/claims/sessionindex': '16494935-5ffc-4ae6-a683-6587a27b35c4',
+    'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/country': 'NL',
+    email: 'info@equensworldline.nl',
+    phone_number: '+31203051900',
+    'http://schemas.grean.id/claims/gender': 'MALE',
+    'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname': 'Vries',
+    family_name: 'Vries',
+    'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/dateofbirth': '1975-07-25',
+    birthdate: '1975-07-25',
+    verified_claims: {
+      bin: 'FANTASYBANK1234567890',
+      transientid: null,
+      legallastname: 'Vries',
+      preferredlastname: 'Vries-Jansen',
+      partnerlastname: 'Jansen',
+      legallastnameprefix: 'de',
+      preferredlastnameprefix: 'de',
+      partnerlastnameprefix: 'de',
+      initials: 'VJ',
+      dateofbirth: '1975-07-25',
+      ageCheck: null,
+      street: 'Pascalstreet',
+      houseno: '19',
+      housenosuf: null,
+      addressextra: null,
+      postalcode: '0000AA',
+      city: 'Aachen',
+      intaddressline1: null,
+      intaddressline2: null,
+      intaddressline3: null,
+      country: 'DE',
+      phone1: '+31203051900',
+      phone2: null,
+      phone3: null,
+    },
+    iat: 1697052782,
+    nbf: 1697052782,
+    exp: 1697055314,
+  }}
+/>
+
+### Re-identification
+
+Use `scope=idin:re-id`, or add `login_hint=scope:idin:re-id` to the authorize request to get this profile:
+
+<JwtPayloadViewer
+  payload={{
+    iss: 'https://localhost:44362',
+    aud: 'https://localhost:44301/',
+    nonce: 'ecnon',
+    identityscheme: 'nlidin',
+    authenticationtype: 'urn:grn:authn:nl:idin',
+    'http://schemas.microsoft.com/ws/2008/06/identity/claims/authenticationmethod': 'urn:grn:authn:nl:idin',
+    'http://schemas.microsoft.com/ws/2008/06/identity/claims/authenticationinstant': '2023-10-11T19:33:06.499Z',
+    'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier': '7d704c6d4d1245a0ba8d135d18f9d518',
+    sub: '{7d704c6d-4d12-45a0-ba8d-135d18f9d518}',
+    'http://schemas.grean.id/claims/sessionindex': '4c6fc8ad-9ddd-4176-ad2f-0d8a11ba9b88',
+    'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/country': 'NL',
+    verified_claims: {
+      bin: 'FANTASYBANK1234567890',
+    },
+    iat: 1697052787,
+    nbf: 1697052787,
+    exp: 1697055319,
+  }}
+/>
+
+### Safe login:
+
+Use `scope=idin:safe-login`, or add `login_hint=scope:idin:safe-login` to the authorize request to get this profile:
+
+<JwtPayloadViewer
+  payload={{
+    iss: 'https://localhost:44362',
+    aud: 'https://localhost:44301/',
+    nonce: 'ecnon',
+    identityscheme: 'nlidin',
+    authenticationtype: 'urn:grn:authn:nl:idin',
+    'http://schemas.microsoft.com/ws/2008/06/identity/claims/authenticationmethod': 'urn:grn:authn:nl:idin',
+    'http://schemas.microsoft.com/ws/2008/06/identity/claims/authenticationinstant': '2023-10-11T19:33:10.642Z',
+    'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier': '7d704c6d4d1245a0ba8d135d18f9d518',
+    sub: '{7d704c6d-4d12-45a0-ba8d-135d18f9d518}',
+    'http://schemas.grean.id/claims/sessionindex': '9c141c6f-1c7c-4a4c-b981-c2a5eb3e54a0',
+    'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/country': 'NL',
+    verified_claims: {
+      bin: 'FANTASYBANK1234567890',
+    },
+    iat: 1697052791,
+    nbf: 1697052791,
+    exp: 1697055323,
+  }}
+/>
+
+Re-identification and Safe login return the same user data. However, the UI texts are slightly different, and the cost per `re-id` transaction is higher than per `safe-login` transaction.
+
+### Age verification
+
+The default age verification is set to 18+.  
+Use `scope=idin:age-verification`, or add `login_hint=scope:idin:age-verification` to the authorize request to get this profile:
+
+<JwtPayloadViewer
+  payload={{
+    iss: 'https://localhost:44362',
+    aud: 'https://localhost:44301/',
+    nonce: 'ecnon',
+    identityscheme: 'nlidin',
+    authenticationtype: 'urn:grn:authn:nl:idin',
+    'http://schemas.microsoft.com/ws/2008/06/identity/claims/authenticationmethod': 'urn:grn:authn:nl:idin',
+    'http://schemas.microsoft.com/ws/2008/06/identity/claims/authenticationinstant': '2023-10-11T19:33:14.828Z',
+    'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier': '7d704c6d4d1245a0ba8d135d18f9d518',
+    sub: '{7d704c6d-4d12-45a0-ba8d-135d18f9d518}',
+    'http://schemas.grean.id/claims/sessionindex': 'fccdab0b-689d-4836-8bb1-348aac5082bf',
+    'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/country': 'NL',
+    verified_claims: {
+      bin: 'FANTASYBANK1234567890',
+      ageCheck: { ageOrOlder: 18, ageCheckPassed: true },
+    },
+    iat: 1697052795,
+    nbf: 1697052795,
+    exp: 1697055327,
+  }}
+/>
