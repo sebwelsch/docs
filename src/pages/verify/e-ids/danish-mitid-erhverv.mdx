@@ -64,6 +64,13 @@ Business users (both _employees_ and _company signatories_) may not always have 
 
 CPR numbers are also not required for accessing information about the business entities where the user holds a position as a signatory or an employee. Criipto relies on the user's UUID to retrieve this information from the MitID Erhverv API. Therefore, if you don't need CPR numbers in business logins, no additional configuration is required.
 
+
+<Highlight icon="info">
+
+Plese note: if the end-customer has not yet migrated to MitID Erhverv, only company-signatory lookups **via CPR** will allow business users to log in. This may change when NemID fully closes, but you may have to rely on CPR numbers for lookups during this transitional period to accomodate all users.
+
+</Highlight>
+
 If you do require CPR numbers, you can collect them by enabling the two toggles in the [management dashboard](https://dashboard.criipto.com/providers/DK_MITID):
 - Add CPR for MitID logins
 - CPR Optional
