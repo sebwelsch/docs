@@ -658,6 +658,7 @@ export enum FileFieldsEnum {
   ChildMdxChildrenParentId = 'childMdx___children___parent___id',
   ChildMdxExcerpt = 'childMdx___excerpt',
   ChildMdxFileAbsolutePath = 'childMdx___fileAbsolutePath',
+  ChildMdxFrontmatterArticles = 'childMdx___frontmatter___articles',
   ChildMdxFrontmatterCategory = 'childMdx___frontmatter___category',
   ChildMdxFrontmatterProduct = 'childMdx___frontmatter___product',
   ChildMdxFrontmatterSort = 'childMdx___frontmatter___sort',
@@ -789,6 +790,7 @@ export enum FileFieldsEnum {
   ChildrenMdxChildrenParentId = 'childrenMdx___children___parent___id',
   ChildrenMdxExcerpt = 'childrenMdx___excerpt',
   ChildrenMdxFileAbsolutePath = 'childrenMdx___fileAbsolutePath',
+  ChildrenMdxFrontmatterArticles = 'childrenMdx___frontmatter___articles',
   ChildrenMdxFrontmatterCategory = 'childrenMdx___frontmatter___category',
   ChildrenMdxFrontmatterProduct = 'childrenMdx___frontmatter___product',
   ChildrenMdxFrontmatterSort = 'childrenMdx___frontmatter___sort',
@@ -1718,6 +1720,7 @@ export enum MdxFieldsEnum {
   ChildrenParentParentId = 'children___parent___parent___id',
   Excerpt = 'excerpt',
   FileAbsolutePath = 'fileAbsolutePath',
+  FrontmatterArticles = 'frontmatter___articles',
   FrontmatterCategory = 'frontmatter___category',
   FrontmatterProduct = 'frontmatter___product',
   FrontmatterSort = 'frontmatter___sort',
@@ -1809,6 +1812,7 @@ export type MdxFilterListInput = {
 
 export type MdxFrontmatter = {
   __typename?: 'MdxFrontmatter';
+  articles?: Maybe<Scalars['String']>;
   category?: Maybe<Scalars['String']>;
   product?: Maybe<Scalars['String']>;
   sort?: Maybe<Scalars['Int']>;
@@ -1817,6 +1821,7 @@ export type MdxFrontmatter = {
 };
 
 export type MdxFrontmatterFilterInput = {
+  articles?: InputMaybe<StringQueryOperatorInput>;
   category?: InputMaybe<StringQueryOperatorInput>;
   product?: InputMaybe<StringQueryOperatorInput>;
   sort?: InputMaybe<IntQueryOperatorInput>;

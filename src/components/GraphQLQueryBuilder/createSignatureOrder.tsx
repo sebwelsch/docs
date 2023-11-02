@@ -54,7 +54,7 @@ export default function CreateSignatureOrderQueryBuilder() {
           return {
             ...search,
             pdf: {
-              ...search.pdf,
+              ...search.pdf!,
               [key]: value
             }
           };
@@ -99,7 +99,7 @@ export default function CreateSignatureOrderQueryBuilder() {
               id={`document_${index}_title`}
               type="text"
               placeholder="Title"
-              value={document.pdf.title || ''}
+              value={document.pdf?.title || ''}
               onChange={(event) => handleChangeDocument(document, 'title', event.target.value)}
             />
             <button className="" onClick={() => handleRemoveDocument(document)}>Remove</button>

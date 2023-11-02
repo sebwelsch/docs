@@ -140,6 +140,18 @@ import createSignatureAppearanceExample from '../../../examples/createSignatureO
 
 <GraphQLExample example={createSignatureAppearanceExample} />
 
+### Seal timestamp
+
+By default the seal renders a timestamp in the left side of the seal header.
+
+This can be customized (per signatory) to either override the timestamp format, or change the values displayed by using available claims.
+
+Below is an example of how to modify the timestamp formatting:
+
+import addSignatoryHeaderLeftExample from '../../../examples/addSignatory/headerLeft';
+
+<GraphQLExample example={addSignatoryHeaderLeftExample} />
+
 ### Seal display name
 
 By default the seal renders a name via the standard JWT name claim or via drawable name input.
