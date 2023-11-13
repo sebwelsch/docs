@@ -19,7 +19,10 @@ const MESSAGE_SUPPORTING_ACR_VALUES = [
   'urn:grn:authn:dk:mitid:low',
   'urn:grn:authn:dk:mitid:substantial',
   'urn:grn:authn:dk:mitid:high',
-  'urn:grn:authn:dk:mitid:business'
+  'urn:grn:authn:dk:mitid:business',
+  'urn:grn:authn:se:bankid:same-device',
+  'urn:grn:authn:se:bankid:another-device',
+  'urn:grn:authn:se:bankid:another-device:qr',
 ];
 
 const actions = ['login', 'confirm', 'accept', 'approve', 'sign'] as const;
@@ -499,7 +502,7 @@ export default function AuthorizeURLBuilder() {
               value={options.message || ""}
               onChange={(event) => updateOption('message', event)}
             />
-            <small>DK MitID only. Will display a message to the end user in the MitID app.</small>
+            <small>DK MitID/SE BankID only. Will display a message to the end user in the app.</small>
           </div>
         )}
       </div>

@@ -289,7 +289,7 @@ Go to these specific use cases where `login_hint` is used to specify behaviour o
 - [DK MitID for business](/verify/e-ids/danish-mitid/#business)
 - [Action specifiers](#action-specifiers)
 
-## Action specifiers
+### Action specifiers
 
 For DK and the SE another-device flows, you can add the following values to the `login_hint` query parameter to change the default wording used during login/signing.
 - `action:confirm`
@@ -302,14 +302,15 @@ Sending, say, `action:approve` will change "Login at ..." worded elements to "Ap
 
 [Authorize URL builder example](/verify/guides/authorize-url-builder/?acr_values=urn:grn:authn:dk:mitid:low&action=approve)
 
-<Highlight icon="info">
+### End-user confirmation texts (message parameter)
 
-Note that specifically for [Danish MitID](/verify/e-ids/danish-mitid), you may also send a base64-url-encoded message via `message:BASE64URL(...text...)`, which will be shown to the end user in the MitID app.
+Note that specifically for [Danish MitID](/verify/e-ids/danish-mitid) and [Swedish BankID](/verify/e-ids/swedish-bankid), you may also send a base64-url-encoded message via `message:BASE64URL(...text...)`, which will be shown to the end user in the app.
 For example, if you want to show a *Transfer EUR 100 to IBAN DK123456781234* message to the user, add a `message:VHJhbnNmZXIgRVVSIDEwMCB0byBJQkFOIERLMTIzNDU2NzgxMjM0` value to the `login_hint`.
 
-[Authorize URL builder example](/verify/guides/authorize-url-builder/?acr_values=urn:grn:authn:dk:mitid:low&action=approve&message=Transfer%20EUR%20100%20to%20IBAN%20DK123456781234)
+[Danish MitID: Authorize URL builder example](/verify/guides/authorize-url-builder/?acr_values=urn:grn:authn:dk:mitid:low&action=approve&message=Transfer%20EUR%20100%20to%20IBAN%20DK123456781234)
 
-</Highlight>
+[Swedish BankID: Authorize URL builder example](/verify/guides/authorize-url-builder/?acr_values=urn:grn:authn:se:bankid:another-device:qr&action=approve&message=Transfer%20EUR%20100%20to%20IBAN%20DK123456781234)
+
 
 ## Code exchange authorization examples
 
