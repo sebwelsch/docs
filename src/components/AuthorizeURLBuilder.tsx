@@ -502,7 +502,15 @@ export default function AuthorizeURLBuilder() {
               value={options.message || ""}
               onChange={(event) => updateOption('message', event)}
             />
-            <small>DK MitID/SE BankID only. Will display a message to the end user in the app.</small>
+          <small>
+              DK MitID/SE BankID only. Will display a message to the end user in the app.
+              <br />
+              The maximum message length depends on the eID provider:
+              <br />
+              For SE BankID, the limit is up to 1500 characters <em>after base64 encoding.</em>
+              <br />
+              For MitID, our tests indicate the limit of 130 characters <em>before base64 encoding.</em>
+            </small>
           </div>
         )}
       </div>
