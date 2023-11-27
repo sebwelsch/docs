@@ -33,7 +33,7 @@ export const variables = (data: ExampleData) : {input: AddSignatoriesInput} => (
       {
         reference: 'B',
         evidenceValidation: [
-          {key: "cprNumberIdentifier", value: "11223344-5555"}
+          {key: "cprNumberIdentifier", value: "112233445555"}
         ]
       }
     ]

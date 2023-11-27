@@ -21,7 +21,7 @@ var signatory = await client.addSignatory(signatureOrder.id, {
   evidenceValidation: [
     {
       key: "cprNumberIdentifier",
-      value: "11223344-5555"
+      value: "112233445555"
     }
   ]
 });

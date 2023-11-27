@@ -37,7 +37,7 @@ using (var client = new CriiptoSignaturesClient("{YOUR_CRIIPTO_CLIENT_ID}", "{YO
             evidenceValidation = new List<SignatoryEvidenceValidationInput>() {
                 new SignatoryEvidenceValidationInput() {
                     key = "cprNumberIdentifier",
-                    value = "11223344-5555"
+                    value = "112233445555"
                 }
             }
         }
