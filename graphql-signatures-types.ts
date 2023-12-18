@@ -432,6 +432,7 @@ export type Mutation = {
   trackSignatory?: Maybe<TrackSignatoryOutput>;
   /** Used by Signatory frontends to mark documents as opened, approved or rejected. */
   updateSignatoryDocumentStatus?: Maybe<UpdateSignatoryDocumentStatusOutput>;
+  validateDocument?: Maybe<ValidateDocumentOutput>;
 };
 
 
@@ -532,6 +533,11 @@ export type MutationTrackSignatoryArgs = {
 
 export type MutationUpdateSignatoryDocumentStatusArgs = {
   input: UpdateSignatoryDocumentStatusInput;
+};
+
+
+export type MutationValidateDocumentArgs = {
+  input: ValidateDocumentInput;
 };
 
 /** TEST only. Allows empty signatures for testing. */
@@ -843,7 +849,7 @@ export type SignatureAppearanceTemplateReplacementInput = {
 };
 
 export type SignatureEvidenceProvider = {
-  __typename?: 'CriiptoVerifyEvidenceProvider' | 'DrawableSignatureEvidenceProvider'
+  __typename?:Scalars['String'];
   id: Scalars['ID'];
 };
 
@@ -988,6 +994,19 @@ export type UserViewer = Viewer & {
   authenticated: Scalars['Boolean'];
   id: Scalars['ID'];
   tenants: Array<Tenant>;
+};
+
+export type ValidateDocumentInput = {
+  pdf?: InputMaybe<Scalars['Blob']>;
+  xml?: InputMaybe<Scalars['Blob']>;
+};
+
+export type ValidateDocumentOutput = {
+  __typename?: 'ValidateDocumentOutput';
+  errors?: Maybe<Array<Scalars['String']>>;
+  /** Whether or not the errors are fixable using 'fixDocumentFormattingErrors' */
+  fixable?: Maybe<Scalars['Boolean']>;
+  valid: Scalars['Boolean'];
 };
 
 export type VerifyApplication = {
