@@ -849,6 +849,7 @@ export type SignatureAppearanceTemplateReplacementInput = {
 };
 
 export type SignatureEvidenceProvider = {
+  __typename?:Scalars['String'];
   id: Scalars['ID'];
 };
 
