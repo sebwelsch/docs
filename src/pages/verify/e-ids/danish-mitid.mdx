@@ -11,8 +11,8 @@ export default Layout;
 
 import {ImageContainer} from '../../../components/MdxProvider';
 import ConsentRevocation from '../../../components/ConsentRevocation';
-import DanishMitIDJwtSnippet from '../../../snippets/jwt-payloads/danish-mitid'
-import DanishMitIDAddressJwtSnippet from '../../../snippets/jwt-payloads/danish-mitid-address'
+import DanishMitIDJwtSnippet from '../../../snippets/jwt-payloads/danish-mitid';
+import DanishMitIDAddressJwtSnippet from '../../../snippets/jwt-payloads/danish-mitid-address';
 
 ## JWT/Token examples
 
@@ -38,7 +38,7 @@ You create personal MitID test users at [https://pp.mitid.dk/test-tool/frontend]
 
 <Highlight icon="info">
 
-To create MitID Erhverv users, [follow these steps](/verify/e-ids/danish-mitid-erhverv/#test-users). 
+To create MitID Erhverv users, [follow these steps](/verify/e-ids/danish-mitid-erhverv/#test-users).
 
 </Highlight>
 
@@ -63,7 +63,7 @@ Criipto stores CPR numbers in encrypted format. The consent is per-tenant only.
 ## Collecting user addresses
 If you collect the users CPR number, the users current address can also be made available.
 
-Data processor and dedicated billing agreements are needed, contact sales@criipto.com for the legal and financial arrangements. 
+Data processor and dedicated billing agreements are needed, contact sales@criipto.com for the legal and financial arrangements.
 
 For applications configured to use a `static` `scope` strategy, address data will automatically be added.
 
@@ -123,26 +123,23 @@ If in doubt, our recommendation would generally be to go with Substantial (`urn:
 
 ## MitID for business ('MitID Erhverv')
 
-You can find the details regarding MitID Erhverv [here](/verify/e-ids/danish-mitid-erhverv/). 
+You can find the details regarding MitID Erhverv [here](/verify/e-ids/danish-mitid-erhverv/).
 
 ## Order MitID for production
 
 <Highlight icon="file-lines">
 
-  **Prerequisites for ordering**
+**Prerequisites for ordering**
 
-  In order to apply for MitID in production on behalf of a company you must meet the basic requirements:
+In order to apply for MitID in production on behalf of a company you must meet the basic requirements:
 
-  - Your company must be registered in the EU and have an EU VAT Id.
-  - The person applying must have a NemID/MitID employee signature from the company in question, a socalled "medarbejdersignatur"
-  - You must have completed step 5 in the [Getting ready for production](/verify/guides/production) guide. You will need the production domain to complete the order for your client credentials.
+- Your company must be registered in the EU and have an EU VAT Id.
+- The person applying must have a MitID employee signature from the company in question, a socalled "medarbejdersignatur"
+- You must have completed step 5 in the [Getting ready for production](/verify/guides/production) guide. You will need the production domain to complete the order for your client credentials.
 
 </Highlight>
 
 **MitID went live on October 6, 2021**
-
-All the holders of NemID are being migrated gradually to MitID until the summer of 2022, when NemID will be sunset altogether.
-During the transition, all users will keep their NemID and will be able to use both options.
 
 ### MitID terms of service
 
@@ -158,21 +155,21 @@ Please [see the UX requirements](#mitid-user-interface-requirements) to make sur
 ### Apply for production access
 
 #### Companies registered in Denmark
-If your company is registered in Denmark please follow these steps: 
+If your company is registered in Denmark please follow these steps:
 
 1. Go to the [management dashboard](https://dashboard.criipto.com) and set the environment toggle at the top center to "PRODUCTION".
 2. In the "Identity sources" section, expand the "DK MitID" section
-3. A user with a NemID/MitID employee signature, a socalled "medarbejdersignatur" must click the button and sign in.
-3. Submit the details for your company. Note the following:
-  - The name to show in the MitID login box is the name entered in the "Company alias" box
-  - The "Domain prefix" is typically your company or brand name, e.g. `acme-corp`. Once this registration is completed this will be used to set up your MitID domain, in this case `acme-corp.mitid.dk`.
-4. The information is sent to Nets who will setup your MitID Domain.
-  - Expect this process to take 7-15 work days.
-  - Once your domain has been set up, you can complete the onboarding process (read below)
+3. A user with a MitID employee signature, a socalled "medarbejdersignatur" must click the button and sign in.
+4. Submit the details for your company. Note the following:
+- The name to show in the MitID login box is the name entered in the "Company alias" box
+- The "Domain prefix" is typically your company or brand name, e.g. `acme-corp`. Once this registration is completed this will be used to set up your MitID domain, in this case `acme-corp.mitid.dk`.
+5. The information is sent to Nets who will setup your MitID Domain.
+- Expect this process to take 7-15 work days.
+- Once your domain has been set up, you can complete the onboarding process (read below)
 
 #### Companies not registered in Denmark
 
-If you company is *not* registered in Denmark, meaning you don't have NemID/MitID employee signatures ("medarbejdersignatur"), please send a request for MitID onboarding to [support@criipto.com](mailto:support@criipto.com).
+If you company is *not* registered in Denmark, meaning you don't have MitID employee signatures ("medarbejdersignatur"), please send a request for MitID onboarding to [support@criipto.com](mailto:support@criipto.com).
 
 #### Complete the onboarding process
 
@@ -180,19 +177,16 @@ Once you receive a confirmation from Criipto (via email), go back to the "Identi
 
 1. Click the **Complete** button in the MitID section to finish the registration process
 2. Configure the various options that appear after the onboarding completes.
-    - If you use our service for NemID as well, select a `NemID fallback domain`. *Note* this is only relevant if you, for some reason, send requests directly to your `mitid.dk` domain. 
-    - If you need access to the end-user's CPR number, make sure the `Add CPR for MitID logins` toggle is enabled.
-    - In contrast to NemID, not all MitID users have a CPR number. If your application can handle the case of a missing CPR, you may enable the `CPR Optional` toggle. This will let MitID users without a CPR number log in to your service.
-    - If you want to use our side-by-side feature for showing both MitID and NemID login options, make sure the `Also offer MitID login when NemID is requested`-toggle is enabled.
+   - If you need access to the end-user's CPR number, make sure the `Add CPR for MitID logins` toggle is enabled.
+   - Not all MitID users have a CPR number. If your application can handle the case of a missing CPR, you may enable the `CPR Optional` toggle. This will let MitID users without a CPR number log in to your service.
 
 ### Set up an application on your MitID domain
 
-1. Register your application, just as you would for all other integrations. 
-2. *IMPORTANT:* If you want to use NemID and MitID side-by-side, you *must* create a "shadow" application with the same `Client ID/Realm` and `Callback URLs` as the application you currently use for NemID. This is necessary to make the switching back and forth between MitID and NemID function.
+Register [your application](/verify/getting-started/basics/#applications), just as you would for all other integrations.
 
 ## Validating token signatures for MitID
 
-MitID comes with a new approach to storing and using token signing keys. There will be a distinct token signing key in use for MitID, in addition to the one you use for other types of eID, such as NemID. Criipto Verify announces all of these signing keys in the metadata documents for your domains (see [work with metadata](/verify/guides/work-with-metadata/) for a primer on this subject).
+MitID comes with a new approach to storing and using token signing keys. There will be a distinct token signing key in use for MitID, in addition to the one you use for other types of eIDs. Criipto Verify announces all of these signing keys in the metadata documents for your domains (see [work with metadata](/verify/guides/work-with-metadata/) for a primer on this subject).
 
 Most modern OIDC libraries have built-in support for dynamic metadata retrieval, so all this should be handled for you behind the scenes.
 
@@ -200,7 +194,7 @@ Dynamic metadata retrieval is also necessary to achieve minimal disruption for y
 
 ## MitID user interface requirements
 
-When supporting MitID in your application, you must adhere to a few style requirements, both [in your application](#mitid-branding-in-your-application) 
+When supporting MitID in your application, you must adhere to a few style requirements, both [in your application](#mitid-branding-in-your-application)
 and on [the MitID landing page](#the-mitid-landing-page) hosted by Criipto.
 
 As long as you follow the guidelines below, you should be in compliance with the UX requirements from MitID. However, please reach out to our support if you need assistance verifying that your buttons, pages, and screens comply.
@@ -225,7 +219,7 @@ In the test environment, the MitID landing page will be hosted on a Criipto prov
 
 In general, the landing page for MitID may styled by following [the general guide on styling](/verify/guides/custom-styling). In essence, you can modify the page any way you like using CSS.
 
-As illustrated below, the default landing page has the MitID box - the red rectangle - at the center. 
+As illustrated below, the default landing page has the MitID box - the red rectangle - at the center.
 It is essential that you do not, under any circumstances, change the styling or layout of anything inside the red rectangle.
 The _required_ minimum height of the red rectangle is 588 pixels, and it is _strongly recommended_ that you always allow the MitID UI elements to fill out the entire viewport width on mobile devices.
 
@@ -233,14 +227,13 @@ The _required_ minimum height of the red rectangle is 588 pixels, and it is _str
 
 ### MitiD branding in your application
 
-When referring to MitID in your application, web or native alike, you must make sure your language and styling matches 
-the requirements.
+When referring to MitID in your application, web or native alike, you must make sure your language and styling matches the requirements.
 
 If you are building a native app a few additional requirements must be observed as [described below](#mitid-branding-in-a-native-app).
 
 <Highlight icon="file-lines">
 
-Download the required assets, the MitID logo and fonts, [directly from our web site](/MitID-assets.zip). 
+Download the required assets, the MitID logo and fonts, [directly from our web site](/MitID-assets.zip).
 
 </Highlight>
 
@@ -248,8 +241,7 @@ Download the required assets, the MitID logo and fonts, [directly from our web s
 
 When providing a call to action, for example, log in or sign, make sure you follow these requirements:
 
-- In web applications, always use a button or anchor tag, `<a>` or `<button>`, to make sure it is accessible for keyboard
-navigation and screen readers according to the WCAG 3.0 standard. 
+- In web applications, always use a button or anchor tag, `<a>` or `<button>`, to make sure it is accessible for keyboard navigation and screen readers according to the WCAG 3.0 standard.
 - The button must be the right color of blue with the white text. See the detailed styling below.
 - The button text must be exactly one of the five allowed phrases as listed below.
 
@@ -294,8 +286,7 @@ Just as illustrated above, your app must show a call to action which must open a
 
 </ImageContainer>
 
-Your app must use a platform-specific, MitID-compatible browsing component which clearly reassures the user that they 
-are on a legitimate mitid.dk domain with appropriate security (TLS and the padlock symbol):
+Your app must use a platform-specific, MitID-compatible browsing component which clearly reassures the user that they are on a legitimate mitid.dk domain with appropriate security (TLS and the padlock symbol):
 
 <ImageContainer maxWidth={300}>
 
@@ -308,13 +299,3 @@ are on a legitimate mitid.dk domain with appropriate security (TLS and the padlo
 You can read more about the details of [MitID-compatible browsing components here](/verify/guides/appswitch/#danish-mitid).
 
 </Highlight>
-
-## Disable NemID login
-
-You must take a few steps if you wish to stop offering NemID alongside MitID logins.
-
-- Remove the NemID option from any of your applications.
-- Disable "Also offer MitID login when NemID is requested" on your [MitID identity provider settings](https://dashboard.criipto.com/production/providers/DK_MITID) page
-- Remove or swap `urn:grn:authn:dk:nemid:*` acr_values from any of your authorize requests.
-
-If you are currently starting your authorize request on a non-MitID domain you can also consider swapping to use the MitID domain directly.
