@@ -7,8 +7,8 @@ subtitle: Learn more about Norwegian BanKID token contents, how to create test u
 ---
 import Layout from '../../../layouts/mdx';
 import ConsentRevocation from '../../../components/ConsentRevocation';
-import NorwegianBankIdJwtSnippet from '../../../snippets/jwt-payloads/norwegian-bankid'
-import NorwegianBankIdBiometricJwtSnippet from '../../../snippets/jwt-payloads/norwegian-bankid-biometric'
+import NorwegianBankIdJwtSnippet from '../../../snippets/jwt-payloads/norwegian-bankid';
+import NorwegianBankIdBiometricJwtSnippet from '../../../snippets/jwt-payloads/norwegian-bankid-biometric';
 
 export default Layout;
 
@@ -49,11 +49,12 @@ Two types of Norwegian BankID are available:
 
 Test users are created through the web page at [https://ra-preprod.bankidnorge.no/#/search/endUser](https://ra-preprod.bankidnorge.no/#/search/endUser).
 
-1. Go to the "TEST NUMBER GENERATOR" to generate a random, valid SSN
+1. Go to the ["TEST NUMBER GENERATOR"](https://ra-preprod.bankidnorge.no/#/generate) to generate a random, valid SSN
 2. It now says "Could not find any bankIDs for ..."
 3. Fill out the first name, last name, and BankID friendly name
 4. Click "Order" to initiate the process
-5. Once the process is complete, you will have a test user. User name is the generated SSN, one time password (OTP) is always "otp", and password is always "qwer1234"
+5. Click the pencil icon and add a phone number and an email that you want to associate with the test user
+6. Once the process is complete, you will have a test user. User name is the generated SSN, one time password (OTP) is always "otp", and password is always "qwer1234"
 
 <Highlight icon="info">
 
@@ -77,29 +78,32 @@ This can be fixed by ordering a new netcentric BankID:
 ![Order new BankID](./images/no-bank-id-order-new-bankid.png)
 
 ### Testing BankID Biometric
+
 Start by creating a netcentric test user as described above, and add an email and a phone number to the user.
 
 You will then need to install the test version of the BankID App. To get access to the `iOS` or `Android` version of the test app, please contact our support team. (On `iOS`, the test version is distributed via `TestFlight`).
 
 The app must be activated before first use:
 
-1. Press the Get started button
-2. Press the Activate BankID App button
-3. Press Continue
-4. Enter the birth number (SSN) for the test user you created and press the Next button
-5. Press the Get activation codes button
-6. Press the Next button
-7. Enter the phone number you associated to the test user and press the Next button
-8. Open the following page to get your activation codes (after replacing the `{yourTestSsn}` placeholder with your actual test-SSN): https://ra-preprod.bankidnorge.no/notification-console/content/{yourTestSsn}
-9. Type the one-time code that is shown on the website into the app and press the Next button
-10. Press the Next button in the "Is this your email?” screen
-11. Type the code words that are shown on the website into the app and press the Next button
-12. Press the Next button in the "Log in using BankID to complete the activation” screen
-13. Wait until BankID client has loaded in the browser. Pick BankID app in the method list if it is not already preselected.
-14. Type "qwer1234” as personal password and click the blue arrow button to the right
-15. A progress bar will appear and when finished you will be activated
-16. Enable biometrics (which will take you through a flow where you must agree to the terms and conditions).
-17. Run your first biometrics-based login.
+1. Press the **Activate BankID app** button
+2. Press the **Activate** button
+3. Enter the birth number (SSN) for the test user you created and press the **Next** button
+4. Enter the phone number you associated to the test user and press the **Next** button
+5. Open the following page to get your your SMS one-time code (after replacing the `{yourTestSsn}` placeholder with your actual test-SSN): https://toba-preprod.bankidapis.no/test-events/sms-sent-to-qualified-user/{yourTestSsn}  
+_Note: The page might need to be refreshed several times, and if multiple activations are done in a short period, old SMS codes may be shown. Only the newest activation code will at any point be valid_
+6. Type the one-time code that is shown on the website into the app and press the **Next** button
+7. Select **Alternative activation** in the next page
+8. Press the **Get activation codes** button
+9. Proceed past the information pages that explain **What you need** and the **Steps to activate** with the chosen method
+10. Press the **Send email** button in the "Is this your email?” screen
+11. Open the following page to get your email activation codes (once again, replace the {yourTestSsn} placeholder with your test-SSN) https://ra-preprod.bankidnorge.no/notification-console/content/{yourTestSsn}
+12. Type the code words that are shown on the website into the app and press the **Next** button
+13. Press the **Next** button in the "Log in using BankID to complete the activation” screen
+14. Wait until BankID client has loaded in the browser. Pick **BankID app** in the method list if it is not already preselected.
+15. Type "qwer1234” as personal password and click the blue arrow button to the right
+16. A progress bar will appear and when finished you will be activated
+17. Enable biometrics (which will take you through a flow where you must agree to the terms and conditions)
+18. Run your first biometrics-based login
 
 ### Testing Mobile BankID
 
@@ -108,18 +112,19 @@ For testing you may order up to three test SIM cards through Criipto once you ha
 ## Data and consent for Norwegian BankID
 
 ### Available data / scopes
+
 Basic user information, full name, and date of birth are always made available. Additional data may be requested and is released with explicit user consent only.
 
 For applications configured to use a `dynamic` `scope` strategy, the following `scope` tokens can be supplied: `address`, `email`, `phone` and `ssn`.
 
-| **Data type** | **Released** | **Verified** | **scope** | **login_hint**
-| --- | --- | --- | --- | --- |
-| Full name | Always | Yes | | |
-| Date of birth | Always | Yes | | |
-| SSN ("fødselsnummer" in Norwegian) | User consent | Yes | `ssn` | `scope:ssn` |
-| Address | With user consent | No | `address` | `scope:address` |
-| Email | With user consent | No | `email` | `scope:email` |
-| Phone number | With user consent | No | `phone` | `scope:phone` |
+| **Data type**                      | **Released**      | **Verified** | **scope** | **login_hint**  |
+| ---------------------------------- | ----------------- | ------------ | --------- | --------------- |
+| Full name                          | Always            | Yes          |           |                 |
+| Date of birth                      | Always            | Yes          |           |                 |
+| SSN ("fødselsnummer" in Norwegian) | User consent      | Yes          | `ssn`     | `scope:ssn`     |
+| Address                            | With user consent | No           | `address` | `scope:address` |
+| Email                              | With user consent | No           | `email`   | `scope:email`   |
+| Phone number                       | With user consent | No           | `phone`   | `scope:phone`   |
 
 #### Example (partial) authorize request with scopes
 ```
@@ -228,4 +233,3 @@ After Criipto has received the above information, we order the client credntials
 When all signatures are in place the signed agreement is sent to your bank for further processing and eventual issuance of your client credentials.
 
 Once you have received credentials, they must be entered into the Criipto Verify management UI to configure your NO BankID integration.
-
