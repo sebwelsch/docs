@@ -189,7 +189,7 @@ export default function InteractiveTour() {
                 <ol>
                   {exampleData.closeSignatureOrder.signatureOrder.documents.map(document => (
                     <li key={document.id}>
-                      <a href={blobUrl(document.blob)} download>Download {document.title}</a>
+                      <a href={blobUrl(document.blob!)} download>Download {document.title}</a>
                     </li>
                   ))}
                 </ol>

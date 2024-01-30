@@ -138,7 +138,7 @@ export default function WebhookTester() {
         variables: {
           input: {
             documentId: signatureOrder?.createSignatureOrder.signatureOrder.documents[0].id!,
-            status: SignatoryDocumentStatus.Opened
+            status: SignatoryDocumentStatus.OPENED
           }
         }
       }, {token} as SignatoryCredentials);
@@ -153,7 +153,7 @@ export default function WebhookTester() {
         variables: {
           input: {
             documentId: signatureOrder?.createSignatureOrder.signatureOrder.documents[0].id!,
-            status: SignatoryDocumentStatus.Approved
+            status: SignatoryDocumentStatus.APPROVED
           }
         }
       }, {token} as SignatoryCredentials);
