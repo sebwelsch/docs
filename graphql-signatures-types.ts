@@ -50,6 +50,16 @@ export type AddSignatoryOutput = {
   signatureOrder: SignatureOrder;
 };
 
+export type AllOfEvidenceProviderInput = {
+  providers: Array<SingleEvidenceProviderInput>;
+};
+
+export type AllOfSignatureEvidenceProvider = SignatureEvidenceProvider & {
+  __typename?: 'AllOfSignatureEvidenceProvider';
+  id: Scalars['ID'];
+  providers: Array<SingleSignatureEvidenceProvider>;
+};
+
 export type AnonymousViewer = Viewer & {
   __typename?: 'AnonymousViewer';
   authenticated: Scalars['Boolean'];
@@ -142,6 +152,11 @@ export type CloseSignatureOrderInput = {
 export type CloseSignatureOrderOutput = {
   __typename?: 'CloseSignatureOrderOutput';
   signatureOrder: SignatureOrder;
+};
+
+export type CompositeSignature = Signature & {
+  __typename?: 'CompositeSignature';
+  signatory?: Maybe<Signatory>;
 };
 
 export type CreateApplicationApiKeyInput = {
@@ -247,7 +262,7 @@ export type CriiptoVerifyProviderInput = {
   uniqueEvidenceKey?: InputMaybe<Scalars['String']>;
 };
 
-export type CriiptoVerifySignatureEvidenceProvider = SignatureEvidenceProvider & {
+export type CriiptoVerifySignatureEvidenceProvider = SignatureEvidenceProvider & SingleSignatureEvidenceProvider & {
   __typename?: 'CriiptoVerifySignatureEvidenceProvider';
   acrValues: Array<Scalars['String']>;
   alwaysRedirect: Scalars['Boolean'];
@@ -335,7 +350,7 @@ export type DrawableSignature = Signature & {
   signatory?: Maybe<Signatory>;
 };
 
-export type DrawableSignatureEvidenceProvider = SignatureEvidenceProvider & {
+export type DrawableSignatureEvidenceProvider = SignatureEvidenceProvider & SingleSignatureEvidenceProvider & {
   __typename?: 'DrawableSignatureEvidenceProvider';
   id: Scalars['ID'];
   requireName: Scalars['Boolean'];
@@ -346,8 +361,9 @@ export type EmptySignature = Signature & {
   signatory?: Maybe<Signatory>;
 };
 
-/** Must define either oidc or noop subsection. */
+/** Must define a evidence provider subsection. */
 export type EvidenceProviderInput = {
+  allOf?: InputMaybe<AllOfEvidenceProviderInput>;
   /** Criipto Verify based evidence for signatures. */
   criiptoVerify?: InputMaybe<CriiptoVerifyProviderInput>;
   /** Hand drawn signature evidence for signatures. */
@@ -545,7 +561,7 @@ export type NoopEvidenceProviderInput = {
   name: Scalars['String'];
 };
 
-export type NoopSignatureEvidenceProvider = SignatureEvidenceProvider & {
+export type NoopSignatureEvidenceProvider = SignatureEvidenceProvider & SingleSignatureEvidenceProvider & {
   __typename?: 'NoopSignatureEvidenceProvider';
   id: Scalars['ID'];
   name: Scalars['String'];
@@ -563,7 +579,7 @@ export type OidcEvidenceProviderInput = {
   uniqueEvidenceKey?: InputMaybe<Scalars['String']>;
 };
 
-export type OidcJwtSignatureEvidenceProvider = SignatureEvidenceProvider & {
+export type OidcJwtSignatureEvidenceProvider = SignatureEvidenceProvider & SingleSignatureEvidenceProvider & {
   __typename?: 'OidcJWTSignatureEvidenceProvider';
   acrValues: Array<Scalars['String']>;
   alwaysRedirect: Scalars['Boolean'];
@@ -694,6 +710,13 @@ export type SignActingAsOutput = {
   signatureOrder: SignatureOrder;
 };
 
+export type SignAllOfInput = {
+  criiptoVerify?: InputMaybe<SignCriiptoVerifyInput>;
+  drawable?: InputMaybe<SignDrawableInput>;
+  noop?: InputMaybe<Scalars['Boolean']>;
+  oidc?: InputMaybe<SignOidcInput>;
+};
+
 export type SignCriiptoVerifyInput = {
   jwt: Scalars['String'];
 };
@@ -704,6 +727,7 @@ export type SignDrawableInput = {
 };
 
 export type SignInput = {
+  allOf?: InputMaybe<SignAllOfInput>;
   criiptoVerify?: InputMaybe<SignCriiptoVerifyInput>;
   drawable?: InputMaybe<SignDrawableInput>;
   /** EvidenceProvider id */
@@ -849,7 +873,6 @@ export type SignatureAppearanceTemplateReplacementInput = {
 };
 
 export type SignatureEvidenceProvider = {
-  __typename?:Scalars['String'];
   id: Scalars['ID'];
 };
 
@@ -933,6 +956,22 @@ export type SignatureOrderWebhookLogsArgs = {
   from: Scalars['String'];
   succeeded?: InputMaybe<Scalars['Boolean']>;
   to: Scalars['String'];
+};
+
+/** Must define a evidence provider subsection. */
+export type SingleEvidenceProviderInput = {
+  /** Criipto Verify based evidence for signatures. */
+  criiptoVerify?: InputMaybe<CriiptoVerifyProviderInput>;
+  /** Hand drawn signature evidence for signatures. */
+  drawable?: InputMaybe<DrawableEvidenceProviderInput>;
+  /** TEST environment only. Does not manipulate the PDF, use for integration or webhook testing. */
+  noop?: InputMaybe<NoopEvidenceProviderInput>;
+  /** OIDC/JWT based evidence for signatures. */
+  oidc?: InputMaybe<OidcEvidenceProviderInput>;
+};
+
+export type SingleSignatureEvidenceProvider = {
+  id: Scalars['ID'];
 };
 
 export type Tenant = {
