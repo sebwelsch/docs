@@ -3,26 +3,24 @@ export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: string;
-  String: string;
-  Boolean: boolean;
-  Int: number;
-  Float: number;
-  /** The `Blob` scalar type represents a byte array. The Blob type appears in a JSON response as a Base64 String. */
-  Blob: any;
-  /** The `Date` scalar type represents a Date value with Time component. The Date type appears in a JSON response as a String representation compatible with ISO-8601 format. */
-  Date: any;
-  /** The `DateTime` scalar type represents a Date value with Time component. The Date type appears in a JSON response as a String representation compatible with ISO-8601 format. */
-  DateTime: any;
-  /** The `URI` scalar type represents a string resource identifier compatible with URI standard. The URI type appears in a JSON response as a String. */
-  URI: any;
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
+  Blob: { input: string; output: string; }
+  Date: { input: string; output: string; }
+  DateTime: { input: string; output: string; }
+  URI: { input: string; output: string; }
 };
 
 export type AddSignatoriesInput = {
   signatories: Array<CreateSignatureOrderSignatoryInput>;
-  signatureOrderId: Scalars['ID'];
+  signatureOrderId: Scalars['ID']['input'];
 };
 
 export type AddSignatoriesOutput = {
@@ -37,11 +35,11 @@ export type AddSignatoryInput = {
   evidenceProviders?: InputMaybe<Array<SignatoryEvidenceProviderInput>>;
   evidenceValidation?: InputMaybe<Array<SignatoryEvidenceValidationInput>>;
   /** Will not be displayed to signatories, can be used as a reference to your own system. */
-  reference?: InputMaybe<Scalars['String']>;
+  reference?: InputMaybe<Scalars['String']['input']>;
   /** Define a role for the signatory, i.e. 'Chairman'. Will be visible in the document output. */
-  role?: InputMaybe<Scalars['String']>;
+  role?: InputMaybe<Scalars['String']['input']>;
   signatureAppearance?: InputMaybe<SignatureAppearanceInput>;
-  signatureOrderId: Scalars['ID'];
+  signatureOrderId: Scalars['ID']['input'];
 };
 
 export type AddSignatoryOutput = {
@@ -50,54 +48,64 @@ export type AddSignatoryOutput = {
   signatureOrder: SignatureOrder;
 };
 
+export type AllOfEvidenceProviderInput = {
+  providers: Array<SingleEvidenceProviderInput>;
+};
+
+export type AllOfSignatureEvidenceProvider = SignatureEvidenceProvider & {
+  __typename?: 'AllOfSignatureEvidenceProvider';
+  id: Scalars['ID']['output'];
+  providers: Array<CriiptoVerifySignatureEvidenceProvider | DrawableSignatureEvidenceProvider | NoopSignatureEvidenceProvider | OidcJwtSignatureEvidenceProvider>;
+};
+
 export type AnonymousViewer = Viewer & {
   __typename?: 'AnonymousViewer';
-  authenticated: Scalars['Boolean'];
-  id: Scalars['ID'];
+  authenticated: Scalars['Boolean']['output'];
+  id: Scalars['ID']['output'];
 };
 
 export type Application = Viewer & {
   __typename?: 'Application';
   apiKeys: Array<ApplicationApiKey>;
-  id: Scalars['ID'];
-  name: Scalars['String'];
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
   signatureOrders: SignatureOrderConnection;
   /** Tenants are only accessable from user viewers */
   tenant?: Maybe<Tenant>;
   verifyApplication: VerifyApplication;
-  webhookLogs: Array<WebhookInvocation>;
+  webhookLogs: Array<WebhookExceptionInvocation | WebhookHttpErrorInvocation | WebhookSuccessfulInvocation | WebhookTimeoutInvocation>;
 };
 
 
 export type ApplicationSignatureOrdersArgs = {
-  after?: InputMaybe<Scalars['String']>;
-  first?: InputMaybe<Scalars['Int']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
   status?: InputMaybe<SignatureOrderStatus>;
 };
 
 
 export type ApplicationWebhookLogsArgs = {
-  from: Scalars['String'];
-  succeeded?: InputMaybe<Scalars['Boolean']>;
-  to: Scalars['String'];
+  from: Scalars['String']['input'];
+  succeeded?: InputMaybe<Scalars['Boolean']['input']>;
+  to: Scalars['String']['input'];
 };
 
 export type ApplicationApiKey = {
   __typename?: 'ApplicationApiKey';
-  clientId: Scalars['String'];
-  clientSecret?: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
-  mode: ApplicationApiKeyMode;
-  note?: Maybe<Scalars['String']>;
+  clientId: Scalars['String']['output'];
+  clientSecret?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  mode: ApplicationApiKeyMode | '%future added value';
+  note?: Maybe<Scalars['String']['output']>;
 };
 
 export enum ApplicationApiKeyMode {
-  ReadOnly = 'READ_ONLY',
-  ReadWrite = 'READ_WRITE'
+  READ_ONLY = 'READ_ONLY',
+  READ_WRITE = 'READ_WRITE'
 }
 
 export type CancelSignatureOrderInput = {
-  signatureOrderId: Scalars['ID'];
+  signatureOrderId: Scalars['ID']['input'];
 };
 
 export type CancelSignatureOrderOutput = {
@@ -111,10 +119,10 @@ export type ChangeSignatoryInput = {
   evidenceProviders?: InputMaybe<Array<SignatoryEvidenceProviderInput>>;
   evidenceValidation?: InputMaybe<Array<SignatoryEvidenceValidationInput>>;
   /** Will not be displayed to signatories, can be used as a reference to your own system. */
-  reference?: InputMaybe<Scalars['String']>;
+  reference?: InputMaybe<Scalars['String']['input']>;
   /** Define a role for the signatory, i.e. 'Chairman'. Will be visible in the document output. */
-  role?: InputMaybe<Scalars['String']>;
-  signatoryId: Scalars['ID'];
+  role?: InputMaybe<Scalars['String']['input']>;
+  signatoryId: Scalars['ID']['input'];
   signatureAppearance?: InputMaybe<SignatureAppearanceInput>;
 };
 
@@ -125,7 +133,7 @@ export type ChangeSignatoryOutput = {
 };
 
 export type CleanupSignatureOrderInput = {
-  signatureOrderId: Scalars['ID'];
+  signatureOrderId: Scalars['ID']['input'];
 };
 
 export type CleanupSignatureOrderOutput = {
@@ -135,8 +143,8 @@ export type CleanupSignatureOrderOutput = {
 
 export type CloseSignatureOrderInput = {
   /** Retains documents on Criipto servers after closing a signature order. You MUST manually call the cleanupSignatureOrder mutation when you are sure you have downloaded the blobs. Maximum value is 7 days. */
-  retainDocumentsForDays?: InputMaybe<Scalars['Int']>;
-  signatureOrderId: Scalars['ID'];
+  retainDocumentsForDays?: InputMaybe<Scalars['Int']['input']>;
+  signatureOrderId: Scalars['ID']['input'];
 };
 
 export type CloseSignatureOrderOutput = {
@@ -144,10 +152,15 @@ export type CloseSignatureOrderOutput = {
   signatureOrder: SignatureOrder;
 };
 
+export type CompositeSignature = Signature & {
+  __typename?: 'CompositeSignature';
+  signatory?: Maybe<Signatory>;
+};
+
 export type CreateApplicationApiKeyInput = {
-  applicationId: Scalars['ID'];
-  mode?: InputMaybe<ApplicationApiKeyMode>;
-  note?: InputMaybe<Scalars['String']>;
+  applicationId: Scalars['ID']['input'];
+  mode?: InputMaybe<ApplicationApiKeyMode | '%future added value'>;
+  note?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type CreateApplicationApiKeyOutput = {
@@ -157,11 +170,11 @@ export type CreateApplicationApiKeyOutput = {
 };
 
 export type CreateApplicationInput = {
-  name: Scalars['String'];
-  tenantId: Scalars['ID'];
-  verifyApplicationDomain: Scalars['String'];
-  verifyApplicationEnvironment: VerifyApplicationEnvironment;
-  verifyApplicationRealm: Scalars['String'];
+  name: Scalars['String']['input'];
+  tenantId: Scalars['ID']['input'];
+  verifyApplicationDomain: Scalars['String']['input'];
+  verifyApplicationEnvironment: VerifyApplicationEnvironment | '%future added value';
+  verifyApplicationRealm: Scalars['String']['input'];
 };
 
 export type CreateApplicationOutput = {
@@ -173,24 +186,24 @@ export type CreateApplicationOutput = {
 
 export type CreateSignatureOrderInput = {
   /** By default signatories will be prompted to sign with a Criipto Verify based e-ID, this setting disables it. */
-  disableVerifyEvidenceProvider?: InputMaybe<Scalars['Boolean']>;
+  disableVerifyEvidenceProvider?: InputMaybe<Scalars['Boolean']['input']>;
   documents: Array<DocumentInput>;
   /** Define evidence providers for signature order if not using built-in Criipto Verify for e-IDs */
   evidenceProviders?: InputMaybe<Array<EvidenceProviderInput>>;
   /** Defines when a signatory must be validated, default is when signing, but can be expanded to also be required when viewing documents. */
-  evidenceValidationStages?: InputMaybe<Array<EvidenceValidationStage>>;
+  evidenceValidationStages?: InputMaybe<Array<EvidenceValidationStage | '%future added value'>>;
   /** When this signature order will auto-close/expire. Default 90 days. */
-  expiresInDays?: InputMaybe<Scalars['Int']>;
+  expiresInDays?: InputMaybe<Scalars['Int']['input']>;
   /** Attempt to automatically fix document formatting errors if possible. Default 'true'. */
-  fixDocumentFormattingErrors?: InputMaybe<Scalars['Boolean']>;
+  fixDocumentFormattingErrors?: InputMaybe<Scalars['Boolean']['input']>;
   /** Max allowed signatories (as it influences pages needed for seals). Default 14. */
-  maxSignatories?: InputMaybe<Scalars['Int']>;
+  maxSignatories?: InputMaybe<Scalars['Int']['input']>;
   signatories?: InputMaybe<Array<CreateSignatureOrderSignatoryInput>>;
   /** Configure appearance of signatures inside documents */
   signatureAppearance?: InputMaybe<SignatureAppearanceInput>;
   /** Timezone to render signature seals in, default UTC. */
-  timezone?: InputMaybe<Scalars['String']>;
-  title?: InputMaybe<Scalars['String']>;
+  timezone?: InputMaybe<Scalars['String']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
   /** Various settings for how the UI is presented to the signatory. */
   ui?: InputMaybe<CreateSignatureOrderUiInput>;
   /** Signature order webhook settings */
@@ -209,59 +222,59 @@ export type CreateSignatureOrderSignatoryInput = {
   evidenceProviders?: InputMaybe<Array<SignatoryEvidenceProviderInput>>;
   evidenceValidation?: InputMaybe<Array<SignatoryEvidenceValidationInput>>;
   /** Will not be displayed to signatories, can be used as a reference to your own system. */
-  reference?: InputMaybe<Scalars['String']>;
+  reference?: InputMaybe<Scalars['String']['input']>;
   /** Define a role for the signatory, i.e. 'Chairman'. Will be visible in the document output. */
-  role?: InputMaybe<Scalars['String']>;
+  role?: InputMaybe<Scalars['String']['input']>;
   signatureAppearance?: InputMaybe<SignatureAppearanceInput>;
 };
 
 export type CreateSignatureOrderUiInput = {
   /** Removes the UI options to reject a document or signature order. */
-  disableRejection?: InputMaybe<Scalars['Boolean']>;
+  disableRejection?: InputMaybe<Scalars['Boolean']['input']>;
   /** The language of texts rendered to the signatory. */
-  language?: InputMaybe<Language>;
+  language?: InputMaybe<Language | '%future added value'>;
   /** Define a logo to be shown in the signatory UI. */
   logo?: InputMaybe<SignatureOrderUiLogoInput>;
   /** The signatory will be redirected to this URL after signing or rejected the signature order. */
-  signatoryRedirectUri?: InputMaybe<Scalars['String']>;
+  signatoryRedirectUri?: InputMaybe<Scalars['String']['input']>;
   /** Add stylesheet/css via an absolute HTTPS URL. */
-  stylesheet?: InputMaybe<Scalars['String']>;
+  stylesheet?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type CreateSignatureOrderWebhookInput = {
   /** Webhook url. POST requests will be executed towards this URL on certain signatory events. */
-  url: Scalars['String'];
+  url: Scalars['String']['input'];
   /** Validates webhook connectivity by triggering a WEBHOOK_VALIDATION event, your webhook must respond within 5 seconds with 200/OK or the signature order creation will fail. */
-  validateConnectivity?: InputMaybe<Scalars['Boolean']>;
+  validateConnectivity?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** Criipto Verify based evidence for signatures. */
 export type CriiptoVerifyProviderInput = {
-  acrValues?: InputMaybe<Array<Scalars['String']>>;
-  alwaysRedirect?: InputMaybe<Scalars['Boolean']>;
+  acrValues?: InputMaybe<Array<Scalars['String']['input']>>;
+  alwaysRedirect?: InputMaybe<Scalars['Boolean']['input']>;
   /** Set a custom login_hint for the underlying authentication request. */
-  loginHint?: InputMaybe<Scalars['String']>;
+  loginHint?: InputMaybe<Scalars['String']['input']>;
   /** Messages displayed when performing authentication (only supported by DKMitID currently). */
-  message?: InputMaybe<Scalars['String']>;
+  message?: InputMaybe<Scalars['String']['input']>;
   /** Enforces that signatories sign by unique evidence by comparing the values of previous evidence on the key you define. For Criipto Verify you likely want to use `sub` which is a unique pseudonym value present in all e-ID tokens issued. */
-  uniqueEvidenceKey?: InputMaybe<Scalars['String']>;
+  uniqueEvidenceKey?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type CriiptoVerifySignatureEvidenceProvider = SignatureEvidenceProvider & {
+export type CriiptoVerifySignatureEvidenceProvider = SignatureEvidenceProvider & SingleSignatureEvidenceProvider & {
   __typename?: 'CriiptoVerifySignatureEvidenceProvider';
-  acrValues: Array<Scalars['String']>;
-  alwaysRedirect: Scalars['Boolean'];
-  clientID: Scalars['String'];
-  domain: Scalars['String'];
-  id: Scalars['ID'];
-  loginHint?: Maybe<Scalars['String']>;
-  message?: Maybe<Scalars['String']>;
-  name: Scalars['String'];
+  acrValues: Array<Scalars['String']['output']>;
+  alwaysRedirect: Scalars['Boolean']['output'];
+  clientID: Scalars['String']['output'];
+  domain: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  loginHint?: Maybe<Scalars['String']['output']>;
+  message?: Maybe<Scalars['String']['output']>;
+  name: Scalars['String']['output'];
 };
 
 export type DeleteApplicationApiKeyInput = {
-  apiKeyId: Scalars['ID'];
-  applicationId: Scalars['ID'];
+  apiKeyId: Scalars['ID']['input'];
+  applicationId: Scalars['ID']['input'];
 };
 
 export type DeleteApplicationApiKeyOutput = {
@@ -270,8 +283,8 @@ export type DeleteApplicationApiKeyOutput = {
 };
 
 export type DeleteSignatoryInput = {
-  signatoryId: Scalars['ID'];
-  signatureOrderId: Scalars['ID'];
+  signatoryId: Scalars['ID']['input'];
+  signatureOrderId: Scalars['ID']['input'];
 };
 
 export type DeleteSignatoryOutput = {
@@ -280,26 +293,26 @@ export type DeleteSignatoryOutput = {
 };
 
 export type Document = {
-  blob?: Maybe<Scalars['Blob']>;
-  id: Scalars['ID'];
-  originalBlob?: Maybe<Scalars['Blob']>;
-  reference?: Maybe<Scalars['String']>;
-  signatoryViewerStatus?: Maybe<SignatoryDocumentStatus>;
-  signatures?: Maybe<Array<Signature>>;
-  title: Scalars['String'];
+  blob?: Maybe<Scalars['Blob']['output']>;
+  id: Scalars['ID']['output'];
+  originalBlob?: Maybe<Scalars['Blob']['output']>;
+  reference?: Maybe<Scalars['String']['output']>;
+  signatoryViewerStatus?: Maybe<SignatoryDocumentStatus | '%future added value'>;
+  signatures?: Maybe<Array<CompositeSignature | DrawableSignature | EmptySignature | JwtSignature>>;
+  title: Scalars['String']['output'];
 };
 
 export enum DocumentIdLocation {
-  Bottom = 'BOTTOM',
-  Left = 'LEFT',
-  Right = 'RIGHT',
-  Top = 'TOP'
+  BOTTOM = 'BOTTOM',
+  LEFT = 'LEFT',
+  RIGHT = 'RIGHT',
+  TOP = 'TOP'
 }
 
 export type DocumentInput = {
   pdf?: InputMaybe<PadesDocumentInput>;
   /** When enabled, will remove any existing signatures from the document before storing. (PDF only) */
-  removePreviousSignatures?: InputMaybe<Scalars['Boolean']>;
+  removePreviousSignatures?: InputMaybe<Scalars['Boolean']['input']>;
   /** XML signing is coming soon, reach out to learn more. */
   xml?: InputMaybe<XadesDocumentInput>;
 };
@@ -311,7 +324,7 @@ export enum DocumentStorageMode {
 }
 
 export type DownloadVerificationCriiptoVerifyInput = {
-  jwt: Scalars['String'];
+  jwt: Scalars['String']['input'];
 };
 
 export type DownloadVerificationInput = {
@@ -320,25 +333,25 @@ export type DownloadVerificationInput = {
 };
 
 export type DownloadVerificationOidcInput = {
-  jwt: Scalars['String'];
+  jwt: Scalars['String']['input'];
 };
 
 /** Hand drawn signature evidence for signatures. */
 export type DrawableEvidenceProviderInput = {
-  requireName?: InputMaybe<Scalars['Boolean']>;
+  requireName?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type DrawableSignature = Signature & {
   __typename?: 'DrawableSignature';
-  image: Scalars['Blob'];
-  name?: Maybe<Scalars['String']>;
+  image: Scalars['Blob']['output'];
+  name?: Maybe<Scalars['String']['output']>;
   signatory?: Maybe<Signatory>;
 };
 
-export type DrawableSignatureEvidenceProvider = SignatureEvidenceProvider & {
+export type DrawableSignatureEvidenceProvider = SignatureEvidenceProvider & SingleSignatureEvidenceProvider & {
   __typename?: 'DrawableSignatureEvidenceProvider';
-  id: Scalars['ID'];
-  requireName: Scalars['Boolean'];
+  id: Scalars['ID']['output'];
+  requireName: Scalars['Boolean']['output'];
 };
 
 export type EmptySignature = Signature & {
@@ -346,14 +359,15 @@ export type EmptySignature = Signature & {
   signatory?: Maybe<Signatory>;
 };
 
-/** Must define either oidc or noop subsection. */
+/** Must define a evidence provider subsection. */
 export type EvidenceProviderInput = {
+  allOf?: InputMaybe<AllOfEvidenceProviderInput>;
   /** Criipto Verify based evidence for signatures. */
   criiptoVerify?: InputMaybe<CriiptoVerifyProviderInput>;
   /** Hand drawn signature evidence for signatures. */
   drawable?: InputMaybe<DrawableEvidenceProviderInput>;
   /** Determined if this evidence provider should be enabled by signatories by default. Default true */
-  enabledByDefault?: InputMaybe<Scalars['Boolean']>;
+  enabledByDefault?: InputMaybe<Scalars['Boolean']['input']>;
   /** TEST environment only. Does not manipulate the PDF, use for integration or webhook testing. */
   noop?: InputMaybe<NoopEvidenceProviderInput>;
   /** OIDC/JWT based evidence for signatures. */
@@ -361,15 +375,15 @@ export type EvidenceProviderInput = {
 };
 
 export enum EvidenceValidationStage {
-  Sign = 'SIGN',
+  SIGN = 'SIGN',
   /** Require the signatory to be validated before viewing documents */
-  View = 'VIEW'
+  VIEW = 'VIEW'
 }
 
 export type ExtendSignatureOrderInput = {
   /** Expiration to add to order, in days, max 30. */
-  additionalExpirationInDays: Scalars['Int'];
-  signatureOrderId: Scalars['ID'];
+  additionalExpirationInDays: Scalars['Int']['input'];
+  signatureOrderId: Scalars['ID']['input'];
 };
 
 export type ExtendSignatureOrderOutput = {
@@ -379,16 +393,16 @@ export type ExtendSignatureOrderOutput = {
 
 export type JwtSignature = Signature & {
   __typename?: 'JWTSignature';
-  jwks: Scalars['String'];
-  jwt: Scalars['String'];
+  jwks: Scalars['String']['output'];
+  jwt: Scalars['String']['output'];
   signatory?: Maybe<Signatory>;
 };
 
 export enum Language {
-  DaDk = 'DA_DK',
-  EnUs = 'EN_US',
-  NbNo = 'NB_NO',
-  SvSe = 'SV_SE'
+  DA_DK = 'DA_DK',
+  EN_US = 'EN_US',
+  NB_NO = 'NB_NO',
+  SV_SE = 'SV_SE'
 }
 
 export type Mutation = {
@@ -542,119 +556,119 @@ export type MutationValidateDocumentArgs = {
 
 /** TEST only. Allows empty signatures for testing. */
 export type NoopEvidenceProviderInput = {
-  name: Scalars['String'];
+  name: Scalars['String']['input'];
 };
 
-export type NoopSignatureEvidenceProvider = SignatureEvidenceProvider & {
+export type NoopSignatureEvidenceProvider = SignatureEvidenceProvider & SingleSignatureEvidenceProvider & {
   __typename?: 'NoopSignatureEvidenceProvider';
-  id: Scalars['ID'];
-  name: Scalars['String'];
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
 };
 
 /** OIDC/JWT based evidence for signatures. */
 export type OidcEvidenceProviderInput = {
-  acrValues?: InputMaybe<Array<Scalars['String']>>;
-  alwaysRedirect?: InputMaybe<Scalars['Boolean']>;
-  audience: Scalars['String'];
-  clientID: Scalars['String'];
-  domain: Scalars['String'];
-  name: Scalars['String'];
+  acrValues?: InputMaybe<Array<Scalars['String']['input']>>;
+  alwaysRedirect?: InputMaybe<Scalars['Boolean']['input']>;
+  audience: Scalars['String']['input'];
+  clientID: Scalars['String']['input'];
+  domain: Scalars['String']['input'];
+  name: Scalars['String']['input'];
   /** Enforces that signatories sign by unique evidence by comparing the values of previous evidence on the key you define. */
-  uniqueEvidenceKey?: InputMaybe<Scalars['String']>;
+  uniqueEvidenceKey?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type OidcJwtSignatureEvidenceProvider = SignatureEvidenceProvider & {
+export type OidcJwtSignatureEvidenceProvider = SignatureEvidenceProvider & SingleSignatureEvidenceProvider & {
   __typename?: 'OidcJWTSignatureEvidenceProvider';
-  acrValues: Array<Scalars['String']>;
-  alwaysRedirect: Scalars['Boolean'];
-  clientID: Scalars['String'];
-  domain: Scalars['String'];
-  id: Scalars['ID'];
-  name: Scalars['String'];
+  acrValues: Array<Scalars['String']['output']>;
+  alwaysRedirect: Scalars['Boolean']['output'];
+  clientID: Scalars['String']['output'];
+  domain: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
 };
 
 export type PadesDocumentInput = {
-  blob: Scalars['Blob'];
+  blob: Scalars['Blob']['input'];
   /** Will add a unique identifier for the document to the specified margin of each page. Useful when printing signed documents. */
-  displayDocumentID?: InputMaybe<DocumentIdLocation>;
+  displayDocumentID?: InputMaybe<DocumentIdLocation | '%future added value'>;
   /** Will not be displayed to signatories, can be used as a reference to your own system. */
-  reference?: InputMaybe<Scalars['String']>;
-  storageMode: DocumentStorageMode;
-  title: Scalars['String'];
+  reference?: InputMaybe<Scalars['String']['input']>;
+  storageMode: DocumentStorageMode | '%future added value';
+  title: Scalars['String']['input'];
 };
 
 /** Information about pagination in a connection. */
 export type PageInfo = {
   __typename?: 'PageInfo';
   /** When paginating forwards, the cursor to continue. */
-  endCursor?: Maybe<Scalars['String']>;
+  endCursor?: Maybe<Scalars['String']['output']>;
   /** When paginating forwards, are there more items? */
-  hasNextPage: Scalars['Boolean'];
+  hasNextPage: Scalars['Boolean']['output'];
   /** When paginating backwards, are there more items? */
-  hasPreviousPage: Scalars['Boolean'];
+  hasPreviousPage: Scalars['Boolean']['output'];
   /** When paginating backwards, the cursor to continue. */
-  startCursor?: Maybe<Scalars['String']>;
+  startCursor?: Maybe<Scalars['String']['output']>;
 };
 
 export type PdfDocument = Document & {
   __typename?: 'PdfDocument';
-  blob?: Maybe<Scalars['Blob']>;
-  id: Scalars['ID'];
-  originalBlob?: Maybe<Scalars['Blob']>;
-  reference?: Maybe<Scalars['String']>;
-  signatoryViewerStatus?: Maybe<SignatoryDocumentStatus>;
-  signatures?: Maybe<Array<Signature>>;
-  title: Scalars['String'];
+  blob?: Maybe<Scalars['Blob']['output']>;
+  id: Scalars['ID']['output'];
+  originalBlob?: Maybe<Scalars['Blob']['output']>;
+  reference?: Maybe<Scalars['String']['output']>;
+  signatoryViewerStatus?: Maybe<SignatoryDocumentStatus | '%future added value'>;
+  signatures?: Maybe<Array<CompositeSignature | DrawableSignature | EmptySignature | JwtSignature>>;
+  title: Scalars['String']['output'];
 };
 
 export type PdfSealPosition = {
-  page: Scalars['Int'];
-  x: Scalars['Float'];
-  y: Scalars['Float'];
+  page: Scalars['Int']['input'];
+  x: Scalars['Float']['input'];
+  y: Scalars['Float']['input'];
 };
 
 export type Query = {
   __typename?: 'Query';
   application?: Maybe<Application>;
-  document?: Maybe<Document>;
+  document?: Maybe<PdfDocument | XmlDocument>;
   /** Query a signatory by id. Useful when using webhooks. */
   signatory?: Maybe<Signatory>;
   signatureOrder?: Maybe<SignatureOrder>;
   /** Tenants are only accessable from user viewers */
   tenant?: Maybe<Tenant>;
-  timezones: Array<Scalars['String']>;
-  viewer: Viewer;
+  timezones: Array<Scalars['String']['output']>;
+  viewer: AnonymousViewer | Application | SignatoryViewer | UnvalidatedSignatoryViewer | UserViewer;
 };
 
 
 export type QueryApplicationArgs = {
-  id?: InputMaybe<Scalars['ID']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
   verifyApplication?: InputMaybe<VerifyApplicationQueryInput>;
 };
 
 
 export type QueryDocumentArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 
 export type QuerySignatoryArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 
 export type QuerySignatureOrderArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 
 export type QueryTenantArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 export type RefreshApplicationApiKeyInput = {
-  apiKeyId: Scalars['ID'];
-  applicationId: Scalars['ID'];
+  apiKeyId: Scalars['ID']['input'];
+  applicationId: Scalars['ID']['input'];
 };
 
 export type RefreshApplicationApiKeyOutput = {
@@ -664,28 +678,28 @@ export type RefreshApplicationApiKeyOutput = {
 };
 
 export type RejectSignatureOrderInput = {
-  dummy: Scalars['Boolean'];
-  reason?: InputMaybe<Scalars['String']>;
+  dummy: Scalars['Boolean']['input'];
+  reason?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type RejectSignatureOrderOutput = {
   __typename?: 'RejectSignatureOrderOutput';
-  viewer: Viewer;
+  viewer: AnonymousViewer | Application | SignatoryViewer | UnvalidatedSignatoryViewer | UserViewer;
 };
 
 export type RetrySignatureOrderWebhookInput = {
-  retryPayload: Scalars['String'];
-  signatureOrderId: Scalars['ID'];
+  retryPayload: Scalars['String']['input'];
+  signatureOrderId: Scalars['ID']['input'];
 };
 
 export type RetrySignatureOrderWebhookOutput = {
   __typename?: 'RetrySignatureOrderWebhookOutput';
-  invocation: WebhookInvocation;
+  invocation: WebhookExceptionInvocation | WebhookHttpErrorInvocation | WebhookSuccessfulInvocation | WebhookTimeoutInvocation;
 };
 
 export type SignActingAsInput = {
   evidence: SignInput;
-  signatoryId: Scalars['ID'];
+  signatoryId: Scalars['ID']['input'];
 };
 
 export type SignActingAsOutput = {
@@ -694,61 +708,69 @@ export type SignActingAsOutput = {
   signatureOrder: SignatureOrder;
 };
 
+export type SignAllOfInput = {
+  criiptoVerify?: InputMaybe<SignCriiptoVerifyInput>;
+  drawable?: InputMaybe<SignDrawableInput>;
+  noop?: InputMaybe<Scalars['Boolean']['input']>;
+  oidc?: InputMaybe<SignOidcInput>;
+};
+
 export type SignCriiptoVerifyInput = {
-  jwt: Scalars['String'];
+  jwt: Scalars['String']['input'];
 };
 
 export type SignDrawableInput = {
-  image: Scalars['Blob'];
-  name?: InputMaybe<Scalars['String']>;
+  image: Scalars['Blob']['input'];
+  name?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type SignInput = {
+  allOf?: InputMaybe<SignAllOfInput>;
   criiptoVerify?: InputMaybe<SignCriiptoVerifyInput>;
   drawable?: InputMaybe<SignDrawableInput>;
   /** EvidenceProvider id */
-  id: Scalars['ID'];
-  noop?: InputMaybe<Scalars['Boolean']>;
+  id: Scalars['ID']['input'];
+  noop?: InputMaybe<Scalars['Boolean']['input']>;
   oidc?: InputMaybe<SignOidcInput>;
 };
 
 export type SignOidcInput = {
-  jwt: Scalars['String'];
+  jwt: Scalars['String']['input'];
 };
 
 export type SignOutput = {
   __typename?: 'SignOutput';
-  viewer: Viewer;
+  viewer: AnonymousViewer | Application | SignatoryViewer | UnvalidatedSignatoryViewer | UserViewer;
 };
 
 export type Signatory = {
   __typename?: 'Signatory';
   documents: SignatoryDocumentConnection;
   /** A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention. */
-  downloadHref?: Maybe<Scalars['String']>;
-  evidenceProviders: Array<SignatureEvidenceProvider>;
+  downloadHref?: Maybe<Scalars['String']['output']>;
+  evidenceProviders: Array<AllOfSignatureEvidenceProvider | CriiptoVerifySignatureEvidenceProvider | DrawableSignatureEvidenceProvider | NoopSignatureEvidenceProvider | OidcJwtSignatureEvidenceProvider>;
   /** A link to the signatures frontend, you can send this link to your users to enable them to sign your documents. */
-  href: Scalars['String'];
-  id: Scalars['ID'];
-  reference?: Maybe<Scalars['String']>;
-  role?: Maybe<Scalars['String']>;
+  href: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  reference?: Maybe<Scalars['String']['output']>;
+  role?: Maybe<Scalars['String']['output']>;
   /** Signature order for the signatory. */
   signatureOrder: SignatureOrder;
   /** The current status of the signatory. */
-  status: SignatoryStatus;
+  status: SignatoryStatus | '%future added value';
   /** The reason for the signatory status (rejection reason when rejected). */
-  statusReason?: Maybe<Scalars['String']>;
+  statusReason?: Maybe<Scalars['String']['output']>;
   /** The signature frontend authentication token, only required if you need to build a custom url. */
-  token: Scalars['String'];
+  token: Scalars['String']['output'];
 };
 
 export type SignatoryBeaconInput = {
-  lastActionAt: Scalars['DateTime'];
+  lastActionAt: Scalars['DateTime']['input'];
 };
 
 export type SignatoryBeaconOutput = {
   __typename?: 'SignatoryBeaconOutput';
-  viewer: Viewer;
+  viewer: AnonymousViewer | Application | SignatoryViewer | UnvalidatedSignatoryViewer | UserViewer;
 };
 
 export type SignatoryDocumentConnection = {
@@ -758,58 +780,58 @@ export type SignatoryDocumentConnection = {
 
 export type SignatoryDocumentEdge = {
   __typename?: 'SignatoryDocumentEdge';
-  node: Document;
-  status?: Maybe<SignatoryDocumentStatus>;
+  node: PdfDocument | XmlDocument;
+  status?: Maybe<SignatoryDocumentStatus | '%future added value'>;
 };
 
 export type SignatoryDocumentInput = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   /** Define custom position for PDF seal. Uses PDF coordinate system (bottom-left as 0,0). If defined for one signatory/document, must be defined for all. */
   pdfSealPosition?: InputMaybe<PdfSealPosition>;
-  preapproved?: InputMaybe<Scalars['Boolean']>;
+  preapproved?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export enum SignatoryDocumentStatus {
-  Approved = 'APPROVED',
-  Opened = 'OPENED',
-  Preapproved = 'PREAPPROVED',
-  Rejected = 'REJECTED',
-  Signed = 'SIGNED'
+  APPROVED = 'APPROVED',
+  OPENED = 'OPENED',
+  PREAPPROVED = 'PREAPPROVED',
+  REJECTED = 'REJECTED',
+  SIGNED = 'SIGNED'
 }
 
 export type SignatoryEvidenceProviderInput = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 export type SignatoryEvidenceValidationInput = {
-  key: Scalars['String'];
-  value: Scalars['String'];
+  key: Scalars['String']['input'];
+  value: Scalars['String']['input'];
 };
 
 export enum SignatoryFrontendEvent {
-  DownloadLinkOpened = 'DOWNLOAD_LINK_OPENED',
-  SignLinkOpened = 'SIGN_LINK_OPENED'
+  DOWNLOAD_LINK_OPENED = 'DOWNLOAD_LINK_OPENED',
+  SIGN_LINK_OPENED = 'SIGN_LINK_OPENED'
 }
 
 export enum SignatoryStatus {
-  Deleted = 'DELETED',
-  Error = 'ERROR',
-  Open = 'OPEN',
-  Rejected = 'REJECTED',
-  Signed = 'SIGNED'
+  DELETED = 'DELETED',
+  ERROR = 'ERROR',
+  OPEN = 'OPEN',
+  REJECTED = 'REJECTED',
+  SIGNED = 'SIGNED'
 }
 
 export type SignatoryViewer = Viewer & {
   __typename?: 'SignatoryViewer';
-  authenticated: Scalars['Boolean'];
+  authenticated: Scalars['Boolean']['output'];
   documents: SignatoryDocumentConnection;
   download?: Maybe<SignatoryViewerDownload>;
-  evidenceProviders: Array<SignatureEvidenceProvider>;
-  id: Scalars['ID'];
-  signatoryId: Scalars['ID'];
-  signatureOrderStatus: SignatureOrderStatus;
-  signer: Scalars['Boolean'];
-  status: SignatoryStatus;
+  evidenceProviders: Array<AllOfSignatureEvidenceProvider | CriiptoVerifySignatureEvidenceProvider | DrawableSignatureEvidenceProvider | NoopSignatureEvidenceProvider | OidcJwtSignatureEvidenceProvider>;
+  id: Scalars['ID']['output'];
+  signatoryId: Scalars['ID']['output'];
+  signatureOrderStatus: SignatureOrderStatus | '%future added value';
+  signer: Scalars['Boolean']['output'];
+  status: SignatoryStatus | '%future added value';
   ui: SignatureOrderUi;
 };
 
@@ -821,9 +843,9 @@ export type SignatoryViewerDownloadArgs = {
 export type SignatoryViewerDownload = {
   __typename?: 'SignatoryViewerDownload';
   documents?: Maybe<SignatoryDocumentConnection>;
-  expired: Scalars['Boolean'];
-  verificationEvidenceProvider?: Maybe<SignatureEvidenceProvider>;
-  verificationRequired: Scalars['Boolean'];
+  expired: Scalars['Boolean']['output'];
+  verificationEvidenceProvider?: Maybe<AllOfSignatureEvidenceProvider | CriiptoVerifySignatureEvidenceProvider | DrawableSignatureEvidenceProvider | NoopSignatureEvidenceProvider | OidcJwtSignatureEvidenceProvider>;
+  verificationRequired: Scalars['Boolean']['output'];
 };
 
 /** Represents a signature on a document. */
@@ -835,40 +857,39 @@ export type SignatureAppearanceInput = {
   displayName?: InputMaybe<Array<SignatureAppearanceTemplateInput>>;
   headerLeft?: InputMaybe<Array<SignatureAppearanceTemplateInput>>;
   /** Render evidence claim as identifier in the signature appearance inside the document. You can supply multiple keys and they will be tried in order. If no key is found a GUID will be rendered. */
-  identifierFromEvidence: Array<Scalars['String']>;
+  identifierFromEvidence: Array<Scalars['String']['input']>;
 };
 
 export type SignatureAppearanceTemplateInput = {
   replacements?: InputMaybe<Array<SignatureAppearanceTemplateReplacementInput>>;
-  template: Scalars['String'];
+  template: Scalars['String']['input'];
 };
 
 export type SignatureAppearanceTemplateReplacementInput = {
-  fromEvidence: Array<Scalars['String']>;
-  placeholder: Scalars['String'];
+  fromEvidence: Array<Scalars['String']['input']>;
+  placeholder: Scalars['String']['input'];
 };
 
 export type SignatureEvidenceProvider = {
-  __typename?:Scalars['String'];
-  id: Scalars['ID'];
+  id: Scalars['ID']['output'];
 };
 
 export type SignatureOrder = {
   __typename?: 'SignatureOrder';
   application?: Maybe<Application>;
-  closedAt?: Maybe<Scalars['DateTime']>;
-  createdAt: Scalars['DateTime'];
-  documents: Array<Document>;
-  evidenceProviders: Array<SignatureEvidenceProvider>;
-  expiresAt: Scalars['DateTime'];
-  id: Scalars['ID'];
+  closedAt?: Maybe<Scalars['DateTime']['output']>;
+  createdAt: Scalars['DateTime']['output'];
+  documents: Array<PdfDocument | XmlDocument>;
+  evidenceProviders: Array<AllOfSignatureEvidenceProvider | CriiptoVerifySignatureEvidenceProvider | DrawableSignatureEvidenceProvider | NoopSignatureEvidenceProvider | OidcJwtSignatureEvidenceProvider>;
+  expiresAt: Scalars['DateTime']['output'];
+  id: Scalars['ID']['output'];
   /** List of signatories for the signature order. */
   signatories: Array<Signatory>;
-  status: SignatureOrderStatus;
+  status: SignatureOrderStatus | '%future added value';
   /** Tenants are only accessable from user viewers */
   tenant?: Maybe<Tenant>;
-  timezone: Scalars['String'];
-  title?: Maybe<Scalars['String']>;
+  timezone: Scalars['String']['output'];
+  title?: Maybe<Scalars['String']['output']>;
   ui: SignatureOrderUi;
   webhook?: Maybe<SignatureOrderWebhook>;
 };
@@ -881,95 +902,111 @@ export type SignatureOrderConnection = {
   /** Information to aid in pagination. */
   pageInfo: PageInfo;
   /** A count of the total number of objects in this connection, ignoring pagination. This allows a client to fetch the first five objects by passing \"5\" as the argument to `first`, then fetch the total count so it could display \"5 of 83\", for example. In cases where we employ infinite scrolling or don't have an exact count of entries, this field will return `null`. */
-  totalCount?: Maybe<Scalars['Int']>;
+  totalCount?: Maybe<Scalars['Int']['output']>;
 };
 
 /** An edge in a connection from an object to another object of type SignatureOrder */
 export type SignatureOrderEdge = {
   __typename?: 'SignatureOrderEdge';
   /** A cursor for use in pagination */
-  cursor: Scalars['String'];
+  cursor: Scalars['String']['output'];
   /** The item at the end of the edge. Must NOT be an enumerable collection. */
   node: SignatureOrder;
 };
 
 export enum SignatureOrderStatus {
-  Cancelled = 'CANCELLED',
-  Closed = 'CLOSED',
-  Expired = 'EXPIRED',
-  Open = 'OPEN'
+  CANCELLED = 'CANCELLED',
+  CLOSED = 'CLOSED',
+  EXPIRED = 'EXPIRED',
+  OPEN = 'OPEN'
 }
 
 export type SignatureOrderUi = {
   __typename?: 'SignatureOrderUI';
-  disableRejection: Scalars['Boolean'];
-  language: Language;
+  disableRejection: Scalars['Boolean']['output'];
+  language: Language | '%future added value';
   logo?: Maybe<SignatureOrderUiLogo>;
-  signatoryRedirectUri?: Maybe<Scalars['String']>;
-  stylesheet?: Maybe<Scalars['String']>;
+  signatoryRedirectUri?: Maybe<Scalars['String']['output']>;
+  stylesheet?: Maybe<Scalars['String']['output']>;
 };
 
 export type SignatureOrderUiLogo = {
   __typename?: 'SignatureOrderUILogo';
-  href?: Maybe<Scalars['String']>;
-  src: Scalars['String'];
+  href?: Maybe<Scalars['String']['output']>;
+  src: Scalars['String']['output'];
 };
 
 export type SignatureOrderUiLogoInput = {
   /** Turns your logo into a link with the defined href. */
-  href?: InputMaybe<Scalars['String']>;
+  href?: InputMaybe<Scalars['String']['input']>;
   /** The image source for the logo. Must be an absolute HTTPS URL or a valid data: url */
-  src: Scalars['String'];
+  src: Scalars['String']['input'];
 };
 
 export type SignatureOrderWebhook = {
   __typename?: 'SignatureOrderWebhook';
-  logs: Array<WebhookInvocation>;
-  url: Scalars['String'];
+  logs: Array<WebhookExceptionInvocation | WebhookHttpErrorInvocation | WebhookSuccessfulInvocation | WebhookTimeoutInvocation>;
+  url: Scalars['String']['output'];
 };
 
 
 export type SignatureOrderWebhookLogsArgs = {
-  from: Scalars['String'];
-  succeeded?: InputMaybe<Scalars['Boolean']>;
-  to: Scalars['String'];
+  from: Scalars['String']['input'];
+  succeeded?: InputMaybe<Scalars['Boolean']['input']>;
+  to: Scalars['String']['input'];
+};
+
+/** Must define a evidence provider subsection. */
+export type SingleEvidenceProviderInput = {
+  /** Criipto Verify based evidence for signatures. */
+  criiptoVerify?: InputMaybe<CriiptoVerifyProviderInput>;
+  /** Hand drawn signature evidence for signatures. */
+  drawable?: InputMaybe<DrawableEvidenceProviderInput>;
+  /** TEST environment only. Does not manipulate the PDF, use for integration or webhook testing. */
+  noop?: InputMaybe<NoopEvidenceProviderInput>;
+  /** OIDC/JWT based evidence for signatures. */
+  oidc?: InputMaybe<OidcEvidenceProviderInput>;
+};
+
+export type SingleSignatureEvidenceProvider = {
+  id: Scalars['ID']['output'];
 };
 
 export type Tenant = {
   __typename?: 'Tenant';
   applications: Array<Application>;
-  id: Scalars['ID'];
-  webhookLogs: Array<WebhookInvocation>;
+  id: Scalars['ID']['output'];
+  webhookLogs: Array<WebhookExceptionInvocation | WebhookHttpErrorInvocation | WebhookSuccessfulInvocation | WebhookTimeoutInvocation>;
 };
 
 
 export type TenantApplicationsArgs = {
-  domain?: InputMaybe<Scalars['String']>;
+  domain?: InputMaybe<Scalars['String']['input']>;
 };
 
 
 export type TenantWebhookLogsArgs = {
-  from: Scalars['String'];
-  succeeded?: InputMaybe<Scalars['Boolean']>;
-  to: Scalars['String'];
+  from: Scalars['String']['input'];
+  succeeded?: InputMaybe<Scalars['Boolean']['input']>;
+  to: Scalars['String']['input'];
 };
 
 export type TrackSignatoryInput = {
-  event: SignatoryFrontendEvent;
+  event: SignatoryFrontendEvent | '%future added value';
 };
 
 export type TrackSignatoryOutput = {
   __typename?: 'TrackSignatoryOutput';
-  viewer: Viewer;
+  viewer: AnonymousViewer | Application | SignatoryViewer | UnvalidatedSignatoryViewer | UserViewer;
 };
 
 export type UnvalidatedSignatoryViewer = Viewer & {
   __typename?: 'UnvalidatedSignatoryViewer';
-  authenticated: Scalars['Boolean'];
+  authenticated: Scalars['Boolean']['output'];
   download?: Maybe<SignatoryViewerDownload>;
-  evidenceProviders: Array<SignatureEvidenceProvider>;
-  id: Scalars['ID'];
-  signatoryId: Scalars['ID'];
+  evidenceProviders: Array<AllOfSignatureEvidenceProvider | CriiptoVerifySignatureEvidenceProvider | DrawableSignatureEvidenceProvider | NoopSignatureEvidenceProvider | OidcJwtSignatureEvidenceProvider>;
+  id: Scalars['ID']['output'];
+  signatoryId: Scalars['ID']['output'];
   ui: SignatureOrderUi;
 };
 
@@ -979,168 +1016,175 @@ export type UnvalidatedSignatoryViewerDownloadArgs = {
 };
 
 export type UpdateSignatoryDocumentStatusInput = {
-  documentId: Scalars['ID'];
-  status: SignatoryDocumentStatus;
+  documentId: Scalars['ID']['input'];
+  status: SignatoryDocumentStatus | '%future added value';
 };
 
 export type UpdateSignatoryDocumentStatusOutput = {
   __typename?: 'UpdateSignatoryDocumentStatusOutput';
   documentEdge: SignatoryDocumentEdge;
-  viewer: Viewer;
+  viewer: AnonymousViewer | Application | SignatoryViewer | UnvalidatedSignatoryViewer | UserViewer;
 };
 
 export type UserViewer = Viewer & {
   __typename?: 'UserViewer';
-  authenticated: Scalars['Boolean'];
-  id: Scalars['ID'];
+  authenticated: Scalars['Boolean']['output'];
+  id: Scalars['ID']['output'];
   tenants: Array<Tenant>;
 };
 
 export type ValidateDocumentInput = {
-  pdf?: InputMaybe<Scalars['Blob']>;
-  xml?: InputMaybe<Scalars['Blob']>;
+  pdf?: InputMaybe<Scalars['Blob']['input']>;
+  xml?: InputMaybe<Scalars['Blob']['input']>;
 };
 
 export type ValidateDocumentOutput = {
   __typename?: 'ValidateDocumentOutput';
-  errors?: Maybe<Array<Scalars['String']>>;
+  errors?: Maybe<Array<Scalars['String']['output']>>;
   /** Whether or not the errors are fixable using 'fixDocumentFormattingErrors' */
-  fixable?: Maybe<Scalars['Boolean']>;
-  valid: Scalars['Boolean'];
+  fixable?: Maybe<Scalars['Boolean']['output']>;
+  valid: Scalars['Boolean']['output'];
 };
 
 export type VerifyApplication = {
   __typename?: 'VerifyApplication';
-  domain: Scalars['String'];
-  environment: VerifyApplicationEnvironment;
-  realm: Scalars['String'];
+  domain: Scalars['String']['output'];
+  environment: VerifyApplicationEnvironment | '%future added value';
+  realm: Scalars['String']['output'];
 };
 
 export enum VerifyApplicationEnvironment {
-  Production = 'PRODUCTION',
-  Test = 'TEST'
+  PRODUCTION = 'PRODUCTION',
+  TEST = 'TEST'
 }
 
 export type VerifyApplicationQueryInput = {
-  domain: Scalars['String'];
-  realm: Scalars['String'];
-  tenantId: Scalars['ID'];
+  domain: Scalars['String']['input'];
+  realm: Scalars['String']['input'];
+  tenantId: Scalars['ID']['input'];
 };
 
 export type Viewer = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['output'];
 };
 
 export type WebhookExceptionInvocation = WebhookInvocation & {
   __typename?: 'WebhookExceptionInvocation';
-  correlationId: Scalars['String'];
-  event?: Maybe<WebhookInvocationEvent>;
-  exception: Scalars['String'];
-  requestBody: Scalars['String'];
-  responseBody?: Maybe<Scalars['String']>;
-  retryPayload: Scalars['String'];
-  retryingAt?: Maybe<Scalars['String']>;
-  signatureOrderId?: Maybe<Scalars['String']>;
-  timestamp: Scalars['String'];
-  url: Scalars['String'];
+  correlationId: Scalars['String']['output'];
+  event?: Maybe<WebhookInvocationEvent | '%future added value'>;
+  exception: Scalars['String']['output'];
+  requestBody: Scalars['String']['output'];
+  responseBody?: Maybe<Scalars['String']['output']>;
+  retryPayload: Scalars['String']['output'];
+  retryingAt?: Maybe<Scalars['String']['output']>;
+  signatureOrderId?: Maybe<Scalars['String']['output']>;
+  timestamp: Scalars['String']['output'];
+  url: Scalars['String']['output'];
 };
 
 export type WebhookHttpErrorInvocation = WebhookInvocation & {
   __typename?: 'WebhookHttpErrorInvocation';
-  correlationId: Scalars['String'];
-  event?: Maybe<WebhookInvocationEvent>;
-  requestBody: Scalars['String'];
-  responseBody?: Maybe<Scalars['String']>;
-  responseStatusCode: Scalars['Int'];
-  retryPayload: Scalars['String'];
-  retryingAt?: Maybe<Scalars['String']>;
-  signatureOrderId?: Maybe<Scalars['String']>;
-  timestamp: Scalars['String'];
-  url: Scalars['String'];
+  correlationId: Scalars['String']['output'];
+  event?: Maybe<WebhookInvocationEvent | '%future added value'>;
+  requestBody: Scalars['String']['output'];
+  responseBody?: Maybe<Scalars['String']['output']>;
+  responseStatusCode: Scalars['Int']['output'];
+  retryPayload: Scalars['String']['output'];
+  retryingAt?: Maybe<Scalars['String']['output']>;
+  signatureOrderId?: Maybe<Scalars['String']['output']>;
+  timestamp: Scalars['String']['output'];
+  url: Scalars['String']['output'];
 };
 
 export type WebhookInvocation = {
-  correlationId: Scalars['String'];
-  event?: Maybe<WebhookInvocationEvent>;
-  requestBody: Scalars['String'];
-  responseBody?: Maybe<Scalars['String']>;
-  signatureOrderId?: Maybe<Scalars['String']>;
-  timestamp: Scalars['String'];
-  url: Scalars['String'];
+  correlationId: Scalars['String']['output'];
+  event?: Maybe<WebhookInvocationEvent | '%future added value'>;
+  requestBody: Scalars['String']['output'];
+  responseBody?: Maybe<Scalars['String']['output']>;
+  signatureOrderId?: Maybe<Scalars['String']['output']>;
+  timestamp: Scalars['String']['output'];
+  url: Scalars['String']['output'];
 };
 
 export enum WebhookInvocationEvent {
-  SignatoryDocumentStatusChanged = 'SIGNATORY_DOCUMENT_STATUS_CHANGED',
-  SignatoryDownloadLinkOpened = 'SIGNATORY_DOWNLOAD_LINK_OPENED',
-  SignatoryRejected = 'SIGNATORY_REJECTED',
-  SignatorySigned = 'SIGNATORY_SIGNED',
-  SignatorySignError = 'SIGNATORY_SIGN_ERROR',
-  SignatorySignLinkOpened = 'SIGNATORY_SIGN_LINK_OPENED',
-  SignatureOrderExpired = 'SIGNATURE_ORDER_EXPIRED'
+  SIGNATORY_DOCUMENT_STATUS_CHANGED = 'SIGNATORY_DOCUMENT_STATUS_CHANGED',
+  SIGNATORY_DOWNLOAD_LINK_OPENED = 'SIGNATORY_DOWNLOAD_LINK_OPENED',
+  SIGNATORY_REJECTED = 'SIGNATORY_REJECTED',
+  SIGNATORY_SIGNED = 'SIGNATORY_SIGNED',
+  SIGNATORY_SIGN_ERROR = 'SIGNATORY_SIGN_ERROR',
+  SIGNATORY_SIGN_LINK_OPENED = 'SIGNATORY_SIGN_LINK_OPENED',
+  SIGNATURE_ORDER_EXPIRED = 'SIGNATURE_ORDER_EXPIRED'
 }
 
 export type WebhookSuccessfulInvocation = WebhookInvocation & {
   __typename?: 'WebhookSuccessfulInvocation';
-  correlationId: Scalars['String'];
-  event?: Maybe<WebhookInvocationEvent>;
-  requestBody: Scalars['String'];
-  responseBody?: Maybe<Scalars['String']>;
-  responseStatusCode: Scalars['Int'];
-  signatureOrderId?: Maybe<Scalars['String']>;
-  timestamp: Scalars['String'];
-  url: Scalars['String'];
+  correlationId: Scalars['String']['output'];
+  event?: Maybe<WebhookInvocationEvent | '%future added value'>;
+  requestBody: Scalars['String']['output'];
+  responseBody?: Maybe<Scalars['String']['output']>;
+  responseStatusCode: Scalars['Int']['output'];
+  signatureOrderId?: Maybe<Scalars['String']['output']>;
+  timestamp: Scalars['String']['output'];
+  url: Scalars['String']['output'];
 };
 
 export type WebhookTimeoutInvocation = WebhookInvocation & {
   __typename?: 'WebhookTimeoutInvocation';
-  correlationId: Scalars['String'];
-  event?: Maybe<WebhookInvocationEvent>;
-  requestBody: Scalars['String'];
-  responseBody?: Maybe<Scalars['String']>;
-  responseTimeout: Scalars['Int'];
-  retryPayload: Scalars['String'];
-  retryingAt?: Maybe<Scalars['String']>;
-  signatureOrderId?: Maybe<Scalars['String']>;
-  timestamp: Scalars['String'];
-  url: Scalars['String'];
+  correlationId: Scalars['String']['output'];
+  event?: Maybe<WebhookInvocationEvent | '%future added value'>;
+  requestBody: Scalars['String']['output'];
+  responseBody?: Maybe<Scalars['String']['output']>;
+  responseTimeout: Scalars['Int']['output'];
+  retryPayload: Scalars['String']['output'];
+  retryingAt?: Maybe<Scalars['String']['output']>;
+  signatureOrderId?: Maybe<Scalars['String']['output']>;
+  timestamp: Scalars['String']['output'];
+  url: Scalars['String']['output'];
 };
 
 export type XadesDocumentInput = {
-  blob: Scalars['Blob'];
+  blob: Scalars['Blob']['input'];
   /** Will not be displayed to signatories, can be used as a reference to your own system. */
-  reference?: InputMaybe<Scalars['String']>;
-  storageMode: DocumentStorageMode;
-  title: Scalars['String'];
+  reference?: InputMaybe<Scalars['String']['input']>;
+  storageMode: DocumentStorageMode | '%future added value';
+  title: Scalars['String']['input'];
 };
 
 export type XmlDocument = Document & {
   __typename?: 'XmlDocument';
-  blob?: Maybe<Scalars['Blob']>;
-  id: Scalars['ID'];
-  originalBlob?: Maybe<Scalars['Blob']>;
-  reference?: Maybe<Scalars['String']>;
-  signatoryViewerStatus?: Maybe<SignatoryDocumentStatus>;
-  signatures?: Maybe<Array<Signature>>;
-  title: Scalars['String'];
+  blob?: Maybe<Scalars['Blob']['output']>;
+  id: Scalars['ID']['output'];
+  originalBlob?: Maybe<Scalars['Blob']['output']>;
+  reference?: Maybe<Scalars['String']['output']>;
+  signatoryViewerStatus?: Maybe<SignatoryDocumentStatus | '%future added value'>;
+  signatures?: Maybe<Array<CompositeSignature | DrawableSignature | EmptySignature | JwtSignature>>;
+  title: Scalars['String']['output'];
 };
+
+export type ExampleAddSignatoriesMutationVariables = Exact<{
+  input: AddSignatoriesInput;
+}>;
+
+
+export type ExampleAddSignatoriesMutation = { __typename?: 'Mutation', addSignatories?: { __typename?: 'AddSignatoriesOutput', signatories: Array<{ __typename?: 'Signatory', id: string, href: string }> } | null };
 
 export type ExampleAddSignatoryMutationVariables = Exact<{
   input: AddSignatoryInput;
 }>;
 
 
-export type ExampleAddSignatoryMutation = { __typename?: 'Mutation', addSignatory?: { __typename?: 'AddSignatoryOutput', signatory: { __typename?: 'Signatory', id: string, href: string, token: string } } | null | undefined };
+export type ExampleAddSignatoryMutation = { __typename?: 'Mutation', addSignatory?: { __typename?: 'AddSignatoryOutput', signatory: { __typename?: 'Signatory', id: string, href: string, token: string } } | null };
 
-export type ExampleSignActingAsMutationVariables = Exact<{
-  input: SignActingAsInput;
+export type ExampleChangeSignatoryMutationVariables = Exact<{
+  input: ChangeSignatoryInput;
 }>;
 
 
-export type ExampleSignActingAsMutation = { __typename?: 'Mutation', signActingAs?: { __typename?: 'SignActingAsOutput', signatory: { __typename?: 'Signatory', id: string, status: SignatoryStatus } } | null | undefined };
+export type ExampleChangeSignatoryMutation = { __typename?: 'Mutation', changeSignatory?: { __typename?: 'ChangeSignatoryOutput', signatory: { __typename?: 'Signatory', id: string, href: string, token: string } } | null };
 
-export type SignatoryWebhookQueryVariables = Exact<{
-  signatoryId: Scalars['ID'];
+export type ExampleValidateDocumentMutationVariables = Exact<{
+  input: ValidateDocumentInput;
 }>;
 
 
-export type SignatoryWebhookQuery = { __typename?: 'Query', signatory?: { __typename?: 'Signatory', status: SignatoryStatus, signatureOrder: { __typename?: 'SignatureOrder', id: string } } | null | undefined };
+export type ExampleValidateDocumentMutation = { __typename?: 'Mutation', validateDocument?: { __typename?: 'ValidateDocumentOutput', valid: boolean, errors?: Array<string> | null, fixable?: boolean | null } | null };

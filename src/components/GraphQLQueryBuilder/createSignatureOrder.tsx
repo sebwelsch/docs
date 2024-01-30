@@ -27,7 +27,7 @@ export default function CreateSignatureOrderQueryBuilder() {
     }
   ]);
   const [ui, setUI] = useState<CreateSignatureOrderInput["ui"]>({
-    language: Language.EnUs
+    language: Language.EN_US
   });
   const [webhook, setWebhook] = useState<CreateSignatureOrderInput["webhook"]>(null);
   const [input, setInput] = useState<CreateSignatureOrderInput>({

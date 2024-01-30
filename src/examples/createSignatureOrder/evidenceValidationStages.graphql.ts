@@ -6,7 +6,7 @@ export const query = basic.query;
 
 export const variables = (data?: ExampleData) : {input: CreateSignatureOrderInput} => ({
   input: {
-    evidenceValidationStages: [EvidenceValidationStage.View, EvidenceValidationStage.Sign],
+    evidenceValidationStages: [EvidenceValidationStage.VIEW, EvidenceValidationStage.SIGN],
     ...(basic.variables(data).input)
   }
 });

@@ -240,6 +240,16 @@ import * as signActingAsExample from '../../../examples/signActingAs.graphql';
 
 <GraphQLExample example={signActingAsExample} />
 
+### Combining drawable with eID signing
+
+In certain cases where signed documents need to be printed, it can be beneficial to have signatories sign both with an eID and a drawable signature.
+
+The API supports defining an `allOf` evidence provider that is a composite of multiple other evidence providers. The order of the list defines the order the signatory is asked to sign in.
+
+import compositeAllOfExample from '../../../examples/createSignatureOrder/composite-allOf';
+
+<GraphQLExample example={compositeAllOfExample} />
+
 ## Validate document
 
 If you wish to prevalidate that a document blob is valid, you can use the `validateDocument` mutation.
