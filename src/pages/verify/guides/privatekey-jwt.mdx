@@ -72,7 +72,7 @@ async function generateKeys() {
 
 The client assertion is a JWT signed by the private key of the [RSA key pair](/verify/guides/privatekey-jwt/#generate-an-rsa-key-pair-and-jwks) generated earlier. It should contain the following claims:
 
-`alg`: The algorithm used to sign the assertion. Should be set to `RS256`.
+`alg`: The algorithm used to sign the JWT. Should be set to `RS256`.
 
 `iss`: The Client ID of your Criipto Verify application. You can find it in the General tab of your Application settings under `Client ID/Realm`.
 
@@ -114,7 +114,7 @@ async function generateJWT(signingKey) {
 
 You'll need to include the client assertion along with the verification code when performing the [code-for-token exchange](/verify/getting-started/oidc-intro/#exchange-the-code-for-a-token).
 
-The `client_assertion_type` should be set to `urn:ietf:params:oauth:client-assertion-type:jwt-bearer`.
+The `client_assertion_type` must be set to `urn:ietf:params:oauth:client-assertion-type:jwt-bearer`.
 
 ```curl
 # Replace `$client_assertion` with your JWT assertion
@@ -143,7 +143,7 @@ In your Application settings, go to `OpenID Connect` > `Client JWKS`. You can ad
 ![Client JWKS Endpoint](./images/JWKS_endpoint.png)
 
 - Static: Add your static JWKS.
-- JWKS Endpoint: Provide JWKS URI to fetch JWKS dynamically (recommended).
+- JWKS Endpoint: Provide JWKS URL to fetch JWKS dynamically (recommended).
 
 ## Advantages of Private Key JWT Authentication
 
@@ -151,7 +151,7 @@ In your Application settings, go to `OpenID Connect` > `Client JWKS`. You can ad
 
 Instead, you generate a pair of asymmetric keys and have Criipto point to the JWKS in your system. During authentication, your application signs its request with the private key, creating a signed client assertion. Criipto Verify can then use the public key from the JWKS to decrypt and verify the assertion.
 
-This setup also facilitates seamless key rollover.
+Additionally, by using `private_key_jwt` with a _JWKS endpoint_ rather than a static JWKS, you can benefit from seamless key rollover by eliminating the need to make any changes in the Criipto Dashboard if you choose to rotate your keys.
 
 <Highlight icon="file-lines">
 
