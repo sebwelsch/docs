@@ -118,7 +118,6 @@ The `client_assertion_type` must be set to `urn:ietf:params:oauth:client-asserti
 
 ```curl
 # Replace `$client_assertion` with your JWT assertion
-# Replace `CLIENT_ID` with your Client ID
 # Replace `AUTHORIZATION_CODE` with the authorization code received in the initial authorization request
 # Replace `YOUR_DOMAIN.criipto.id` with your Criipto domain
 # Replace `YOUR_RETURN_URL` with the redirect URI used in the initial authorization request
@@ -130,7 +129,6 @@ grant_type=authorization_code
 &client_assertion_type=urn:ietf:params:oauth:client-assertion-type:jwt-bearer
 &client_assertion=$client_assertion
 &code=AUTHORIZATION_CODE
-&client_id=CLIENT_ID
 &redirect_uri=YOUR_RETURN_URL
 ```
 
