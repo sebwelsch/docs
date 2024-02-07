@@ -17,7 +17,7 @@ Criipto Verify is integrated through the authentication API which follows the Op
 
 Criipto Verify supports three different OpenID Connect flows: the OAuth2 **authorization code flow**, the **PKCE flow**, and the (now deprecated) **implicit flow**. 
 
-**The authorization code flow** is used for *traditional server-based web applications*. These applications can securely store a client secret and establish back-channel communication with the Criipto Verify service. This facilitates a secure [code-for-token exchange](#exchange-the-code-for-a-token) during authentication.
+**The authorization code flow** is used for traditional server-based web applications, also referred to as _confidential clients_. These applications can securely store a client secret and establish back-channel communication with the Criipto Verify service. This facilitates a secure [code-for-token exchange](#exchange-the-code-for-a-token) during authentication.
 
 **The PKCE flow** (pronounced _pixy_) can be used by _public clients_ such as single page applications(SPAs) and native applications that cannot keep a secret. With PKCE flow, a one-time secret is generated and used for the code exchange.
 
