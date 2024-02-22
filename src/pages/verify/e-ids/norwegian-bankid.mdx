@@ -3,7 +3,7 @@ product: verify
 category: eIDs
 sort: 1
 title: Norwegian BankID
-subtitle: Learn more about Norwegian BanKID token contents, how to create test users and how to gain access to production.
+subtitle: Learn more about Norwegian BankID token contents, how to create test users and how to gain access to production.
 ---
 import Layout from '../../../layouts/mdx';
 import ConsentRevocation from '../../../components/ConsentRevocation';
@@ -197,11 +197,19 @@ Due to new terms and conditions in the agreement, you must send us an updated ap
 
 BankID Biometrics assurance level is “Substantial”.
 
-If you can only use assurance level “High” in your login flow, you must explicitly specify the [login_hint=BID](/verify/guides/prefilled-fields/) in your authorize requests to Criipto Verify, as described in [our guide on prefilled fields](https://docs.criipto.com/verify/guides/prefilled-fields/)
+[Learn more about assurance levels](https://ec.europa.eu/digital-building-blocks/wikis/display/DIGITAL/eIDAS+Levels+of+Assurance).
 
-[Learn more about assurance levels](https://ec.europa.eu/digital-building-blocks/wikis/display/DIGITAL/eIDAS+Levels+of+Assurance)
+If you can only use assurance level “High” in your login flow, you must explicitly specify the [login_hint=BID](/verify/guides/prefilled-fields/) in your authorize requests to Criipto Verify. _Please note that using `login_hint=BID` will disable biometrics in the BankID app._  
 
-Or feel free to reach out, either on [Slack](https://tiny.cc/criipto-slack) or via [support@criipto.com](mailto:support@criipto.com)
+The table below provides a list of options for using `login_hint` with Norwegian BankID, and the resulting user flows. Check [our guide on prefilled fields](https://docs.criipto.com/verify/guides/prefilled-fields/) to learn more.
+
+| Parameter                                                           | Description |
+|---------------------------------------------------------------------|-------------|
+| `login_hint=BID`                                                    | The user will be redirected to the BankID app, with biometrics disabled. The user will be queried for userID(i.e. national identity number) in the first dialogue. |
+| `login_hint=BID:<SSN>`, where `<SSN>` has the format `DDMMYYXXXXX`  | The user will be redirected to the BankID app (with biometrics disabled) along with a pre-selected userID. The userID dialogue is omitted in this case.          |
+| `login_hint=BIS`                                                    | The user will be redirected to the BankID app. The user will be queried for userID in the first dialogue. This option does not disable biometrics.               |
+| `login_hint=BIS:<SSN>`, where `<SSN>` has the format `DDMMYYXXXXX`  | The user will be redirected to the BankID app with a pre-selected userID. This option does not disable biometrics.                                                            |
+| no `login_hint` provided                                            | The default settings of the BankID app on the user's device will determine the flow (whether biometrics are enabled or disabled).                                       |
 
 ### Ordering the client credentials
 
