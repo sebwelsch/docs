@@ -21,6 +21,7 @@ The actual support for controlling the input data varies by eID method:
 2. Swedish BankID: Use `login_hint=sub:<SSN>` where `<SSN>` has the format `YYYYMMDDXXXX`
 3. Norwegian BankID Mobile: Use `login_hint=BIM:<PHONENUMBER>:<BIRTHDATE>` where `<PHONENUMBER>` has 8 digits and `<BIRTHDATE>` has the format `DDMMYY`
 4. Norwegian BankID Kodebrikke: Use `login_hint=BID:<SSN>` where `<SSN>` has the format `DDMMYYXXXXX`
+5. Norwegian BankID Biometrics: Use `login_hint=BIS:<SSN>` where `<SSN>` has the format `DDMMYYXXXXX`
 
 <Highlight icon="file-lines">
 
