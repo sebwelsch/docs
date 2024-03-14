@@ -1,0 +1,36 @@
+---
+product: signatures
+category: Guides
+sort: 10
+title: PDF form filling
+---
+
+import Layout from '../../../layouts/mdx';
+export default Layout;
+
+import GraphQLExample from '../../../components/GraphQLExample';
+
+PDF documents can contain form and input elements enabling users to add additional information to documents or make selections.
+
+When form filling is enabled a overlay will be rendered in the browser so that users input information,
+the input will then be flattened into the PDF upon the first signature.
+
+**Caveats**
+
+- PDF form filling is only supported for the first signatory
+- Dropdown/Combo boxes currently have some rendering issues when flattened
+
+## Creating a signature
+
+import createExample from '../../../examples/createSignatureOrder/pdfFormFilling';
+
+To enable form filling you must explicitely enable the feature for each PDF document that you add,
+the example blow shows how to creates a signature order with form filling enabled.
+
+<GraphQLExample example={createExample} />
+
+## Interactive tour
+
+import PdfFormFillingTour from './PdfFormFillingTour';
+
+<PdfFormFillingTour />

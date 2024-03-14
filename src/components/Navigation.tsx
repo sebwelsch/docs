@@ -11,6 +11,7 @@ const SIGNATURES_CATEGORIES = [
   "Getting Started",
   "GraphQL",
   "Integrations",
+  "Guides",
   "Webhooks"
 ];
 

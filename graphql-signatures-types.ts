@@ -587,10 +587,15 @@ export type OidcJwtSignatureEvidenceProvider = SignatureEvidenceProvider & Singl
   name: Scalars['String']['output'];
 };
 
+export type PadesDocumentFormInput = {
+  enabled: Scalars['Boolean']['input'];
+};
+
 export type PadesDocumentInput = {
   blob: Scalars['Blob']['input'];
   /** Will add a unique identifier for the document to the specified margin of each page. Useful when printing signed documents. */
   displayDocumentID?: InputMaybe<DocumentIdLocation | '%future added value'>;
+  form?: InputMaybe<PadesDocumentFormInput>;
   /** Will not be displayed to signatories, can be used as a reference to your own system. */
   reference?: InputMaybe<Scalars['String']['input']>;
   storageMode: DocumentStorageMode | '%future added value';
@@ -613,12 +618,18 @@ export type PageInfo = {
 export type PdfDocument = Document & {
   __typename?: 'PdfDocument';
   blob?: Maybe<Scalars['Blob']['output']>;
+  form?: Maybe<PdfDocumentForm>;
   id: Scalars['ID']['output'];
   originalBlob?: Maybe<Scalars['Blob']['output']>;
   reference?: Maybe<Scalars['String']['output']>;
   signatoryViewerStatus?: Maybe<SignatoryDocumentStatus | '%future added value'>;
   signatures?: Maybe<Array<CompositeSignature | DrawableSignature | EmptySignature | JwtSignature>>;
   title: Scalars['String']['output'];
+};
+
+export type PdfDocumentForm = {
+  __typename?: 'PdfDocumentForm';
+  enabled: Scalars['Boolean']['output'];
 };
 
 export type PdfSealPosition = {
@@ -719,6 +730,20 @@ export type SignCriiptoVerifyInput = {
   jwt: Scalars['String']['input'];
 };
 
+export type SignDocumentFormFieldInput = {
+  field: Scalars['String']['input'];
+  value: Scalars['String']['input'];
+};
+
+export type SignDocumentFormInput = {
+  fields: Array<SignDocumentFormFieldInput>;
+};
+
+export type SignDocumentInput = {
+  form?: InputMaybe<SignDocumentFormInput>;
+  id: Scalars['ID']['input'];
+};
+
 export type SignDrawableInput = {
   image: Scalars['Blob']['input'];
   name?: InputMaybe<Scalars['String']['input']>;
@@ -727,6 +752,7 @@ export type SignDrawableInput = {
 export type SignInput = {
   allOf?: InputMaybe<SignAllOfInput>;
   criiptoVerify?: InputMaybe<SignCriiptoVerifyInput>;
+  documents?: InputMaybe<Array<SignDocumentInput>>;
   drawable?: InputMaybe<SignDrawableInput>;
   /** EvidenceProvider id */
   id: Scalars['ID']['input'];
