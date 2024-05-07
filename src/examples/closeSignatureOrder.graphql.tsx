@@ -57,6 +57,26 @@ mutation examplesCloseSignatureOrder(
             jwt
             jwks
           }
+
+          ... on DrawableSignature {
+            jwt
+            jwks
+          }
+
+          ... on CompositeSignature {
+            signatures {
+              __typename
+              ... on JWTSignature {
+                jwt
+                jwks
+              }
+    
+              ... on DrawableSignature {
+                jwt
+                jwks
+              }
+            }
+          }
         }
       }
     }
