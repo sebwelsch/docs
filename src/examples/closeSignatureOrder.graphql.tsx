@@ -59,8 +59,8 @@ mutation examplesCloseSignatureOrder(
           }
 
           ... on DrawableSignature {
-            jwt
-            jwks
+            name
+            image
           }
 
           ... on CompositeSignature {
@@ -72,8 +72,8 @@ mutation examplesCloseSignatureOrder(
               }
     
               ... on DrawableSignature {
-                jwt
-                jwks
+                name
+                image
               }
             }
           }
