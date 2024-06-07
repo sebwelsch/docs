@@ -64,16 +64,18 @@ export default function App() {
         {JSON.stringify(result.id_token, null, 2)}
       </pre>
     )
-  } else {
+  }
+
+  return (
     <React.Fragment>
       {result?.error ? (
         <p>
-          An error occured: {result.error} ({result.error_description}). Please try again:
+          An error occurred: {result.error} ({result.error_description}). Please try again:
         </p>
       ) : null}
       <button onClick={() => loginWithRedirect()}>Login</button>
     </React.Fragment>
-  }
+  );
 }
 ```
 
@@ -95,16 +97,18 @@ export default function App() {
         {JSON.stringify(result.id_token, null, 2)}
       </pre>
     )
-  } else {
+  }
+
+  return (
     <React.Fragment>
       {result?.error ? (
         <p>
-          An error occured: {result.error} ({result.error_description}). Please try again:
+          An error occurred: {result.error} ({result.error_description}). Please try again:
         </p>
       ) : null}
       <AuthMethodSelector />
     </React.Fragment>
-  }
+  );
 }
 ```
 
@@ -150,21 +154,24 @@ export default function App() {
   if (isLoading) {
     return <div>Loading</div>
   }
-  else if (claims) {
+
+  if (claims) {
     return (
       <pre>
         {JSON.stringify(claims, null, 2)}
       </pre>
     )
-  } else {
+  }
+
+  return (
     <React.Fragment>
       {error ? (
         <p>
-          An error occured: {error.error} ({error.error_description}). Please try again:
+          An error occurred: {error.error} ({error.error_description}). Please try again:
         </p>
       ) : null}
       <AuthMethodSelector />
     </React.Fragment>
-  }
+  );
 }
 ```
