@@ -10,7 +10,9 @@ export const variables = (data?: ExampleData) : {input: CreateSignatureOrderInpu
       {
         criiptoVerify: {
           acrValues: ["urn:grn:authn:se:bankid:same-device"],
-          alwaysRedirect: true
+          alwaysRedirect: true,
+          scope: "openid ssn",
+          loginHint: "message:U2lnbmluZyBkb2N1bWVudHM="
         }
       }
     ],
