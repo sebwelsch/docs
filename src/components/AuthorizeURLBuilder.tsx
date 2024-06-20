@@ -108,7 +108,7 @@ export default function AuthorizeURLBuilder() {
     options.acr_values.length >= 2 ? options.acr_values.some(v => MESSAGE_SUPPORTING_ACR_VALUES.includes(v)) :
     false;
 
-  const updateOption = (key: keyof AuthorizeURLOptions, event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => {
+  const updateOption = (key: keyof AuthorizeURLOptions, event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement> | React.ChangeEvent<HTMLSelectElement>) => {
     setOptions(options => ({
       ...options,
       [key]: event.target.value
@@ -497,7 +497,6 @@ export default function AuthorizeURLBuilder() {
             <textarea
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="message"
-              type="text"
               placeholder="Message"
               value={options.message || ""}
               onChange={(event) => updateOption('message', event)}
