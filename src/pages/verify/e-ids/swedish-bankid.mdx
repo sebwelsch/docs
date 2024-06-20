@@ -191,6 +191,28 @@ HTTP/1.1 400 Bad Request
 }
 ```
 
+## Signing text/markdown
+
+Swedish BankID supports signing text and markdown.
+
+Text signing is triggered by using the `action` and `message` parameters [via login_hint](https://docs.criipto.com/verify/getting-started/oidc-intro/#the-loginhint-parameter).
+
+- The `action` parameter must be set to `sign`
+- The `message` parameter must be base64 encoded and at most 40,000 characters after base64 encoding.
+- The `message` parameter supports markdown text.
+
+*Note: Signing produces very large JWTs that are not appropriate for authentication/Bearer header use*
+
+<details>
+  <summary><strong>Example</strong></summary>
+
+  ```login_hint=action:sign message:VmVuZG9yOgoKIyMgQ29vbCBEZWxpdmVyeQoKQW1vdW50OgoKIyMgMzAwIEVVUgoKLS0tCgpJIGFwcHJvdmUgdGhpcyB0cmFuc2FjdGlvbi4=```
+
+  Try out the example in [our URL builder](/verify/guides/authorize-url-builder/?acr_values=urn:grn:authn:se:bankid&action=sign&message=Vendor%3A%0A%0A%23%23%20Cool%20Delivery%0A%0AAmount%3A%0A%0A%23%23%20300%20EUR%0A%0A---%0A%0AI%20approve%20this%20transaction.)
+  
+  ![Text signing in app](./images/se-bankid-signing.jpg)
+</details>
+
 ## Ordering Swedish BankID
 
 To start accepting real users with Swedish BankID, you must first request a certificate to identify your organization.

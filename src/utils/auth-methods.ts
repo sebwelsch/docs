@@ -59,6 +59,10 @@ export const PROVIDERS : Provider[] = [
     title: 'Swedish BankID',
     authMethods: [
       {
+        title: 'Selector page',
+        acrValue: 'urn:grn:authn:se:bankid'
+      },
+      {
         title: 'Same device',
         acrValue: 'urn:grn:authn:se:bankid:same-device'
       },
