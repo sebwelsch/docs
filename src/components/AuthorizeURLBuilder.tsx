@@ -10,8 +10,8 @@ const ACTION_SUPPORTING_ACR_VALUES = [
   'urn:grn:authn:dk:mitid:substantial',
   'urn:grn:authn:dk:mitid:high',
   'urn:grn:authn:dk:mitid:business',
+  'urn:grn:authn:se:bankid',
   'urn:grn:authn:se:bankid:same-device',
-  'urn:grn:authn:se:bankid:another-device',
   'urn:grn:authn:se:bankid:another-device:qr',
 ];
 
@@ -20,8 +20,8 @@ const MESSAGE_SUPPORTING_ACR_VALUES = [
   'urn:grn:authn:dk:mitid:substantial',
   'urn:grn:authn:dk:mitid:high',
   'urn:grn:authn:dk:mitid:business',
+  'urn:grn:authn:se:bankid',
   'urn:grn:authn:se:bankid:same-device',
-  'urn:grn:authn:se:bankid:another-device',
   'urn:grn:authn:se:bankid:another-device:qr',
 ];
 
@@ -108,7 +108,7 @@ export default function AuthorizeURLBuilder() {
     options.acr_values.length >= 2 ? options.acr_values.some(v => MESSAGE_SUPPORTING_ACR_VALUES.includes(v)) :
     false;
 
-  const updateOption = (key: keyof AuthorizeURLOptions, event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => {
+  const updateOption = (key: keyof AuthorizeURLOptions, event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement> | React.ChangeEvent<HTMLSelectElement>) => {
     setOptions(options => ({
       ...options,
       [key]: event.target.value
@@ -494,10 +494,9 @@ export default function AuthorizeURLBuilder() {
             <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="message">
               Message
             </label>
-            <input
+            <textarea
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="message"
-              type="text"
               placeholder="Message"
               value={options.message || ""}
               onChange={(event) => updateOption('message', event)}
