@@ -17,6 +17,18 @@ function useQueryParams() {
 function replaceParams(input: string, params: URLSearchParams) {
   input = input.replace(/{{YOUR_CRIIPTO_DOMAIN}}/g, params.get('verify_domain') ?? '{{YOUR_CRIIPTO_DOMAIN}}');
   input = input.replace(/{{YOUR_CLIENT_ID}}/g, params.get('verify_client_id') ?? '{{YOUR_CLIENT_ID}}');
+
+  input = input.replace(/{{ACR_VALUES(.+?)}}/g, (value) => {
+    if (params.get('verify_acr_values')) {
+      return params.get('verify_acr_values')!;
+    }
+    if (value.includes('||')) {
+      console.log(value);
+      const candidate = value.split('||')[1];
+      return candidate.substring(0, candidate.length - 2).trim();
+    }
+    return '{{ACR_VALUES}}';
+  });
   return input;
 }
 

@@ -65,8 +65,8 @@ If using the library from `unpkg`, you will have access to the global variable `
 // index.js
 
 var criiptoAuth = new CriiptoAuth({
-  domain: '{YOUR_CRIIPTO_DOMAIN}',
-  clientID: '{YOUR_CRIIPTO_APPLICATION_ID}',
+  domain: '{{YOUR_CRIIPTO_DOMAIN}}',
+  clientID: '{{YOUR_CLIENT_ID}}',
   store: sessionStorage,
 });
 ```
@@ -79,8 +79,8 @@ Or import the library if you are using npm:
 import CriiptoAuth from '@criipto/auth-js';
 
 var criiptoAuth = new CriiptoAuth({
-  domain: '{YOUR_CRIIPTO_DOMAIN}',
-  clientID: '{YOUR_CRIIPTO_APPLICATION_ID}',
+  domain: '{{YOUR_CRIIPTO_DOMAIN}}',
+  clientID: '{{YOUR_CLIENT_ID}}',
   store: sessionStorage,
 });
 ```
@@ -123,7 +123,7 @@ Will open a popup window to authenticate the user.
           width: 300,
           height: 400,
           redirectUri: 'http://localhost:8000/example/index.html',
-          acrValues: 'urn:grn:authn:dk:mitid:substantial',
+          acrValues: '{{ACR_VALUES || urn:grn:authn:dk:mitid:substantial}}',
         })
         .then((result) => {
           console.log(result, result.id_token, result.claims);
@@ -172,6 +172,7 @@ console.log(match.id_token, match.claims);
       criiptoAuth.redirect.authorize({
         redirectUri: 'http://localhost:8000/callback.html',
         prompt: 'login',
+        acrValues: '{{ACR_VALUES || urn:grn:authn:no:bankid:substantial}}',
       });
     });
 </script>

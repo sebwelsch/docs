@@ -23,8 +23,6 @@ export default function MdxLayout(props: {children: React.ReactNode, location: L
 
   const pageNavigationItems =
     (overviewHeader && headers.length ? [overviewHeader] : []).concat(headers).map(header => {
-
-
       return {
         level: header.type === 'h3' ? 2 : 1,
         text: parseHeader(header.text),
