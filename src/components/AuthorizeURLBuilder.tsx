@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 
 import { H3, Paragraph } from "./MdxProvider";
 import URLCodeBlock from './URLCodeBlock';
@@ -25,6 +25,10 @@ const MESSAGE_SUPPORTING_ACR_VALUES = [
   'urn:grn:authn:se:bankid:another-device:qr',
 ];
 
+const ID_TOKEN_HINT_SUPPORT_ACR_VALUES = [
+  'urn:age-verification'
+]
+
 const actions = ['login', 'confirm', 'accept', 'approve', 'sign'] as const;
 type Action = typeof actions[number];
 
@@ -42,6 +46,7 @@ interface AuthorizeURLOptions {
   nonce: string,
   state: string | null,
   login_hint: string | null,
+  id_token_hint: string | null
   availableScopes : string[]
   selectedScopes : string []
   scopes_quirk : "none" | "login_hint"
@@ -76,6 +81,7 @@ export default function AuthorizeURLBuilder(props: {
     nonce: `ecnon-${randomUUID()}`,
     state: null,
     login_hint: props.login_hint ?? null,
+    id_token_hint: null,
     availableScopes: [],
     selectedScopes : props.scope ?? [],
     scopes_quirk : 'none',
@@ -105,14 +111,22 @@ export default function AuthorizeURLBuilder(props: {
     }));
   }, []);
 
-  const supportsAction =
-    options.acr_values.length === 1 ? ACTION_SUPPORTING_ACR_VALUES.includes(options.acr_values[0]) :
-    options.acr_values.length >= 2 ? options.acr_values.some(v => ACTION_SUPPORTING_ACR_VALUES.includes(v)) :
-    true;
-  const supportsMessage =
-    options.acr_values.length === 1 ? MESSAGE_SUPPORTING_ACR_VALUES.includes(options.acr_values[0]) :
-    options.acr_values.length >= 2 ? options.acr_values.some(v => MESSAGE_SUPPORTING_ACR_VALUES.includes(v)) :
-    false;
+  const supports = useMemo(() => ({
+    supportsAction:
+      options.acr_values.length === 1 ? ACTION_SUPPORTING_ACR_VALUES.includes(options.acr_values[0]) :
+      options.acr_values.length >= 2 ? options.acr_values.some(v => ACTION_SUPPORTING_ACR_VALUES.includes(v)) :
+      true,
+    message: 
+      options.acr_values.length === 1 ? MESSAGE_SUPPORTING_ACR_VALUES.includes(options.acr_values[0]) :
+      options.acr_values.length >= 2 ? options.acr_values.some(v => MESSAGE_SUPPORTING_ACR_VALUES.includes(v)) :
+      false,
+    id_token_hint:
+      options.acr_values.length === 1 ? ID_TOKEN_HINT_SUPPORT_ACR_VALUES.includes(options.acr_values[0]) :
+      options.acr_values.length >= 2 ? options.acr_values.some(v => ID_TOKEN_HINT_SUPPORT_ACR_VALUES.includes(v)) :
+      false
+  }), [options.acr_values]);
+  const supportsAction = supports.action;
+  const supportsMessage = supports.message;
 
   const updateOption = (key: keyof AuthorizeURLOptions, event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement> | React.ChangeEvent<HTMLSelectElement>) => {
     setOptions(options => ({
@@ -369,6 +383,22 @@ export default function AuthorizeURLBuilder(props: {
           />
           <small>Can be any value supplied by your application, often used to carry information about the original user's session.</small>
         </div>
+
+        {supports.id_token_hint ? (
+          <div>
+            <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="id_token_hint">
+              id_token_hint
+            </label>
+            <input
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="id_token_hint"
+              type="text"
+              placeholder="id_token_hint"
+              value={options.id_token_hint ?? ''}
+              onChange={(event) => updateOption('id_token_hint', event)}
+            />
+          </div>
+        ) : null}
 
         {props.acr_values && props.acr_values.every(s => s === 'urn:age-verification') ? (
           <div>
