@@ -112,7 +112,7 @@ export default function AuthorizeURLBuilder(props: {
   }, []);
 
   const supports = useMemo(() => ({
-    supportsAction:
+    action:
       options.acr_values.length === 1 ? ACTION_SUPPORTING_ACR_VALUES.includes(options.acr_values[0]) :
       options.acr_values.length >= 2 ? options.acr_values.some(v => ACTION_SUPPORTING_ACR_VALUES.includes(v)) :
       true,
