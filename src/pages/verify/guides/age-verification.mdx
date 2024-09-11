@@ -81,3 +81,14 @@ import AuthorizeURLBuilder from '../../../components/AuthorizeURLBuilder';
 If you prefer to use your own MitID service provider instead of the one provided by Criipto, you have the option to do so.  
 [During installation](/verify/guides/age-verification/#installation), flip the **Use own MitID** setting to enabled, and then ensure that your Criipto application has allowed `https://{YOUR_CRIIPTO_DOMAIN}/extensions/ext_ageverification/api/callback` as a callback URL.
 ![Extensions Catalogue](./images/age-verification-own-MitID.png)
+
+## Auditing
+
+### Denmark
+
+The `id_token` issued such that you can safely store it without worrying about personal data.
+
+The `id_token` contains a reference to a Criipto managed audit log that contains the users MitID `uuid`,
+upon request an `id_token` can be presented to Criipto and we can help prove the identity (and thus age) of the user.
+
+For e-commerce scenarios we suggest storing the `id_token` together with the order.
