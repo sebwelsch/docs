@@ -31,28 +31,32 @@ The Authorization Code Flow enhances security by mitigating replay attempts by a
 - Confidential clients — such as traditional server-based web applications — must use the **Authorization Code Flow**.
 - Confidential clients implementing the Authorization Code Flow should take additional precautions, such as using the `nonce` parameter and the respective claim in the `id_token`, or one-time tokens carried in the `state` parameter.
 - For use cases where authentication is initiated on one device but completed on another (e.g., a call center agent starts the authentication process for the end user), the back-channel [CIBA flow](/verify/getting-started/oidc-intro/#authenticate-with-ciba) is the right choice.
-- The Implicit Flow is obsolete and [should never be used](/verify/getting-started/best-security-practices/#avoid-implicit-flow).
+- The Implicit Flow is obsolete and [should not be used in production applications](/verify/getting-started/best-security-practices/#avoid-implicit-flow).
 
 ## The nonce parameter
 
-`nonce` is used to associate an ID token to the specific authentication request and user session.
+`nonce` is used to associate an ID token to the specific authorization request and user session.
 
-The client application should bind `nonce` to the user agent session and send it with the initial request to the OpenID Provider. The binding is done using HTTPOnly, Secure cookies, and preferably with a server-side encrypted value for the `nonce` (using authenticated encryption). The OpenID Provider puts the received `nonce` value into the `id_token` that is issued as part of the [code exchange](/verify/getting-started/oidc-intro/#exchange-the-code-for-a-token) at the token endpoint.
+The client application should bind `nonce` to the user agent session and send it with the initial [authorization request](/verify/getting-started/oidc-intro/#example-authorization-url) to the OpenID Provider. The binding is done using HTTPOnly, Secure cookies, and preferably with a server-side encrypted value for the `nonce` (using authenticated encryption). 
+The OpenID Provider puts the received `nonce` value into the `id_token` that is issued as part of the [code exchange](/verify/getting-started/oidc-intro/#exchange-the-code-for-a-token) at the token endpoint.
 
 - `nonce` serves as a [token validation](/verify/getting-started/best-security-practices/#always-validating-jwts) parameter. If an attacker injects an authorization code in the authorization response, the `nonce` value in the client session and the `nonce` value in the `id_token` received from the token endpoint will not match, and the attack will be detected. 
 - `nonce` also helps protect against an attacker potentially intercepting a valid [`state` parameter](/verify/getting-started/best-security-practices/#the-state-parameter), but then providing a `code` value tied to a different session. This could be a concern for public clients, and, in theory, in some confidential client scenarios.
 
-**Best practice:** It is recommended to always include a `nonce` in your [authorize URLs](/verify/guides/authorize-url-builder/). Your application should then validate the `nonce` in the received `id_token`, and not use any issued tokens until this check has succeeded.
+**Best practice:** For confidential clients implementing the Authorization Code Flow, it is strongly recommended to always include a `nonce` parameter in authorization requests to protect against misuse of authorization codes. 
+The client application should then validate the `nonce` in the received `id_token`, and not use any issued tokens until this check has succeeded. 
+_For public clients using the PKCE flow, the `nonce` parameter can also provide an additional layer of security. However, it should only be used in addition to PKCE, not as a substitute for it._
 
 ## The state parameter
 
-The `state` parameter helps prevent Cross-Site Request Forgery (CSRF) attacks by maintaining state between the client application and the authorization server. The client application passes a random value, also known as a CSRF Token, in the `state` parameter, that links the request to the redirect URL to the client session.
+The `state` parameter helps prevent Cross-Site Request Forgery (CSRF) attacks by maintaining state between the client application and the authorization server. 
 
-When the user has been authenticated, the authorization server redirects the user back to the client application’s redirect URL, including the `state` parameter in the URL. For example:
+When initiating an [authorization request]((/verify/getting-started/oidc-intro/#example-authorization-url)), the client application generates a random value and includes it in the `state` parameter. 
+This random value links the request to the redirect URL to the client session. Once the user is authenticated, the authorization server redirects the user back to the client application's redirect URL, including the same `state` value in the URL. For example: `https://your-app.com/callback?code=authorization-code&state=unique-state-value`
 
-`https://your-app.com/callback?code=authorization-code&state=unique-state-value`
+Similarly, if the `state` parameter was included in the authorization request, the error responses from the authorization server will also contain the `state` parameter, providing protection against attacker-forged error responses. 
 
-The `state` parameter allows the client application to verify that the authorization response is genuine and was sent by the authorization server in response to the original authentication request.
+Overall, the `state` parameter allows the client application to verify that the authorization response is genuine and was sent by the authorization server in response to the original authorization request.
 
 **Best practice:** Always generate a unique, random `state` value for each authorization request and validate it when the response is received.
 
