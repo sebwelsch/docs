@@ -15,11 +15,11 @@ In OpenID Connect(OIDC) authentication flows, there are two main roles:
 1. **Authorization Server (OpenID Provider)**: the server that authenticates the user and issues ID tokens and access tokens. It handles user authentication and returns the user’s identity information to the client application.
 2. **Client Application**: the application requesting authentication on behalf of the end user.
 
-Criipto Verify is an OpenID Provider, handling most of the process. However, it's important for developers of client applications to also follow security best practices.
+Criipto Verify is an OpenID Provider, handling most of the process. However, it is important for developers of client applications to also follow security best practices.
 
 ## Authorization Code Flow
 
-The most secure method of performing OIDC authentication is the [Authorization Code Flow](/verify/getting-started/oidc-intro/#authenticate-with-back-channel-authorization-code-flow), or its extended version — [Authorization Code Flow with PKCE](http://localhost:8000/verify/getting-started/oidc-intro/#authenticate-with-pkce). 
+The most secure method of performing OIDC authentication is the [Authorization Code Flow](/verify/getting-started/oidc-intro/#authenticate-with-back-channel-authorization-code-flow), or its extended version — [Authorization Code Flow with PKCE](/verify/getting-started/oidc-intro/#authenticate-with-pkce). 
 
 In the Authorization Code Flow, the client application exchanges an authorization code for tokens at the token endpoint. When using Criipto Verify for eID authentication: After the end user successfully logs in with their [eID](/verify/e-ids) and is redirected back to the client application through the redirect URL, the client application retrieves the authorization code from the URL. The client application then uses this code to request an ID token from Criipto Verify (see [code for token exchange](/verify/getting-started/oidc-intro/#exchange-the-code-for-a-token)).
 
@@ -28,8 +28,9 @@ The Authorization Code Flow enhances security by mitigating replay attempts by a
 **Best practice:**
 
 - Public clients — such as single-page applications and native applications — must use the **PKCE flow** to prevent misuse of authorization codes.
-- Confidential clients — such as traditional server-based web applications — must use the **Authorization Code Flow**.
-- Confidential clients implementing the Authorization Code Flow should take additional precautions, such as using the `nonce` parameter and the respective claim in the `id_token`, or one-time tokens carried in the `state` parameter.
+- Confidential clients — such as traditional server-based web applications – are encouraged to use the **PKCE flow** as well. This is a recommended approach, since **PKCE** provides strong protection against misuse and injection of authorization codes, making it a more secure option.
+- Alternatively, confidential clients can implement the **Authorization Code Flow**.
+- Confidential clients implementing the **Authorization Code Flow** (without **PKCE**) should take additional precautions, such as using the `nonce` parameter and the respective claim in the `id_token`, and one-time tokens carried in the `state` parameter.
 - For use cases where authentication is initiated on one device but completed on another (e.g., a call center agent starts the authentication process for the end user), the back-channel [CIBA flow](/verify/getting-started/oidc-intro/#authenticate-with-ciba) is the right choice.
 - The Implicit Flow is obsolete and [should not be used in production applications](/verify/getting-started/best-security-practices/#avoid-implicit-flow).
 
