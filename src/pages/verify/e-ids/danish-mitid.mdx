@@ -93,6 +93,58 @@ MitID supports a "ReAuthentication" flow where the username input step can be sk
 
 `login_hint=uuid:<uuid>` to trigger re-authentication when UUID is known.
 
+## Controlled Transfer
+
+MitID supports transferring authenticated users from one service provider to another without requiring additional authentication.
+This is called a Controlled Transfer.
+Controlled Transfers require that you partner with each service provider that you would like to transfer users to or from, since it is up to the service providers themselves to coordinate the transfer.
+
+<Highlight icon="exclamation" warning>
+
+  It is your responsibility to obtain consent from the end user to transfer the MitID claims (such as their name and CPR number) obtained in the initial authentication to the receiving service provider.
+  All claims present in the original JWT will be transferred to the receiving service provider.
+
+</Highlight>
+
+To enable Controlled Transfer for a session, you must provide `login_hint=dk:mitid:ct` for the initial authentication.
+This will add an additional claim, `mitid:ct:sid` in the JWT we issue once the user is authenticated.
+The `mitid:ct:sid` claim contains a session token which allows you to initiate Controlled Transfers.
+You must store this token securely.
+
+To initiate a Controlled Transfer, send a `POST` request to
+```
+https://{YOUR_CRIIPTO_DOMAIN}/DkMitId/ControlledTransfer
+```
+containing the following information in JSON format:
+```
+{
+  "targetBrokerId": "",
+  "targetServiceProviderId": "",
+  "transferTokenText": "",
+  "mitIdControlledTransferSessionId": ""
+}
+```
+- `targetBrokerId` must contain the MitID broker ID of the broker used by the service provider you are sending the user to
+- `targetServiceProviderId` must contain the MitID service provider ID of the service provider you are sending the user to
+- `transferTokenText` is a free text field (with a maximum length of 130 characters) that you can use to pass information to the service provider you are sending the user to
+- `mitIdControlledTransferSessionId` must contain the session token obtained from the `mitid:ct:sid` claim in the JWT issued when the user first authenticated using MitID
+
+You must obtain both the `targetBrokerId` and the `targetServiceProviderId` from your partner service provider.
+Note that the broker ID and service provider ID will differ between test environments and production.
+If the `targetBrokerId` and `targetServiceProviderId` do not match the service provider attempting to complete the Controlled Transfer, the transfer will fail for security reasons.
+
+The `transferTokenText` can e.g. be used to send a hash of any additional information you have sent to your partner service provider via other channels to prove that the additional information has not been tampered with.
+You must coordinate any use of the `transferTokenText` with your partner service provider.
+
+
+If the request above is successful, you will receive a JSON response containing a Controlled Transfer Token Exchange Code in the field `transferTokenExchangeCode`.
+The Controlled Transfer Token Exchange Code is a one-time token which can be used by your partner service provider to complete the Controlled Transfer in collaboration with their MitID broker.
+The Controlled Transfer Token Exchange Code must be stored securely.
+You and your partner service provider must coordinate how you will send them the Controlled Transfer Token Exchange Code.
+
+Criipto currently only supports outbound Controlled Transfers, i.e. sending users from your service to another service.
+Please contact us if you would like to use inbound Controlled Transfers.
+
 ## Levels of assurance
 
 MitID via Criipto offers all three levels of assurance via the acr_values `urn:grn:authn:dk:mitid:low` + `urn:grn:authn:dk:mitid:substantial` + `urn:grn:authn:dk:mitid:high`.
