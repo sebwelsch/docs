@@ -14,7 +14,7 @@ export default Layout;
 
 ## JWT/Token examples
 
-### Kodebrikke and Mobile authenticators
+### Kodebrikke authenticators
 
 Triggered with `acr_values=urn:grn:authn:no:bankid:high` (or `acr_values=urn:grn:authn:no:bankid`)
 
@@ -43,11 +43,6 @@ Note that there is no `certsubject` returned when using Biometrics.
 <NorwegianBankIdBiometricJwtSnippet />
 
 ## Test users
-
-Two types of Norwegian BankID are available:
-
-1. _Web based BankID with a hardware token_. Also called _Netcentric_ accounts, test users from this type of BankID may be created and used on the fly.
-2. _Mobile BankID_. Norwegian mobile BankID is based on a so-called _SIM card application_ which means you need a special SIM card issued by one of the Norwegian carriers.
 
 ### Creating netcentric test users
 
@@ -110,10 +105,6 @@ _Note: The page might need to be refreshed several times, and if multiple activa
 16. A progress bar will appear and when finished you will be activated
 17. Enable biometrics (which will take you through a flow where you must agree to the terms and conditions)
 18. Run your first biometrics-based login
-
-### Testing Mobile BankID
-
-For testing you may order up to three test SIM cards through Criipto once you have signed up for Norwegian BankID.
 
 ## Data and consent for Norwegian BankID
 
