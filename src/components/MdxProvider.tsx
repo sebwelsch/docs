@@ -176,8 +176,9 @@ export const QueryParam = (props: {param: string, fallback?: string}) => {
   return params.get(param) ?? fallback;
 };
 
-export const Anchor = (props: {children: React.ReactNode, href: string}) => {
-  return <a target={props.href?.startsWith('http') ? '_top' : undefined} {...props} />;
+export const Anchor = (props: {children: React.ReactNode, href?: string, to?: string}) => {
+  const href = props.href || props.to;
+  return <a target={href?.startsWith('http') ? '_top' : undefined} {...props} href={href} />;
 }
 
 export const MdxComponents = {
