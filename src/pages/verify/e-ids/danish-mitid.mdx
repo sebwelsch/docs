@@ -107,9 +107,14 @@ Controlled Transfers require that you partner with each service provider that yo
 </Highlight>
 
 To enable Controlled Transfer for a session, you must provide `login_hint=dk:mitid:ct` for the initial authentication.
-This will add an additional claim, `mitid:ct:sid` in the JWT we issue once the user is authenticated.
+This will add two additional claims, `mitid:ct:sid` and `mitid:ct:sid:exp`, in the JWT we issue once the user is authenticated.
+
 The `mitid:ct:sid` claim contains a session token which allows you to initiate Controlled Transfers.
 You must store this token securely.
+
+The `mitid:ct:sid:exp` claim contains the time when the session token expires.
+After this time, it is no longer possible to perform a Controlled Transfer for the session.
+We suggest that you instead use the ReAuthentication flow to transfer the user if the session token has expired.
 
 To initiate a Controlled Transfer, send a `POST` request to
 ```
