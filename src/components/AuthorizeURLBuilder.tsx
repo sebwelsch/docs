@@ -226,6 +226,7 @@ export default function AuthorizeURLBuilder(props: {
     if (key == 'action') continue;
     if (key == 'message') continue;
     if (key == 'login_hint') continue;
+    if (key == 'nonVisibleData') continue;
     if (!options[key]) continue;
     url.searchParams.set(key, options[key]!);
   }
