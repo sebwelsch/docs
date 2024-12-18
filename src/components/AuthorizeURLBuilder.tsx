@@ -25,6 +25,12 @@ const MESSAGE_SUPPORTING_ACR_VALUES = [
   'urn:grn:authn:se:bankid:another-device:qr',
 ];
 
+const NONVISIBLEDATA_SUPPORTING_ACR_VALUES = [
+  'urn:grn:authn:se:bankid',
+  'urn:grn:authn:se:bankid:same-device',
+  'urn:grn:authn:se:bankid:another-device:qr'
+];
+
 const ID_TOKEN_HINT_SUPPORT_ACR_VALUES = [
   'urn:age-verification'
 ]
@@ -52,7 +58,8 @@ interface AuthorizeURLOptions {
   scopes_quirk : "none" | "login_hint"
   prompt: Prompt | null
   action: Action | null,
-  message: string | null
+  message: string | null,
+  nonVisibleData : string | null
 }
 
 const isBrowser = typeof window !== "undefined";
@@ -87,7 +94,8 @@ export default function AuthorizeURLBuilder(props: {
     scopes_quirk : 'none',
     prompt: null,
     action: null,
-    message: null
+    message: null,
+    nonVisibleData: null
   });
 
   useEffect(() => {
@@ -107,6 +115,7 @@ export default function AuthorizeURLBuilder(props: {
       acr_values: acr_values ?? options.acr_values,
       action: action ?? options.action,
       message: url.searchParams.get('message') ?? options.message,
+      nonVisibleData: url.searchParams.get('nonVisibleData') ?? options.nonVisibleData,
       prompt: prompt ?? options.prompt
     }));
   }, []);
@@ -123,10 +132,15 @@ export default function AuthorizeURLBuilder(props: {
     id_token_hint:
       options.acr_values.length === 1 ? ID_TOKEN_HINT_SUPPORT_ACR_VALUES.includes(options.acr_values[0]) :
       options.acr_values.length >= 2 ? options.acr_values.some(v => ID_TOKEN_HINT_SUPPORT_ACR_VALUES.includes(v)) :
-      false
-  }), [options.acr_values]);
+      false,
+    nonVisibleData:
+      options.acr_values.length === 1 ? NONVISIBLEDATA_SUPPORTING_ACR_VALUES.includes(options.acr_values[0]) :
+      options.acr_values.length >= 2 ? options.acr_values.some(v => NONVISIBLEDATA_SUPPORTING_ACR_VALUES.includes(v)) :
+      false,
+}), [options.acr_values]);
   const supportsAction = supports.action;
   const supportsMessage = supports.message;
+  const supportsNonVisibleData = supports.nonVisibleData;
 
   const updateOption = (key: keyof AuthorizeURLOptions, event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement> | React.ChangeEvent<HTMLSelectElement>) => {
     setOptions(options => ({
@@ -242,6 +256,10 @@ export default function AuthorizeURLBuilder(props: {
 
   if (supportsMessage && options.message) {
     loginHint.push(`message:${btoa(options.message)}`);
+  }
+
+  if (supportsNonVisibleData && options.nonVisibleData) {
+    loginHint.push(`nonVisibleData:${btoa(options.nonVisibleData)}`);
   }
 
   if (loginHint.length > 0) {
@@ -575,6 +593,26 @@ export default function AuthorizeURLBuilder(props: {
               For SE BankID, the limit is 1500 characters <em>after base64 encoding.</em>
               <br />
               For MitID, our tests indicate a limit of 130 characters <em>before base64 encoding.</em>
+            </small>
+          </div>
+        )}
+
+        {supportsNonVisibleData && (
+          <div>
+            <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="nonVisibleData">
+              Non-visible data
+            </label>
+            <textarea
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="nonVisibleData"
+              placeholder="Non-visible data"
+              value={options.nonVisibleData || ""}
+              onChange={(event) => updateOption('nonVisibleData', event)}
+            />
+          <small>
+              SE BankID only. Will roundtrip the supplied value in the `evidence` claim in a dedicated XML element.
+              <br />
+              Must be base64-encoded.
             </small>
           </div>
         )}

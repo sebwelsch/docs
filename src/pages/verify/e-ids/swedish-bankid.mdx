@@ -215,6 +215,24 @@ Text signing has a different eID cost than authentication, please [contact Criip
   ![Text signing in app](./images/se-bankid-signing.jpg)
 </details>
 
+## Round-tripping data that is not visible to the end user
+
+Swedish BankID allows you to send data along in both authentication and signature flows,
+which they will then embed in the `evidence` claim after a flow completes succesfully.
+
+You can supply this value via a `nonVisibleData` parameter in the `login_hint`.
+The supplied value _must be_ base64 encoded.
+Criipto does not attempt to parse or validate the value, we only pass on what is given to the native provider API.
+
+<details>
+  <summary><strong>Example</strong></summary>
+
+  ```login_hint=nonVisibleData:bm90IHZpc2libGUgdG8gZW5kIHVzZXJzLCBhY2Nlc3NpYmxlIGluIHRoZSBgZXZpZGVuY2VgIGNsYWltIGFmdGVyIGEgZmxvdyBjb21wbGV0ZXMgc3VjY2VzZnVsbHk=```
+
+  Try out the example in [our URL builder](/verify/guides/authorize-url-builder/?acr_values=urn:grn:authn:se:bankid&nonVisibleData=Not%20visible%20to%20end%20user)
+
+</details>
+
 ## Ordering Swedish BankID
 
 To start accepting real users with Swedish BankID, you must first request a certificate to identify your organization.
