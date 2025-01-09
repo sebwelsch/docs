@@ -121,6 +121,15 @@ export const PROVIDERS : Provider[] = [
     page: '/verify/e-ids/belgian-eid'
   },
   {
+    title: 'Netherlands',
+    authMethods: [
+      {
+        title: 'iDIN',
+        acrValue: 'urn:grn:authn:nl:idin'
+      }
+    ],
+    page: '/verify/e-ids/dutch-idin'
+  },  {
     title: 'Age verification',
     authMethods: [
       {
