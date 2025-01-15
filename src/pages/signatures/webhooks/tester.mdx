@@ -3,10 +3,13 @@ product: signatures
 category: Webhooks
 sort: 2
 title: Tester
+subtitle: Simulate webhook execution using your test credentials and validate webhook signatures
 ---
 
 import Layout from '../../../layouts/mdx';
 export default Layout;
+
+## Execute webhook
 
 import WebhookTester from '../../../components/WebhookTester';
 
@@ -15,3 +18,10 @@ The webhook tester will create signature orders in order to trigger webhook even
 You must use TEST environment credentials for this.
 
 <WebhookTester />
+
+
+## Validate webhook signature
+
+import WebhookSignatureValidator from '../../../components/WebhookSignatureValidator';
+
+<WebhookSignatureValidator />

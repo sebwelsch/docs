@@ -1,0 +1,30 @@
+---
+date: 2025-01-25
+title: Signatory UI settings and webhook signing
+---
+import Layout from '../../layouts/mdx';
+
+export default Layout;
+
+## Signatory UI settings
+
+Historically signature UI settings for users have been configured globally on the signature order.
+
+This had some drawbacks, as users might reside in different countries and prefer different languages.
+
+It is now possible to also define UI settings on a per signatory basis, [See example](/signatures/graphql/examples/#signatory-ui-settings)
+
+## Webhook signing
+
+Until now, there was no way to validate the authenticity of a signature webhook at the time of the request.
+
+We relied on the fact that webhooks contained no actual data, but only identifiers, allowing clients to query our API based on the data in the webhook.
+This ensured that only authenticated clients could access signature data.
+
+However, it was brought to our attention that an attacker could use the webhook to increase the number of requests a well-behaving client would have to make to our API,
+potentially triggering rate limits.
+
+To address this, we introduced the option to configure a webhook secret, which adds an HMAC-SHA256 signature to each signature webhook invocation.
+
+You can read more about [configuring and validating webhook secrets](/signatures/webhooks/configuration/)
+and also try it out in our [webhook tester](/signatures/webhooks/tester/).

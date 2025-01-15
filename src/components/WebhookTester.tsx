@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useAppSelector } from '../state/hooks';
 import { CredentialsForm, SignatoryCredentials } from './GraphQLExplorer';
 
@@ -51,8 +51,13 @@ export default function WebhookTester() {
   const [error, setError] = useState('');
   const [url, setUrl] = useState('');
   const [event, setEvent] = useState<WEBHOOK_EVENT>('SIGNATORY_SIGNED');
+  const [secret, setSecret] = useState('');
   const [pending, setPending] = useState(false);
-  const [executions, setExecutions] = useState<{url: string, event: WEBHOOK_EVENT}[]>([]);
+  const [executions, setExecutions] = useState<{
+    url: string,
+    event: WEBHOOK_EVENT,
+    secret: string | null
+  }[]>([]);
   const credentials = useAppSelector(state => state.auth);
   const [signatureOrderCache, setSignatureOrderCache] = useState<[string | null, {createSignatureOrder: CreateSignatureOrderOutput} | null]>([null, null]);
 
@@ -79,7 +84,8 @@ export default function WebhookTester() {
             ],
             webhook: {
               url,
-              validateConnectivity: true
+              validateConnectivity: true,
+              secret: secret?.length ? secret : null
             },
             disableVerifyEvidenceProvider: true,
             evidenceProviders: [
@@ -180,7 +186,11 @@ export default function WebhookTester() {
     }
 
     setPending(false);
-    setExecutions(executions => executions.concat([{url, event}]));
+    setExecutions(executions => executions.concat([{
+      url,
+      event,
+      secret: secret?.length ? secret : null
+    }]));
   }
 
   if (!credentials) return <CredentialsForm />;
@@ -201,6 +211,9 @@ export default function WebhookTester() {
             onChange={(event) => setUrl(event.target.value)}
             required
           />
+          <small className="form-text text-muted">
+            <a href="https://webhook.site" target="_blank">webhook.site</a> can be used for testing.
+          </small>
         </div>
         <div>
           <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="event">
@@ -216,6 +229,29 @@ export default function WebhookTester() {
             <option value="SIGNATORY_SIGNED">SIGNATORY_SIGNED</option>
             <option value="SIGNATORY_REJECTED">SIGNATORY_REJECTED</option>
           </select>
+        </div>
+        <div>
+          <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="secret">
+            Secret
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="secret"
+            type="text"
+            placeholder="Webhook secret"
+            value={secret}
+            onChange={(event) => setSecret(event.target.value)}
+            required
+          />
+          <small className="form-text text-muted">Must be base64 string. <a href="#" onClick={(event) => {
+              event.preventDefault();
+              const bytes = new Uint8Array(32);
+              crypto.getRandomValues(bytes);
+              const b64encoded = bytesToBase64(bytes);
+              console.log(b64encoded);
+              setSecret(b64encoded)
+            }}>Generate</a>
+          </small>
         </div>
       </div>
 
@@ -235,7 +271,8 @@ export default function WebhookTester() {
           <ul>
             {executions.slice().reverse().map(execution => (
               <li>
-                {execution.event} {execution.url}
+                {execution.event}<br />
+                {execution.url}<br />
               </li>
             ))}
           </ul>
@@ -243,4 +280,13 @@ export default function WebhookTester() {
       ) : null}
     </form>
   );
+}
+
+function bytesToBase64(bytes: Uint8Array ) {
+  var binary = '';
+  var len = bytes.byteLength;
+  for (var i = 0; i < len; i++) {
+      binary += String.fromCharCode( bytes[ i ] );
+  }
+  return window.btoa( binary );
 }
