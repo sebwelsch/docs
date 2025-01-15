@@ -69,7 +69,7 @@ export default function Changelog(props: {location: Location}) {
       <div>
         {data.pages.edges.map(edge => edge.node).filter(node => !isIndexPage(node)).map((node, index) => (
           <React.Fragment>
-            <div key={node.id}>
+            <div key={node.id} className="mb-8">
               <Link to={`/${node.slug}/`} className="no-underline">
                 <H2 className="m-0">{node.frontmatter.title}</H2>
               </Link>
