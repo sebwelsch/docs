@@ -41,6 +41,8 @@ export type AddSignatoryInput = {
   role?: InputMaybe<Scalars['String']['input']>;
   signatureAppearance?: InputMaybe<SignatureAppearanceInput>;
   signatureOrderId: Scalars['ID']['input'];
+  /** Override UI settings for signatory, defaults to UI settings for signature order */
+  ui?: InputMaybe<SignatoryUiInput>;
 };
 
 export type AddSignatoryOutput = {
@@ -126,6 +128,8 @@ export type ChangeSignatoryInput = {
   role?: InputMaybe<Scalars['String']['input']>;
   signatoryId: Scalars['ID']['input'];
   signatureAppearance?: InputMaybe<SignatureAppearanceInput>;
+  /** Override UI settings for signatory, defaults to UI settings for signature order */
+  ui?: InputMaybe<SignatoryUiInput>;
 };
 
 export type ChangeSignatoryOutput = {
@@ -232,6 +236,8 @@ export type CreateSignatureOrderSignatoryInput = {
   /** Define a role for the signatory, i.e. 'Chairman'. Will be visible in the document output. */
   role?: InputMaybe<Scalars['String']['input']>;
   signatureAppearance?: InputMaybe<SignatureAppearanceInput>;
+  /** Override UI settings for signatory, defaults to UI settings for signature order */
+  ui?: InputMaybe<SignatoryUiInput>;
 };
 
 export type CreateSignatureOrderUiInput = {
@@ -241,6 +247,8 @@ export type CreateSignatureOrderUiInput = {
   language?: InputMaybe<Language | '%future added value'>;
   /** Define a logo to be shown in the signatory UI. */
   logo?: InputMaybe<SignatureOrderUiLogoInput>;
+  /** Renders a UI layer for PDF annotations, such as links, making them interactive in the UI/browser */
+  renderPdfAnnotationLayer?: InputMaybe<Scalars['Boolean']['input']>;
   /** The signatory will be redirected to this URL after signing or rejected the signature order. */
   signatoryRedirectUri?: InputMaybe<Scalars['String']['input']>;
   /** Add stylesheet/css via an absolute HTTPS URL. */
@@ -248,6 +256,8 @@ export type CreateSignatureOrderUiInput = {
 };
 
 export type CreateSignatureOrderWebhookInput = {
+  /** If defined, webhook invocations will have a X-Criipto-Signature header containing a HMAC-SHA256 signature (as a base64 string) of the webhook request body (utf-8). The secret should be between 256 and 512 bits. */
+  secret?: InputMaybe<Scalars['Blob']['input']>;
   /** Webhook url. POST requests will be executed towards this URL on certain signatory events. */
   url: Scalars['String']['input'];
   /** Validates webhook connectivity by triggering a WEBHOOK_VALIDATION event, your webhook must respond within 5 seconds with 200/OK or the signature order creation will fail. */
@@ -803,6 +813,7 @@ export type Signatory = {
   statusReason?: Maybe<Scalars['String']['output']>;
   /** The signature frontend authentication token, only required if you need to build a custom url. */
   token: Scalars['String']['output'];
+  ui: SignatureOrderUi;
 };
 
 export type SignatoryBeaconInput = {
@@ -871,6 +882,21 @@ export enum SignatoryStatus {
   REJECTED = 'REJECTED',
   SIGNED = 'SIGNED'
 }
+
+export type SignatoryUiInput = {
+  /** Removes the UI options to reject a document or signature order. */
+  disableRejection?: InputMaybe<Scalars['Boolean']['input']>;
+  /** The language of texts rendered to the signatory. */
+  language?: InputMaybe<Language | '%future added value'>;
+  /** Define a logo to be shown in the signatory UI. */
+  logo?: InputMaybe<SignatureOrderUiLogoInput>;
+  /** Renders a UI layer for PDF annotations, such as links, making them interactive in the UI/browser */
+  renderPdfAnnotationLayer?: InputMaybe<Scalars['Boolean']['input']>;
+  /** The signatory will be redirected to this URL after signing or rejected the signature order. */
+  signatoryRedirectUri?: InputMaybe<Scalars['String']['input']>;
+  /** Add stylesheet/css via an absolute HTTPS URL. */
+  stylesheet?: InputMaybe<Scalars['String']['input']>;
+};
 
 export type SignatoryViewer = Viewer & {
   __typename?: 'SignatoryViewer';
@@ -978,6 +1004,7 @@ export type SignatureOrderUi = {
   disableRejection: Scalars['Boolean']['output'];
   language: Language | '%future added value';
   logo?: Maybe<SignatureOrderUiLogo>;
+  renderPdfAnnotationLayer: Scalars['Boolean']['output'];
   signatoryRedirectUri?: Maybe<Scalars['String']['output']>;
   stylesheet?: Maybe<Scalars['String']['output']>;
 };

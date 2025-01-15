@@ -1,6 +1,6 @@
-import { CreateSignatureOrderInput } from "../../../graphql-signatures-types";
-import { ExampleData } from "../../state/store";
-import * as basic from './basic.graphql';
+import { CreateSignatureOrderInput } from "../../../../graphql-signatures-types";
+import { ExampleData } from "../../../state/store";
+import * as basic from '../basic.graphql';
 
 export const query = basic.query;
 
