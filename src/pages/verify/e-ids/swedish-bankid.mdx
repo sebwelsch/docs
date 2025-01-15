@@ -54,9 +54,27 @@ _ With `code id_token` response type, the ID Token from the token endpoint will 
 
 ## Test users
 
-Swedish BankID test users are created at the <a href="https://demo.bankid.com/" target="_blank">demo web site</a>.   
+Swedish BankID test users are created at the <a href="https://demo.bankid.com/" target="_blank">Demo Bank web site</a>.   
 
-For more information on how to configure your device for test and setup test users: <a href="https://www.bankid.com/en/utvecklare/test/skaffa-testbankid" target="_blank">Get a test BankID</a>
+For more information on how to configure your device for test and setup test users, see <a href="https://www.bankid.com/en/utvecklare/test/skaffa-testbankid" target="_blank">BankID for test</a>. Follow the steps outlined in the guide: 
+1. **Download the app/program.**
+2. **Configure the client for test.**
+3. **Get a BankID for test.** _If you already have a fully-configured production or test BankID, you can use it to create a test user. Otherwise, see below on how to bootstrap the process._
+
+<Highlight icon="info">
+
+<a name="#generating-test-user"></a>
+
+**Get a BankID for test (without an existing production/test BankID)**
+
+Log in at the <a href="https://demo.bankid.com/login" target="_blank">Demo bank website</a> with a **Personal code** option. The code will be sent to you by email. 
+
+Once logged in, create a test user by selecting **Mobile BankID** or **BankID on file** (for desktop version) option under **Issue BankID for test**. Please note that a test user must be created with a valid Swedish personal identity number ("Personnummer").
+You can generate a valid Personnummer using one of the available online tools, such as <a href="https://fejk.se/" target="_blank">this generator</a>. After creating a test user, you will be able to link it to the mobile or desktop version of the test app. 
+
+For future test user issuances, you can log in using an already-issued BankID test user by selecting the **Test BankID** option <a href="https://demo.bankid.com/login" target="_blank">during login</a>. 
+
+</Highlight>
 
 _Note_ that, as is also described on the website, using test BankID users does require a reconfiguration of the BankID application. This means it cannot be used for real BankID. So if you are Swedish and already have BankID on your phone, you may want to use a spare phone for testing.
 
