@@ -94,6 +94,15 @@ import addSignatoryEvidenceValidationExample from '../../../examples/addSignator
 
 <GraphQLExample example={addSignatoryEvidenceValidationExample} />
 
+### UI settings #signatory-ui-settings
+
+By default a signatory inherits its UI settings from the signature order, but it is also possible to 
+define this on a per-signatory basis, to support specific languages per user, etc.
+
+import addSignatoryuiExample from '../../../examples/addSignatory/ui';
+
+<GraphQLExample example={addSignatoryuiExample} />
+
 ### Signing with a role
 
 You can define a role for signatories, if you wish for them to sign in a specific role (if perhaps, signing multiple times with the same eID).
