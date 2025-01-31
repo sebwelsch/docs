@@ -34,53 +34,50 @@ interface Props {
   hidden?: boolean
 }
 
-const navigationQuery = gatsbyGraphql`
-  query Navigation {
-    signaturesPages: allMdx(
-      filter: {
-        frontmatter: {
-          product: { eq: "signatures" }
-        }
-      }
-      sort: { fields: [frontmatter___sort], order: ASC }
-    ) {
-      edges {
-        node {
-          __typename
-          id
+const navigationQuery = gatsbyGraphql`query Navigation {
+  signaturesPages: allMdx(
+    filter: {frontmatter: {product: {eq: "signatures"}}}
+    sort: {frontmatter: {sort: ASC}}
+  ) {
+    edges {
+      node {
+        __typename
+        id
+        fields {
           slug
-          fileAbsolutePath
-          frontmatter {
-            title
-            category
-          }
         }
-      }
-    }
-
-    verifyPages: allMdx(
-      filter: {
-        frontmatter: {
-          product: { eq: "verify" }
+        internal {
+          contentFilePath
         }
-      }
-      sort: { fields: [frontmatter___sort], order: ASC }
-    ) {
-      edges {
-        node {
-          __typename
-          id
-          slug
-          fileAbsolutePath
-          frontmatter {
-            title
-            category
-          }
+        frontmatter {
+          title
+          category
         }
       }
     }
   }
-`;
+  verifyPages: allMdx(
+    filter: {frontmatter: {product: {eq: "verify"}}}
+    sort: {frontmatter: {sort: ASC}}
+  ) {
+    edges {
+      node {
+        __typename
+        id
+        fields {
+          slug
+        }
+        internal {
+          contentFilePath
+        }
+        frontmatter {
+          title
+          category
+        }
+      }
+    }
+  }
+}`;
 
 type Page = NavigationQuery["signaturesPages"]["edges"][0]["node"] | NavigationQuery["verifyPages"]["edges"][0]["node"];
 
@@ -108,7 +105,7 @@ export default function Navigation(props: Props) {
             {VERIFY_CATEGORIES.map((category, index) => (
               <li key={category}>
                 <Link
-                  to={slugToPath(findIndexPage(category, verifyPages)!.slug!)}
+                  to={slugToPath(findIndexPage(category, verifyPages)!.fields!.slug!)}
                   className="block border-l pl-4 py-1 lg:py-0 -ml-px border-transparent hover:border-gray-400 text-primary-600 hover:text-deep-purple-900 hover:font-medium"
                 >
                   {category}
@@ -131,7 +128,7 @@ export default function Navigation(props: Props) {
             {SIGNATURES_CATEGORIES.map((category, index) => (
               <li key={category}>
                 <Link
-                  to={slugToPath(findIndexPage(category, signaturesPages)!.slug!)}
+                  to={slugToPath(findIndexPage(category, signaturesPages)!.fields!.slug!)}
                   className="block border-l pl-4 py-1 lg:py-0 -ml-px border-transparent hover:border-gray-400 text-primary-600 hover:text-deep-purple-900 hover:font-medium"
                 >
                   {category}
@@ -152,7 +149,7 @@ export default function Navigation(props: Props) {
       {categories.map((category, index) => (
         <li key={category} className={index > 0 ? 'mt-8' : ''}>
           {findIndexPage(category, pages) ? (
-            <Link to={slugToPath(findIndexPage(category, pages)!.slug!)} className="block mb-3 font-medium text-primary-600">{category}</Link>
+            <Link to={slugToPath(findIndexPage(category, pages)!.fields!.slug!)} className="block mb-3 font-medium text-primary-600">{category}</Link>
           ) : (
             <h5 className="mb-3 font-medium text-primary-600">{category}</h5>
           )}
@@ -168,7 +165,7 @@ export default function Navigation(props: Props) {
             {pages.filter(node => !isIndexPage(node) && node.frontmatter?.category === category).map(page => (
               <li key={page.id}>
                 <Link
-                  to={slugToPath(page.slug!)}
+                  to={slugToPath(page.fields!.slug!)}
                   getProps={(props) => ({className: `block border-l pl-4 py-1 lg:py-0 -ml-px border-transparent ${props.isCurrent ? 'text-deep-purple-900 border-current font-medium' : 'hover:border-gray-400 text-primary-600 hover:text-deep-purple-900 hover:font-medium'}`})}
                 >
                   {page.frontmatter!.title}
@@ -207,8 +204,8 @@ type MobileProps = Props & {
   isEmbedded: boolean
 }
 export function MobileNavigation(props: Props & MobileProps) {
-  const category = props.frontmatter.category;
-  const title = props.frontmatter.title;
+  const category = props.frontmatter?.category;
+  const title = props.frontmatter?.title;
   const [showNavigation, setShowNavigation] = useState(false);
   const [showPageNavigation, setPageShowNavigation] = useState(false);
 

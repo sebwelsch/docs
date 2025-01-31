@@ -1,5 +1,4 @@
-import React, { useLayoutEffect, useMemo } from 'react';
-import { Helmet } from "react-helmet";
+import React, { useLayoutEffect } from 'react';
 import cx from 'classnames';
 
 import {DesktopNavigation, MobileNavigation} from '../components/Navigation';
@@ -20,15 +19,15 @@ export default function DefaultLayout(props: {
   pageNavigationItems?: PageNavigationItem[]
 }) {
   const {frontmatter} = props.pageContext;
-  const description = frontmatter.description || frontmatter.subtitle;
+  const description = frontmatter?.description || frontmatter?.subtitle;
   const suffix = 
-    frontmatter.title === 'Criipto Documentation' ? '' :
-    frontmatter.product ? ` - Criipto ${upperFirst(frontmatter.product)} Documentation` :
+    frontmatter?.title === 'Criipto Documentation' ? '' :
+    frontmatter?.product ? ` - Criipto ${upperFirst(frontmatter.product)} Documentation` :
     ' - Criipto Documentation';
 
   const isEmbedded = props.pageContext?.isEmbedded;
-  const category = frontmatter.category ? ` - ${frontmatter.category}` : '';
-  const title = frontmatter.title + category + suffix;
+  const category = frontmatter?.category ? ` - ${frontmatter.category}` : '';
+  const title = frontmatter?.title + category + suffix;
 
   useLayoutEffect(() => {
     if (!isEmbedded) return;
@@ -43,12 +42,13 @@ export default function DefaultLayout(props: {
 
   return (
     <div>
-      <Helmet>
+      {/** todo: fix, use Gatsby replacement for helmet */}
+      <head>
         <meta charSet="utf-8" />
         {title && (<title>{title}</title>)}
         <link rel="canonical" href={`https://docs.criipto.com${props.location.pathname}`} />
         {description && (<meta name="description" content={description} />)}
-      </Helmet>
+      </head>
 
       <Header path={props.location.pathname} className={isEmbedded ? 'hidden' : ''} />
       <MobileNavigation key="mobileNav" path={props.location.pathname}  frontmatter={frontmatter} pageNavigationItems={props.pageNavigationItems} isEmbedded={isEmbedded} />
@@ -64,7 +64,7 @@ export default function DefaultLayout(props: {
           )}
         >
           <DesktopNavigation key="desktopNav" path={props.location.pathname} hidden={isEmbedded} />
-          <a id="overview" style={{position: "relative", top: "-95px"}} />
+          <a id="overview" />
           {frontmatter && (
             <header id="header" className="relative z-20 mb-8">
               <div>

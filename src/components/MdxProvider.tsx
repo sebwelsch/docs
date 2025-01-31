@@ -32,50 +32,44 @@ function replaceParams(input: string, params: URLSearchParams) {
   return input;
 }
 
-export const textToId = function (input: string) {
-  if (input.toLowerCase == undefined) console.error(input);
-  if (input.includes('#') && !input.endsWith('#')) {
-    return input.split('#')[1].trim();
-  }
-  return input.toLowerCase().replace(/\s/g, '-').replace(/([^a-zA-Z0-9-])/g, '');
+export const H2 = (props: {className?: string, children: string, id?: string}) => {
+  return (
+    <h2 {...props} className={cx("group flex whitespace-pre-wrap -ml-4 pl-4 text-gray-ash-900 text-medium text-display-md scroll-mt-[150px] lg:scroll-mt-[90px]", props.className)}>
+      {/* <a className="relative top-[-150px] lg:top-[-90px]"/> */}
+      {props.id ? (
+        <a
+          href={`#${props.id}`}
+          className="absolute -ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 z-30"
+          aria-label="Anchor"
+        >​
+          <div className="w-6 h-6 text-gray-ash-900 ring-1 ring-gray-900/5 rounded-md shadow-sm flex items-center justify-center hover:ring-gray-900/10 hover:shadow hover:text-gray-700">
+            <svg width="12" height="12" fill="none" aria-hidden="true">
+              <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"></path>
+            </svg>
+          </div>
+        </a>
+      ) : null}
+      {props.children}
+    </h2>
+  );
 }
-export function parseHeader(input: string) {
-  const id = textToId(input);
-  return input.replace(`#${id}`, '').trim();
-}
-export const H2 = (props: {className?: string, children: string}) => (
-  <h2 {...props} className={cx("group flex whitespace-pre-wrap -ml-4 pl-4 text-gray-ash-900 text-medium text-display-md", props.className)}>
-    <a id={textToId(props.children)} className="relative top-[-150px] lg:top-[-90px]"/>
-    <a
-      href={`#${textToId(props.children)}`}
-      className="absolute -ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 z-30"
-      aria-label="Anchor"
-    >​
-      <div className="w-6 h-6 text-gray-ash-900 ring-1 ring-gray-900/5 rounded-md shadow-sm flex items-center justify-center hover:ring-gray-900/10 hover:shadow hover:text-gray-700">
-        <svg width="12" height="12" fill="none" aria-hidden="true">
-          <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"></path>
-        </svg>
-      </div>
-    </a>
-    {parseHeader(props.children)}
-  </h2>
-);
 
-export const H3 = (props: {children: string, className?: string}) => (
-  <h3 {...props} className={`group flex whitespace-pre-wrap -ml-4 pl-4 text-gray-ash-900 text-medium text-display-sm ${props.className ?? ''}`}>
-    <a id={textToId(props.children)} className="relative top-[-150px] lg:top-[-90px]" />
-    <a
-      href={`#${textToId(props.children)}`}
-      className="absolute -ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100"
-      aria-label="Anchor"
-    >​
-      <div className="w-6 h-6 text-gray-ash-900 font-medium ring-1 ring-gray-900/5 rounded-md shadow-sm flex items-center justify-center hover:ring-gray-900/10 hover:shadow hover:text-gray-700">
-        <svg width="12" height="12" fill="none" aria-hidden="true">
-          <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"></path>
-        </svg>
-      </div>
-    </a>
-    {parseHeader(props.children)}
+export const H3 = (props: {children: string, className?: string, id?: string}) => (
+  <h3 {...props} className={`group flex whitespace-pre-wrap -ml-4 pl-4 text-gray-ash-900 text-medium text-display-sm scroll-mt-[150px] lg:scroll-mt-[90px] ${props.className ?? ''}`}>
+    {props.id ? (
+      <a
+        href={`#${props.id}`}
+        className="absolute -ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100"
+        aria-label="Anchor"
+      >​
+        <div className="w-6 h-6 text-gray-ash-900 font-medium ring-1 ring-gray-900/5 rounded-md shadow-sm flex items-center justify-center hover:ring-gray-900/10 hover:shadow hover:text-gray-700">
+          <svg width="12" height="12" fill="none" aria-hidden="true">
+            <path d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"></path>
+          </svg>
+        </div>
+      </a>
+    ) : null}
+    {props.children}
   </h3>
 );
 
@@ -93,11 +87,11 @@ export const CodeBlock = (props: {text: string, className?: string}) => {
 
 export const Pre = (props: {children: React.ReactElement}) => {
   const child = React.Children.only(props.children);
-
-  if (child && typeof child === "object" && "props" in child) {
-    if (child.props.mdxType === "code") {
-      return props.children; // Let syntax highlighter handle it.
-    }
+  if (child && (child.props as any)?.className?.startsWith('language')) {
+    return props.children; // Let syntax highlighter handle it.
+  }
+  if (child && (child.type as any)?.name === 'Code') {
+    return props.children; // Let syntax highlighter handle it.
   }
 
   return <pre>{props.children}</pre>;
@@ -107,6 +101,10 @@ export const Code = (props: {className?: string, children: string, style?: React
   const params = useQueryParams();
   const language = props.className?.startsWith('language-') ? props.className.replace('language-', '') : undefined;
   const text = replaceParams(props.children, params);
+
+  if (!language && !props.children.includes('\n')) {
+    return <InlineCode>{props.children}</InlineCode>
+  }
 
   if (language && SyntaxHighlighter.supportedLanguages.includes(language) || language === 'html') {
     return (

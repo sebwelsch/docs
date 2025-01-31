@@ -5,8 +5,6 @@ sort: 4
 title: UI Customization
 subtitle: The signatory frontend UI can be easily be customized with your logo and theme colors.
 ---
-import Layout from '../../../layouts/mdx';
-export default Layout;
 
 The goal of Criipto Signatures is to be fully customizable to fit exactly into your workflow.
 In the short term you can set a logo and theme the UI via CSS variables.
@@ -25,7 +23,7 @@ Set `ui.logo.src` to an absolute HTTPs image url and we will add the image to th
 
 You can also define `ui.logo.href` which turns the logo into a link.
 
-```
+```text
 {
   "input": {
     "ui": {
@@ -44,7 +42,7 @@ A custom stylesheet can be added to the frontend to provide unique theming and s
 
 Set `ui.stylesheet` to an absolute HTTPs css url and it will be loaded when the signatory opens their link.
 
-```
+```text
 {
   "input": {
     "ui": {
@@ -56,7 +54,7 @@ Set `ui.stylesheet` to an absolute HTTPs css url and it will be loaded when the 
 
 The fastest way to theme the UI would be to override our CSS variables to show your primary colors.
 
-```
+```text
 .criipto-signatures {
   --primary-rgb: 128, 0, 128; // Change the primary color of the UI to purple.
 }
@@ -72,7 +70,7 @@ You can test your stylesheet without creating a signature order by using our Sto
 
 Below you will find a list of all CSS variables that can currently be overriden.
 
-```
+```text
 .criipto-signatures {
   --primary-rgb: 32, 76, 130;
   --danger-rgb: 206, 112, 101;

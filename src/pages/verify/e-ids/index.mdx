@@ -4,8 +4,6 @@ category: eIDs
 sort: 0
 title: eIDS supported by Criipto Verify
 ---
-import Layout from '../../../layouts/mdx';
-export default Layout;
 
 import {isIndexPage} from '../../../utils';
 
@@ -19,18 +17,22 @@ export const pageQuery = gatsbyGraphql`
           category: { eq: "eIDs" }
         }
       }
-      sort: { fields: [frontmatter___sort], order: ASC }
+      sort: {frontmatter: {sort: ASC}}
     ) {
       edges {
         node {
           __typename
           id
-          slug
-          fileAbsolutePath
           frontmatter {
             title
             subtitle
             category
+          }
+          fields {
+            slug
+          }
+          internal {
+            contentFilePath
           }
         }
       }
@@ -45,7 +47,7 @@ Select any individual eID from the list below to see JWT/token details, how to f
 <ul>
   {props.data.pages.edges.map(edge => edge.node).filter(node => !isIndexPage(node)).map(node => (
     <li key={node.id}>
-      <Link to={`/${node.slug}/`}>{node.frontmatter.title}</Link><br />
+      <Link to={`/${node.fields.slug}/`}>{node.frontmatter.title}</Link><br />
       {node.frontmatter.subtitle}
     </li>
   ))}

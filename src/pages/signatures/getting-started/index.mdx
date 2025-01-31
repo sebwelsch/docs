@@ -4,8 +4,6 @@ category: Getting Started
 sort: 0
 title: Get started with Criipto Signatures
 ---
-import Layout from '../../../layouts/mdx';
-export default Layout;
 
 import {isIndexPage} from '../../../utils';
 
@@ -19,18 +17,22 @@ export const pageQuery = gatsbyGraphql`
           category: { eq: "Getting Started" }
         }
       }
-      sort: { fields: [frontmatter___sort], order: ASC }
+      sort: {frontmatter: {sort: ASC}}
     ) {
       edges {
         node {
           __typename
           id
-          slug
-          fileAbsolutePath
+          fields {
+            slug
+          }
           frontmatter {
             title
             subtitle
             category
+          }
+          internal {
+            contentFilePath
           }
         }
       }
@@ -43,7 +45,7 @@ Below you will find a list of topics to get you started with Criipto Signatures:
 <ul>
   {props.data.pages.edges.map(edge => edge.node).filter(node => !isIndexPage(node)).map(node => (
     <li key={node.id}>
-      <Link to={`/${node.slug}/`}>{node.frontmatter.title}</Link><br />
+      <Link to={`/${node.fields.slug}/`}>{node.frontmatter.title}</Link><br />
       {node.frontmatter.subtitle}
     </li>
   ))}

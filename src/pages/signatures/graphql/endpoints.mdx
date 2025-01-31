@@ -4,15 +4,12 @@ category: GraphQL
 sort: 2
 title: Endpoints
 ---
-import Layout from '../../../layouts/mdx';
-
-export default Layout;
 
 ## Query execution
 
 GraphQL queries can be executed against `https://signatures-api.criipto.com/v1/graphql`. Queries must be sent as a `POST` request containing a `JSON` body with the parameters `query` and optionally `variables`.
 
-```
+```text
 curl -X POST -H "Content-Type: application/json" \
   -u clientId:clientSecret \
   --data '{"query": "... graphql query ...", "variables": {"key": "value"}}'\ 
@@ -23,7 +20,7 @@ curl -X POST -H "Content-Type: application/json" \
 
 If you need to fetch the schema for build/codegen tools you can do so by executing a `GET` request against `https://signatures-api.criipto.com/v1/graphql`.
 
-```
+```text
 curl https://signatures-api.criipto.com/v1/graphql
 ```
 

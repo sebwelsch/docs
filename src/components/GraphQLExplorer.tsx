@@ -102,7 +102,7 @@ export default function GraphQLExplorer(props: GraphQLExplorerProps) {
       )}
       <div style={{height: "700px"}} className="relative">
         <GraphiQL
-          fetcher={graphqlFetcher}
+          fetcher={graphqlFetcher as any}
           defaultVariableEditorOpen={true}
           defaultSecondaryEditorOpen={true}
           query={query}

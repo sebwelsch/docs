@@ -1,5 +1,6 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useMemo} from 'react';
 import { Link } from 'gatsby';
+import {slug} from 'github-slugger';
 
 import * as createSignatureOrderExample from '../examples/createSignatureOrder.graphql';
 import * as addSignatoryExample from '../examples/addSignatory.graphql';
@@ -7,7 +8,7 @@ import * as closeSignatureOrderExample from '../examples/closeSignatureOrder.gra
 import {AddSignatoryOutput} from '../../graphql-signatures-types';
 import { useAppDispatch, useAppSelector } from '../state/hooks';
 import GraphQLExplorer, {GraphQLResponse, GraphQLError, CredentialsForm} from './GraphQLExplorer';
-import {CodeBlock, H2, Paragraph, textToId} from './MdxProvider';
+import {CodeBlock, H2, Paragraph} from './MdxProvider';
 import {DesktopPageNavigation} from './PageNavigation';
 import { clearExampleData } from '../state/store';
 
@@ -83,12 +84,48 @@ export default function InteractiveTour() {
     dispatch(clearExampleData());
   };
 
+  const items = useMemo(() => {
+    return [
+      {
+        title: TITLES.createSignatureOrder,
+        url: `#${slug(TITLES.createSignatureOrder)}`,
+        onClick: () => {
+          reset()
+        }
+      }
+    ].concat(
+      (stepIndex(step) >= stepIndex('addSignatories')) ? [
+        {
+          title: TITLES.addSignatories,
+          url: `#${slug(TITLES.addSignatories)}`,
+          onClick: () => setStep('addSignatories')
+        }
+      ] : []
+    ).concat(
+      (stepIndex(step) >= stepIndex('sign')) ? [
+        {
+          title: TITLES.sign,
+          url: `#${slug(TITLES.sign)}`,
+          onClick: () => setStep('sign')
+        }
+      ] : []
+    ).concat(
+      (stepIndex(step) >= stepIndex('closeSignatureOrder')) ? [
+        {
+          title: TITLES.closeSignatureOrder,
+          url: `#${slug(TITLES.closeSignatureOrder)}`,
+          onClick: () => setStep('closeSignatureOrder')
+        }
+      ] : []
+    );
+  }, [step]);
+
   return (
     <React.Fragment>
       <div className="prose max-w-none hidden lg:block">
         {step === 'authenticate' && (
           <React.Fragment>
-            <H2>{TITLES.authenticate}</H2>
+            <H2 id={slug(TITLES.authenticate)}>{TITLES.authenticate}</H2>
             <Paragraph>Please enter your <Link to="/signatures/getting-started/register-application/">API credentials</Link> to start the interactive tour.</Paragraph>
             <Paragraph>Queries are executed against your actual application. Please make sure you are using test credentials.</Paragraph>
             <CredentialsForm />
@@ -96,7 +133,7 @@ export default function InteractiveTour() {
         )}
         {step === 'createSignatureOrder' && (
           <React.Fragment>
-            <H2>{TITLES.createSignatureOrder}</H2>
+            <H2 id={slug(TITLES.createSignatureOrder)}>{TITLES.createSignatureOrder}</H2>
             <Paragraph>
               Signature Orders form the basic building blocks of the signatures API.
               A Signature Order contains documents and the signatories you intend to sign them.
@@ -117,7 +154,7 @@ export default function InteractiveTour() {
               Awesome! You have created your first Signature Order, now you can start adding signatories.
               Signatories represent the individuals you want to sign your signature order.
             </p>
-            <H2>{TITLES.addSignatories}</H2>
+            <H2 id={slug(TITLES.addSignatories)}>{TITLES.addSignatories}</H2>
             <Paragraph>
               <strong>Press the play button</strong> below to add a signatory. You can add as many signatories as you want.
             </Paragraph>
@@ -143,7 +180,7 @@ export default function InteractiveTour() {
         )}
         {step === 'sign' && (
           <React.Fragment>
-            <H2>{TITLES.sign}</H2>
+            <H2 id={slug(TITLES.sign)}>{TITLES.sign}</H2>
             <Paragraph>
               This would usually be the case where you send your signatory links to the intended targets, but in this case you can sign them manually to proceed using the links below.
             </Paragraph>
@@ -167,7 +204,7 @@ export default function InteractiveTour() {
         )}
         {step === 'closeSignatureOrder' && (
           <React.Fragment>
-            <H2>{TITLES.closeSignatureOrder}</H2>
+            <H2 id={slug(TITLES.closeSignatureOrder)}>{TITLES.closeSignatureOrder}</H2>
             <Paragraph>
               <strong>Press the play button</strong> below to close your signature order.
             </Paragraph>
@@ -213,43 +250,7 @@ export default function InteractiveTour() {
       <DesktopPageNavigation
         isEmbedded={false}
         title="Tour Steps"
-        items={
-          [
-            {
-              level: 1,
-              text: TITLES.createSignatureOrder,
-              link: `#${textToId(TITLES.createSignatureOrder)}`,
-              onClick: () => reset()
-            }
-          ].concat(
-            (stepIndex(step) >= stepIndex('addSignatories')) ? [
-              {
-                level: 1,
-                text: TITLES.addSignatories,
-                link: `#${textToId(TITLES.addSignatories)}`,
-                onClick: () => setStep('addSignatories')
-              }
-            ] : []
-          ).concat(
-            (stepIndex(step) >= stepIndex('sign')) ? [
-              {
-                level: 1,
-                text: TITLES.sign,
-                link: `#${textToId(TITLES.sign)}`,
-                onClick: () => setStep('sign')
-              }
-            ] : []
-          ).concat(
-            (stepIndex(step) >= stepIndex('closeSignatureOrder')) ? [
-              {
-                level: 1,
-                text: TITLES.closeSignatureOrder,
-                link: `#${textToId(TITLES.closeSignatureOrder)}`,
-                onClick: () => setStep('closeSignatureOrder')
-              }
-            ] : []
-          )
-        }
+        items={items}
       />
     </React.Fragment>
   );

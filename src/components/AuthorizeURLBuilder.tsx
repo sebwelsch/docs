@@ -322,7 +322,6 @@ export default function AuthorizeURLBuilder(props: {
           <select
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="responseType"
-            placeholder="Response type"
             value={options.response_type}
             onChange={(event) => updateOption('response_type', event)}
           >
@@ -339,7 +338,6 @@ export default function AuthorizeURLBuilder(props: {
           <select
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="responseMode"
-            placeholder="Response Mode"
             value={options.response_mode}
             onChange={(event) => updateOption('response_mode', event)}
           >
@@ -370,7 +368,6 @@ export default function AuthorizeURLBuilder(props: {
           <select
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="prompt"
-            placeholder="Prompt"
             value={options.prompt || ""}
             onChange={(event) => updateOption('prompt', event)}
           >
@@ -427,7 +424,6 @@ export default function AuthorizeURLBuilder(props: {
             <select
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="country"
-              placeholder="Country"
               value={options.login_hint ?? undefined}
               onChange={(event) => updateOption('login_hint', event)}
             >
@@ -517,7 +513,6 @@ export default function AuthorizeURLBuilder(props: {
             </label>
             <select className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="scopes_quirk"
-              placeholder="scopes quirk handling"
               value={options.scopes_quirk}
               onChange={(event) => updateOption('scopes_quirk', event)}
             >
@@ -538,7 +533,6 @@ export default function AuthorizeURLBuilder(props: {
             <select
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="acr_values_quirk"
-              placeholder="acr_values quirk handling"
               value={options.acr_values_quirk}
               onChange={(event) => updateOption('acr_values_quirk', event)}
             >
@@ -562,7 +556,6 @@ export default function AuthorizeURLBuilder(props: {
             <select
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="action"
-              placeholder="Action"
               value={options.action || ""}
               onChange={(event) => updateOption('action', event)}
             >

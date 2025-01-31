@@ -1,4 +1,4 @@
-// const escapeStringRegexp = require("escape-string-regexp")
+
 // const pagePath = `src/pages`
 const pageQuery = `{
   pages: allMdx {
@@ -11,7 +11,9 @@ const pageQuery = `{
           category
           subtitle
         }
-        slug
+        fields {
+          slug
+        }
         excerpt(pruneLength: 5000)
         tableOfContents(maxDepth: 3)
       }
@@ -24,7 +26,7 @@ function pageToAlgoliaRecord({ node: { id, frontmatter, fields, ...rest } }) {
     ...frontmatter,
     ...fields,
     ...rest,
-    _tags: (frontmatter.product ? [frontmatter.product] : []).concat(frontmatter.category ? [frontmatter.category] : [])
+    _tags: (frontmatter?.product ? [frontmatter.product] : []).concat(frontmatter?.category ? [frontmatter.category] : [])
   }
 }
 const queries = [
@@ -35,4 +37,4 @@ const queries = [
     settings: { attributesToSnippet: [`excerpt:20`] },
   },
 ]
-module.exports = queries
+export default queries;

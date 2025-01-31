@@ -5,9 +5,6 @@ sort: 2
 title: Using OpenID Connect
 subtitle: Learn how Criipto supports the OpenID Connect protocol.
 ---
-import Layout from '../../../layouts/mdx';
-
-export default Layout;
 
 ## Using OpenID Connect to integrate with Criipto Verify
 
@@ -71,21 +68,54 @@ Note that providing `response_type=code` specifies that you want either the trad
 
 If you want to receive the response in another way you must specify the `response_mode` parameter, see below.
 
-<a name="authorize-request-parameters"></a>
+<a id="authorize-request-parameters"></a>
 
 #### Parameters
 
-| Parameter name  | Description |
-|-----------------|-------------|
-| `response_type` | Denotes the kind of credential that Criipto will return (`code` or `id_token`). If you are integrating a traditional server based web application (back-channel flow) or a *PKCE-enabled* client, use `code`. Use `id_token` for legacy single page applications using a front-channel flow. |
-| `client_id`     | Your application's Client ID. You can find this value in the Criipto Verify UI in the settings for actual application. |
-| `redirect_uri`  | The URL to which Criipto will redirect the browser after authentication has been completed. The authorization code and the `id_token` will be available in the `code` and `id_token` URL parameter for the back-channel flow and on a URL query parameter for the front-channel flow. This URL must be pre-registered as a valid callback URL in your application settings.<br /> <br /> **Warning:** Per the [OAuth 2.0 Specification](https://tools.ietf.org/html/rfc6749#section-3.1.2), Criipto removes everything after the hash and does *not* honor any fragments. |
-| `scope`         | For applications configured with a `static` scope strategy, specify `openid`. This gets you the information configured in the management dashboard for each kind of eID (where applicable).  <br />  <br />  For applications configured with a `dynamic` scope strategy, you must specify scope tokens for the types of data you want, in addition to the `openid` scope token. Possible values are described in the individual eID articles.<br /> <br />You can read more about this parameter [here](#the-scope-parameter) |
-| `acr_values`    | Identifies which eID identity service you want to use. You can only specify one value, and it must identify the exact type of identity service, as some countries have, for example, both a mobile and web based service. Possible values can be found in the [authorize request builder](/verify/guides/authorize-url-builder/#auth-methods--acr-values). |
-| `response_mode` | (optional) Specifies how you want your result delivered via the `redirect_uri`: Use `query` to return the `code`/`id_token` as a query parameter, `fragment` to have it delivered on a URL fragment, and finally `form_post` to have it posted back to your `redirect_uri`.  <br />  <br /> Default values are `query` for `response_type=code` and `fragment` for `response_type=id_token`. |
-| `state`         | (optional but recommended) An opaque arbitrary alphanumeric string your app adds to the initial request that Criipto includes when redirecting back to your application. |
-| `login_hint`    | (optional) Various use cases leverage this parameter. You can read more about them [here](#the-loginhint-parameter).|
-| `prompt`        | (optional) Specifies whether the user will be forced to re-authenticate. Possible values are `none`, `login`, `consent`, and `consent_revoke`. More information is available in our [SSO guide](/verify/guides/sso/#per-request-options) and in our [authorize URL builder](/verify/guides/authorize-url-builder/). |
+<table>
+  <thead>
+    <th>Parameter name </th>
+    <th>Description</th>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`response_type`</td>
+      <td>Denotes the kind of credential that Criipto will return (`code` or `id_token`). If you are integrating a traditional server based web application (back-channel flow) or a *PKCE-enabled* client, use `code`. Use `id_token` for legacy single page applications using a front-channel flow. </td>
+    </tr>
+    <tr>
+      <td>`client_id`</td>
+      <td>Your application's Client ID. You can find this value in the Criipto Verify UI in the settings for actual application. </td>
+    </tr>
+    <tr>
+      <td>`redirect_uri`</td>
+      <td> The URL to which Criipto will redirect the browser after authentication has been completed. The authorization code and the `id_token` will be available in the `code` and `id_token` URL parameter for the back-channel flow and on a URL query parameter for the front-channel flow. This URL must be pre-registered as a valid callback URL in your application settings.<br /> <br /> **Warning:** Per the [OAuth 2.0 Specification](https://tools.ietf.org/html/rfc6749#section-3.1.2), Criipto removes everything after the hash and does *not* honor any fragments. </td>
+    </tr>
+    <tr>
+      <td>`scope`</td>
+      <td> For applications configured with a `static` scope strategy, specify `openid`. This gets you the information configured in the management dashboard for each kind of eID (where applicable).  <br />  <br />  For applications configured with a `dynamic` scope strategy, you must specify scope tokens for the types of data you want, in addition to the `openid` scope token. Possible values are described in the individual eID articles.<br /> <br />You can read more about this parameter [here](#the-scope-parameter) </td>
+    </tr>
+    <tr>
+      <td>`acr_values`</td>
+      <td>Identifies which eID identity service you want to use. You can only specify one value, and it must identify the exact type of identity service, as some countries have, for example, both a mobile and web based service. Possible values can be found in the [authorize request builder](/verify/guides/authorize-url-builder/#auth-methods--acr-values). </td>
+    </tr>
+    <tr>
+      <td>`response_mode`</td>
+      <td>(optional) Specifies how you want your result delivered via the `redirect_uri`: Use `query` to return the `code`/`id_token` as a query parameter, `fragment` to have it delivered on a URL fragment, and finally `form_post` to have it posted back to your `redirect_uri`.  <br />  <br /> Default values are `query` for `response_type=code` and `fragment` for `response_type=id_token`. </td>
+    </tr>
+    <tr>
+      <td>`state`</td>
+      <td>(optional but recommended) An opaque arbitrary alphanumeric string your app adds to the initial request that Criipto includes when redirecting back to your application. </td>
+    </tr>
+    <tr>
+      <td>`login_hint`</td>
+      <td>(optional) Various use cases leverage this parameter. You can read more about them [here](#the-loginhint-parameter).</td>
+    </tr>
+    <tr>
+      <td>`prompt`</td>
+      <td>(optional) Specifies whether the user will be forced to re-authenticate. Possible values are `none`, `login`, `consent`, and `consent_revoke`. More information is available in our [SSO guide](/verify/guides/sso/#per-request-options) and in our [authorize URL builder](/verify/guides/authorize-url-builder/). </td>
+    </tr>
+  </tbody>
+</table>
 
 When adding login to your application, you will build the authorization URL (also called the [_authorize URL_](/verify/guides/authorize-url-builder/)) and redirect the user to it. An HTML snippet for your authorize URL might look like this:
 
@@ -116,7 +146,7 @@ After completing the steps specific to your chosen flow, you can proceed to [val
 
 ### Example request
 
-```
+```text
 GET https://YOUR_SUBDOMAIN.criipto.id/oauth2/authorize?
     response_type=code&
     response_mode=query&
@@ -183,7 +213,7 @@ PKCE allows you to use one-time secrets to perform code exchange.
 
 [@criipto/auth-js](https://github.com/criipto/criipto-auth.js) and [@criipto/verify-react](https://github.com/criipto/criipto-verify-react) support PKCE.
 
-### Example request #example-request-pkce
+### Example request
 
 ```
 GET https://YOUR_SUBDOMAIN.criipto.id/oauth2/authorize?
@@ -198,7 +228,7 @@ GET https://YOUR_SUBDOMAIN.criipto.id/oauth2/authorize?
     code_challenge_method=S256
 ```
 
-### Example response #example-response-pkce
+### Example response
 
 You will receive an `HTTP 302` response which redirects your browser to your specified `redirect_uri` with the authorization code included at the end of the URL:
 
@@ -207,7 +237,7 @@ HTTP/1.1 302 Found
 Location: YOUR_RETURN_URL?code=AUTHORIZATION_CODE&state=YOUR_STATE
 ```
 
-### Code exchange #code-exchange-pkce
+### Code exchange
 
 ```text
 HTTP POST https://YOUR_SUBDOMAIN.criipto.id/oauth2/token
@@ -222,7 +252,7 @@ Implicit Flow, which returns an `id_token` directly in the browser via the `#` f
 
 [@criipto/auth-js](https://github.com/criipto/criipto-auth.js) supports Implicit Flow.
 
-### Example request #example-request-implicit
+### Example request
 
 ```
 GET https://YOUR_SUBDOMAIN.criipto.id/oauth2/authorize?
@@ -235,7 +265,7 @@ GET https://YOUR_SUBDOMAIN.criipto.id/oauth2/authorize?
     state=YOUR_STATE
 ```
 
-### Example response #example-response-implicit
+### Example response
 
 ```
 HTTP/1.1 302 Found
@@ -258,7 +288,7 @@ CIBA supports use cases not covered by other OpenID Connect flows, such as:
 
 Criipto Verify supports CIBA for the [Swedish BankID Phone Authentication](/verify/e-ids/swedish-bankid/#bankid-phone-authentication). 
 
-### Example request #example-request-ciba
+### Example request
 
 The client application shall make an `HTTP POST` request to the backchannel authentication endpoint to ask for end-user authentication. 
 _The CIBA flow is only available for confidential clients, and the example below uses [private key JWTs](/verify/guides/privatekey-jwt/) for client authentication._ 
@@ -276,7 +306,7 @@ scope=openid
 &client_assertion=YOUR_JWT_ASSERTION
 ```
 
-### Example response #example-response-ciba
+### Example response
 
 Successful response will contain the request id, `auth_req_id`:
 

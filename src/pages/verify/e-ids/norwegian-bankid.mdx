@@ -5,12 +5,9 @@ sort: 1
 title: Norwegian BankID
 subtitle: Learn more about Norwegian BankID token contents, how to create test users and how to gain access to production.
 ---
-import Layout from '../../../layouts/mdx';
 import ConsentRevocation from '../../../components/ConsentRevocation';
 import NorwegianBankIdJwtSnippet from '../../../snippets/jwt-payloads/norwegian-bankid';
 import NorwegianBankIdBiometricJwtSnippet from '../../../snippets/jwt-payloads/norwegian-bankid-biometric';
-
-export default Layout;
 
 ## JWT/Token examples
 
@@ -90,14 +87,14 @@ The app must be activated before first use:
 2. Press the **Activate** button
 3. Enter the birth number (SSN) for the test user you created and press the **Next** button
 4. Enter the phone number you associated to the test user and press the **Next** button
-5. Open the following page to get your your SMS one-time code (after replacing the `{yourTestSsn}` placeholder with your actual test-SSN): https://toba-preprod.bankidapis.no/test-events/sms-sent-to-qualified-user/{yourTestSsn}  
+5. Open the following page to get your your SMS one-time code (after replacing the `yourTestSsn` placeholder with your actual test-SSN): https://toba-preprod.bankidapis.no/test-events/sms-sent-to-qualified-user/yourTestSsn  
 _Note: The page might need to be refreshed several times, and if multiple activations are done in a short period, old SMS codes may be shown. Only the newest activation code will at any point be valid_
 6. Type the one-time code that is shown on the website into the app and press the **Next** button
 7. Select **Alternative activation** in the next page
 8. Press the **Get activation codes** button
 9. Proceed past the information pages that explain **What you need** and the **Steps to activate** with the chosen method
 10. Press the **Send email** button in the "Is this your email?” screen
-11. Open the following page to get your email activation codes (once again, replace the {yourTestSsn} placeholder with your test-SSN) https://ra-preprod.bankidnorge.no/notification-console/content/{yourTestSsn}
+11. Open the following page to get your email activation codes (once again, replace the yourTestSsn placeholder with your test-SSN) https://ra-preprod.bankidnorge.no/notification-console/content/yourTestSsn
 12. Type the code words that are shown on the website into the app and press the **Next** button
 13. Press the **Next** button in the "Log in using BankID to complete the activation” screen
 14. Wait until BankID client has loaded in the browser. Pick **BankID app** in the method list if it is not already preselected.
@@ -124,11 +121,11 @@ For applications configured to use a `dynamic` `scope` strategy, the following `
 | Phone number                       | With user consent | No           | `phone`   | `scope:phone`   |
 
 #### Example (partial) authorize request with scopes
-```
+```text
 https://YOUR_SUBDOMAIN.criipto.id/oauth2/authorize?scope=openid email address&...
 ```
 Alternatively, you can send them in the `login_hint`
-```
+```text
 https://YOUR_SUBDOMAIN.criipto.id/oauth2/authorize?...&login_hint=scope:email scope:address&...
 ```
 which can be a useful if you are working with technology that does not let you control the `scope` value.
@@ -203,19 +200,40 @@ By default, the user flow is controlled by the user-defined settings of the Bank
 
 The table below provides a list of options for using `login_hint` with Norwegian BankID, and the resulting user flows. Check [our guide on prefilled fields](https://docs.criipto.com/verify/guides/prefilled-fields/) to learn more.
 
-| Parameter                                                           | Description |
-|---------------------------------------------------------------------|-------------|
-| `login_hint=BID`                                                    | The user will be redirected to the BankID app, with biometrics disabled. The user will be queried for userID(i.e. national identity number) in the first dialogue. |
-| `login_hint=BID:<SSN>`, where `<SSN>` has the format `DDMMYYXXXXX`  | The user will be redirected to the BankID app (with biometrics disabled) along with a pre-selected userID. The userID dialogue is omitted in this case.          |
-| `login_hint=BIS`                                                    | The user will be redirected to the BankID app. The user will be queried for userID in the first dialogue. This option does not disable biometrics.               |
-| `login_hint=BIS:<SSN>`, where `<SSN>` has the format `DDMMYYXXXXX`  | The user will be redirected to the BankID app with a pre-selected userID. This option does not disable biometrics.                                                            |
-| no `login_hint` provided                                            | The default settings of the BankID app on the user's device will determine the flow (whether biometrics are enabled or disabled).                                       |
+<table>
+  <thead>
+    <th>Parameter name </th>
+    <th>Description</th>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`login_hint=BID`</td>
+      <td>The user will be redirected to the BankID app, with biometrics disabled. The user will be queried for userID(i.e. national identity number) in the first dialogue.</td>
+    </tr>
+    <tr>
+      <td>`login_hint=BID:[SSN]`, where `[SSN]` has the format `DDMMYYXXXXX`  </td>
+      <td>The user will be redirected to the BankID app (with biometrics disabled) along with a pre-selected userID. The userID dialogue is omitted in this case.</td>
+    </tr>
+    <tr>
+      <td>`login_hint=BIS`</td>
+      <td>The user will be redirected to the BankID app. The user will be queried for userID in the first dialogue. This option does not disable biometrics. </td>
+    </tr>
+    <tr>
+      <td>`login_hint=BIS:[SSN]`, where `[SSN]` has the format `DDMMYYXXXXX`</td>
+      <td>The user will be redirected to the BankID app with a pre-selected userID. This option does not disable biometrics.</td>
+    </tr>
+    <tr>
+      <td>no `login_hint` provided</td>
+      <td>The default settings of the BankID app on the user's device will determine the flow (whether biometrics are enabled or disabled).</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Ordering the client credentials
 
 To order production credentials please send a request to
 
-<p style="text-indent: 50px"><a href="mailto:support@criipto.com?subject=NO BankID for ...">support@criipto.com</a></p>
+<p style={{textIndent: "50px"}}><a href="mailto:support@criipto.com?subject=NO BankID for ...">support@criipto.com</a></p>
 
 with answers to these questions:
 
