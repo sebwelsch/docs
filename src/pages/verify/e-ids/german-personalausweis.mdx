@@ -1,0 +1,119 @@
+---
+product: verify
+category: eIDs
+sort: 1
+title: German Personalausweis
+subtitle: Learn more about German Personalausweis token contents, how to test your integration and how to gain access to production.
+---
+
+import GermanPersonalausweisJwtSnippet from '../../../snippets/jwt-payloads/german-personalausweis';
+
+## JWT/Token example
+
+Triggered with `acr_values=urn:grn:authn:de:personalausweis`.
+
+<Highlight icon="info">
+
+The level of assurance for all Personalausweis authentications is: High.
+[Learn more about assurance levels](https://ec.europa.eu/digital-building-blocks/wikis/display/DIGITAL/eIDAS+Levels+of+Assurance).
+
+</Highlight>
+
+<GermanPersonalausweisJwtSnippet />
+
+## Testing
+The Personalausweis is a physical card with an embedded chip which can be read by e.g. a NFC-enabled smart phone for use as an eID.
+The solution thus always requires the user to scan their physical card to authenticate with their eID.
+In testing you can either use a physical test card (if you have one) or a simulator.
+
+### Installing the AusweisApp
+The AusweisApp for scanning the physical Personalausweis card is available for both desktop and mobile ([download](https://www.ausweisapp.bund.de/en/download)).
+It can be configured to simulate a physical card for testing purposes ([instructions](https://www.ausweisapp.bund.de/fileadmin/user_upload/AusweisApp-2.2.2-NetInstallation_Integration.pdf)).
+On mobile, choose "SIM" when prompted to present a card and continue.
+The simulator always uses the same hard-coded test user.
+
+## Integrating with Personalausweis
+
+### Data profiles for German Personalausweis
+The Personalausweis has a number of *data groups* which contain e.g. the given name, the address or the nationality of the person authenticating.
+The AusweisApp will inform the user which data groups are being requested when they scan their Personalausweis.
+
+One of the data groups is the Pseudonym, which is a service- and card-specific identifier (German: *dienste- und kartenspezifisches Kennzeichen*) of the user.
+The Pseudonym uniquely identifies the user in a privacy-preserving way and is used to generate the `sub` claim identifying the subject of the JWT.
+
+<Highlight icon="exclamation" warning>
+
+Note that the Pseudonym is both *service-specific* and *card-specific*.
+*Service-specific* means that you cannot use the Pseudonym (i.e. the `sub`) to link users across services.
+*Card-specific* means that the Pseudonym will change when the user gets a new physical Personalausweis (e.g. due to having lost the card or changing address).
+
+This means that you must store other data about the user if you plan to use the Personalausweis to identify users, such that you can match the identity of the user when they obtain a new physical Personalausweis.
+
+Please refer to the German [Act on Identity Cards and Electronic Identification](https://www.gesetze-im-internet.de/englisch_pauswg/englisch_pauswg.html) for more details about what you are allowed to do with the data from the Personalausweis.
+</Highlight>
+
+The data groups are bundled together into *profiles* which contain collections of data groups.
+Criipto has defined some standard profiles for various use cases, and request pricing is based on these profiles.
+
+The table below contains a description of the data groups and standard profiles.
+
+<table>
+    <thead>
+        <tr>
+            <th>Profile</th>
+            <th>Data groups</th>
+            <th>Intended use case</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Pseudonym</td>
+            <td>Pseudonym</td>
+            <td>User login after registration</td>
+        </tr>
+        <tr>
+            <td>Profile 1</td>
+            <td>Pseudonym, First Name, Family Name, Religious Order / Artistic Name, Academic Title, Date of Birth, Place of Birth, Birth Name</td>
+            <td>User registration/one-time authentication</td>
+        </tr>
+        <tr>
+            <td>Profile 2</td>
+            <td>Everything in Profile 1, plus Nationality and Address (normal place of residence)</td>
+            <td>Know-your-customer (KYC)</td>
+        </tr>
+        <tr>
+            <td>Profile 3</td>
+            <td>Everything in Profile 2, plus Document Type, Issuing Country (always "D" for Germany), Date of Expiry and Residence Permit I</td>
+            <td>Extended KYC with document metadata</td>
+        </tr>
+    </tbody>
+</table>
+
+For applications configured to use a `dynamic` `scope` strategy, a profile can be selected on each request using the `scope` parameter prefixed with `odis:`, e.g. `odis:Profile1`.
+For applications configured to use a `static` `scope` strategy, the profile will always be `Pseudonym`.
+
+It is possible to define your own profiles if you have special requirements; if you would like to do so, please contact sales.
+
+### Transaction information
+You can add a reference text to display to the user while they scan the physical Personalausweis with the AusweisApp.
+The reference text consists of a _template_ with a single placeholder and a _dynamic parameter_ called `txinfo`.
+If a template is registered for the client, `txinfo` _must_ be passed as a `login_hint` on each request.
+The template may be up to 118 characters long and can contain any characters.
+The `txinfo` parameter can be up to 32 characters long and can only contain alphanumeric characters (in particular, it cannot contain spaces).
+
+### Test authorize requests
+You can use Criipto's test environment to test your integration before ordering your own client credentials (see below).
+The test environment has a transaction information template registered, so you _must_ pass a `txinfo` parameter on every request.
+The template is set up such that you can for instance use your company name as the `txinfo` parameter.
+
+It is possible to set up your own test environment if you require custom profiles and/or a custom transaction information template.
+If you would like to do so, please contact support.
+
+## Getting ready for production
+To start accepting real users with Personalausweis, you must first request your own _client credentials_ and provide a _client certificate_ to be signed.
+The credentials consist of a _client id_ and a _client secret_.
+You must have completed step 5 in the [Getting ready for production](/verify/guides/production) guide. You will need the production domain to complete the order for your client credentials.
+As part of the credential request, you may also register custom profiles and a transaction information template (see above).
+
+Once you have a signed client certificate, you can upload it in the dashboard.
+You will then be able to use your client credentials and your tenant for Personalausweis authentication.
