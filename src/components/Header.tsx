@@ -1,9 +1,6 @@
 import React, {useEffect, useReducer, useState} from 'react';
 import { Link } from "gatsby";
 
-import { OperationsStatusProvider, OperationsStatusIcon, OperationsStatusTrigger } from '@criipto/ui-operations-status';
-
-import '@criipto/ui-operations-status/dist/index.css';
 import Search from './Search';
 import logo from '../images/criipto-logo.png';
 
@@ -99,12 +96,7 @@ export default function Header(props: {path: string | undefined, className?: str
             </div>
             
             <div className="hidden lg:flex items-center relative">
-              <OperationsStatusProvider>
-                <OperationsStatusTrigger overlayClassname="top-[35px] right-0">
-                  <OperationsStatusIcon />
-                  <span className="ml-2 inline-block text-white cursor-pointer font-medium uppercase text-deep-purple-900 hover:text-primary-600">Operations Status</span>
-                </OperationsStatusTrigger>
-              </OperationsStatusProvider>
+              <a href="https://status.criipto.com" target="_blank" className="ml-2 inline-block text-white cursor-pointer font-medium uppercase text-deep-purple-900 hover:text-primary-600">Operations Status</a>
             </div>
             <div className="hidden lg:flex items-center">
               <div>

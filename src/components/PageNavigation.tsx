@@ -2,9 +2,9 @@ import React, {useEffect, useState, useCallback} from 'react';
 import cx from 'classnames';
 
 export interface PageNavigationItem {
-  level: number,
-  text: string,
-  link: string,
+  title: string
+  url: string
+  items?: PageNavigationItem[]
   onClick?: () => void
 }
 interface Props {
@@ -13,6 +13,7 @@ interface Props {
   onNavigate?: () => void,
   isEmbedded: boolean
 }
+
 export function PageNavigation(props: Props) {
   const {items, onNavigate} = props;
   const [active, setActive] = useState<PageNavigationItem | null>(null);
@@ -22,7 +23,6 @@ export function PageNavigation(props: Props) {
       event.preventDefault();
       item.onClick();
     }
-
     if (onNavigate) {
       onNavigate();
     }
@@ -33,8 +33,8 @@ export function PageNavigation(props: Props) {
     let active : [PageNavigationItem, number] | null = null;
 
     items.forEach(item => {
-      if (item.link?.startsWith('#')) {
-        const element = document.querySelector(item.link)!;
+      if (item.url?.startsWith('#')) {
+        const element = document.querySelector(item.url)!;
         if (!element) return;
 
         const value = Math.abs(halfway - element.getBoundingClientRect().y);
@@ -54,8 +54,6 @@ export function PageNavigation(props: Props) {
 
   useEffect(() => {
     if (!items.length) return;
-
-    
     const scrollListener = () => {
       determineActive();
     };
@@ -71,20 +69,31 @@ export function PageNavigation(props: Props) {
       <h5 className="uppercase text-gray-ash-500 font-semibold mb-4 text-md leading-6">{props.title || 'On this page'} </h5>
       <ul className="text-deep-purple-900 text-md leading-6">
         {items.map(item => (
-          <li key={item.text} className={item.level > 1 ? `ml-4` : ''}>
-            <a
-              href={item.link}
-              className={`group flex items-start block py-1 hover:font-bold ${active === item ? 'font-bold' : ''}`}
-              onClick={(event) => handleClick(event, item)}
-            >
-              {item.level > 1 && (
-                <svg width="3" height="24" viewBox="0 -9 3 24" className="mr-2 overflow-visible group-hover:font-bold">
-                  <path d="M0 0L3 3L0 6" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"></path>
-                </svg>
-              )}
-              {item.text}
-            </a>
-          </li>
+          <React.Fragment key={item.title}>
+            <li key={item.title}>
+              <a
+                href={item.url}
+                className={`group flex items-start block py-1 hover:font-bold ${active === item ? 'font-bold' : ''}`}
+                onClick={(event) => handleClick(event, item)}
+              >
+                {item.title}
+              </a>
+            </li>
+            {item.items?.map(sub => (
+              <li key={sub.title} className={`ml-4`}>
+                <a
+                  href={sub.url}
+                  className={`group flex items-start block py-1 hover:font-bold ${active === sub ? 'font-bold' : ''}`}
+                  onClick={(event) => handleClick(event, sub)}
+                >
+                  <svg width="3" height="24" viewBox="0 -9 3 24" className="mr-2 overflow-visible group-hover:font-bold">
+                    <path d="M0 0L3 3L0 6" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"></path>
+                  </svg>
+                  {sub.title}
+                </a>
+              </li>
+            ))}
+          </React.Fragment>
         ))}
       </ul>
     </React.Fragment>

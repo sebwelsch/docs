@@ -395,7 +395,7 @@ export type EvidenceProviderInput = {
   enabledByDefault?: InputMaybe<Scalars['Boolean']['input']>;
   /** TEST environment only. Does not manipulate the PDF, use for integration or webhook testing. */
   noop?: InputMaybe<NoopEvidenceProviderInput>;
-  /** OIDC/JWT based evidence for signatures. */
+  /** Deprecated */
   oidc?: InputMaybe<OidcEvidenceProviderInput>;
 };
 
@@ -860,7 +860,7 @@ export type SignatoryEvidenceProviderInput = {
   id: Scalars['ID']['input'];
   /** TEST environment only. Does not manipulate the PDF, use for integration or webhook testing. */
   noop?: InputMaybe<NoopEvidenceProviderInput>;
-  /** OIDC/JWT based evidence for signatures. */
+  /** Deprecated */
   oidc?: InputMaybe<OidcEvidenceProviderInput>;
 };
 
@@ -1043,7 +1043,7 @@ export type SingleEvidenceProviderInput = {
   drawable?: InputMaybe<DrawableEvidenceProviderInput>;
   /** TEST environment only. Does not manipulate the PDF, use for integration or webhook testing. */
   noop?: InputMaybe<NoopEvidenceProviderInput>;
-  /** OIDC/JWT based evidence for signatures. */
+  /** Deprecated */
   oidc?: InputMaybe<OidcEvidenceProviderInput>;
 };
 

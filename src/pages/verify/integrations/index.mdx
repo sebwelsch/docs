@@ -4,8 +4,6 @@ category: Integrations
 sort: 0
 title: Integrate with Criipto Verify from various providers and technologies
 ---
-import Layout from '../../../layouts/mdx';
-export default Layout;
 
 import {isIndexPage} from '../../../utils';
 
@@ -19,18 +17,19 @@ export const pageQuery = gatsbyGraphql`
           category: { eq: "Integrations" }
         }
       }
-      sort: { fields: [frontmatter___sort], order: ASC }
+      sort: {frontmatter: {sort: ASC}}
     ) {
       edges {
         node {
           __typename
           id
-          slug
-          fileAbsolutePath
           frontmatter {
             title
             subtitle
             category
+          }
+          fields {
+            slug
           }
         }
       }
@@ -41,7 +40,7 @@ export const pageQuery = gatsbyGraphql`
 <ul>
   {props.data.pages.edges.map(edge => edge.node).filter(node => !isIndexPage(node)).map(node => (
     <li key={node.id}>
-      <Link to={`/${node.slug}/`}>{node.frontmatter.title}</Link><br />
+      <Link to={`/${node.fields.slug}/`}>{node.frontmatter.title}</Link><br />
       {node.frontmatter.subtitle}
     </li>
   ))}

@@ -6,9 +6,6 @@ title: Events
 subtitle: A list of events and sample payloads.
 ---
 
-import Layout from '../../../layouts/mdx';
-export default Layout;
-
 Webhooks will be executed as `POST` requests against the URL you have defined on your signature order. The URL will be used as-is, no parameters will be stripped.
 
 The POST request will contain a `JSON` body similar to the events shown below.
@@ -19,7 +16,7 @@ You can use the values included in the webhook body to query the GraphQL API for
 
 Triggered when a signatory successfully signs the order.
 
-```
+```text
 {
   "event" = "SIGNATORY_SIGNED",
   "signatureOrderId" = "[GraphQL ID]",
@@ -31,7 +28,7 @@ Triggered when a signatory successfully signs the order.
 
 Triggered when a signatory rejects the signature order via the UI.
 
-```
+```text
 {
   "event" = "SIGNATORY_REJECTED",
   "signatureOrderId" = "[GraphQL ID]",
@@ -44,7 +41,7 @@ Triggered when a signatory rejects the signature order via the UI.
 
 Triggered when a signatory experiences an error as part of signing.
 
-```
+```text
 {
   "event" = "SIGNATORY_SIGN_ERROR",
   "error" = "[ERROR MESSAGE]",
@@ -57,7 +54,7 @@ Triggered when a signatory experiences an error as part of signing.
 
 Triggered when a signatory opens the sign link `href`
 
-```
+```text
 {
   "event" = "SIGNATORY_SIGN_LINK_OPENED",
   "signatureOrderId" = "[GraphQL ID]",
@@ -69,7 +66,7 @@ Triggered when a signatory opens the sign link `href`
 
 Triggered when a signatory opens the download link `downloadHref`
 
-```
+```text
 {
   "event" = "SIGNATORY_DOWNLOAD_LINK_OPENED",
   "signatureOrderId" = "[GraphQL ID]",
@@ -81,7 +78,7 @@ Triggered when a signatory opens the download link `downloadHref`
 
 Triggered when a signatory opens, approves or rejects a document.
 
-```
+```text
 {
   "event" = "SIGNATORY_DOWNLOAD_LINK_OPENED",
   "signatureOrderId" = "[GraphQL ID]",
@@ -95,7 +92,7 @@ Triggered when a signatory opens, approves or rejects a document.
 
 Triggered when a signature order has expired and is cleaned up.
 
-```
+```text
 {
   "event" = "SIGNATURE_ORDER_EXPIRED",
   "signatureOrderId" = "[GraphQL ID]"
@@ -108,7 +105,7 @@ Triggered when a signature order is created with webhook validation.
 
 Make sure to respond with `200`/`OK` our your signature order will not be created.
 
-```
+```text
 {
   "event" = "WEBHOOK_VALIDATION"
 }

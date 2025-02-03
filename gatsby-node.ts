@@ -13,6 +13,32 @@ export const onCreatePage : GatsbyNode["onCreatePage"] = ({ page, actions }) => 
   });
 }
 
+export const onCreateNode : GatsbyNode['onCreateNode'] = ({ node, actions }) => {
+  const { createNodeField } = actions;
+
+  if (node.internal.type === `Mdx`) {
+    const path = node.internal.contentFilePath!.split('src/pages/')[1];
+    if (path) {
+      const slug = path.replace('/index.mdx', '').replace('.mdx', '');
+      createNodeField({
+        node,
+        name: `slug`,
+        value: slug
+      });
+    }
+    createNodeField({
+      node,
+      name: 'rawBody',
+      value: node.body
+    });
+    createNodeField({
+      node,
+      name: 'tableOfContents',
+      value: node.tableOfContents
+    });
+  }
+}
+
 export const createPages : GatsbyNode["createPages"] = ({ actions }) => {
   const { createRedirect } = actions;
   createRedirect({
@@ -137,4 +163,3 @@ export const createPages : GatsbyNode["createPages"] = ({ actions }) => {
     force: true
   });
 };
-

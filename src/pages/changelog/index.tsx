@@ -12,45 +12,44 @@ export default function Changelog(props: {location: Location}) {
         edges: {
           node: {
             id: string
-            slug: string
-            fileAbsolutePath: string
             frontmatter: {
               title: string
               date: string
             }
-            rawBody: string
+            fields: {
+              slug: string
+            }
+            body: string
+            internal: {
+              contentFilePath: string
+            }
           }
         }[]
       }
-    }>(graphql`
-      query changelogPages {
-        pages: allMdx(
-          filter: {
-            fileAbsolutePath: {regex: "/(changelog)/"}
-          }
-          sort: {
-            fields: [frontmatter___date],
-            order: DESC
-          }
-        ) {
-          edges {
-            node {
-              __typename
-              id
-              slug
-              fileAbsolutePath
-              rawBody 
-              frontmatter {
-                title
-                date
-              }
-              mdxAST
-              body
-            }
-          }
+    }>(graphql`query changelogPages {
+  pages: allMdx(
+    filter: {internal: {contentFilePath: {regex: "/(changelog)/"}}}
+    sort: {frontmatter: {date: DESC}}
+  ) {
+    edges {
+      node {
+        __typename
+        id
+        frontmatter {
+          title
+          date
+        }
+        internal {
+          contentFilePath
+        }
+        body
+        fields {
+          slug
         }
       }
-  `);
+    }
+  }
+}`);
 
   const pages = data.pages.edges.map(edge => edge.node);
   const count = pages.length;
@@ -70,13 +69,13 @@ export default function Changelog(props: {location: Location}) {
         {data.pages.edges.map(edge => edge.node).filter(node => !isIndexPage(node)).map((node, index) => (
           <React.Fragment>
             <div key={node.id} className="mb-8">
-              <Link to={`/${node.slug}/`} className="no-underline">
+              <Link to={`/${node.fields.slug}/`} className="no-underline">
                 <H2 className="m-0">{node.frontmatter.title}</H2>
               </Link>
               <em>{new Intl.DateTimeFormat(undefined, {dateStyle: 'full'}).format(new Date(node.frontmatter.date))}</em>
 
               <IncludedMarkdown
-                source={node.rawBody}
+                source={node.body}
               />
             </div>
           </React.Fragment>
@@ -101,7 +100,7 @@ function IncludedMarkdown(props: {
         Code: MdxComponents.code,
         CodeBlock: MdxComponents.CodeBlock,
         Paragraph: MdxComponents.Paragraph,
-        Heading: (props) => {
+        Heading: (props: any) => {
           if (props.level === '2') {
             return <MdxComponents.h2 {...props} />;
           }
@@ -110,7 +109,7 @@ function IncludedMarkdown(props: {
           }
           return <h4 {...props}>{props.children}</h4>
         },
-        List: (props) => {
+        List: (props: any) => {
           if (props.type === 'Bullet') {
             return <MdxComponents.ol {...props} />;
           }

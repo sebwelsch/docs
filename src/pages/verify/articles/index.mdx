@@ -2,8 +2,6 @@
 title: Articles
 subtitle: Articles & help regarding Criipto Verify
 ---
-import Layout from '../../../layouts/mdx';
-export default Layout;
 
 import {isIndexPage} from '../../../utils';
 import {groupBy} from 'lodash';
@@ -17,14 +15,15 @@ export const pageQuery = gatsbyGraphql`
           articles: { eq: "verify" }
         }
       }
-      sort: { fields: [frontmatter___category], order: ASC }
+      sort: {frontmatter: {category: ASC}}
     ) {
       edges {
         node {
           __typename
           id
-          slug
-          fileAbsolutePath
+          fields {
+            slug
+          }
           frontmatter {
             title
             subtitle
@@ -45,7 +44,7 @@ export const pageQuery = gatsbyGraphql`
       <ul>
         {pages.filter(node => !isIndexPage(node)).map(node => (
           <li key={node.id}>
-            <Link to={`/${node.slug}/`}>{node.frontmatter.title}</Link><br />
+            <Link to={`/${node.fields.slug}/`}>{node.frontmatter.title}</Link><br />
             {node.frontmatter.subtitle}
           </li>
         ))}

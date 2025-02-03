@@ -4,8 +4,6 @@ category: Guides & Tools
 sort: 0
 title: Various tools and examples to help you use Criipto Verify
 ---
-import Layout from '../../../layouts/mdx';
-export default Layout;
 
 import {isIndexPage} from '../../../utils';
 
@@ -19,18 +17,22 @@ export const pageQuery = gatsbyGraphql`
           category: { eq: "Guides & Tools" }
         }
       }
-      sort: { fields: [frontmatter___sort], order: ASC }
+      sort: {frontmatter: {sort: ASC}}
     ) {
       edges {
         node {
           __typename
           id
-          slug
-          fileAbsolutePath
           frontmatter {
             title
             category
             subtitle
+          }
+          fields {
+            slug
+          }
+          internal {
+            contentFilePath
           }
         }
       }
@@ -41,7 +43,7 @@ export const pageQuery = gatsbyGraphql`
 <ul>
   {props.data.pages.edges.map(edge => edge.node).filter(node => !isIndexPage(node)).map(node => (
     <li key={node.id}>
-      <Link to={`/${node.slug}/`}>{node.frontmatter.title}</Link><br />
+      <Link to={`/${node.fields.slug}/`}>{node.frontmatter.title}</Link><br />
       {node.frontmatter.subtitle}
     </li>
   ))}

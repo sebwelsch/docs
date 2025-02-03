@@ -1,3 +1,3 @@
-export function isIndexPage(node: {fileAbsolutePath: string}) {
-  return node.fileAbsolutePath.endsWith('index.mdx') || node.fileAbsolutePath.endsWith('index.tsx');
+export function isIndexPage(node: {internal?: {contentFilePath?: string | null | undefined}}) {
+  return node.internal?.contentFilePath?.endsWith('index.mdx') || node.internal?.contentFilePath?.endsWith('index.tsx');
 }

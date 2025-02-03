@@ -64,7 +64,6 @@ export default function SignaturesExample(props: Props) {
         <div className="flex flex-row justify-end">
           <select
             className="shadow border rounded py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            placeholder="Prompt"
             value={language}
             onChange={handleChange}
           >

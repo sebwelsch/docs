@@ -1,15 +1,21 @@
-import type { GatsbyConfig } from "gatsby"
+// @ts-check
+// having this file as .ts causes major issues with ESM
+
 import {config as dotenv} from 'dotenv';
+import rehypeSlug from 'rehype-slug';
+import algoliaQueries from './src/utils/algolia-queries.mjs';
 dotenv();
 
-const config : GatsbyConfig = {
+/**
+ * @type {import('gatsby').GatsbyConfig}
+ */
+const config = {
   siteMetadata: {
     siteUrl: "https://docs.criipto.com",
     title: "Criipto Documentation for Verify and Signatures",
   },
   plugins: [
     "gatsby-plugin-postcss",
-    "gatsby-plugin-react-helmet",
     "gatsby-plugin-sitemap",
     {
       resolve: `gatsby-plugin-manifest`,
@@ -26,7 +32,6 @@ const config : GatsbyConfig = {
     {
       resolve: "gatsby-plugin-mdx",
       options: {
-        root: __dirname,
         gatsbyRemarkPlugins: [
           {
             resolve: 'gatsby-remark-images',
@@ -36,6 +41,11 @@ const config : GatsbyConfig = {
             },
           },
         ],
+        mdxOptions: {
+          rehypePlugins: [
+            rehypeSlug
+          ]
+        }
       },
     },
     "gatsby-plugin-image",
@@ -73,39 +83,34 @@ const config : GatsbyConfig = {
       resolve: `gatsby-plugin-json-output`,
       options: {
         siteUrl: 'https://docs.criipto.com/changelog/',
-        graphQLQuery: `
-          {
-            allMdx(
-              filter: {
-                fileAbsolutePath: {regex: "/(changelog)/"}
-              }
-              sort: {
-                fields: [frontmatter___date],
-                order: DESC
-              }
-            ) {
-              edges {
-                node {
-                  excerpt(pruneLength: 5000)
-                  slug
-                  frontmatter {
-                    title
-                    date
-                  }
-                }
-              }
-            }
-          }
-        `,
+        graphQLQuery: `{
+  allMdx(
+    filter: {internal: {contentFilePath: {regex: "/(changelog)/"}}}
+    sort: {frontmatter: {date: DESC}}
+  ) {
+    edges {
+      node {
+        excerpt(pruneLength: 5000)
+        frontmatter {
+          title
+          date
+        }
+        fields {
+          slug
+        }
+      }
+    }
+  }
+}`,
         serialize: results => results.data.allMdx.edges.map(({ node }) => ({
-          path: node.slug, // MUST contain a path
+          path: node.fields.slug, // MUST contain a path
           title: node.frontmatter.title,
           date: node.frontmatter.date,
           excerpt: node.excerpt,
         })),
         serializeFeed: results => results.data.allMdx.edges.map(({ node }) => ({
-          id: node.slug,
-          url: 'https://docs.criipto.com/' + node.slug,
+          id: node.fields.slug,
+          url: 'https://docs.criipto.com/' + node.fields.slug,
           title: node.frontmatter.title,
           date: node.frontmatter.date,
           excerpt: node.excerpt,
@@ -117,20 +122,26 @@ const config : GatsbyConfig = {
   ].concat(process.env.GATSBY_ALGOLIA_APP_ID ? [
     {
       resolve: `gatsby-plugin-algolia`,
+      /**
+       * @type any
+       */
       options: {
         appId: process.env.GATSBY_ALGOLIA_APP_ID,
         apiKey: process.env.ALGOLIA_ADMIN_KEY,
-        queries: require("./src/utils/algolia-queries")
-      } as any,
+        queries: algoliaQueries
+      },
     }
   ] : [])
   .concat(process.env.SENTRY_DSN ? [
     {
       resolve: "@sentry/gatsby",
+      /**
+       * @type any
+       */
       options: {
         dsn: process.env.SENTRY_DSN,
         sampleRate: 0.7,
-      } as any,
+      },
     }
   ] : []),
 };

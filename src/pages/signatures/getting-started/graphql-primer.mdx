@@ -5,9 +5,6 @@ sort: 1
 title: A primer on GraphQL
 subtitle: Learn about GraphQL, how it works, and how to use it
 ---
-import Layout from '../../../layouts/mdx';
-
-export default Layout;
 
 Every GraphQL API, including ours, is backed by a strongly typed GraphQL schema.
 The schema clearly defines what operations are supported by the API, allowing clients to verify correctness ahead of time.
@@ -29,7 +26,7 @@ You will never need to perform multiple API calls to stich together data.
 
 Here's an example GraphQL query to retrieve a specific person from our API:
 
-```
+```text
 {
   signatureOrder(id: "abcd") {
     status
@@ -43,7 +40,7 @@ Here's an example GraphQL query to retrieve a specific person from our API:
 
 And here is an example response:
 
-```
+```text
 {
   "signatureOrder": {
     "status": "OPEN",
@@ -73,7 +70,7 @@ Queries must be sent as a `POST` request containing a `JSON` body with the param
 
 You will need a set of API credentials to execute queries, please see [Registering your application](/signatures/getting-started/register-application/)
 
-```
+```text
 curl -X POST -H "Content-Type: application/json" \
   -u clientId:clientSecret \
   --data '{"query": "{ signatureOrder(id: $id) { signatories { status } } }", "variables": {"id": "abcd"}}' \ 

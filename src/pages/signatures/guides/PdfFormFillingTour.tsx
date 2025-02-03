@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { Link } from 'gatsby';
+import {slug} from 'github-slugger';
 
 import * as createSignatureOrderExample from '../../../examples/createSignatureOrder/pdfFormFilling.graphql';
 import * as addSignatoryExample from '../../../examples/addSignatory.graphql';
@@ -7,7 +8,7 @@ import * as closeSignatureOrderExample from '../../../examples/closeSignatureOrd
 import {AddSignatoryOutput} from '../../../../graphql-signatures-types';
 import { useAppDispatch, useAppSelector } from '../../../state/hooks';
 import GraphQLExplorer, {GraphQLResponse, GraphQLError, CredentialsForm} from '../../../components/GraphQLExplorer';
-import {CodeBlock, H3, Paragraph, textToId} from '../../../components/MdxProvider';
+import {CodeBlock, H3, Paragraph} from '../../../components/MdxProvider';
 import { clearExampleData } from '../../../state/store';
 
 type Step = 'authenticate' | 'createSignatureOrder' | 'addSignatory' | 'sign' | 'closeSignatureOrder';
@@ -87,7 +88,7 @@ export default function InteractiveTour() {
   const steps = [
     {
       text: TITLES.createSignatureOrder,
-      link: `#${textToId(TITLES.createSignatureOrder)}`,
+      link: `#${slug(TITLES.createSignatureOrder)}`,
       onClick: () => reset(),
       active: step === 'createSignatureOrder',
     }
@@ -95,7 +96,7 @@ export default function InteractiveTour() {
     (stepIndex(step) >= stepIndex('addSignatory')) ? [
       {
         text: TITLES.addSignatory,
-        link: `#${textToId(TITLES.addSignatory)}`,
+        link: `#${slug(TITLES.addSignatory)}`,
         onClick: () => setStep('addSignatory'),
         active: step === 'addSignatory',
       }
@@ -104,7 +105,7 @@ export default function InteractiveTour() {
     (stepIndex(step) >= stepIndex('sign')) ? [
       {
         text: TITLES.sign,
-        link: `#${textToId(TITLES.sign)}`,
+        link: `#${slug(TITLES.sign)}`,
         onClick: () => setStep('sign'),
         active: step === 'sign',
       }
@@ -113,7 +114,7 @@ export default function InteractiveTour() {
     (stepIndex(step) >= stepIndex('closeSignatureOrder')) ? [
       {
         text: TITLES.closeSignatureOrder,
-        link: `#${textToId(TITLES.closeSignatureOrder)}`,
+        link: `#${slug(TITLES.closeSignatureOrder)}`,
         onClick: () => setStep('closeSignatureOrder'),
         active: step === 'closeSignatureOrder',
       }
@@ -142,7 +143,7 @@ export default function InteractiveTour() {
         
         {step === 'authenticate' && (
           <React.Fragment>
-            <H3 className="mt-2">{TITLES.authenticate}</H3>
+            <H3 className="mt-2" id={slug(TITLES.authenticate)}>{TITLES.authenticate}</H3>
             <Paragraph>Please enter your <Link to="/signatures/getting-started/register-application/">API credentials</Link> to start the interactive tour.</Paragraph>
             <Paragraph>Queries are executed against your actual application. Please make sure you are using test credentials.</Paragraph>
             <CredentialsForm />
@@ -150,7 +151,7 @@ export default function InteractiveTour() {
         )}
         {step === 'createSignatureOrder' && (
           <React.Fragment>
-            <H3 className="mt-2">{TITLES.createSignatureOrder}</H3>
+            <H3 className="mt-2" id={slug(TITLES.createSignatureOrder)}>{TITLES.createSignatureOrder}</H3>
             <Paragraph>
               Signature Orders form the basic building blocks of the signatures API.
               A Signature Order contains documents and the signatories you intend to sign them.
@@ -171,7 +172,7 @@ export default function InteractiveTour() {
               Awesome! You have created your first Signature Order, now you can start adding signatories.
               Signatories represent the individuals you want to sign your signature order.
             </p>
-            <H3 className="mt-2">{TITLES.addSignatory}</H3>
+            <H3 className="mt-2" id={slug(TITLES.addSignatory)}>{TITLES.addSignatory}</H3>
             <Paragraph>
               <strong>Press the play button</strong> below to add a signatory.
             </Paragraph>
@@ -185,7 +186,7 @@ export default function InteractiveTour() {
         )}
         {step === 'sign' && (
           <React.Fragment>
-            <H3 className="mt-2">{TITLES.sign}</H3>
+            <H3 className="mt-2" id={slug(TITLES.sign)}>{TITLES.sign}</H3>
             <Paragraph>
               This would usually be the case where you send your signatory links to the intended targets, but in this case you can sign them manually to proceed using the links below.
             </Paragraph>
@@ -206,7 +207,7 @@ export default function InteractiveTour() {
         )}
         {step === 'closeSignatureOrder' && (
           <React.Fragment>
-            <H3 className="mt-2">{TITLES.closeSignatureOrder}</H3>
+            <H3 className="mt-2" id={slug(TITLES.closeSignatureOrder)}>{TITLES.closeSignatureOrder}</H3>
             <Paragraph>
               <strong>Press the play button</strong> below to close your signature order.
             </Paragraph>
