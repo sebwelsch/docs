@@ -111,14 +111,61 @@ Basic user information, full name, and date of birth are always made available. 
 
 For applications configured to use a `dynamic` `scope` strategy, the following `scope` tokens can be supplied: `address`, `email`, `phone` and `ssn`.
 
-| **Data type**                      | **Released**      | **Verified** | **scope** | **login_hint**  |
-| ---------------------------------- | ----------------- | ------------ | --------- | --------------- |
-| Full name                          | Always            | Yes          |           |                 |
-| Date of birth                      | Always            | Yes          |           |                 |
-| SSN ("fødselsnummer" in Norwegian) | User consent      | Yes          | `ssn`     | `scope:ssn`     |
-| Address                            | With user consent | No           | `address` | `scope:address` |
-| Email                              | With user consent | No           | `email`   | `scope:email`   |
-| Phone number                       | With user consent | No           | `phone`   | `scope:phone`   |
+<table>
+    <thead>
+        <tr>
+            <th>**Data type**</th>
+            <th>**Released**</th>
+            <th>**Verified**</th>
+            <th>**scope**</th>
+            <th>**login_hint**</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Full name</td>
+            <td>Always</td>
+            <td>Yes</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Date of birth</td>
+            <td>Always</td>
+            <td>Yes</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>SSN ("fødselsnummer" in Norwegian)</td>
+            <td>User consent</td>
+            <td>Yes</td>
+            <td>`ssn`</td>
+            <td>`scope:ssn`</td>
+        </tr>
+        <tr>
+            <td>Address</td>
+            <td>With user consent</td>
+            <td>No</td>
+            <td>`address`</td>
+            <td>`scope:address`</td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td>With user consent</td>
+            <td>No</td>
+            <td>`email`</td>
+            <td>`scope:email`</td>
+        </tr>
+        <tr>
+            <td>Phone number</td>
+            <td>With user consent</td>
+            <td>No</td>
+            <td>`phone`</td>
+            <td>`scope:phone`</td>
+        </tr>
+    </tbody>
+</table>
 
 #### Example (partial) authorize request with scopes
 ```text
