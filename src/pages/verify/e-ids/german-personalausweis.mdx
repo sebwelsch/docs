@@ -28,9 +28,60 @@ In testing you can either use a physical test card (if you have one) or a simula
 
 ### Installing the AusweisApp
 The AusweisApp for scanning the physical Personalausweis card is available for both desktop and mobile ([download](https://www.ausweisapp.bund.de/en/download)).
-It can be configured to simulate a physical card for testing purposes ([instructions](https://www.ausweisapp.bund.de/fileadmin/user_upload/AusweisApp-2.2.2-NetInstallation_Integration.pdf)).
-On mobile, choose "SIM" when prompted to present a card and continue.
-The simulator always uses the same hard-coded test user.
+It can be used to scan a physical test card (if you have one) or be configured to use a simulator instead (see below).
+
+#### Configuring the AusweisApp for testing
+If you do not have a physical Personalausweis test card, you can configure the AusweisApp to use a simulator for testing.
+When configured to use the simulator, the AusweisApp will skip the scanning step and instead always use the same hard-coded test user.
+Note that the simulator does not work exactly the same on desktop and mobile.
+The official documentation for the AusweisApp is available [here](https://www.ausweisapp.bund.de/fileadmin/user_upload/AusweisApp-2.2.2-NetInstallation_Integration.pdf).
+
+##### Configuring desktop simulator
+To configure the desktop AusweisApp to use the simulator, follow these steps:
+1. Open the AusweisApp
+2. On the *Start* page, click *Help*
+3. On the *Help* page, click *Information* (on the left)
+4. On the *Information* page, click on the *Application Version* text 10 times
+5. You should now get a notification from the AusweisApp saying "Developer options activated"
+6. Click *Back* (in the top left) to go back to the *Start* page
+7. On the *Start* page, click *Settings*
+8. On the *Settings* page, click *Developer options* (on the left)
+9. On the *Developer options* page:
+    1. Toggle *Testmode for the self-authentication* to be "on" (toggle button to the right)
+    2. Toggle *Internal card simulator* to be "on" (toggle button to the right)
+10. Click *Back* (in the top left) to go back to the *Start* page
+
+The AusweisApp will now use the hard-coded test user for any authentications.
+You can test this by clicking *See my personal data* on the *Start* page and proceeding through the flow as follows:
+1. Click *See my personal data*
+2. Click *Proceed to PIN entry*
+
+The AusweisApp should now skip the card scanning step and you should see the data for the test user Erika Mustermann.
+
+Note that you will have to disable the simulator to use the AusweisApp to scan physical cards.
+
+##### Configuring mobile simulator
+To configure the desktop AusweisApp to use the simulator, follow these steps:
+1. Open the AusweisApp
+2. On the *Start* page, tap *Help* (on the bottom bar)
+3. On the *Help* page, scroll to the bottom and tap *Version information*
+4. On the *Version Information* page, tap on the *Application Version* text 10 times
+5. A popup will appear saying "Advanced settings activated"
+6. Tap *Settings* (on the bottom bar)
+7. On the *Settings* page, scroll to the bottom where you should see *Developer options*
+8. On the *Developer options* page:
+    1. Toggle *Testmode for the self-authentication* to be "on" (toggle button to the right)
+    2. Toggle *Internal card simulator* to be "on" (toggle button to the right)
+9. Tap *Start* (on the bottom bar) to go back to the *Start* page
+
+The AusweisApp will now allow you to select the Simulator during authentications.
+You can test this by swiping to the right and tapping *See my personal data* on the *Start* page, then proceeding through the flow as follows:
+1. Tap *See my personal data*
+2. Tap *Proceed to PIN entry*
+3. On the *Identify* screen, you should now be able to select *SIM* (instead of just *NFC* and *WiFi*)
+4. Select *SIM* and then tap *Continue*
+
+The AusweisApp should now skip the card scanning step and you should see the data for the test user Erika Mustermann.
 
 ## Integrating with Personalausweis
 
