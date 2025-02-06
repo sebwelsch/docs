@@ -33,7 +33,11 @@ const NONVISIBLEDATA_SUPPORTING_ACR_VALUES = [
 
 const ID_TOKEN_HINT_SUPPORT_ACR_VALUES = [
   'urn:age-verification'
-]
+];
+
+const TXINFO_SUPPORT_ACR_VALUES = [
+  'urn:grn:authn:de:personalausweis'
+];
 
 const actions = ['login', 'confirm', 'accept', 'approve', 'sign'] as const;
 type Action = typeof actions[number];
@@ -60,6 +64,7 @@ interface AuthorizeURLOptions {
   action: Action | null,
   message: string | null,
   nonVisibleData : string | null
+  txInfo: string | null
 }
 
 const isBrowser = typeof window !== "undefined";
@@ -95,7 +100,8 @@ export default function AuthorizeURLBuilder(props: {
     prompt: null,
     action: null,
     message: null,
-    nonVisibleData: null
+    nonVisibleData: null,
+    txInfo: 'TestCompany'
   });
 
   useEffect(() => {
@@ -116,6 +122,7 @@ export default function AuthorizeURLBuilder(props: {
       action: action ?? options.action,
       message: url.searchParams.get('message') ?? options.message,
       nonVisibleData: url.searchParams.get('nonVisibleData') ?? options.nonVisibleData,
+      txInfo: url.searchParams.get('txinfo') ?? options.txInfo,
       prompt: prompt ?? options.prompt
     }));
   }, []);
@@ -137,10 +144,16 @@ export default function AuthorizeURLBuilder(props: {
       options.acr_values.length === 1 ? NONVISIBLEDATA_SUPPORTING_ACR_VALUES.includes(options.acr_values[0]) :
       options.acr_values.length >= 2 ? options.acr_values.some(v => NONVISIBLEDATA_SUPPORTING_ACR_VALUES.includes(v)) :
       false,
+    txInfo:
+      options.acr_values.length === 1 ? TXINFO_SUPPORT_ACR_VALUES.includes(options.acr_values[0]) :
+      options.acr_values.length >= 2 ? options.acr_values.some(v => TXINFO_SUPPORT_ACR_VALUES.includes(v)) :
+      false,
 }), [options.acr_values]);
   const supportsAction = supports.action;
   const supportsMessage = supports.message;
   const supportsNonVisibleData = supports.nonVisibleData;
+  const supportsTxInfo = supports.txInfo;
+  const notAlphanumeric = /[^a-z0-9]+/gi;
 
   const updateOption = (key: keyof AuthorizeURLOptions, event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement> | React.ChangeEvent<HTMLSelectElement>) => {
     setOptions(options => ({
@@ -227,6 +240,7 @@ export default function AuthorizeURLBuilder(props: {
     if (key == 'message') continue;
     if (key == 'login_hint') continue;
     if (key == 'nonVisibleData') continue;
+    if (key == 'txInfo') continue;
     if (!options[key]) continue;
     url.searchParams.set(key, options[key]!);
   }
@@ -261,6 +275,10 @@ export default function AuthorizeURLBuilder(props: {
 
   if (supportsNonVisibleData && options.nonVisibleData) {
     loginHint.push(`nonVisibleData:${btoa(options.nonVisibleData)}`);
+  }
+
+  if (supportsTxInfo && options.txInfo) {
+    loginHint.push(`txinfo:${options.txInfo}`);
   }
 
   if (loginHint.length > 0) {
@@ -607,6 +625,45 @@ export default function AuthorizeURLBuilder(props: {
               SE BankID only. Will roundtrip the supplied value in the `evidence` claim in a dedicated XML element.
               <br />
               Must be base64-encoded.
+            </small>
+          </div>
+        )}
+
+        {supportsTxInfo && (
+          <div>
+            <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="txInfo">
+              Transaction information
+            </label>
+            <textarea
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="txInfo"
+              placeholder="txinfo"
+              value={options.txInfo || ""}
+              defaultValue={'TestCompany'}
+              onChange={(event) => updateOption('txInfo', event)}
+            />
+            <small>
+              Personalausweis only. Will display in the transaction information template.
+              <br />
+              Up to 32 alphanumeric characters.
+            {!options.txInfo && (
+              <>
+                <br />
+                <span className="text-red-400">txinfo must not be blank unless you have your own client credentials!</span>
+              </>
+            )}
+            {options.txInfo && options.txInfo.length > 32 && (
+              <>
+                <br />
+                <span className="text-red-400">txinfo must not be longer than 32 characters!</span>
+              </>
+            )}
+            {options.txInfo && notAlphanumeric.test(options.txInfo) && (
+              <>
+                <br />
+                <span className="text-red-400">txinfo must only contain alphanumeric characters!</span>
+              </>
+            )}
             </small>
           </div>
         )}
