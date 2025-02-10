@@ -14,6 +14,7 @@ type Provider = {
 const dkScopes = ['address', 'ssn']
 const noBankIdScopes = ['email', 'phone', 'address', 'ssn']
 const noVippsScopes = ['email', 'phone', 'address', 'birthdate', 'ssn']
+const personalAusweisScopes = ['Pseudonym', 'Profile1', 'Profile2', 'Profile3']
 
 export const PROVIDERS : Provider[] = [
   {
@@ -129,7 +130,19 @@ export const PROVIDERS : Provider[] = [
       }
     ],
     page: '/verify/e-ids/dutch-idin'
-  },  {
+  },
+  {
+    title: 'German Personalausweis',
+    authMethods: [
+      {
+        title: 'German Personalausweis',
+        acrValue: 'urn:grn:authn:de:personalausweis',
+        scopes: personalAusweisScopes
+      }
+    ],
+    page: '/verify/e-ids/german-personalausweis'
+  },
+  {
     title: 'Age verification',
     authMethods: [
       {
