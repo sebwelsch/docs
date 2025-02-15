@@ -23,6 +23,8 @@ Different options will render user profiles with different JWT claims.
 
 Developers can specify the user profile by providing the required value in the `scope` parameter. Alternatively, the value can be supplied in the `login_hint`.
 
+_Note: If you don't provide an authentication option via the `scope` parameter or `login_hint`, the user profile will default to [Safe login](/verify/e-ids/dutch-idin/#safe-login), which includes no user data in the issued JWT._
+
 <Highlight icon="info">
 
 Use `acr_values=urn:grn:authn:nl:idin` in authorize requests to start an iDIN login process.
