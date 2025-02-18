@@ -4,7 +4,17 @@
 import {config as dotenv} from 'dotenv';
 import rehypeSlug from 'rehype-slug';
 import algoliaQueries from './src/utils/algolia-queries.mjs';
+import {default as netlifyDefault} from 'gatsby-adapter-netlify';
 dotenv();
+
+/**
+ * @type any
+ */
+const netlify = netlifyDefault;
+/**
+ * @type {import('gatsby').AdapterInit}
+ */
+const adapter = netlify.default;
 
 /**
  * @type {import('gatsby').GatsbyConfig}
@@ -14,6 +24,33 @@ const config = {
     siteUrl: "https://docs.criipto.com",
     title: "Criipto Documentation for Verify and Signatures",
   },
+  adapter: adapter({
+    excludeDatastoreFromEngineFunction: false,
+    imageCDN: false,
+  }),
+  headers: [
+    {
+      source: `*`,
+      headers: [
+        {
+          key: `x-xss-protection`,
+          value: `1; mode=block`,
+        },
+        {
+          key: `x-content-type-options`,
+          value: `nosniff`,
+        },
+        {
+          key: `referrer-policy`,
+          value: `same-origin`,
+        },
+        {
+          key: `Content-Security-Policy`,
+          value: `frame-ancestors 'self' https://dashboard.criipto.com https://dashboard-test.criipto.com https://deploy-preview-*.dashboard-test.criipto.com http://localhost:5001`,
+        },
+      ],
+    },
+  ],
   plugins: [
     "gatsby-plugin-postcss",
     "gatsby-plugin-sitemap",
@@ -51,17 +88,6 @@ const config = {
     "gatsby-plugin-image",
     "gatsby-plugin-sharp",
     "gatsby-transformer-sharp",
-    {
-      resolve: "gatsby-plugin-netlify",
-      options: {
-        mergeSecurityHeaders: false,
-        headers: {
-          '/changelog.json': [
-            'Access-Control-Allow-Origin: *'
-          ]
-        }
-      }
-    },
     {
       resolve: "gatsby-source-filesystem",
       options: {
