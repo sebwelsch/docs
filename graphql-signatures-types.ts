@@ -107,6 +107,39 @@ export enum ApplicationApiKeyMode {
   READ_WRITE = 'READ_WRITE'
 }
 
+export type BatchSignatory = {
+  __typename?: 'BatchSignatory';
+  href: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  items: Array<BatchSignatoryItem>;
+  /** The authentication token required for performing batch operations. */
+  token: Scalars['String']['output'];
+  ui: SignatureOrderUi;
+};
+
+export type BatchSignatoryItem = {
+  __typename?: 'BatchSignatoryItem';
+  signatory: Signatory;
+  signatureOrder: SignatureOrder;
+};
+
+export type BatchSignatoryItemInput = {
+  signatoryId: Scalars['String']['input'];
+  signatureOrderId: Scalars['String']['input'];
+};
+
+export type BatchSignatoryViewer = Viewer & {
+  __typename?: 'BatchSignatoryViewer';
+  authenticated: Scalars['Boolean']['output'];
+  batchSignatoryId: Scalars['ID']['output'];
+  documents: SignatoryDocumentConnection;
+  evidenceProviders: Array<AllOfSignatureEvidenceProvider | CriiptoVerifySignatureEvidenceProvider | DrawableSignatureEvidenceProvider | NoopSignatureEvidenceProvider | OidcJwtSignatureEvidenceProvider>;
+  id: Scalars['ID']['output'];
+  signer: Scalars['Boolean']['output'];
+  status: SignatoryStatus | '%future added value';
+  ui: SignatureOrderUi;
+};
+
 export type CancelSignatureOrderInput = {
   signatureOrderId: Scalars['ID']['input'];
 };
@@ -189,6 +222,17 @@ export type CreateApplicationOutput = {
   apiKey: ApplicationApiKey;
   application: Application;
   tenant: Tenant;
+};
+
+export type CreateBatchSignatoryInput = {
+  items: Array<BatchSignatoryItemInput>;
+  /** UI settings for batch signatory, will use defaults otherwise (will not use UI settings from sub signatories) */
+  ui?: InputMaybe<SignatoryUiInput>;
+};
+
+export type CreateBatchSignatoryOutput = {
+  __typename?: 'CreateBatchSignatoryOutput';
+  batchSignatory: BatchSignatory;
 };
 
 export type CreateSignatureOrderInput = {
@@ -448,6 +492,7 @@ export type Mutation = {
   createApplication?: Maybe<CreateApplicationOutput>;
   /** Creates a new set of api credentials for an existing application. */
   createApplicationApiKey?: Maybe<CreateApplicationApiKeyOutput>;
+  createBatchSignatory?: Maybe<CreateBatchSignatoryOutput>;
   /** Creates a signature order to be signed. */
   createSignatureOrder?: Maybe<CreateSignatureOrderOutput>;
   /** Deletes a set of API credentials for an application. */
@@ -512,6 +557,11 @@ export type MutationCreateApplicationArgs = {
 
 export type MutationCreateApplicationApiKeyArgs = {
   input: CreateApplicationApiKeyInput;
+};
+
+
+export type MutationCreateBatchSignatoryArgs = {
+  input: CreateBatchSignatoryInput;
 };
 
 
@@ -643,6 +693,8 @@ export type PageInfo = {
 export type PdfDocument = Document & {
   __typename?: 'PdfDocument';
   blob?: Maybe<Scalars['Blob']['output']>;
+  /** Same value as stamped on document when using displayDocumentID */
+  documentID: Scalars['String']['output'];
   form?: Maybe<PdfDocumentForm>;
   id: Scalars['ID']['output'];
   originalBlob?: Maybe<Scalars['Blob']['output']>;
@@ -666,6 +718,7 @@ export type PdfSealPosition = {
 export type Query = {
   __typename?: 'Query';
   application?: Maybe<Application>;
+  batchSignatory?: Maybe<BatchSignatory>;
   document?: Maybe<PdfDocument | XmlDocument>;
   /** Query a signatory by id. Useful when using webhooks. */
   signatory?: Maybe<Signatory>;
@@ -673,13 +726,18 @@ export type Query = {
   /** Tenants are only accessable from user viewers */
   tenant?: Maybe<Tenant>;
   timezones: Array<Scalars['String']['output']>;
-  viewer: AnonymousViewer | Application | SignatoryViewer | UnvalidatedSignatoryViewer | UserViewer;
+  viewer: AnonymousViewer | Application | BatchSignatoryViewer | SignatoryViewer | UnvalidatedSignatoryViewer | UserViewer;
 };
 
 
 export type QueryApplicationArgs = {
   id?: InputMaybe<Scalars['ID']['input']>;
   verifyApplication?: InputMaybe<VerifyApplicationQueryInput>;
+};
+
+
+export type QueryBatchSignatoryArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
@@ -720,7 +778,7 @@ export type RejectSignatureOrderInput = {
 
 export type RejectSignatureOrderOutput = {
   __typename?: 'RejectSignatureOrderOutput';
-  viewer: AnonymousViewer | Application | SignatoryViewer | UnvalidatedSignatoryViewer | UserViewer;
+  viewer: AnonymousViewer | Application | BatchSignatoryViewer | SignatoryViewer | UnvalidatedSignatoryViewer | UserViewer;
 };
 
 export type RetrySignatureOrderWebhookInput = {
@@ -791,7 +849,7 @@ export type SignOidcInput = {
 
 export type SignOutput = {
   __typename?: 'SignOutput';
-  viewer: AnonymousViewer | Application | SignatoryViewer | UnvalidatedSignatoryViewer | UserViewer;
+  viewer: AnonymousViewer | Application | BatchSignatoryViewer | SignatoryViewer | UnvalidatedSignatoryViewer | UserViewer;
 };
 
 export type Signatory = {
@@ -822,7 +880,7 @@ export type SignatoryBeaconInput = {
 
 export type SignatoryBeaconOutput = {
   __typename?: 'SignatoryBeaconOutput';
-  viewer: AnonymousViewer | Application | SignatoryViewer | UnvalidatedSignatoryViewer | UserViewer;
+  viewer: AnonymousViewer | Application | BatchSignatoryViewer | SignatoryViewer | UnvalidatedSignatoryViewer | UserViewer;
 };
 
 export type SignatoryDocumentConnection = {
@@ -1080,7 +1138,7 @@ export type TrackSignatoryInput = {
 
 export type TrackSignatoryOutput = {
   __typename?: 'TrackSignatoryOutput';
-  viewer: AnonymousViewer | Application | SignatoryViewer | UnvalidatedSignatoryViewer | UserViewer;
+  viewer: AnonymousViewer | Application | BatchSignatoryViewer | SignatoryViewer | UnvalidatedSignatoryViewer | UserViewer;
 };
 
 export type UnvalidatedSignatoryViewer = Viewer & {
@@ -1106,7 +1164,7 @@ export type UpdateSignatoryDocumentStatusInput = {
 export type UpdateSignatoryDocumentStatusOutput = {
   __typename?: 'UpdateSignatoryDocumentStatusOutput';
   documentEdge: SignatoryDocumentEdge;
-  viewer: AnonymousViewer | Application | SignatoryViewer | UnvalidatedSignatoryViewer | UserViewer;
+  viewer: AnonymousViewer | Application | BatchSignatoryViewer | SignatoryViewer | UnvalidatedSignatoryViewer | UserViewer;
 };
 
 export type UserViewer = Viewer & {
