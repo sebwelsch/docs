@@ -1,0 +1,47 @@
+---
+product: signatures
+category: Guides
+sort: 20
+title: Batch Signatory
+---
+
+import GraphQLExample from '../../../components/GraphQLExample';
+
+**Batch Signatory** is a concept for bundling multiple signatories.
+Previously, it was only possible for each signatory to sign PDF documents individually.
+With a batch signatory, one can perform batch operations in a single call, acting on behalf of several signatories. This helps avoid repeated authentications or rejections.
+
+A batch signatory can be created by providing a list of signature order ID + signatory ID pairs.
+
+Each signature order and signatory **must share** at least one evidence provider.
+This is required to be able to invoke a single authentication and have it signed on every document in the batch.
+
+## Creating a batch signatory
+
+import createExample from '../../../examples/createBatchSignatory/basic'
+
+A batch signatory requires a list of previously created signature orders and signatories.
+
+Each signatory pair needs to be valid, i.e., the signatory needs to be from the signature order **and** every signatory needs to share at least one evidence provider.
+Batch signatories are validated upon creation to ensure valid state.
+
+A more specialized case is having more signatories for the same signature order in the same batch.
+
+<GraphQLExample example={createExample} />
+
+The batch signatory can then view, approve and sign or reject as usual via the normal flow.
+
+### UI settings
+
+import uiExample from '../../../examples/createBatchSignatory/ui'
+
+As with signature orders and signatories, it is possible to define UI settings for batch signatories.
+The UI settings are defined for the batch, which means that settings defined for signature orders and signatories won't be considered.
+
+<GraphQLExample example={uiExample} />
+
+## Interactive tour
+
+import BatchSignatoryInteractiveTour from '../../../examples/createBatchSignatory/BatchSignatoryInteractiveTour';
+
+<BatchSignatoryInteractiveTour />
