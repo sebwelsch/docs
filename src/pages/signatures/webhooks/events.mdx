@@ -3,7 +3,7 @@ product: signatures
 category: Webhooks
 sort: 1
 title: Events
-subtitle: A list of events and sample payloads.
+subtitle: Listen to Signatures events
 ---
 
 Webhooks will be executed as `POST` requests against the URL you have defined on your signature order. The URL will be used as-is, no parameters will be stripped.
@@ -11,6 +11,65 @@ Webhooks will be executed as `POST` requests against the URL you have defined on
 The POST request will contain a `JSON` body similar to the events shown below.
 
 You can use the values included in the webhook body to query the GraphQL API for more details.
+
+# Delivery behaviour
+
+All non-200 HTTP status codes will be retried according to a retry backoff sequence:
+
+<table>
+    <thead>
+        <tr>
+            <th>**Attempt**</th>
+            <th>**Wait Time**</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>5 seconds</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>30 seconds</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>60 seconds</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>5 minutes</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>60 minutes</td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td>5 hours</td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td>12 hours</td>
+        </tr>
+        <tr>
+            <td>8</td>
+            <td>24 hours</td>
+        </tr>
+        <tr>
+            <td>9</td>
+            <td>36 hours</td>
+        </tr>
+        <tr>
+            <td>10</td>
+            <td>48 hours</td>
+        </tr>
+    </tbody>
+</table>
+
+# Webhook Events
+
+A list of events and sample payloads.
 
 ## SIGNATORY_SIGNED
 
