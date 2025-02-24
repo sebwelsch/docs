@@ -19,9 +19,14 @@ You can use the copy application feature from test to production to ensure the s
 
 ## MitID Core Client error
 
-If you encounter the `mitid_core_client_error` while running test logins, it indicates issues with the MitID PP environment. 
+If you encounter the `mitid_core_client_error` while running test logins, it indicates issues with the MitID PP environment.
+In relation to this error, you may also see error messages such as `unknown: Error loading authenticator`, `unknown: API xhr time error` or `unknown: undefined is not an object`.
+The errors come directly from the MitID core client, and are just passed through to your application by Criipto.
+Please note that the MitID PP environment may occasionally experience instability, and MitID does not provide SLAs or status updates for this environment.
+Criipto does not have control over the MitID Test Tools.
 
-Please note that the MitID PP environment may occasionally experience instability, and MitID does not provide SLAs or status updates for this environment. Criipto does not have control over the MitID Test Tools.
+You may also occasionally see the `mitid_core_client_error` in production.
+This error is not actionable (i.e. there is nothing you or we can do to fix it), but the error can almost always be solved by the end user by trying to authenticate again.
 
 ### Using TOTP test user as a workaround
 
