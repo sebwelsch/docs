@@ -25,14 +25,14 @@ It is currently not possible to sign documents that have previously been signed,
 
 ### Changing authentication options
 
-You can modify Criipto Verify evidence provider settings to change the runtime behavior: 
+You can modify Criipto Verify evidence provider settings to change the runtime behavior:
 
-- To change authentication methods displayed, add [`acrValues`](/verify/getting-started/oidc-intro#authorize-request-parameters). 
-- To disable popups, set `"alwaysRedirect": true`. 
-- To specify the user data you need, add the [OpenID Connect `scope`](/verify/getting-started/oidc-intro/#the-scope-parameter). 
-- To add a message, use [`loginHint`](/verify/getting-started/oidc-intro/#the-loginhint-parameter). 
+- To change authentication methods displayed, add [`acrValues`](/verify/getting-started/oidc-intro#authorize-request-parameters).
+- To disable popups, set `"alwaysRedirect": true`.
+- To specify the user data you need, add the [OpenID Connect `scope`](/verify/getting-started/oidc-intro/#the-scope-parameter).
+- To add a message, use [`loginHint`](/verify/getting-started/oidc-intro/#the-loginhint-parameter).
 
-To experiment with different settings, see [Authorize URL builder](/verify/guides/authorize-url-builder/). 
+To experiment with different settings, see [Authorize URL builder](/verify/guides/authorize-url-builder/).
 
 import criiptoVerifyOptionsExample from '../../../examples/createSignatureOrder/criiptoVerifyOptions';
 
@@ -93,7 +93,7 @@ import addSignatoryEvidenceValidationExample from '../../../examples/addSignator
 
 ### UI Settings
 
-By default a signatory inherits its UI settings from the signature order, but it is also possible to 
+By default a signatory inherits its UI settings from the signature order, but it is also possible to
 define this on a per-signatory basis, to support specific languages per user, etc.
 
 import addSignatoryuiExample from '../../../examples/addSignatory/ui';
@@ -148,6 +148,21 @@ If you need to add signatories in bulk you can use the `addSignatories` mutation
 import addSignatoriesExample from '../../../examples/addSignatories/basic';
 
 <GraphQLExample example={addSignatoriesExample} />
+
+### Evidence provider settings
+
+It is possible to override some signature order evidence provider settings per signatory, such as:
+
+* acr values
+* unique evidence key
+* always redirect
+* message
+* login hint
+* scope
+
+import addSignatoryOverrideEvidenceProviderSettings from '../../../examples/addSignatory/overrideEvidenceProviderSettings';
+
+<GraphQLExample example={addSignatoryOverrideEvidenceProviderSettings} />
 
 ## Signature Apperance
 
