@@ -32,6 +32,7 @@ function slugToPath(slug: string) {
 interface Props {
   path: string | undefined
   hidden?: boolean
+  onLinkClick?: () => void;
 }
 
 const navigationQuery = gatsbyGraphql`query Navigation {
@@ -98,7 +99,7 @@ export default function Navigation(props: Props) {
     return (
       <ul>
         <li>
-          <Link to="/verify" className="block mb-3 font-medium text-primary-600 text-lg">
+          <Link to="/verify" className="block mb-3 font-medium text-primary-600 text-lg" onClick={props.onLinkClick}>
             Criipto Verify
           </Link>
           <ul className="space-y-2 border-l border-gray-100 text-md font-normal">
@@ -107,6 +108,7 @@ export default function Navigation(props: Props) {
                 <Link
                   to={slugToPath(findIndexPage(category, verifyPages)!.fields!.slug!)}
                   className="block border-l pl-4 py-1 lg:py-0 -ml-px border-transparent hover:border-gray-400 text-primary-600 hover:text-deep-purple-900 hover:font-medium"
+                  onClick={props.onLinkClick}          
                 >
                   {category}
                 </Link>
@@ -115,13 +117,14 @@ export default function Navigation(props: Props) {
             <Link
               to="/verify/articles"
               className="block border-l pl-4 py-1 lg:py-0 -ml-px border-transparent hover:border-gray-400 text-primary-600 hover:text-deep-purple-900 hover:font-medium"
+              onClick={props.onLinkClick}
             >
               Articles
             </Link>
           </ul>
         </li>
         <li className="mt-8">
-          <Link to="/signatures" className="block mb-3 font-medium text-primary-600 text-lg">
+          <Link to="/signatures" className="block mb-3 font-medium text-primary-600 text-lg" onClick={props.onLinkClick}>
             Criipto Signatures
           </Link>
           <ul className="space-y-2 border-l border-gray-100 text-md font-normal">
@@ -130,6 +133,7 @@ export default function Navigation(props: Props) {
                 <Link
                   to={slugToPath(findIndexPage(category, signaturesPages)!.fields!.slug!)}
                   className="block border-l pl-4 py-1 lg:py-0 -ml-px border-transparent hover:border-gray-400 text-primary-600 hover:text-deep-purple-900 hover:font-medium"
+                  onClick={props.onLinkClick}
                 >
                   {category}
                 </Link>
@@ -149,13 +153,14 @@ export default function Navigation(props: Props) {
       {categories.map((category, index) => (
         <li key={category} className={index > 0 ? 'mt-8' : ''}>
           {findIndexPage(category, pages) ? (
-            <Link to={slugToPath(findIndexPage(category, pages)!.fields!.slug!)} className="block mb-3 font-medium text-primary-600">{category}</Link>
+            <Link to={slugToPath(findIndexPage(category, pages)!.fields!.slug!)} className="block mb-3 font-medium text-primary-600"  onClick={props.onLinkClick}>{category}</Link>
           ) : (
             <h5 className="mb-3 font-medium text-primary-600">{category}</h5>
           )}
           <ul className="space-y-2 border-l border-gray-100 text-md font-normal">
             {isVerify && category === 'Guides & Tools' && (
               <Link
+                onClick={props.onLinkClick}
                 to="/verify/articles"
                 getProps={(props) => ({className: `block border-l pl-4 py-1 lg:py-0 -ml-px border-transparent ${props.isCurrent ? 'text-deep-purple-900 border-current font-medium' : 'hover:border-gray-400 text-primary-600 hover:text-deep-purple-900 hover:font-medium'}`})}
               >
@@ -165,6 +170,7 @@ export default function Navigation(props: Props) {
             {pages.filter(node => !isIndexPage(node) && node.frontmatter?.category === category).map(page => (
               <li key={page.id}>
                 <Link
+                  onClick={props.onLinkClick}
                   to={slugToPath(page.fields!.slug!)}
                   getProps={(props) => ({className: `block border-l pl-4 py-1 lg:py-0 -ml-px border-transparent ${props.isCurrent ? 'text-deep-purple-900 border-current font-medium' : 'hover:border-gray-400 text-primary-600 hover:text-deep-purple-900 hover:font-medium'}`})}
                 >
@@ -234,7 +240,7 @@ export function MobileNavigation(props: Props & MobileProps) {
                   <path d="M0 0L3 3L0 6" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"></path>
                 </svg>
               </li>
-              <li className="font-medium text-slate-900 truncate ">
+              <li className="font-medium text-slate-900 max-w-8 whitespace-normal">
                 {title}
               </li>
             </ol>
@@ -258,8 +264,7 @@ export function MobileNavigation(props: Props & MobileProps) {
               <path d="M0 0L10 10M10 0L0 10" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"></path>
             </svg>
           </button>
-
-          <Navigation {...props} />
+          <Navigation {...props} onLinkClick={() => setShowNavigation(false)} /> 
         </div>
       </div>
 

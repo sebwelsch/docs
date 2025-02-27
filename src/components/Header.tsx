@@ -1,4 +1,4 @@
-import React, {useEffect, useReducer, useState} from 'react';
+import React, {useEffect, useReducer, useState, useRef } from 'react';
 import { Link } from "gatsby";
 
 import Search from './Search';
@@ -6,6 +6,7 @@ import logo from '../images/criipto-logo.png';
 
 export default function Header(props: {path: string | undefined, className?: string}) {
   const [showDropdown, toggleDropdown] = useReducer((value) => !value, false);
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
   const [showSearch, setShowSearch] = useState(false);
   const {path} = props;
   const isVerify = path?.startsWith('/verify');
@@ -20,6 +21,21 @@ export default function Header(props: {path: string | undefined, className?: str
     document.addEventListener('keyup', handler);
     return () => document.removeEventListener('keyup', handler);
   }, []);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent): void {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        toggleDropdown();
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
 
   return (
     <React.Fragment>
@@ -58,8 +74,8 @@ export default function Header(props: {path: string | undefined, className?: str
                   )}
                 </button>
                 {showDropdown && (
-                  <div className="absolute top-full mt-1 py-2 w-60 rounded-lg bg-white shadow ring-1 ring-gray-900/5 leading-6 font-medium uppercase text-deep-purple-900 z-60">
-                    <Link to="/verify">
+                  <div className="absolute top-full mt-1 py-2 w-60 rounded-lg bg-white shadow ring-1 ring-gray-900/5 leading-6 font-medium uppercase text-deep-purple-900 z-60" ref={dropdownRef}>
+                    <Link to="/verify" onClick={toggleDropdown}>
                       <span className="flex items-center justify-between px-3 py-1 text-deep-purple-900 hover:text-primary-600">
                         Verify (eIDs)
                         {isVerify && (
@@ -67,7 +83,7 @@ export default function Header(props: {path: string | undefined, className?: str
                         )}
                       </span>
                     </Link>
-                    <Link to="/signatures">
+                    <Link to="/signatures" onClick={toggleDropdown}>
                       <span className="flex items-center justify-between px-3 py-1 text-deep-purple-900 hover:text-primary-600">
                         Signatures
                         {isSignatures && (
