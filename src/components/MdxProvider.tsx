@@ -152,7 +152,7 @@ export const Highlight = (props: {children: React.ReactNode, icon?: string, warn
   return (
     <div className={`mdx-highlight bg-gray-200 ${props.warning ? 'bg-yellow-100' : ''} rounded-md p-4 max-w-screen-md ${props.icon ? 'relative pl-10' : ''}`}>
       {props.icon ? (
-        <FontAwesomeIcon className="absolute left-4 top-4 text-2xl" icon={`fa-solid fa-${props.icon}` as any} />
+        <FontAwesomeIcon style={{ height: "1.5rem" }} className="absolute left-4 top-4 text-2xl" icon={`fa-solid fa-${props.icon}` as any} />
       ) : null}
       
       {props.children}
