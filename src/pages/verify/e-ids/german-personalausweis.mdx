@@ -141,7 +141,7 @@ The table below contains a description of the data groups and standard profiles.
 </table>
 
 For applications configured to use a `dynamic` `scope` strategy, a profile can be selected on each request using the `scope` parameter prefixed with `odis:`, e.g. `odis:Profile1`.
-For applications configured to use a `static` `scope` strategy, the profile will always be `Pseudonym`.
+For applications configured to use a `static` `scope` strategy, you can configure the profile in the Dashboard. If nothing is configured, the profile will be `Pseudonym`.
 
 It is possible to define your own profiles if you have special requirements; if you would like to do so, please contact sales.
 
@@ -151,6 +151,14 @@ The reference text consists of a _template_ with a single placeholder and a _dyn
 If a template is registered for the client, `txinfo` _must_ be passed as a `login_hint` on each request.
 The template may be up to 118 characters long and can contain any characters.
 The `txinfo` parameter can be up to 32 characters long and can only contain alphanumeric characters (in particular, it cannot contain spaces).
+
+### Flow selection
+You should usually let the end user select whether they would like to use the AusweisApp on the same device as their browser or on another device (e.g. a mobile phone).
+Verify will normally display a screen to let the user select which device they would like to use.
+You can skip this screen for a request by passing either `flow:same-device` or `flow:another-device` as a `login_hint`.
+
+This can be useful in testing, and also allows you to build your own selection screen instead of using the one displayed by Verify.
+We do not recommend skipping the selection screen under any other circumstances, since you risk "stranding" users who would have chosen the other option.
 
 ### Test authorize requests
 You can use Criipto's test environment to test your integration before ordering your own client credentials (see below).
