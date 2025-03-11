@@ -10,6 +10,18 @@ import {ImageContainer} from '../../../components/MdxProvider';
 import DanishMitIDCompanySignatoryJwtSnippet from '../../../snippets/jwt-payloads/danish-mitid-erhverv-company-signatory';
 import DanishMitIDErhvervJwtSnippet from '../../../snippets/jwt-payloads/danish-mitid-erhverv';
 
+## Employees and company signatories
+There are two kinds of business user roles in MitID: _employees_ and _company signatories_.
+_Employees_ can be anyone who works at the company, and are registered by the company in MitID Erhverv.
+_Company signatories_ are allowed to act on behalf of the company itself, and could e.g. be the CEO of a company.
+A natural person can have both an _employee_ and a _company signatory_ role in the same company.
+
+_Employees_ are registered in MitID Erhverv, and are looked up based on the MitID UUID.
+_Company signatories_ can be registered in MitID Erhverv, but this is not mandatory.
+For companies without MitID Erhverv, _company signatories_ are instead looked up in Erhvervsstyrelsen's systems.
+This is done via the CPR number of the user.
+If you need _company signatories_, we will thus always ask users for their CPR number.
+
 ## JWT/Token examples
 
 ### MitID for company signatories
@@ -24,9 +36,12 @@ The `sub`, `nameidentifier` and `uuid` values here will not be the same as for a
 
 ## Collecting CPR numbers (optional)
 
-Business users (both _employees_ and _company signatories_) may not always have CPR numbers associated with their profiles.
+Business users in MitID Erhverv (both _employees_ and _company signatories_) may not always have CPR numbers associated with their profiles.
 
-CPR numbers are also not required for accessing information about the business entities where the user holds a position as a signatory or an employee. Criipto relies on the user's UUID to retrieve this information from the MitID Erhverv API. Therefore, if you don't need CPR numbers in business logins, no additional configuration is required.
+CPR numbers are also not required for accessing information about the business entities where the user holds a position as an _employee_.
+Criipto relies on the user's UUID to retrieve this information from the MitID Erhverv API.
+Therefore, if you don't need CPR numbers in business logins, no additional configuration is required.
+Note that if you need _company signatories_, we will ask users for their CPR number even if your application does not ask for them (see above).
 
 If you do require CPR numbers, you can collect them by enabling the two toggles in the [management dashboard](https://dashboard.criipto.com/providers/DK_MITID):
 - Add CPR for MitID logins
@@ -34,7 +49,9 @@ If you do require CPR numbers, you can collect them by enabling the two toggles 
 
 ![CPR toggles](./images/mitid-erhverv-CPR-toggle-dashboard.png)
 
-When the "CPR Optional" toggle is enabled, a user will be prompted to provide their CPR number ONLY if the CPR number is registered in their profile. This feature can be useful in a scenario where you offer both MitID citizen logins and business logins, and [require CPR numbers for the citizen logins](/verify/e-ids/danish-mitid/#collecting-cpr-numbers).
+This feature can be useful in a scenario where you offer both MitID citizen logins and business logins, and [require CPR numbers for the citizen logins](/verify/e-ids/danish-mitid/#collecting-cpr-numbers).
+Please note that it is only possible to collect CPR numbers for _company signatories_.
+_Employee identities_ are legally distinct from the personal identity of the natural person, and it is not legal to correlate the two.
 
 ## Request business logins
 
