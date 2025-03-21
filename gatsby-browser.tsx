@@ -19,6 +19,7 @@ import MdxLayout from './src/layouts/mdx';
 import DefaultLayout from './src/layouts/default';
 import FullscreenLayout from './src/layouts/fullscreen';
 import NotFoundLayout from './src/layouts/404';
+import VerifyErrorLayout from './src/layouts/verify-error';
 
 import wrapWithProvider from "./src/state/wrap-with-provider";
 export const wrapRootElement : GatsbyBrowser["wrapRootElement"] = wrapWithProvider;
@@ -50,6 +51,15 @@ export const wrapPageElement : GatsbyBrowser["wrapPageElement"] = ({props, eleme
       >
         {element}
       </NotFoundLayout>
+    );
+  }
+  if ((props.pageContext as any).frontmatter?.layout === 'verify-error') {
+    return (
+      <VerifyErrorLayout
+        {...props}
+      >
+        {element}
+      </VerifyErrorLayout>
     );
   }
   if (!(props.pageContext as any).frontmatter) {

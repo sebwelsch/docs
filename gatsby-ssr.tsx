@@ -7,6 +7,7 @@ import MdxLayout from './src/layouts/mdx';
 import DefaultLayout from './src/layouts/default';
 import FullscreenLayout from './src/layouts/fullscreen';
 import NotFoundLayout from './src/layouts/404';
+import VerifyErrorLayout from './src/layouts/verify-error';
 
 export const wrapRootElement : GatsbySSR["wrapRootElement"] = wrapWithProvider;
 library.add(fas);
@@ -32,12 +33,21 @@ export const wrapPageElement : GatsbySSR["wrapPageElement"] = ({props, element})
     );
   }
   if ((props.pageContext as any).frontmatter?.layout === '404') {
+    return (
+      <NotFoundLayout
+        {...props}
+      >
+        {element}
+      </NotFoundLayout>
+    );
+  }
+  if ((props.pageContext as any).frontmatter?.layout === 'verify-error') {
       return (
-        <NotFoundLayout
+        <VerifyErrorLayout
           {...props}
         >
           {element}
-        </NotFoundLayout>
+        </VerifyErrorLayout>
       );
     }
   if (!(props.pageContext as any).frontmatter) {
