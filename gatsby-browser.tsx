@@ -18,6 +18,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 import MdxLayout from './src/layouts/mdx';
 import DefaultLayout from './src/layouts/default';
 import FullscreenLayout from './src/layouts/fullscreen';
+import NotFoundLayout from './src/layouts/404';
 
 import wrapWithProvider from "./src/state/wrap-with-provider";
 export const wrapRootElement : GatsbyBrowser["wrapRootElement"] = wrapWithProvider;
@@ -40,6 +41,15 @@ export const wrapPageElement : GatsbyBrowser["wrapPageElement"] = ({props, eleme
       >
         {element}
       </FullscreenLayout>
+    );
+  }
+  if ((props.pageContext as any).frontmatter?.layout === '404') {
+    return (
+      <NotFoundLayout
+        {...props}
+      >
+        {element}
+      </NotFoundLayout>
     );
   }
   if (!(props.pageContext as any).frontmatter) {

@@ -6,6 +6,7 @@ import wrapWithProvider from "./src/state/wrap-with-provider";
 import MdxLayout from './src/layouts/mdx';
 import DefaultLayout from './src/layouts/default';
 import FullscreenLayout from './src/layouts/fullscreen';
+import NotFoundLayout from './src/layouts/404';
 
 export const wrapRootElement : GatsbySSR["wrapRootElement"] = wrapWithProvider;
 library.add(fas);
@@ -20,7 +21,7 @@ export const wrapPageElement : GatsbySSR["wrapPageElement"] = ({props, element})
       </DefaultLayout>
     );
   }
-  console.log((props.pageContext as any).frontmatter?.layout);
+  
   if ((props.pageContext as any).frontmatter?.layout === 'fullscreen') {
     return (
       <FullscreenLayout
@@ -30,6 +31,15 @@ export const wrapPageElement : GatsbySSR["wrapPageElement"] = ({props, element})
       </FullscreenLayout>
     );
   }
+  if ((props.pageContext as any).frontmatter?.layout === '404') {
+      return (
+        <NotFoundLayout
+          {...props}
+        >
+          {element}
+        </NotFoundLayout>
+      );
+    }
   if (!(props.pageContext as any).frontmatter) {
     return element;
   }
