@@ -35,4 +35,4 @@ The `cleanupSignatureOrder` is idempotent. If you are ever in a situation where 
 import GraphQLExample from '../../../components/GraphQLExample';
 import * as closeSignatureOrderExample from '../../../examples/closeSignatureOrder.graphql';
 
-<GraphQLExample example={{query: closeSignatureOrderExample.query, variables: (data) => ({...closeSignatureOrderExample.variables(data), retainDocumentsForDays: 1})}} />
+<GraphQLExample example={{query: closeSignatureOrderExample.query, variables: (data) => ({...closeSignatureOrderExample.variables(data), input: {...closeSignatureOrderExample.variables(data).input, retainDocumentsForDays: 1}})}} />
