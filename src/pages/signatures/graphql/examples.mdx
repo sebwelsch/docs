@@ -6,6 +6,7 @@ title: Examples
 ---
 
 import GraphQLExample from '../../../components/GraphQLExample';
+import { Link } from "gatsby";
 
 ## Creating a signature order
 
@@ -70,6 +71,16 @@ Will add a unique identifier for the document to the specified margin of each pa
 import displayDocumentIDExample from '../../../examples/createSignatureOrder/displayDocumentID';
 
 <GraphQLExample example={displayDocumentIDExample} />
+
+## Changing signature order
+
+It is possible to change some of the properties of an existing signature order.
+
+For an up-to-date list of properties that can be changed, see the definition of `ChangeSignatureOrderInput` mutation in <Link to="../schema">Schema</Link>.
+
+import changeSignatureOrderBasicExample from '../../../examples/changeSignatureOrder/basic';
+
+<GraphQLExample example={changeSignatureOrderBasicExample} />
 
 ## Adding a signatory to a signature order
 
