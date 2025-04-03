@@ -1384,7 +1384,6 @@ export type MdxFrontmatter = {
   articles?: Maybe<Scalars['String']['output']>;
   category?: Maybe<Scalars['String']['output']>;
   date?: Maybe<Scalars['Date']['output']>;
-  layout?: Maybe<Scalars['String']['output']>;
   product?: Maybe<Scalars['String']['output']>;
   sort?: Maybe<Scalars['Int']['output']>;
   subtitle?: Maybe<Scalars['String']['output']>;
@@ -1403,7 +1402,6 @@ export type MdxFrontmatterFieldSelector = {
   articles?: InputMaybe<FieldSelectorEnum>;
   category?: InputMaybe<FieldSelectorEnum>;
   date?: InputMaybe<FieldSelectorEnum>;
-  layout?: InputMaybe<FieldSelectorEnum>;
   product?: InputMaybe<FieldSelectorEnum>;
   sort?: InputMaybe<FieldSelectorEnum>;
   subtitle?: InputMaybe<FieldSelectorEnum>;
@@ -1414,7 +1412,6 @@ export type MdxFrontmatterFilterInput = {
   articles?: InputMaybe<StringQueryOperatorInput>;
   category?: InputMaybe<StringQueryOperatorInput>;
   date?: InputMaybe<DateQueryOperatorInput>;
-  layout?: InputMaybe<StringQueryOperatorInput>;
   product?: InputMaybe<StringQueryOperatorInput>;
   sort?: InputMaybe<IntQueryOperatorInput>;
   subtitle?: InputMaybe<StringQueryOperatorInput>;
@@ -1425,7 +1422,6 @@ export type MdxFrontmatterSortInput = {
   articles?: InputMaybe<SortOrderEnum>;
   category?: InputMaybe<SortOrderEnum>;
   date?: InputMaybe<SortOrderEnum>;
-  layout?: InputMaybe<SortOrderEnum>;
   product?: InputMaybe<SortOrderEnum>;
   sort?: InputMaybe<SortOrderEnum>;
   subtitle?: InputMaybe<SortOrderEnum>;
@@ -1763,9 +1759,11 @@ export type QueryMdxArgs = {
 
 
 export type QuerySiteArgs = {
+  adapter?: InputMaybe<SiteAdapterFilterInput>;
   buildTime?: InputMaybe<DateQueryOperatorInput>;
   children?: InputMaybe<NodeFilterListInput>;
   graphqlTypegen?: InputMaybe<BooleanQueryOperatorInput>;
+  headers?: InputMaybe<SiteHeadersFilterListInput>;
   host?: InputMaybe<StringQueryOperatorInput>;
   id?: InputMaybe<StringQueryOperatorInput>;
   internal?: InputMaybe<InternalFilterInput>;
@@ -1836,9 +1834,11 @@ export type QuerySitePluginArgs = {
 
 export type Site = Node & {
   __typename?: 'Site';
+  adapter?: Maybe<SiteAdapter>;
   buildTime?: Maybe<Scalars['Date']['output']>;
   children: Array<Node>;
   graphqlTypegen?: Maybe<Scalars['Boolean']['output']>;
+  headers?: Maybe<Array<Maybe<SiteHeaders>>>;
   host?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   internal: Internal;
@@ -1857,6 +1857,23 @@ export type SiteBuildTimeArgs = {
   formatString?: InputMaybe<Scalars['String']['input']>;
   fromNow?: InputMaybe<Scalars['Boolean']['input']>;
   locale?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type SiteAdapter = {
+  __typename?: 'SiteAdapter';
+  name?: Maybe<Scalars['String']['output']>;
+};
+
+export type SiteAdapterFieldSelector = {
+  name?: InputMaybe<FieldSelectorEnum>;
+};
+
+export type SiteAdapterFilterInput = {
+  name?: InputMaybe<StringQueryOperatorInput>;
+};
+
+export type SiteAdapterSortInput = {
+  name?: InputMaybe<SortOrderEnum>;
 };
 
 export type SiteBuildMetadata = Node & {
@@ -2037,9 +2054,11 @@ export type SiteEdge = {
 };
 
 export type SiteFieldSelector = {
+  adapter?: InputMaybe<SiteAdapterFieldSelector>;
   buildTime?: InputMaybe<FieldSelectorEnum>;
   children?: InputMaybe<NodeFieldSelector>;
   graphqlTypegen?: InputMaybe<FieldSelectorEnum>;
+  headers?: InputMaybe<SiteHeadersFieldSelector>;
   host?: InputMaybe<FieldSelectorEnum>;
   id?: InputMaybe<FieldSelectorEnum>;
   internal?: InputMaybe<InternalFieldSelector>;
@@ -2053,9 +2072,11 @@ export type SiteFieldSelector = {
 };
 
 export type SiteFilterInput = {
+  adapter?: InputMaybe<SiteAdapterFilterInput>;
   buildTime?: InputMaybe<DateQueryOperatorInput>;
   children?: InputMaybe<NodeFilterListInput>;
   graphqlTypegen?: InputMaybe<BooleanQueryOperatorInput>;
+  headers?: InputMaybe<SiteHeadersFilterListInput>;
   host?: InputMaybe<StringQueryOperatorInput>;
   id?: InputMaybe<StringQueryOperatorInput>;
   internal?: InputMaybe<InternalFilterInput>;
@@ -2254,6 +2275,56 @@ export type SiteGroupConnectionMinArgs = {
 
 export type SiteGroupConnectionSumArgs = {
   field: SiteFieldSelector;
+};
+
+export type SiteHeaders = {
+  __typename?: 'SiteHeaders';
+  headers?: Maybe<Array<Maybe<SiteHeadersHeaders>>>;
+  source?: Maybe<Scalars['String']['output']>;
+};
+
+export type SiteHeadersFieldSelector = {
+  headers?: InputMaybe<SiteHeadersHeadersFieldSelector>;
+  source?: InputMaybe<FieldSelectorEnum>;
+};
+
+export type SiteHeadersFilterInput = {
+  headers?: InputMaybe<SiteHeadersHeadersFilterListInput>;
+  source?: InputMaybe<StringQueryOperatorInput>;
+};
+
+export type SiteHeadersFilterListInput = {
+  elemMatch?: InputMaybe<SiteHeadersFilterInput>;
+};
+
+export type SiteHeadersHeaders = {
+  __typename?: 'SiteHeadersHeaders';
+  key?: Maybe<Scalars['String']['output']>;
+  value?: Maybe<Scalars['String']['output']>;
+};
+
+export type SiteHeadersHeadersFieldSelector = {
+  key?: InputMaybe<FieldSelectorEnum>;
+  value?: InputMaybe<FieldSelectorEnum>;
+};
+
+export type SiteHeadersHeadersFilterInput = {
+  key?: InputMaybe<StringQueryOperatorInput>;
+  value?: InputMaybe<StringQueryOperatorInput>;
+};
+
+export type SiteHeadersHeadersFilterListInput = {
+  elemMatch?: InputMaybe<SiteHeadersHeadersFilterInput>;
+};
+
+export type SiteHeadersHeadersSortInput = {
+  key?: InputMaybe<SortOrderEnum>;
+  value?: InputMaybe<SortOrderEnum>;
+};
+
+export type SiteHeadersSortInput = {
+  headers?: InputMaybe<SiteHeadersHeadersSortInput>;
+  source?: InputMaybe<SortOrderEnum>;
 };
 
 export type SitePage = Node & {
@@ -2582,9 +2653,11 @@ export type SiteSiteMetadataSortInput = {
 };
 
 export type SiteSortInput = {
+  adapter?: InputMaybe<SiteAdapterSortInput>;
   buildTime?: InputMaybe<SortOrderEnum>;
   children?: InputMaybe<NodeSortInput>;
   graphqlTypegen?: InputMaybe<SortOrderEnum>;
+  headers?: InputMaybe<SiteHeadersSortInput>;
   host?: InputMaybe<SortOrderEnum>;
   id?: InputMaybe<SortOrderEnum>;
   internal?: InputMaybe<InternalSortInput>;

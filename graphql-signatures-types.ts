@@ -171,6 +171,17 @@ export type ChangeSignatoryOutput = {
   signatureOrder: SignatureOrder;
 };
 
+export type ChangeSignatureOrderInput = {
+  /** Max allowed signatories (as it influences pages needed for seals). Cannot be changed after first signer. */
+  maxSignatories?: InputMaybe<Scalars['Int']['input']>;
+  signatureOrderId: Scalars['ID']['input'];
+};
+
+export type ChangeSignatureOrderOutput = {
+  __typename?: 'ChangeSignatureOrderOutput';
+  signatureOrder: SignatureOrder;
+};
+
 export type CleanupSignatureOrderInput = {
   signatureOrderId: Scalars['ID']['input'];
 };
@@ -484,6 +495,8 @@ export type Mutation = {
   cancelSignatureOrder?: Maybe<CancelSignatureOrderOutput>;
   /** Change an existing signatory */
   changeSignatory?: Maybe<ChangeSignatoryOutput>;
+  /** Change an existing signature order */
+  changeSignatureOrder?: Maybe<ChangeSignatureOrderOutput>;
   /** Cleans up the signature order and removes any saved documents from the servers. */
   cleanupSignatureOrder?: Maybe<CleanupSignatureOrderOutput>;
   /** Finalizes the documents in the signature order and returns them to you as blobs. Documents are deleted from storage after closing. */
@@ -537,6 +550,11 @@ export type MutationCancelSignatureOrderArgs = {
 
 export type MutationChangeSignatoryArgs = {
   input: ChangeSignatoryInput;
+};
+
+
+export type MutationChangeSignatureOrderArgs = {
+  input: ChangeSignatureOrderInput;
 };
 
 
@@ -673,8 +691,20 @@ export type PadesDocumentInput = {
   form?: InputMaybe<PadesDocumentFormInput>;
   /** Will not be displayed to signatories, can be used as a reference to your own system. */
   reference?: InputMaybe<Scalars['String']['input']>;
+  sealsPageTemplate?: InputMaybe<PadesDocumentSealsPageTemplateInput>;
   storageMode: DocumentStorageMode | '%future added value';
   title: Scalars['String']['input'];
+};
+
+export type PadesDocumentSealsPageTemplateInput = {
+  /** Using the PDF coordinate system, with (x1, y1) being bottom-left */
+  area: PdfBoundingBoxInput;
+  /** Must be a PDF containing a SINGLE page */
+  blob: Scalars['Blob']['input'];
+  /** Validate that the defined seal area produces the expected number of columns, will error if expectation is not met */
+  expectedColumns?: InputMaybe<Scalars['Int']['input']>;
+  /** Validate that the defined seal area produces the expected number of rows, will error if expectation is not met */
+  expectedRows?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** Information about pagination in a connection. */
@@ -688,6 +718,13 @@ export type PageInfo = {
   hasPreviousPage: Scalars['Boolean']['output'];
   /** When paginating backwards, the cursor to continue. */
   startCursor?: Maybe<Scalars['String']['output']>;
+};
+
+export type PdfBoundingBoxInput = {
+  x1: Scalars['Float']['input'];
+  x2: Scalars['Float']['input'];
+  y1: Scalars['Float']['input'];
+  y2: Scalars['Float']['input'];
 };
 
 export type PdfDocument = Document & {
@@ -1019,6 +1056,8 @@ export type SignatureOrder = {
   evidenceProviders: Array<AllOfSignatureEvidenceProvider | CriiptoVerifySignatureEvidenceProvider | DrawableSignatureEvidenceProvider | NoopSignatureEvidenceProvider | OidcJwtSignatureEvidenceProvider>;
   expiresAt: Scalars['DateTime']['output'];
   id: Scalars['ID']['output'];
+  /** Number of max signatories for the signature order */
+  maxSignatories: Scalars['Int']['output'];
   /** List of signatories for the signature order. */
   signatories: Array<Signatory>;
   status: SignatureOrderStatus | '%future added value';
@@ -1322,6 +1361,13 @@ export type ExampleChangeSignatoryMutationVariables = Exact<{
 
 
 export type ExampleChangeSignatoryMutation = { __typename?: 'Mutation', changeSignatory?: { __typename?: 'ChangeSignatoryOutput', signatory: { __typename?: 'Signatory', id: string, href: string, token: string } } | null };
+
+export type ExampleChangeSignatureOrderMutationVariables = Exact<{
+  input: ChangeSignatureOrderInput;
+}>;
+
+
+export type ExampleChangeSignatureOrderMutation = { __typename?: 'Mutation', changeSignatureOrder?: { __typename?: 'ChangeSignatureOrderOutput', signatureOrder: { __typename?: 'SignatureOrder', id: string, maxSignatories: number } } | null };
 
 export type ExampleValidateDocumentMutationVariables = Exact<{
   input: ValidateDocumentInput;
