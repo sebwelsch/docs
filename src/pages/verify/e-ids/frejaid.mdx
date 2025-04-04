@@ -1,0 +1,192 @@
+---
+product: verify
+category: eIDs
+sort: 0
+title: FrejaID
+subtitle: Learn more about FrejaID token contents, how to create test users and how to gain access to production.
+---
+import JwtPayloadViewer from '../../../components/JwtPayloadViewer';
+import SwedishFrejaIdJwtSnippet from '../../../snippets/jwt-payloads/swedish-frejaid'
+
+## JWT/Token example
+
+Triggered with `acr_values=urn:grn:authn:se:frejaid`.
+This example includes all claims that are generally available.
+
+<SwedishFrejaIdJwtSnippet />
+
+## Testing
+FrejaID is available to anyone, but some features are only available for Swedish citizens and EEA citizens with a coordination number (samordningsnummer) issued by the Swedish Tax Authority.
+For testing, you can easily generate a test user with your chosen level of access (which FrejaID calls the "registration level").
+
+### Installing the Freja app
+You can use the regular Freja app for testing.
+Simply download the app from the [App Store](https://apps.apple.com/us/app/freja/id1256552092) or [Google Play](https://play.google.com/store/apps/details?id=com.verisec.mobile.frejaeid).
+
+#### Configuring the app for testing
+To use the Freja app for testing, you must activate test mode.
+Note that the app will stay in test mode until you delete it from your device, so you should not use your normal Freja app for testing.
+
+To activate test mode in the Freja app:
+1. Open the Freja app
+2. Press "New User"
+3. Press "Get Started"
+4. Toggle the "General Terms & Conditions" button six times
+5. You should now see a screen saying "Welcome to Test Mode"
+6. Press "Start Test Mode"
+7. Press "OK" in the pop-up warning
+8. The Freja app will now close
+
+To create a Basic test user for the Freja app in test mode:
+1. Open the Freja app
+2. Press "New User"
+3. Press "Get Started"
+4. Accept the "General Terms & Conditions", the "Privacy Policy" and the disclaimer about falsifying identities
+5. Press "Continue"
+6. Press "Continue"
+7. Press "Set Notifications" if you want to test push Notifications
+8. Press "Allow" in the notification popup from your device
+9. Enter your email address (it must be a real email address where you can receive emails)
+10. Confirm your email address by pressing "Send"
+11. Open your email account and press the "Confirm" link in the email from "Freja - TEST MODE"
+12. Open the Freja app
+13. Choose a PIN code and enter it in both fields
+14. Press "Confirm"
+15. Your device may ask you whether you also want to register biometrics such as FaceID or fingerprint for Freja - select "Allow" if you want to use it
+16. Press "OK"
+17. Press "Later" when asked if you want to upgrade your account
+
+You now have a Basic Freja test user.
+
+#### Upgrading to Freja Extended
+To upgrade your Basic test user to Freja Extended in test mode:
+1. Open a browser and go to the [Freja Test Vetting Portal](https://vettingportal.test.frejaeid.com/)
+2. Enter the email you used to register the test user
+3. Press "Upgrade"
+4. Choose "Sweden" if you want access to test all features of Freja (and if you want to upgrade to Freja+ later)
+5. Press "Next"
+7. Select in a first name and a last name as well as a birth date and gender for the test user
+8. Press "Generate" to obtain a personal identity number (social security number) for the test user
+9. Write down the generated personal identity number - you will not be able to see it later
+9. Press "Upgrade"
+
+Your test user will now be registered as Extended, which gives you access to testing with more scopes.
+
+#### Upgrading to Freja+
+To upgrade your Extended test user to Freja+ in test mode:
+1. Open a browser and go to the [Freja Test Vetting Portal](https://vettingportal.test.frejaeid.com/)
+2. Enter the email you used to register the test user
+3. Press "Upgrade"
+
+Your test user will now be registered as Freja+, which gives you access to testing with even more scopes.
+
+#### Adding a phone number
+To add a phone number to your test user (for testing user binding via phone number):
+1. Open the Freja app
+2. Press "Settings" in the bottom right
+3. Press "My Pages"
+4. Press "Log In"
+5. Press "Approve" in the popup
+6. Confirm with PIN or biometrics
+7. Press the "hamburger" menu in the top left
+8. Press "User Details"
+9. Scroll down to "Phone number" and press the green "+" next to the header
+10. Select your country code and enter your phone number (it must be a real phone number which can receive SMS)
+11. Press "Add"
+12. Press "Yes"
+13. Press "Approve" in the popup
+14. Wait to receive an SMS from Freja with an activation code
+15. Enter the activation code from the SMS in the box labeled "Enter activation code"
+16. Press "Add"
+17. Close the website popup
+
+You can now use the phone number to bind requests to your test user.
+
+## Integrating with FrejaID
+
+### Registration levels
+FrejaID users can be registered at three different levels.
+The registration level of the user determines the scopes that will be available for that user.
+
+Anyone can register for FrejaID with just their email, and will then get registration level Basic.
+Users from most countries can register with their ID (e.g. their passport) and a photo, and will then get registration level Extended.
+Users who have a Swedish identity number ("personnummer") or coordination number ("samordningsnummer") will instead get registration level Plus when they register with their ID.
+
+### Scopes for FrejaID
+You must use scopes on each authentication to select what information about the user you require.
+All scopes mentioned below must be prefixed with `frejaid:`.
+You will always receive a `sub` value uniquely identifying the user for your service, even if you request no scopes.
+
+#### Common scopes
+The following scopes are available for all FrejaID users:
+- `email_address`: the primary email address of the user
+- `all_email_addresses`: all email addresses registered for the user
+- `all_phone_numbers`: all phone numbers registered for the user (may be an empty list)
+- `registration_level`: the actual registration level of the user
+
+#### Scopes that require registration level Extended or Plus
+The following scopes are only available for FrejaID users with registration level Extended or Plus:
+- `basic_user_info`: the first and last name of the user
+- `date_of_birth`: the user's date of birth
+- `age`: the user's age
+- `ssn`: the user's social security number (based on the registration document)
+- `addresses`: the addresses registered for the user (may be an empty list)
+- `document`: information from the registration document, such as the type and expiry date of the document
+- `photo`: a photo of the user
+- `document_photo`: a photo of the user's registration document
+
+To request these scopes, you must also set the minimum registration level to at least Extended (see below).
+
+Note that the `photo` and `document_photo` scopes produce very large JWTs containing images.
+These JWTs are not suitable as access tokens because they are too large for most browsers to store as cookies.
+For this reason, single-sign on functionality is automatically disabled for authentications started with these scopes.
+Additionally, JWTs containing photos are too large to return via an URL.
+For this reason, you cannot request the `photo` or `document_photo` scopes in combination with a `response_type` and `response_mode` that would return the token in an URL.
+For example, a request with `response_type=id_token` and `response_mode=fragment` will be rejected if it includes the `photo` scope.
+
+#### Special scopes
+The following scopes are only available by special arrangement.
+Contact support if you would like to use them:
+- `unique_personal_identifier`: a unique personal identifier which can be used to link FrejaID users across services
+- `loa_level`: the eIDAS Level of Assurance of the user
+- `custom_identifier`: a custom identifier registered by your organization in FrejaID's systems
+
+### Setting a minimum registration level
+Some scopes are only available for certain registration levels.
+You can select a minimum registration level with one of the following `login_hints`:
+- Basic: `minregistrationlevel:basic`
+- Extended: `minregistrationlevel:extended`
+- Plus: `minregistrationlevel:plus`
+
+Note that you will get an error if you select a minimum registration level that does not include the scopes you request.
+
+### Prefilling user information
+In some special cases, you may already know who you expect the user to be before they authenticate.
+In these cases, you can restrict the authentication to the specific user by supplying one of the following pieces of information:
+- The email address of the user
+- The phone number of the user
+- The country and social security number (SSN) of the user
+
+To supply an email address, use the `login_hint`: `sub:email:<email>`. Replace `<email>` with the email of the user.
+To supply a phone number, use the `login_hint`: `sub:phone:<phone number>`. Replace `<phone number>` with the phone number of the user (including a `+` and a country code).
+
+Supplying a country and an identity number is only supported for citizens of Sweden, Denmark, Finland and Norway.
+To supply the country of the user, use the `login_hint`: `sub:ssncountry:<country>`. Replace `<country>` with one of `SE`, `DK`, `NO`, or `FI`.
+To supply the SSN of the user, use the `login_hint`: `sub:ssn:<ssn>`. Replace `<ssn>` with the SSN of the user.
+For Swedish, Norwegian and Danish users, the SSN must be supplied without spaces or hyphens.
+For Finnish users, the SSN must be supplied with a hyphen or the letter `A` before the last four characters of the SSN.
+
+### Verifying user identity with photo
+For users registered with a photo (i.e. users who are on registration level Extended or Plus), FrejaID supports additional verification of the user's identity on each transaction.
+Enabling photo verification will force the user to take a photo of themselves when authenticating, then compare it with the registered photo for that user.
+If the photos do not match, the user will be unable to approve the transaction.
+You can enable photo verification with the `login_hint`: `userconfirmationmethod:defaultandface`.
+
+## Ordering FrejaID
+
+To start accepting real users with FrejaID, you must first request a certificate to identify your organization.
+You will have to go through a simple approval process with FrejaID. The process is managed by Criipto.
+Please contact sales to initiate the process.
+
+Once your organization and your intended use of FrejaID has been approved we will create and install the actual certificate in your Criipto tenant.
+You will then be ready to continue the process in the [getting ready for production guide](/verify/guides/production).
