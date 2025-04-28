@@ -15,6 +15,20 @@ const dkScopes = ['address', 'ssn']
 const noBankIdScopes = ['email', 'phone', 'address', 'ssn']
 const noVippsScopes = ['email', 'phone', 'address', 'birthdate', 'ssn']
 const personalAusweisScopes = ['odis:Pseudonym', 'odis:Profile1', 'odis:Profile2', 'odis:Profile3']
+const frejaIdScopes = [
+  'frejaid:email_address',
+  'frejaid:all_email_addresses',
+  'frejaid:all_phone_numbers',
+  'frejaid:registration_level',
+  'frejaid:basic_user_info',
+  'frejaid:date_of_birth',
+  'frejaid:age',
+  'frejaid:ssn',
+  'frejaid:addresses',
+  'frejaid:document',
+  'frejaid:photo',
+  'frejaid:document_photo'
+]
 
 export const PROVIDERS : Provider[] = [
   {
@@ -141,6 +155,17 @@ export const PROVIDERS : Provider[] = [
       }
     ],
     page: '/verify/e-ids/german-personalausweis'
+  },
+  {
+    title: 'Swedish FrejaID',
+    authMethods: [
+      {
+        title: 'Swedish FrejaID',
+        acrValue: 'urn:grn:authn:se:frejaid',
+        scopes: frejaIdScopes
+      }
+    ],
+    page: '/verify/e-ids/frejaid'
   },
   {
     title: 'Age verification',

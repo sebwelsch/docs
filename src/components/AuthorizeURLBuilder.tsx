@@ -39,6 +39,28 @@ const TXINFO_SUPPORT_ACR_VALUES = [
   'urn:grn:authn:de:personalausweis'
 ];
 
+const MINREGISTRATIONLEVEL_SUPPORT_ACR_VALUES = [
+  'urn:grn:authn:se:frejaid'
+];
+const minRegistrationLevels = ['basic', 'extended', 'plus'] as const;
+type MinRegistrationLevel = typeof minRegistrationLevels[number];
+const nonBasicFrejaIdScopes = [
+  'frejaid:basic_user_info',
+  'frejaid:date_of_birth',
+  'frejaid:age',
+  'frejaid:ssn',
+  'frejaid:addresses',
+  'frejaid:document',
+  'frejaid:photo',
+  'frejaid:document_photo'
+];
+
+const USERCONFIRMATIONMETHOD_SUPPORT_ACR_VALUES = [
+  'urn:grn:authn:se:frejaid'
+];
+const userConfirmationMethods = ['default', 'defaultandface'] as const;
+type UserConfirmationMethod = typeof userConfirmationMethods[number];
+
 const actions = ['login', 'confirm', 'accept', 'approve', 'sign'] as const;
 type Action = typeof actions[number];
 
@@ -65,6 +87,8 @@ interface AuthorizeURLOptions {
   message: string | null,
   nonVisibleData : string | null
   txInfo: string | null
+  minRegistrationLevel: MinRegistrationLevel | null
+  userConfirmationMethod: UserConfirmationMethod | null
 }
 
 const isBrowser = typeof window !== "undefined";
@@ -101,7 +125,9 @@ export default function AuthorizeURLBuilder(props: {
     action: null,
     message: null,
     nonVisibleData: null,
-    txInfo: 'TestCompany'
+    txInfo: 'TestCompany',
+    minRegistrationLevel: null,
+    userConfirmationMethod: null
   });
 
   useEffect(() => {
@@ -113,6 +139,8 @@ export default function AuthorizeURLBuilder(props: {
     const acr_values = url.searchParams.get('acr_values')?.split(" ");
     const action = url.searchParams.get('action') as Action | null;
     const prompt = url.searchParams.get('prompt') as Prompt | null;
+    const minRegistrationLevel = url.searchParams.get('minregistrationlevel') as MinRegistrationLevel | null;
+    const userConfirmationMethod = url.searchParams.get('prompt') as UserConfirmationMethod | null;
     setOptions(options => ({
       ...options,
       domain: domain ?? options.domain,
@@ -123,7 +151,9 @@ export default function AuthorizeURLBuilder(props: {
       message: url.searchParams.get('message') ?? options.message,
       nonVisibleData: url.searchParams.get('nonVisibleData') ?? options.nonVisibleData,
       txInfo: url.searchParams.get('txinfo') ?? options.txInfo,
-      prompt: prompt ?? options.prompt
+      prompt: prompt ?? options.prompt,
+      minRegistrationLevel: minRegistrationLevel ?? options.minRegistrationLevel,
+      userConfirmationMethod: userConfirmationMethod ?? options.userConfirmationMethod
     }));
   }, []);
 
@@ -148,12 +178,27 @@ export default function AuthorizeURLBuilder(props: {
       options.acr_values.length === 1 ? TXINFO_SUPPORT_ACR_VALUES.includes(options.acr_values[0]) :
       options.acr_values.length >= 2 ? options.acr_values.some(v => TXINFO_SUPPORT_ACR_VALUES.includes(v)) :
       false,
+    minRegistrationLevel:
+      options.acr_values.length === 1 ? MINREGISTRATIONLEVEL_SUPPORT_ACR_VALUES.includes(options.acr_values[0]) :
+      options.acr_values.length >= 2 ? options.acr_values.some(v => MINREGISTRATIONLEVEL_SUPPORT_ACR_VALUES.includes(v)) :
+      false,
+    userConfirmationMethod:
+      options.acr_values.length === 1 ? USERCONFIRMATIONMETHOD_SUPPORT_ACR_VALUES.includes(options.acr_values[0]) :
+      options.acr_values.length >= 2 ? options.acr_values.some(v => USERCONFIRMATIONMETHOD_SUPPORT_ACR_VALUES.includes(v)) :
+      false,
 }), [options.acr_values]);
   const supportsAction = supports.action;
   const supportsMessage = supports.message;
   const supportsNonVisibleData = supports.nonVisibleData;
   const supportsTxInfo = supports.txInfo;
+  const supportsMinRegistrationLevel = supports.minRegistrationLevel;
+  const supportsUserConfirmationMethod = supports.userConfirmationMethod;
   const notAlphanumeric = /[^a-z0-9]+/gi;
+  function intersect(a : string[], b : string[]) {
+    var setB = new Set(b);
+    return [...new Set(a)].filter(x => setB.has(x));
+  }
+  const containsNonBasicFrejaIdScopes = intersect(options.selectedScopes, nonBasicFrejaIdScopes).length > 0;
 
   const updateOption = (key: keyof AuthorizeURLOptions, event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement> | React.ChangeEvent<HTMLSelectElement>) => {
     setOptions(options => ({
@@ -241,6 +286,8 @@ export default function AuthorizeURLBuilder(props: {
     if (key == 'login_hint') continue;
     if (key == 'nonVisibleData') continue;
     if (key == 'txInfo') continue;
+    if (key == 'minRegistrationLevel') continue;
+    if (key == 'userConfirmationMethod') continue;
     if (!options[key]) continue;
     url.searchParams.set(key, options[key]!);
   }
@@ -279,6 +326,14 @@ export default function AuthorizeURLBuilder(props: {
 
   if (supportsTxInfo && options.txInfo) {
     loginHint.push(`txinfo:${options.txInfo}`);
+  }
+
+  if (supportsMinRegistrationLevel && options.minRegistrationLevel) {
+    loginHint.push(`minregistrationlevel:${options.minRegistrationLevel}`);
+  }
+
+  if (supportsUserConfirmationMethod && options.userConfirmationMethod) {
+    loginHint.push(`userconfirmationmethod:${options.userConfirmationMethod}`);
   }
 
   if (loginHint.length > 0) {
@@ -362,6 +417,11 @@ export default function AuthorizeURLBuilder(props: {
             <option value="query">query</option>
             <option value="fragment">fragment</option>
           </select>
+          {(options.selectedScopes.includes('frejaid:photo') || options.selectedScopes.includes('frejaid:document_photo')) && options.response_type === 'id_token' && (options.response_mode === 'fragment' || options.response_mode === 'query') && (
+            <small>
+              <span className="text-red-400">The selected scopes cannot be returned via a URL-based response. You must select a different Response Type or Response Mode!</span><br />
+            </small>
+          )}
         </div>
 
         <div>
@@ -520,6 +580,17 @@ export default function AuthorizeURLBuilder(props: {
                 {scope}
             </label>
           ))}
+
+          {(supportsMinRegistrationLevel && options.minRegistrationLevel === 'basic' || !options.minRegistrationLevel) && containsNonBasicFrejaIdScopes && (
+            <small>
+              <span className="text-red-400">The selected scopes are not available for registration level Basic. You must select a higher minimum registration level!</span><br />
+            </small>
+          )}
+          {(options.selectedScopes.includes('frejaid:photo') || options.selectedScopes.includes('frejaid:document_photo')) && options.response_type === 'id_token' && (options.response_mode === 'fragment' || options.response_mode === 'query') && (
+            <small>
+              <span className="text-red-400">The selected scopes cannot be returned via a URL-based response. You must select a different Response Type or Response Mode!</span><br />
+            </small>
+          )}
         </div>
       ) : null}
 
@@ -664,6 +735,65 @@ export default function AuthorizeURLBuilder(props: {
                 <span className="text-red-400">txinfo must only contain alphanumeric characters!</span>
               </>
             )}
+            </small>
+          </div>
+        )}
+
+        {supportsMinRegistrationLevel && (
+          <div>
+            <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="minregistrationlevel">
+              Minimum registration level
+            </label>
+            <select
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="action"
+              value={options.minRegistrationLevel || ""}
+              onChange={(event) => updateOption('minRegistrationLevel', event)}
+            >
+              <option value="">Not set</option>
+              {minRegistrationLevels.map(minregistrationlevel => (
+                <option key={minregistrationlevel} value={minregistrationlevel}>{minregistrationlevel}</option>
+              ))}
+            </select>
+            <small>
+              Setting minimum registration level will force users to be registered with a certain level of registration.<br />
+              Selecting "extended" or "plus" will enable additional scopes.
+
+              {(options.minRegistrationLevel === 'basic' || !options.minRegistrationLevel) && containsNonBasicFrejaIdScopes && (
+                <>
+                  <br />
+                  <span className="text-red-400">The selected scopes are not available for registration level Basic. You must select a higher minimum registration level!</span>
+                </>
+              )}
+            </small>
+          </div>
+        )}
+
+        {supportsUserConfirmationMethod && (
+          <div>
+            <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="userconfirmationmethod">
+              User confirmation method
+            </label>
+            <select
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="action"
+              value={options.userConfirmationMethod || ""}
+              onChange={(event) => updateOption('userConfirmationMethod', event)}
+            >
+              <option value="">Not set</option>
+              {userConfirmationMethods.map(userconfirmationmethod => (
+                <option key={userconfirmationmethod} value={userconfirmationmethod}>{userconfirmationmethod}</option>
+              ))}
+            </select>
+            <small>
+              Setting the user confirmation method to "defaultandface" will force users to take a photo of themselves during authentication and reject the request if the photo does not match their profile.
+
+              {(options.minRegistrationLevel === 'basic' || !options.minRegistrationLevel) && options.userConfirmationMethod === 'defaultandface' && (
+                <>
+                  <br />
+                  <span className="text-red-400">Photo verification is not available for registration level Basic. You must select a higher minimum registration level!</span>
+                </>
+              )}
             </small>
           </div>
         )}
