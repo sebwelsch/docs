@@ -183,6 +183,60 @@ Enabling photo verification will force the user to take a photo of themselves wh
 If the photos do not match, the user will be unable to approve the transaction.
 You can enable photo verification with the `login_hint`: `userconfirmationmethod:defaultandface`.
 
+## Signing text and data with FrejaID
+FrejaID supports signing text and binary data as part of a regular authentication flow.
+There are three types of signatures: Simple, Extended and Advanced.
+All of the signature types allow you to present text to the user in the Freja app.
+
+### Simple signatures
+Simple signatures can be used to sign plain text.
+The Simple signature flow is activated by adding `action:sign` in the `login_hint`.
+The text must be provided in the `login_hint` using the `message` hint.
+The text must be base64 encoded and no longer than 4096 characters (prior to base64 encoding).
+The text will be shown to the user in the Freja app while authenticating.
+
+### Extended signatures
+Extended signatures can be used to sign plain text and some additional binary data.
+The Extended signature flow is activated by adding `action:sign_extended` in the `login_hint`.
+The text must be provided in the `login_hint` using the `message` hint, while the binary data must be provided using the `nonVisibleData` hint.
+Both the text and the binary data must be base64 encoded.
+The text must be no longer than 4096 characters and the binary data no larger than 5 MB (both prior to base64 encoding).
+The text will be shown to the user in the Freja app while authenticating, but the binary data will not be shown to the user.
+
+### Advanced signatures
+Advanced signatures can be used to sign plain text and receive a response that is compatible with the "Mina meddelanden" digital communication platform in Sweden.
+The Advanced signature response is tied to the user's personal data and can be independently validated.
+The Advanced signature flow is activated by adding `action:sign_advanced` in the `login_hint`.
+The text must be provided in the `login_hint` using the `message` hint.
+The text must be base64 encoded and no longer than 4096 characters (prior to base64 encoding).
+The text will be shown to the user in the Freja app while authenticating.
+
+Advanced signatures are only available for Swedish users.
+Advanced signatures require the Social Security Number and the Basic User Information (i.e. name) of the user.
+These scopes will automatically be added to your request if the Advanced signature flow is activated.
+
+### Signature responses
+When the user has approved a Simple or an Extended signature, the JWT will contain the claims `certificateStatus` and `userSignature`.
+When the user has approved an Advanced signature, the JWT will contain the claims `certificateStatus`, `userSignature` and `advancedSignature`.
+
+The `certificateStatus` claim contains the OCSP response regarding the user certificate status when the signature was validated.
+The `userSignature` claim contains the signature of the user.
+The `advancedSignature` claim contains an XML signature containing the signature method, signature value, certificate chain, signing time and text presented to the user in the Freja app.
+
+<Highlight icon="exclamation" warning>
+Note that signing can produce very large JWTs which are not appropriate for use in `Bearer` headers.
+This means that JWTs produced from signature flows can often not be used for authentication.
+</Highlight>
+
+### Features available for all signature types
+You can add a title to be displayed in the Freja app over the text to sign by adding the `title` hint in the `login_hint`.
+The text in the `title` hint must be base64 encoded and no longer than 128 characters (prior to base64 encoding).
+
+The Freja app may sometimes send a push notification to the user's device if the user information is prefilled.
+The push notification will contain a default title and message, but you can customize it.
+Use the `pushTitle` and `pushText` hints in the `login_hint` to override the default push notification.
+Both the push notification title and the push notification text must be base64 encoded and no longer than 256 characters each (prior to base64 encoding).
+
 ## Ordering FrejaID
 
 To start accepting real users with FrejaID, you must first request a certificate to identify your organization.
