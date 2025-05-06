@@ -15,6 +15,22 @@ const ACTION_SUPPORTING_ACR_VALUES = [
   'urn:grn:authn:se:bankid:another-device:qr',
 ];
 
+const FREJA_ACTION_SUPPORTING_ACR_VALUES = [
+  'urn:grn:authn:se:frejaid',
+];
+
+const TITLE_SUPPORTING_ACR_VALUES = [
+  'urn:grn:authn:se:frejaid',
+];
+
+const PUSH_TITLE_SUPPORTING_ACR_VALUES = [
+  'urn:grn:authn:se:frejaid',
+];
+
+const PUSH_TEXT_SUPPORTING_ACR_VALUES = [
+  'urn:grn:authn:se:frejaid',
+];
+
 const MESSAGE_SUPPORTING_ACR_VALUES = [
   'urn:grn:authn:dk:mitid:low',
   'urn:grn:authn:dk:mitid:substantial',
@@ -23,12 +39,14 @@ const MESSAGE_SUPPORTING_ACR_VALUES = [
   'urn:grn:authn:se:bankid',
   'urn:grn:authn:se:bankid:same-device',
   'urn:grn:authn:se:bankid:another-device:qr',
+  'urn:grn:authn:se:frejaid',
 ];
 
 const NONVISIBLEDATA_SUPPORTING_ACR_VALUES = [
   'urn:grn:authn:se:bankid',
   'urn:grn:authn:se:bankid:same-device',
-  'urn:grn:authn:se:bankid:another-device:qr'
+  'urn:grn:authn:se:bankid:another-device:qr',
+  'urn:grn:authn:se:frejaid',
 ];
 
 const ID_TOKEN_HINT_SUPPORT_ACR_VALUES = [
@@ -64,6 +82,9 @@ type UserConfirmationMethod = typeof userConfirmationMethods[number];
 const actions = ['login', 'confirm', 'accept', 'approve', 'sign'] as const;
 type Action = typeof actions[number];
 
+const frejaActions = ['sign', 'sign_extended', 'sign_advanced'] as const;
+type FrejaAction = typeof frejaActions[number];
+
 const prompts = ["login", "none", "consent", "consent_revoke"] as const;
 type Prompt = typeof prompts[number];
 
@@ -84,6 +105,10 @@ interface AuthorizeURLOptions {
   scopes_quirk : "none" | "login_hint"
   prompt: Prompt | null
   action: Action | null,
+  frejaAction: FrejaAction | null,
+  title: string | null,
+  pushTitle: string | null,
+  pushText: string | null,
   message: string | null,
   nonVisibleData : string | null
   txInfo: string | null
@@ -123,6 +148,10 @@ export default function AuthorizeURLBuilder(props: {
     scopes_quirk : 'none',
     prompt: null,
     action: null,
+    frejaAction: null,
+    title: null,
+    pushTitle: null,
+    pushText: null,
     message: null,
     nonVisibleData: null,
     txInfo: 'TestCompany',
@@ -138,6 +167,7 @@ export default function AuthorizeURLBuilder(props: {
     const redirect_uri = url.searchParams.get('redirect_uri');
     const acr_values = url.searchParams.get('acr_values')?.split(" ");
     const action = url.searchParams.get('action') as Action | null;
+    const frejaAction = url.searchParams.get('frejaAction') as FrejaAction | null;
     const prompt = url.searchParams.get('prompt') as Prompt | null;
     const minRegistrationLevel = url.searchParams.get('minregistrationlevel') as MinRegistrationLevel | null;
     const userConfirmationMethod = url.searchParams.get('prompt') as UserConfirmationMethod | null;
@@ -148,6 +178,10 @@ export default function AuthorizeURLBuilder(props: {
       redirect_uri: redirect_uri ?? options.redirect_uri,
       acr_values: acr_values ?? options.acr_values,
       action: action ?? options.action,
+      frejaAction : frejaAction ?? options.frejaAction,
+      title: url.searchParams.get('title') ?? options.title,
+      pushTitle: url.searchParams.get('pushTitle') ?? options.pushTitle,
+      pushText: url.searchParams.get('pushText') ?? options.pushText,
       message: url.searchParams.get('message') ?? options.message,
       nonVisibleData: url.searchParams.get('nonVisibleData') ?? options.nonVisibleData,
       txInfo: url.searchParams.get('txinfo') ?? options.txInfo,
@@ -160,9 +194,25 @@ export default function AuthorizeURLBuilder(props: {
   const supports = useMemo(() => ({
     action:
       options.acr_values.length === 1 ? ACTION_SUPPORTING_ACR_VALUES.includes(options.acr_values[0]) :
-      options.acr_values.length >= 2 ? options.acr_values.some(v => ACTION_SUPPORTING_ACR_VALUES.includes(v)) :
+      options.acr_values.length >= 2 ? options.acr_values.some(v => ACTION_SUPPORTING_ACR_VALUES.includes(v)) && !options.acr_values.some(v => FREJA_ACTION_SUPPORTING_ACR_VALUES.includes(v)) :
       true,
-    message: 
+    frejaAction:
+      options.acr_values.length === 1 ? FREJA_ACTION_SUPPORTING_ACR_VALUES.includes(options.acr_values[0]) :
+      options.acr_values.length >= 2 ? options.acr_values.some(v => FREJA_ACTION_SUPPORTING_ACR_VALUES.includes(v) && !options.acr_values.some(v => ACTION_SUPPORTING_ACR_VALUES.includes(v))) :
+      false,
+    title:
+      options.acr_values.length === 1 ? TITLE_SUPPORTING_ACR_VALUES.includes(options.acr_values[0]) :
+      options.acr_values.length >= 2 ? options.acr_values.some(v => TITLE_SUPPORTING_ACR_VALUES.includes(v)) :
+      false,
+    pushTitle:
+      options.acr_values.length === 1 ? PUSH_TITLE_SUPPORTING_ACR_VALUES.includes(options.acr_values[0]) :
+      options.acr_values.length >= 2 ? options.acr_values.some(v => PUSH_TITLE_SUPPORTING_ACR_VALUES.includes(v)) :
+      false,
+    pushText:
+      options.acr_values.length === 1 ? PUSH_TEXT_SUPPORTING_ACR_VALUES.includes(options.acr_values[0]) :
+      options.acr_values.length >= 2 ? options.acr_values.some(v => PUSH_TEXT_SUPPORTING_ACR_VALUES.includes(v)) :
+      false,
+    message:
       options.acr_values.length === 1 ? MESSAGE_SUPPORTING_ACR_VALUES.includes(options.acr_values[0]) :
       options.acr_values.length >= 2 ? options.acr_values.some(v => MESSAGE_SUPPORTING_ACR_VALUES.includes(v)) :
       false,
@@ -188,6 +238,10 @@ export default function AuthorizeURLBuilder(props: {
       false,
 }), [options.acr_values]);
   const supportsAction = supports.action;
+  const supportsFrejaAction = supports.frejaAction;
+  const supportsTitle = supports.title;
+  const supportsPushTitle = supports.pushTitle;
+  const supportsPushText = supports.pushText;
   const supportsMessage = supports.message;
   const supportsNonVisibleData = supports.nonVisibleData;
   const supportsTxInfo = supports.txInfo;
@@ -282,6 +336,10 @@ export default function AuthorizeURLBuilder(props: {
     if (key == 'selectedScopes') continue;
     if (key == 'scopes_quirk') continue;
     if (key == 'action') continue;
+    if (key == 'frejaAction') continue;
+    if (key == 'title') continue;
+    if (key == 'pushTitle') continue;
+    if (key == 'pushText') continue;
     if (key == 'message') continue;
     if (key == 'login_hint') continue;
     if (key == 'nonVisibleData') continue;
@@ -314,6 +372,22 @@ export default function AuthorizeURLBuilder(props: {
 
   if (supportsAction && options.action) {
     loginHint.push(`action:${options.action}`);
+  }
+
+  if (supportsFrejaAction && options.frejaAction) {
+    loginHint.push(`action:${options.frejaAction}`);
+  }
+
+  if (supportsTitle && options.title) {
+    loginHint.push(`title:${btoa(options.title)}`);
+  }
+
+  if (supportsPushTitle && options.pushTitle) {
+    loginHint.push(`pushTitle:${btoa(options.pushTitle)}`);
+  }
+
+  if (supportsPushText && options.pushText) {
+    loginHint.push(`pushText:${btoa(options.pushText)}`);
   }
 
   if (supportsMessage && options.message) {
@@ -656,6 +730,86 @@ export default function AuthorizeURLBuilder(props: {
           </div>
         )}
 
+        {supportsFrejaAction && (
+          <div>
+            <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="frejaAction">
+              Action
+            </label>
+            <select
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="frejaAction"
+              value={options.frejaAction || ""}
+              onChange={(event) => updateOption('frejaAction', event)}
+            >
+              <option value="">Not set</option>
+              {frejaActions.map(action => (
+                <option key={action} value={action}>{action}</option>
+              ))}
+            </select>
+            <small>Set action to activate a Freja signature flow.</small>
+          </div>
+        )}
+
+        {supportsTitle && (
+          <div>
+            <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="title">
+              Title
+            </label>
+            <textarea
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="title"
+              placeholder="Title"
+              value={options.title || ""}
+              onChange={(event) => updateOption('title', event)}
+            />
+          <small>
+            FrejaID only. Sets the title of a signature request.
+            <br />
+            Maximum length is 128 characters (before base64 encoding).
+          </small>
+          </div>
+        )}
+
+        {supportsPushTitle && (
+          <div>
+            <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="pushTitle">
+              Push notification title
+            </label>
+            <textarea
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="pushTitle"
+              placeholder="Push notification title"
+              value={options.pushTitle || ""}
+              onChange={(event) => updateOption('pushTitle', event)}
+            />
+            <small>
+              FrejaID only. Sets the title of the push notification for a signature request.
+              <br />
+              Maximum length is 256 characters (before base64 encoding).
+            </small>
+          </div>
+        )}
+
+        {supportsPushText && (
+          <div>
+            <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="pushText">
+              Push notification text
+            </label>
+            <textarea
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="pushText"
+              placeholder="Push notification text"
+              value={options.pushText || ""}
+              onChange={(event) => updateOption('pushText', event)}
+            />
+            <small>
+              FrejaID only. Sets the text of the push notification for a signature request.
+              <br />
+              Maximum length is 256 characters (before base64 encoding).
+            </small>
+          </div>
+        )}
+
         {supportsMessage && (
           <div>
             <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="message">
@@ -669,11 +823,13 @@ export default function AuthorizeURLBuilder(props: {
               onChange={(event) => updateOption('message', event)}
             />
           <small>
-              DK MitID/SE BankID only. Will display a message to the end user in the app.
+              DK MitID/SE BankID/FrejaID only. Will display a message to the end user in the app.
               <br />
               The maximum message length depends on the eID provider:
               <br />
               For SE BankID, the limit is 1500 characters <em>after base64 encoding.</em>
+              <br />
+              For FrejaID, the limit is 4096 characters <em>before base64 encoding.</em>
               <br />
               For MitID, our tests indicate a limit of 130 characters <em>before base64 encoding.</em>
             </small>
@@ -692,11 +848,22 @@ export default function AuthorizeURLBuilder(props: {
               value={options.nonVisibleData || ""}
               onChange={(event) => updateOption('nonVisibleData', event)}
             />
-          <small>
-              SE BankID only. Will roundtrip the supplied value in the `evidence` claim in a dedicated XML element.
+            <small>
+              SE BankID/FrejaID only.
+              <br />
+              For SE BankID, will roundtrip the supplied value in the `evidence` claim in a dedicated XML element.
+              <br />
+              For FrejaID, will include the supplied data in the signed data.
+              Only supported for the Extended signature flow.
               <br />
               Must be base64-encoded.
             </small>
+            {options.nonVisibleData && options.frejaAction !== 'sign_extended' && (
+              <small>
+                <br />
+                <span className="text-red-400">Non-visible data is only supported for the Extended signature flow in FrejaID.</span>
+              </small>
+            )}
           </div>
         )}
 
