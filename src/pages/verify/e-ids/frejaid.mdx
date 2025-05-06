@@ -195,6 +195,8 @@ The text must be provided in the `login_hint` using the `message` hint.
 The text must be base64 encoded and no longer than 4096 characters (prior to base64 encoding).
 The text will be shown to the user in the Freja app while authenticating.
 
+[Try out an example Simple signature in our Authorize URL builder.](/verify/guides/authorize-url-builder/?acr_values=urn:grn:authn:se:frejaid&frejaAction=sign&message=Test%20simple%20signature%20flow&title=Simple%20signature)
+
 ### Extended signatures
 Extended signatures can be used to sign plain text and some additional binary data.
 The Extended signature flow is activated by adding `action:sign_extended` in the `login_hint`.
@@ -202,6 +204,8 @@ The text must be provided in the `login_hint` using the `message` hint, while th
 Both the text and the binary data must be base64 encoded.
 The text must be no longer than 4096 characters and the binary data no larger than 5 MB (both prior to base64 encoding).
 The text will be shown to the user in the Freja app while authenticating, but the binary data will not be shown to the user.
+
+[Try out an example Extended signature in our Authorize URL builder.](/verify/guides/authorize-url-builder/?acr_values=urn:grn:authn:se:frejaid&frejaAction=sign_extended&message=Test%20extended%20signature%20flow&nonVisibleData=TEST_BINARY_DATA&title=Extended%20signature)
 
 ### Advanced signatures
 Advanced signatures can be used to sign plain text and receive a response that is compatible with the "Mina meddelanden" digital communication platform in Sweden.
@@ -214,6 +218,8 @@ The text will be shown to the user in the Freja app while authenticating.
 Advanced signatures are only available for Swedish users.
 Advanced signatures require the Social Security Number and the Basic User Information (i.e. name) of the user.
 These scopes will automatically be added to your request if the Advanced signature flow is activated.
+
+[Try out an example Advanced signature in our Authorize URL builder.](/verify/guides/authorize-url-builder/?acr_values=urn:grn:authn:se:frejaid&frejaAction=sign_advanced&message=Test%20advanced%20signature%20flow&title=Advanced%20signature)
 
 ### Signature responses
 When the user has approved a Simple or an Extended signature, the JWT will contain the claims `certificateStatus` and `userSignature`.
