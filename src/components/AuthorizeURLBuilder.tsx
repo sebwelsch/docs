@@ -13,6 +13,7 @@ const ACTION_SUPPORTING_ACR_VALUES = [
   'urn:grn:authn:se:bankid',
   'urn:grn:authn:se:bankid:same-device',
   'urn:grn:authn:se:bankid:another-device:qr',
+  'urn:grn:authn:no:bankid',
 ];
 
 const FREJA_ACTION_SUPPORTING_ACR_VALUES = [
@@ -40,6 +41,7 @@ const MESSAGE_SUPPORTING_ACR_VALUES = [
   'urn:grn:authn:se:bankid:same-device',
   'urn:grn:authn:se:bankid:another-device:qr',
   'urn:grn:authn:se:frejaid',
+  'urn:grn:authn:no:bankid',
 ];
 
 const NONVISIBLEDATA_SUPPORTING_ACR_VALUES = [

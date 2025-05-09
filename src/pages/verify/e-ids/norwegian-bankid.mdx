@@ -207,6 +207,28 @@ Criipto _does not_ store the SSN itself, just the fact that the user has granted
 
 You can use the Criipto management dashboard [dashboard.criipto.com](https://dashboard.criipto.com/providers/NO_BANKID) to configure access to the optional user data, in the **Identity Sources** -> **NO BankID** section.
 
+## Signing text/markdown
+
+Norwegian BankID supports signing text.
+
+Text signing is triggered by using the `action` and `message` parameters [via login_hint](https://docs.criipto.com/verify/getting-started/oidc-intro/#the-loginhint-parameter).
+
+- The `action` parameter must be set to `sign`
+- The `message` parameter must be base64 encoded.
+
+*Note: Signing produces very large JWTs that are not appropriate for authentication/Bearer header use*
+
+Text signing has a different eID cost than authentication, please [contact Criipto sales](https://www.criipto.com/contact) if you have questions.
+
+<details>
+  <summary><strong>Example</strong></summary>
+
+  ```login_hint=action:sign message:VmVuZG9yOgoKQ29vbCBEZWxpdmVyeQoKQW1vdW50OgoKMzAwIEVVUgoKCgpJIGFwcHJvdmUgdGhpcyB0cmFuc2FjdGlvbi4=```
+
+  Try out the example in [our URL builder](/verify/guides/authorize-url-builder/?acr_values=urn:grn:authn:no:bankid&action=sign&message=Vendor%3A%0A%0ACool%20Delivery%0A%0AAmount%3A%0A%0A300%20EUR%0A%0A%0A%0AI%20approve%20this%20transaction.)
+  
+</details>
+
 ## Ordering Norwegian BankID
 
 To start accepting real users with Norwegian BankID, you must first request your _client credentials_ from Bidbax. The credentials consists of a _client id_ and a _client secret_.
