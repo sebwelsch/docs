@@ -20,6 +20,18 @@ These may be styled and enhanced to you liking using one of the following approa
 
 </Highlight>
 
+## Content Security Policy considerations
+
+Strict **Content-Security-Policy** rules applies to all kinds of custom styling of Criipto Verify dialogs.
+This means that if you are references any resources via URL's, you must explicitly add the corresponding authorities in the `Style origins` list found in the `General` tab.
+
+<Highlight icon="warning">
+
+**Note** that the live previews you can see in the browser _DO NOT_ enforce a `Content-Security-Policy` - this is only present in the actual login flow.
+You can always use the built-in `Try` feature for the various e-ID methods to run an actual login flow in the browser, where `Content-Security-Policy` rules will apply.
+You can use your browsers developer tools (Console tab) for troubleshooting.
+
+</Highlight>
 
 ## Custom CSS (adding a stylesheet)
 
