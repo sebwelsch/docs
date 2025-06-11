@@ -1,0 +1,46 @@
+---
+product: verify
+category: Guides & Tools
+sort: 10
+title: Telemetry & observability
+---
+
+Criipto offers telemetry and observability into authentication flows.
+
+<Highlight icon="exclamation" warning>
+Criipto may at any time change the contents of the traces or the formats of headers/query parameters.
+</Highlight>
+
+## Enabling telemetry
+
+Please contact support to enable telemetry for your tenant.
+
+## Capturing trace id
+
+After telemetry has been enabled, a new "Telemetry" screen will be present in the dashboard.
+
+On this screen you can enable "Augment header and protocol responses". When this setting
+is enabled, Criipto will augment certain headers and protocol query responses to include trace ids.
+
+### PAR
+
+For "Pushed Authorize Requests" a `Trace-Id` header will be added to the response (if "Augment header and protocol responses" is enabled).
+
+```sh
+POST /oauth2/par HTTP/1.1
+Host: as.example.com
+Content-Type: application/x-www-form-urlencoded
+
+response_type=code&...
+```
+
+```sh
+HTTP/1.1 201 Created
+Content-Type: application/json
+Trace-Id: 0190163d8694739baea5966c26f8ad91
+
+{
+  "request_uri": "urn:ietf:params:oauth:request_uri:6esc_11ACC5bwc014ltc14eY22c",
+  "expires_in": 60
+}
+```
