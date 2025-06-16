@@ -85,6 +85,19 @@ https://YOUR_SUBDOMAIN.criipto.id/oauth2/authorize?...&login_hint=scope:address&
 ```
 which can be a useful if you are working with technology that does not let you control the `scope` value.
 
+## Reference message
+MitID allows you to choose a reference message which will be display to the user in the MitID app while they perform the authentication.
+For instance, the text could be something like `Transfer EUR 100 to account 1234`.
+The message is limited to a length of 130 characters.
+
+To provide a reference message text, you must provide [the `message` login hint](/verify/getting-started/oidc-intro/#end-user-confirmation-texts-message-parameter) in your authorize request. The reference message text must be base64 encoded.
+Example:
+```text
+https://YOUR_SUBDOMAIN.criipto.id/oauth2/authorize?...&login_hint=message:TG9naW4gYXQgVGVzdCBDb21wYW50...
+```
+
+[Authorize URL builder example](/verify/guides/authorize-url-builder/?acr_values=urn:grn:authn:dk:mitid:low&action=approve&message=Transfer%20EUR%20100%20to%20IBAN%20DK123456781234)
+
 ## ReAuthentication
 
 MitID supports a "ReAuthentication" flow where the username input step can be skipped if you know the users uuid ahead of time.
