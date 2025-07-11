@@ -85,10 +85,6 @@ Tokens in the Implicit Flow are exposed in the URL fragment (`response_mode=frag
 - Browser components or extensions may access the fragment, increasing the risk of interception or token leakage.
 - Some modern browsers restrict or block the use of URL fragments in certain scenarios, which causes compatibility issues. 
 
-### Use response_mode=query
-
-For improved security, use `response_mode=query`, which returns authorization parameters in the query string of the redirect URL. This approach is more secure and is the default `response_mode` for the Authorization Code Flow and PKCE.
-
 ## More information
 
 For detailed information on security requirements and other recommendations for clients and servers implementing OAuth 2.0 and OpenID Connect, check <a href='https://datatracker.ietf.org/doc/html/draft-ietf-oauth-security-topics' target="_blank">OAuth 2.0 Security Best Current Practice</a>.
