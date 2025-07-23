@@ -40,6 +40,7 @@ using (var client = new CriiptoSignaturesClient("{YOUR_CRIIPTO_CLIENT_ID}", "{YO
             if (signature is JWTSignature jwtSignature)
             {
                 // jwtSignature.jwt will contain the JWT evidence for this signature
+                // jwtSignature.claims will contain the claims extracted from the JWT evidence
             }
         }
     }

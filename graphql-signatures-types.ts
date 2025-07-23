@@ -114,6 +114,7 @@ export type BatchSignatory = {
   items: Array<BatchSignatoryItem>;
   /** The authentication token required for performing batch operations. */
   token: Scalars['String']['output'];
+  traceId: Scalars['String']['output'];
   ui: SignatureOrderUi;
 };
 
@@ -200,6 +201,16 @@ export type CloseSignatureOrderInput = {
 export type CloseSignatureOrderOutput = {
   __typename?: 'CloseSignatureOrderOutput';
   signatureOrder: SignatureOrder;
+};
+
+export type CompleteCriiptoVerifyEvidenceProviderInput = {
+  code: Scalars['String']['input'];
+  state: Scalars['String']['input'];
+};
+
+export type CompleteCriiptoVerifyEvidenceProviderOutput = {
+  __typename?: 'CompleteCriiptoVerifyEvidenceProviderOutput';
+  jwt: Scalars['String']['output'];
 };
 
 export type CompositeSignature = Signature & {
@@ -319,10 +330,18 @@ export type CreateSignatureOrderWebhookInput = {
   validateConnectivity?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+export type CriiptoVerifyEvidenceProviderRedirect = {
+  __typename?: 'CriiptoVerifyEvidenceProviderRedirect';
+  redirectUri: Scalars['String']['output'];
+  state: Scalars['String']['output'];
+};
+
 /** Criipto Verify based evidence for signatures. */
 export type CriiptoVerifyProviderInput = {
   acrValues?: InputMaybe<Array<Scalars['String']['input']>>;
   alwaysRedirect?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Define additional valid audiences (besides the main client_id) for the Criipto Verify domain/issuer underlying the application. */
+  audiences?: InputMaybe<Array<Scalars['String']['input']>>;
   /** Set a custom login_hint for the underlying authentication request. */
   loginHint?: InputMaybe<Scalars['String']['input']>;
   /** Messages displayed when performing authentication (only supported by DKMitID currently). */
@@ -337,8 +356,11 @@ export type CriiptoVerifySignatureEvidenceProvider = SignatureEvidenceProvider &
   __typename?: 'CriiptoVerifySignatureEvidenceProvider';
   acrValues: Array<Scalars['String']['output']>;
   alwaysRedirect: Scalars['Boolean']['output'];
+  audience: Scalars['String']['output'];
+  audiences: Array<Scalars['String']['output']>;
   clientID: Scalars['String']['output'];
   domain: Scalars['String']['output'];
+  environment?: Maybe<VerifyApplicationEnvironment | '%future added value'>;
   id: Scalars['ID']['output'];
   loginHint?: Maybe<Scalars['String']['output']>;
   message?: Maybe<Scalars['String']['output']>;
@@ -471,8 +493,15 @@ export type ExtendSignatureOrderOutput = {
   signatureOrder: SignatureOrder;
 };
 
+export type JwtClaim = {
+  __typename?: 'JWTClaim';
+  name: Scalars['String']['output'];
+  value: Scalars['String']['output'];
+};
+
 export type JwtSignature = Signature & SingleSignature & {
   __typename?: 'JWTSignature';
+  claims: Array<JwtClaim>;
   jwks: Scalars['String']['output'];
   jwt: Scalars['String']['output'];
   signatory?: Maybe<Signatory>;
@@ -501,6 +530,7 @@ export type Mutation = {
   cleanupSignatureOrder?: Maybe<CleanupSignatureOrderOutput>;
   /** Finalizes the documents in the signature order and returns them to you as blobs. Documents are deleted from storage after closing. */
   closeSignatureOrder?: Maybe<CloseSignatureOrderOutput>;
+  completeCriiptoVerifyEvidenceProvider?: Maybe<CompleteCriiptoVerifyEvidenceProviderOutput>;
   /** Creates a signature application for a given tenant. */
   createApplication?: Maybe<CreateApplicationOutput>;
   /** Creates a new set of api credentials for an existing application. */
@@ -525,6 +555,8 @@ export type Mutation = {
   signActingAs?: Maybe<SignActingAsOutput>;
   /** Signatory frontend use only. */
   signatoryBeacon?: Maybe<SignatoryBeaconOutput>;
+  /** Signatory frontend use only. */
+  startCriiptoVerifyEvidenceProvider?: Maybe<StartCriiptoVerifyEvidenceProviderOutput>;
   /** Signatory frontend use only. */
   trackSignatory?: Maybe<TrackSignatoryOutput>;
   /** Used by Signatory frontends to mark documents as opened, approved or rejected. */
@@ -565,6 +597,11 @@ export type MutationCleanupSignatureOrderArgs = {
 
 export type MutationCloseSignatureOrderArgs = {
   input: CloseSignatureOrderInput;
+};
+
+
+export type MutationCompleteCriiptoVerifyEvidenceProviderArgs = {
+  input: CompleteCriiptoVerifyEvidenceProviderInput;
 };
 
 
@@ -630,6 +667,11 @@ export type MutationSignActingAsArgs = {
 
 export type MutationSignatoryBeaconArgs = {
   input: SignatoryBeaconInput;
+};
+
+
+export type MutationStartCriiptoVerifyEvidenceProviderArgs = {
+  input: StartCriiptoVerifyEvidenceProviderInput;
 };
 
 
@@ -902,12 +944,14 @@ export type Signatory = {
   role?: Maybe<Scalars['String']['output']>;
   /** Signature order for the signatory. */
   signatureOrder: SignatureOrder;
+  spanId: Scalars['String']['output'];
   /** The current status of the signatory. */
   status: SignatoryStatus | '%future added value';
   /** The reason for the signatory status (rejection reason when rejected). */
   statusReason?: Maybe<Scalars['String']['output']>;
   /** The signature frontend authentication token, only required if you need to build a custom url. */
   token: Scalars['String']['output'];
+  traceId: Scalars['String']['output'];
   ui: SignatureOrderUi;
 };
 
@@ -1065,6 +1109,7 @@ export type SignatureOrder = {
   tenant?: Maybe<Tenant>;
   timezone: Scalars['String']['output'];
   title?: Maybe<Scalars['String']['output']>;
+  traceId: Scalars['String']['output'];
   ui: SignatureOrderUi;
   webhook?: Maybe<SignatureOrderWebhook>;
 };
@@ -1152,6 +1197,15 @@ export type SingleSignatureEvidenceProvider = {
   id: Scalars['ID']['output'];
 };
 
+export type StartCriiptoVerifyEvidenceProviderInput = {
+  acrValue: Scalars['String']['input'];
+  id: Scalars['ID']['input'];
+  redirectUri: Scalars['String']['input'];
+  stage: EvidenceValidationStage | '%future added value';
+};
+
+export type StartCriiptoVerifyEvidenceProviderOutput = CriiptoVerifyEvidenceProviderRedirect;
+
 export type Tenant = {
   __typename?: 'Tenant';
   applications: Array<Application>;
@@ -1223,6 +1277,8 @@ export type ValidateDocumentOutput = {
   errors?: Maybe<Array<Scalars['String']['output']>>;
   /** Whether or not the errors are fixable using 'fixDocumentFormattingErrors' */
   fixable?: Maybe<Scalars['Boolean']['output']>;
+  /** `true` if the document contains signatures. If value is `null`, we were unable to determine whether the document has been previously signed. */
+  previouslySigned?: Maybe<Scalars['Boolean']['output']>;
   valid: Scalars['Boolean']['output'];
 };
 

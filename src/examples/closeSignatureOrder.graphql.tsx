@@ -56,6 +56,7 @@ mutation examplesCloseSignatureOrder(
           ... on JWTSignature {
             jwt
             jwks
+            claims
           }
 
           ... on DrawableSignature {
@@ -69,6 +70,7 @@ mutation examplesCloseSignatureOrder(
               ... on JWTSignature {
                 jwt
                 jwks
+                claims
               }
     
               ... on DrawableSignature {
