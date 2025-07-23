@@ -28,6 +28,8 @@ closedSignatureOrder.documents.forEach(document => {
     if (signature.__typename === 'JWTSignature') {
       // signature.jwt holds the authentication evidence used in the signature
       console.log(signature.jwt);
+      // signature.claims hold the claims decoded from the authentication evidence JWT
+      console.log(signature.claims);
     }
   });
 });
