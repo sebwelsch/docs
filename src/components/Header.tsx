@@ -11,15 +11,26 @@ export default function Header(props: {path: string | undefined, className?: str
   const {path} = props;
   const isVerify = path?.startsWith('/verify');
   const isSignatures = path?.startsWith('/signatures');
+  
+  const isBrowser = typeof navigator !== "undefined";
+  const isMac = isBrowser ? navigator.platform.startsWith("Mac") : false;
+  const modifierKeyPrefix = isMac ? "⌘" : "ctrl";
 
   useEffect(() => {
     const handler = (event: KeyboardEvent) => {
+      const ctrlOrCmdKey = isMac ? event.metaKey : event.ctrlKey;
+      
       if (event.key === 'Escape') setShowSearch(false);
-      if (event.key === '/') setShowSearch(true);
+      
+      const shouldShowSearch = event.key === '/' || (event.key === "k" && ctrlOrCmdKey);
+      if (shouldShowSearch) {
+        event.preventDefault();
+        setShowSearch(true);
+      }
     };
 
-    document.addEventListener('keyup', handler);
-    return () => document.removeEventListener('keyup', handler);
+    document.addEventListener('keydown', handler);
+    return () => document.removeEventListener('keydown', handler);
   }, []);
 
   // Close dropdown when clicking outside
@@ -95,12 +106,17 @@ export default function Header(props: {path: string | undefined, className?: str
                 )}
               </div>
 
-              <button onClick={() => setShowSearch(true)} type="button" className="hidden lg:flex items-center w-64 text-sm leading-6 bg-white text-slate-400 rounded-md ring-1 ring-slate-900/10 shadow-sm py-1.5 pl-2 pr-3 hover:ring-slate-300 ml-4">
+              <button onClick={() => setShowSearch(true)} type="button" className="relative hidden lg:flex items-center w-64 text-sm leading-6 bg-white text-slate-400 rounded-md ring-1 ring-slate-900/10 shadow-sm py-1.5 pl-2 pr-3 hover:ring-slate-300 ml-4">
                 <svg width="24" height="24" fill="none" aria-hidden="true" className="mr-3 flex-none">
                   <path d="m19 19-3.5-3.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path>
                   <circle cx="11" cy="11" r="6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></circle>
                 </svg>
                 Search...
+                {isBrowser && <div className="absolute right-0 top-0 bottom-0 flex pointer-events-none items-center p-2">
+                  <div className="text-xs bg-light-blue-200 text-gray-600 py-0.5 px-1 rounded">
+                    {modifierKeyPrefix}+k
+                  </div>
+                </div>}
               </button>
 
               <button onClick={() => setShowSearch(true)} type="button" className="ml-auto text-white w-8 h-8 -my-1 flex items-center justify-center lg:hidden">
@@ -144,7 +160,7 @@ export default function Header(props: {path: string | undefined, className?: str
           </button>
 
           <p className="mb-2 mt-0 text-sm">
-            Tip: You can also use keyboard shortcut '/' to access search
+            Tip: You can also use keyboard shortcut '/' or '{modifierKeyPrefix}+k' to access search
           </p>
           {showSearch ? <Search onHide={() => setShowSearch(false)} /> : null}
         </div>
