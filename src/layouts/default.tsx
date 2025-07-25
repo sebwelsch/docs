@@ -60,7 +60,7 @@ export default function DefaultLayout(props: {
       > 
         <div
           className={cx(
-            {'mx-auto max-w-screen-2xl pt-5 lg:pt-10 lg:pl-[19.5rem] xl:pr-[19.5rem]': !isEmbedded}
+            {'mx-auto max-w-screen-2xl pt-5 lg:pt-10 lg:pl-[22rem] xl:pr-[22rem]': !isEmbedded}
           )}
         >
           <DesktopNavigation key="desktopNav" path={props.location.pathname} hidden={isEmbedded} />

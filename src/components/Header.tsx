@@ -2,7 +2,7 @@ import React, {useEffect, useReducer, useState, useRef } from 'react';
 import { Link } from "gatsby";
 
 import Search from './Search';
-import logo from '../images/criipto-logo.png';
+import logo from '../images/criipto-logo.svg';
 
 export default function Header(props: {path: string | undefined, className?: string}) {
   const [showDropdown, toggleDropdown] = useReducer((value) => !value, false);
@@ -50,12 +50,12 @@ export default function Header(props: {path: string | undefined, className?: str
 
   return (
     <React.Fragment>
-      <header className={`sticky top-0 z-40 w-full backdrop-blur flex-none duration-500 lg:z-50 bg-light-blue-300 text-md text-deep-purple-900 supports-backdrop-blur:bg-blue/60 font-medium font-sans ${props.className}`}>
+      <header className={`sticky top-0 z-40 w-full backdrop-blur flex-none duration-500 lg:z-50 bg-white border-b border-light-blue-25 text-md text-deep-purple-900 supports-backdrop-blur:bg-blue/60 font-medium font-sans ${props.className}`}>
         <div className="max-w-screen-2xl mx-auto">
           <div className="py-2 border-b border-gray-900/10 lg:px-8 lg:border-0 mx-4 lg:mx-0 flex justify-between items-center gap-6">
             <div className="relative flex items-center flex-1">
-              <a href="/" className="mr-3 flex flex-row gap-6 items-center h-[19px]">
-                <img src={logo} alt="Criipto" className="h-[19px]" />
+              <a href="/" className="mr-3 flex flex-row gap-6 items-center h-[21px]">
+                <img src={logo} alt="Criipto" className="h-[21px]" />
                 <span className="hidden lg:inline uppercase text-deep-purple-900 font-sans font-medium">Documentation</span>
               </a>
 
@@ -106,17 +106,26 @@ export default function Header(props: {path: string | undefined, className?: str
                 )}
               </div>
 
-              <button onClick={() => setShowSearch(true)} type="button" className="relative hidden lg:flex items-center w-64 text-sm leading-6 bg-white text-slate-400 rounded-md ring-1 ring-slate-900/10 shadow-sm py-1.5 pl-2 pr-3 hover:ring-slate-300 ml-4">
-                <svg width="24" height="24" fill="none" aria-hidden="true" className="mr-3 flex-none">
-                  <path d="m19 19-3.5-3.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path>
-                  <circle cx="11" cy="11" r="6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></circle>
+              <button
+                onClick={() => setShowSearch(true)}
+                type="button"
+                className="relative hidden lg:flex items-center w-64 text-sm leading-6 bg-light-blue-50 text-light-blue-800  py-1.5 pl-2 pr-3 ml-4 hover:bg-light-blue-100"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 640 640"
+                  className="w-5 h-5 mr-3"
+                >
+                  <path d="M448.1 272c0-97.2-78.8-176-176-176s-176 78.8-176 176 78.8 176 176 176 176-78.8 176-176zm-40.6 158c-36.4 31.2-83.7 50-135.3 50-114.9 0-208-93.1-208-208s93.1-208 208-208 208 93.1 208 208c0 51.7-18.8 99-50 135.3l141.4 141.4 11.3 11.3-22.6 22.6-11.3-11.3-141.4-141.4z" />
                 </svg>
-                Search...
-                {isBrowser && <div className="absolute right-0 top-0 bottom-0 flex pointer-events-none items-center p-2">
-                  <div className="text-xs bg-light-blue-200 text-gray-600 py-0.5 px-1 rounded">
-                    {modifierKeyPrefix}+k
+                Search
+                {isBrowser && (
+                  <div className="absolute right-0 top-0 bottom-0 flex pointer-events-none items-center p-2">
+                    <div className="text-xs bg-light-blue-200 text-gray-600 py-0.5 px-1 rounded">
+                      {modifierKeyPrefix}+K
+                    </div>
                   </div>
-                </div>}
+                )}
               </button>
 
               <button onClick={() => setShowSearch(true)} type="button" className="ml-auto text-white w-8 h-8 -my-1 flex items-center justify-center lg:hidden">
@@ -138,7 +147,7 @@ export default function Header(props: {path: string | undefined, className?: str
                 <a href="https://dashboard.criipto.com" target="_blank" className="text-white font-medium mr-2 py-2 px-4 rounded uppercase text-deep-purple-900 hover:text-primary-600 focus:outline-none focus:shadow-outline">
                   Dashboard
                 </a>
-                <a href="https://www.criipto.com/signup?utm_source=docs" target="_blank" className="bg-white font-medium py-2 px-4 rounded uppercase text-deep-purple-900 hover:text-primary-600 focus:outline-none focus:shadow-outline">
+                <a href="https://www.criipto.com/signup?utm_source=docs" target="_blank" className="bg-primary-600 hover:bg-primary-700 font-medium py-2 px-4 uppercase text-white focus:outline-none focus:shadow-outline whitespace-nowrap">
                   Sign up
                 </a>
               </div>
