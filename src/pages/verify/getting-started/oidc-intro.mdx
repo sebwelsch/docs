@@ -12,7 +12,7 @@ Criipto Verify is an OpenID Provider. It is integrated through the authenticatio
 
 ### Supported OpenID Connect Flows
 
-The OpenID Connect(OIDC) protocol defines different strategies (flows) to authenticate users. Criipto Verify supports four different OpenID Connect flows:  
+The OpenID Connect(OIDC) protocol defines different strategies (flows) to authenticate users. Criipto Verify supports five different OpenID Connect flows:
 
 #### [1. The Authorization Code Flow](/verify/getting-started/oidc-intro/#authenticate-with-back-channel-authorization-code-flow)
 
@@ -27,13 +27,13 @@ The Implicit Flow returns a token directly in the browser. Support for this flow
 #### [4. The CIBA flow](/verify/getting-started/oidc-intro/#authenticate-with-ciba)
 The CIBA flow is designed for use cases where the client application isn't directly operated by the end-user but can trigger the authentication process on their behalf. A canonical example is a call center agent verifying a caller's identity.
 
-#### [4. The Headless flow](/verify/getting-started/oidc-intro/#authenticate-headless)
+#### [5. The Headless flow](/verify/getting-started/oidc-intro/#authenticate-with-headless)
 The Headless flow is a custom protocol by Criipto that allows interacting with eIDs which offers a poll based workflow, where user agent redirect is not required.
 
 **The choice of the OpenID Connect flow depends on the requirements and architecture of the client application implementing the OIDC authentication.**
 
 <Highlight icon="info">
-The following sections describe the four flows and introduce the parameters to configure the authentication and subsequent user information retrieval.
+The following sections describe the five flows and introduce the parameters to configure the authentication and subsequent user information retrieval.
 
 Please beware that you don't have to go through the below motions manually. Most often it will be handled by configuring an OpenID Connect package on your platform of choice.
 
@@ -163,7 +163,7 @@ GET https://YOUR_SUBDOMAIN.criipto.id/oauth2/authorize?
 
 ### Example response
 
-For the Authorization Code Flow, when you used `response_type=code`, you will receive an `HTTP 302` response which redirects your browser to your specified `redirect_uri` with the authorization code included at the end of the URL:
+For the Authorization Code Flow, when you used `response_type=code`, you will receive an `HTTP 302` response which redirects your browser to your specified `redirect_uri` with the authorization code included in the query parameters:
 
 ```text
 HTTP/1.1 302 Found
@@ -172,7 +172,7 @@ Location: YOUR_RETURN_URL?code=AUTHORIZATION_CODE&state=YOUR_STATE
 
 #### Error response
 
-In case the authentication request fails, you will receive an `HTTP 302` response which redirects your browser to your specified `redirect_uri` with error included at the end of the URL:
+In case the authentication request fails, you will receive an `HTTP 302` response which redirects your browser to your specified `redirect_uri` with error included in the query parameters:
 
 ```text
 HTTP/1.1 302 Found
@@ -213,7 +213,7 @@ For PKCE-enabled clients, the secret is generated on-the-fly, and no special han
 
 ## Authenticate with PKCE
 
-PKCE allows you to use one-time secrets to perform code exchange.
+PKCE allows you to use one-time secrets to perform code exchange. The format of the secrets is specified in [RFC 7636](https://datatracker.ietf.org/doc/html/rfc7636#section-4).
 
 [@criipto/auth-js](https://github.com/criipto/criipto-auth.js) and [@criipto/verify-react](https://github.com/criipto/criipto-verify-react) support PKCE.
 
@@ -234,7 +234,7 @@ GET https://YOUR_SUBDOMAIN.criipto.id/oauth2/authorize?
 
 ### Example response
 
-You will receive an `HTTP 302` response which redirects your browser to your specified `redirect_uri` with the authorization code included at the end of the URL:
+You will receive an `HTTP 302` response which redirects your browser to your specified `redirect_uri` with the authorization code included in the query parameters:
 
 ```text
 HTTP/1.1 302 Found
@@ -242,6 +242,7 @@ Location: YOUR_RETURN_URL?code=AUTHORIZATION_CODE&state=YOUR_STATE
 ```
 
 ### Code exchange
+As opposed to the back-channel authorization flow, you should not include a static client secret when authenticating with PCKE. Instead, you include a `code_verifier`, which was generated in the previous step.
 
 ```text
 HTTP POST https://YOUR_SUBDOMAIN.criipto.id/oauth2/token
