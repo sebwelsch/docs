@@ -109,7 +109,7 @@ _Note: The page might need to be refreshed several times, and if multiple activa
 
 Basic user information, full name, and date of birth are always made available. Additional data may be requested and is released with explicit user consent only.
 
-For applications configured to use a `dynamic` `scope` strategy, the following `scope` tokens can be supplied: `address`, `email`, `phone` and `ssn`.
+For applications configured to use a `dynamic` `scope` strategy, the following `scope` tokens can be supplied: `ssn`.
 
 <table>
     <thead>
@@ -143,37 +143,16 @@ For applications configured to use a `dynamic` `scope` strategy, the following `
             <td>`ssn`</td>
             <td>`scope:ssn`</td>
         </tr>
-        <tr>
-            <td>Address</td>
-            <td>With user consent</td>
-            <td>No</td>
-            <td>`address`</td>
-            <td>`scope:address`</td>
-        </tr>
-        <tr>
-            <td>Email</td>
-            <td>With user consent</td>
-            <td>No</td>
-            <td>`email`</td>
-            <td>`scope:email`</td>
-        </tr>
-        <tr>
-            <td>Phone number</td>
-            <td>With user consent</td>
-            <td>No</td>
-            <td>`phone`</td>
-            <td>`scope:phone`</td>
-        </tr>
     </tbody>
 </table>
 
 #### Example (partial) authorize request with scopes
 ```text
-https://YOUR_SUBDOMAIN.criipto.id/oauth2/authorize?scope=openid email address&...
+https://YOUR_SUBDOMAIN.criipto.id/oauth2/authorize?scope=openid ssn&...
 ```
 Alternatively, you can send them in the `login_hint`
 ```text
-https://YOUR_SUBDOMAIN.criipto.id/oauth2/authorize?...&login_hint=scope:email scope:address&...
+https://YOUR_SUBDOMAIN.criipto.id/oauth2/authorize?...&login_hint=scope:ssn&...
 ```
 which can be a useful if you are working with technology that does not let you control the `scope` value.
 
