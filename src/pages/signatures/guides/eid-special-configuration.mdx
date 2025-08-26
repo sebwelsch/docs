@@ -25,3 +25,50 @@ By default, Signatures provides a display name template by combining the `given_
 Name information can be retrieved from FrejaID by providing an additional [scope](/verify/e-ids/frejaid/#scopes-for-frejaid), **however**, [setting a minimum registration level](/verify/e-ids/frejaid/#setting-a-minimum-registration-level) of at least "Extended" is required.
 
 `scope=openid freja:basic_user_info` AND `loginHint=minregistrationlevel:{extended,plus}` - `openid` is required by default, and by setting the scope, the default value is overwritten.
+
+## Finnish Trust Network (FTN)
+
+Recent requirement changes in Finland mean that JWTs need to be signed and encrypted.
+It is therefore not possible to extract JWT claims from the `documents.signatures.jwt` field as with other eIDs or previously.
+
+Claims are exposed as part of the `documents.signatures.claims` array of `name` and `value` pairs.
+
+<table>
+    <thead>
+        <tr>
+            <th>**Before**</th>
+            <th>**After**</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+            ```graphql
+            documents {
+              signatures {
+                __typename
+                ... on JWTSignature {
+                  jwt
+                }
+              }
+            }
+            ```
+            </td>
+            <td>
+            ```graphql
+            documents {
+              signatures {
+                __typename
+                ... on JWTSignature {
+                  claims {
+                    name
+                    value
+                  }
+                }
+              }
+            }
+            ```
+            </td>
+        </tr>
+    </tbody>
+</table>
