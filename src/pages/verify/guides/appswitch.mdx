@@ -12,9 +12,7 @@ If you are building a native app, and would like to get the smoothest possible U
 
 This will require that you take on a bit more work to orchestrate the login process in comparison with just going with the browser-based flow, but the net result is a much better UX.
 
-You should always start by detecting the presence of the native eID app on the users device. See below for [app-detection examples](#app-detection).
-
-If the desired app is present on the users device, you must augment the authorize request you send to Criipto Verify so it contains one of the following values (also OS dependent)
+You must augment the authorize request you send to Criipto Verify so it contains one of the following values (also OS dependent)
 
 - `login_hint=appswitch:ios`
 - `login_hint=appswitch:android`
@@ -22,57 +20,6 @@ If the desired app is present on the users device, you must augment the authoriz
 The value must be sent in the `login_hint` query parameter. Further details on this (and other) parameters in an authorize request can be found [here](/verify/getting-started/oidc-intro#authorize-request-parameters).
 
 Your app is responsible for sending the appropriate value for the platform it is deployed on.
-
-### App detection
-
-<Highlight icon="exclamation">
-
-From June 6, 2023 (MitID Release 11) and onwards, app-detection for MitID is no longer relevant.
-After that date, end users will be presented with "Open MitID app" buttons in the MitID Core Client, regardless of any effort by the SP's app to detect the presence of the MitID app.
-We have therefore removed the previous guidance for MitID app detection from our documentation.
-
-</Highlight>
-
-The following code and configuration snippets illustrate how you can detect the presence of the Swedish BankID app.
-
-#### Android
-
-```java
-public boolean deviceHasSEBankIdApp() {
-  try {
-    getPackageManager().getPackageInfo("com.bankid.bus", 0);
-    return true;
-  } catch (PackageManager.NameNotFoundException e) {
-    return false;
-  }
-}
-```
-
-<Highlight icon="exclamation">
-
-From Android 11, your applications `Manifest.xml` must contain the following to be able to perform this query:
-
-</Highlight>
-
-```xml
-<manifest ...>
-  <queries>
-    <package android:name="com.bankid.bus" />
-  </queries>
-  <application .... />
-</manifest>
-```
-
-#### iOS
-
-```swift
-func canOpenSEBankIDApp() -> Bool {
-  guard let url = URL(string: "https://app.bankid.com/.well-known/apple-app-site-association") else {
-    return false
-  }
-  return UIApplication.shared.canOpenURL(url)
-}
-```
 
 ### Danish MitID
 
