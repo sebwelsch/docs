@@ -7,11 +7,11 @@ subtitle: Learn more about Finnish Trust Network token contents, how to create t
 ---
 import FtnJwtSnippet from '../../../snippets/jwt-payloads/finnish-trust-network';
 
-## The New FTN Security Requirements
+## The FTN Security Requirements
 
 <Highlight icon="exclamation" warning>
 
-The Finnish government is introducing new requirements to increase the level of security and privacy of FTN authentication.
+The Finnish government has introduced new requirements to increase the level of security and privacy of FTN authentication.
 The requirements are described in <a href="https://www.kyberturvallisuuskeskus.fi/sites/default/files/media/file/Traficom_S213_2023_OIDC_Profile_v2_2_for_the_Finnish_Trust_Network_EN.pdf" target="_blank">Recommendation 213/2023 S Finnish Trust Network OpenID Connect Profile</a> and include:
 
 1. Private Key JWT client authentication
@@ -19,7 +19,9 @@ The requirements are described in <a href="https://www.kyberturvallisuuskeskus.f
 3. Encrypted `token` and `userinfo` responses
 4. Statically configured JWK sets for signing and encryption
 
-Client applications must be able to fulfill the new requirements to continue offering FTN logins, regardless of the chosen FTN broker. All changes must be implemented by August 31, 2025.
+Client applications must be able to fulfill the new requirements to continue offering FTN logins, regardless of the chosen FTN broker.
+
+Requirements went into effect on August 31, 2025.
 
 ### Technical guides
 
@@ -31,17 +33,6 @@ Technical guides for each requirement are provided below:
 - [Statically configured JWK sets](/verify/e-ids/finnish-trust-network/#statically-configured-jwk-sets-for-signing-and-encryption)
 
 Should you encounter any challenges or need further assistance, please do not hesitate to reach out to our support team at [support@criipto.com](mailto:support@criipto.com) or via [Slack](https://tiny.cc/criipto-slack).
-
-### Test your implementation
-
-Once you've implemented the changes described in the [technical guides](/verify/e-ids/finnish-trust-network/#technical-guides), you can test your setup by running test logins with enforced FTN requirements. 
-There are two ways to do this: 
-
-- Per-request enforcement: Add `login_hint=enforce_ftn_requirements` to an authorization request. This allows you to test individual requests.
-- Global enforcement: Activate the `Enforce FTN requirements` toggle in your Criipto Dashboard under `eID providers` > `FTN`. 
-![Enforce FTN requirements](./images/ftn-enforce-requirements.png)
-
-When `enforce FTN requirements` setting is active, any non-compliant authorization requests will fail. The failure will include a detailed error message to help you identify any misconfigurations or missing steps in your implementation.
 
 </Highlight>
 
