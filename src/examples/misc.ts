@@ -13,8 +13,12 @@ export interface NodeJSExample {
   nodejs: string;
 }
 
-export type Example = GraphQLExample | CSharpExample | NodeJSExample;
-export type ExampleLanguage = 'graphql' | 'csharp' | 'javascript';
+export interface PythonExample {
+  python: string;
+}
+
+export type Example = GraphQLExample | CSharpExample | NodeJSExample | PythonExample;
+export type ExampleLanguage = 'graphql' | 'csharp' | 'javascript' | 'python';
 
 export function toExampleLanguage(input: Example): ExampleLanguage {
   if ('query' in input) {
@@ -25,6 +29,9 @@ export function toExampleLanguage(input: Example): ExampleLanguage {
   }
   if ('nodejs' in input) {
     return 'javascript';
+  }
+  if ('python' in input) {
+    return 'python';
   }
 
   assertUnreachable(input);
@@ -39,6 +46,9 @@ export function toExampleDisplay(input: Example) {
   }
   if ('nodejs' in input) {
     return 'Node.js';
+  }
+  if ('python' in input) {
+    return 'Python';
   }
 
   assertUnreachable(input);
