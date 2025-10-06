@@ -40,6 +40,8 @@ export const pageQuery = gatsbyGraphql`
   }
 `;
 
+GraphQL is ideal for codegenerated clients, but we also offer SDKs for select platforms:
+
 <ul>
   {props.data.pages.edges
     .map(edge => edge.node)
@@ -47,8 +49,14 @@ export const pageQuery = gatsbyGraphql`
     .map(node => (
       <li key={node.id}>
         <Link to={`/${node.fields.slug}/`}>{node.frontmatter.title}</Link>
-        <br />
-        {node.frontmatter.subtitle}
       </li>
     ))}
 </ul>
+
+## Schema
+
+The GraphQL schema for codegen can be fetched by making a `GET` request to the GraphQL Endpoint `https://signatures-api.criipto.com/v1/graphql`
+
+```text
+curl https://signatures-api.criipto.com/v1/graphql
+```
