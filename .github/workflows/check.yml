@@ -13,10 +13,21 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 18.19.0
-      - uses: actions/setup-dotnet@v1
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '7.0.201'
-      - name: Install dependencies
+      - name: Setup python
+        uses: actions/setup-python@v5
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+          version: '0.8.5'
+      - name: Install python dependencies
+        shell: bash
+        run: uv sync --locked --all-extras --dev
+      - name: Install node dependencies
         run: npm ci
       - name: Check
         run: npm run check
