@@ -1,0 +1,133 @@
+---
+product: signatures
+category: Integrations
+sort: 4
+title: Python
+subtitle: Integrate Criipto Signatures with Python to sign PDFs using MitID, Swedish BankID, Norwegian BankId or other eIDs.
+---
+
+This guide shows you how to use implement Criipto Signatures in Python to sign PAdeS-LTA documents using MitID, BankID or any other eID supported by Criipto.
+
+## Getting started
+
+### Requirements
+
+This library supports Python 3.13 and later.
+
+### Installation
+
+The SDK is available on [PYPI](https://pypi.org/project/criipto-signatures/):
+
+```text
+python3 -m pip install criipto-signatures
+uv add criipto-signatures
+```
+
+### Configure the SDK
+
+The SDK offers both a sync and an async version.
+
+```python
+from criipto_signatures import CriiptoSignaturesSDKAsync
+client = CriiptoSignaturesSDKAsync(
+  "{YOUR_CRIIPTO_CLIENT_ID}",
+  "{YOUR_CRIIPTO_CLIENT_SECRET}"
+)
+```
+
+## Creating your first signature order
+
+Create a signature order by
+
+```python
+from criipto_signatures import CriiptoSignaturesSDKAsync
+from criipto_signatures.models import (
+  CreateSignatureOrderInput,
+  DocumentInput,
+  PadesDocumentInput,
+  DocumentStorageMode,
+)
+
+client = CriiptoSignaturesSDKAsync(
+  "{YOUR_CRIIPTO_CLIENT_ID}",
+  "{YOUR_CRIIPTO_CLIENT_SECRET}"
+)
+
+# Create signature order
+signatureOrder = await client.createSignatureOrder(
+  CreateSignatureOrderInput(
+    documents=[
+      DocumentInput(
+        pdf=PadesDocumentInput(
+          title="My document",
+          blob=data, # bytes object, or a base64 encoded string
+          storageMode=DocumentStorageMode.Temporary,
+        )
+      )
+    ]
+  )
+)
+
+# ... store the signatureOrder.id
+```
+
+### Adding signatories
+
+Signatories are the individuals you wish to sign your documents.
+
+```python
+from criipto_signatures import CriiptoSignaturesSDKAsync
+from criipto_signatures.models import (
+  AddSignatoryInput
+)
+
+client = CriiptoSignaturesSDKAsync(
+  "{YOUR_CRIIPTO_CLIENT_ID}",
+  "{YOUR_CRIIPTO_CLIENT_SECRET}"
+)
+
+signatureOrderId = "..." # The id from when you previosuly created the signature order
+
+# Add signatory to signature order
+signatory = await client.addSignatory(
+  AddSignatoryInput(
+    signatureOrderId=signatureOrderId
+  )
+)
+
+print(signatory.href) # The signatory.href is the signing link that you can show or send to your users
+```
+
+### Closing the signature order
+
+Once everyone has signed you must close the signature order to finalize the process and extract the signed documents.
+
+```python
+from criipto_signatures import CriiptoSignaturesSDKAsync
+from criipto_signatures.models import (
+  CloseSignatureOrderInput
+)
+
+client = CriiptoSignaturesSDKAsync(
+  "{YOUR_CRIIPTO_CLIENT_ID}",
+  "{YOUR_CRIIPTO_CLIENT_SECRET}"
+)
+
+signatureOrderId = "..." # The id from when you previosuly created the signature order
+
+# Close signature order
+closedSignatureOrder = await client.closeSignatureOrder(
+  CloseSignatureOrderInput(
+    signatureOrderId=signatureOrderId,
+  )
+)
+
+for document in closedSignatureOrder.documents:
+  # document.blob is a bytes object containing the signed PDF
+```
+
+## More examples
+
+More [Python examples](/signatures/graphql/examples/) are provided for all the options supported by the Criipto Signatures API.
+There is also a complete example project [on
+github](https://github.com/criipto/criipto-signatures-sdk/tree/master/packages/python/example).

@@ -5,9 +5,9 @@ sort: 0
 title: Integrate with Criipto Signatures
 ---
 
-import {isIndexPage} from '../../../utils';
+import { isIndexPage } from '../../../utils';
 
-import { graphql as gatsbyGraphql, Link } from "gatsby";
+import { graphql as gatsbyGraphql, Link } from 'gatsby';
 export const pageQuery = gatsbyGraphql`
   query SignaturesIntegrations {
     pages: allMdx(
@@ -40,11 +40,23 @@ export const pageQuery = gatsbyGraphql`
   }
 `;
 
+GraphQL is ideal for codegenerated clients, but we also offer SDKs for select platforms:
+
 <ul>
-  {props.data.pages.edges.map(edge => edge.node).filter(node => !isIndexPage(node)).map(node => (
-    <li key={node.id}>
-      <Link to={`/${node.fields.slug}/`}>{node.frontmatter.title}</Link><br />
-      {node.frontmatter.subtitle}
-    </li>
-  ))}
+  {props.data.pages.edges
+    .map(edge => edge.node)
+    .filter(node => !isIndexPage(node))
+    .map(node => (
+      <li key={node.id}>
+        <Link to={`/${node.fields.slug}/`}>{node.frontmatter.title}</Link>
+      </li>
+    ))}
 </ul>
+
+## Schema
+
+The GraphQL schema for codegen can be fetched by making a `GET` request to the GraphQL Endpoint `https://signatures-api.criipto.com/v1/graphql`
+
+```text
+curl https://signatures-api.criipto.com/v1/graphql
+```

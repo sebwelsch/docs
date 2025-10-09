@@ -1,19 +1,23 @@
 import csharp from '!!raw-loader!./ui.cs';
 import nodejs from '!!raw-loader!./ui.node.ts';
+import python from '!!raw-loader!./ui.py';
 import { Example } from '../misc';
 import { query, variables } from './ui.graphql';
 
-const example : Example[] = [
+const example: Example[] = [
   {
     query,
-    variables
+    variables,
   },
   {
-    csharp
+    csharp,
   },
   {
-    nodejs
-  }
+    nodejs,
+  },
+  {
+    python,
+  },
 ];
 
 export default example;

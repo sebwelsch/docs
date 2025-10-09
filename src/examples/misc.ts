@@ -1,44 +1,54 @@
 import type { ExampleData } from '../state/store';
 
 export interface GraphQLExample {
-  query: string,
-  variables?: (() => any) | ((data: ExampleData) => any)
+  query: string;
+  variables?: (() => any) | ((data: ExampleData) => any);
 }
 
 export interface CSharpExample {
-  csharp: string
+  csharp: string;
 }
 
 export interface NodeJSExample {
-  nodejs: string
+  nodejs: string;
 }
 
-export type Example = GraphQLExample | CSharpExample | NodeJSExample;
-export type ExampleLanguage = 'graphql' | 'csharp' | "javascript";
+export interface PythonExample {
+  python: string;
+}
 
-export function toExampleLanguage(input: Example) : ExampleLanguage {
-  if ("query" in input) {
+export type Example = GraphQLExample | CSharpExample | NodeJSExample | PythonExample;
+export type ExampleLanguage = 'graphql' | 'csharp' | 'javascript' | 'python';
+
+export function toExampleLanguage(input: Example): ExampleLanguage {
+  if ('query' in input) {
     return 'graphql';
   }
-  if ("csharp" in input) {
+  if ('csharp' in input) {
     return 'csharp';
   }
-  if ("nodejs" in input) {
+  if ('nodejs' in input) {
     return 'javascript';
+  }
+  if ('python' in input) {
+    return 'python';
   }
 
   assertUnreachable(input);
 }
 
 export function toExampleDisplay(input: Example) {
-  if ("query" in input) {
+  if ('query' in input) {
     return 'GraphQL';
   }
-  if ("csharp" in input) {
+  if ('csharp' in input) {
     return '.NET (C#)';
   }
-  if ("nodejs" in input) {
+  if ('nodejs' in input) {
     return 'Node.js';
+  }
+  if ('python' in input) {
+    return 'Python';
   }
 
   assertUnreachable(input);

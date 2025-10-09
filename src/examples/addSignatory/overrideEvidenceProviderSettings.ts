@@ -1,19 +1,23 @@
 import csharp from '!!raw-loader!./overrideEvidenceProviderSettings.cs';
 import nodejs from '!!raw-loader!./overrideEvidenceProviderSettings.node.ts';
+import python from '!!raw-loader!./overrideEvidenceProviderSettings.py';
 import { Example } from '../misc';
 import { query, variables } from './overrideEvidenceProviderSettings.graphql';
 
-const example : Example[] = [
+const example: Example[] = [
   {
     query,
-    variables
+    variables,
   },
   {
-    csharp
+    csharp,
   },
   {
-    nodejs
-  }
+    nodejs,
+  },
+  {
+    python,
+  },
 ];
 
 export default example;

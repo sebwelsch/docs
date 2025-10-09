@@ -1,19 +1,23 @@
 import csharp from '!!raw-loader!./footer.cs';
 import nodejs from '!!raw-loader!./footer.node.ts';
+import python from '!!raw-loader!./footer.py';
 import { Example } from '../misc';
 import { query, variables } from './footer.graphql';
 
-const example : Example[] = [
+const example: Example[] = [
   {
     query,
-    variables
+    variables,
   },
   {
-    csharp
+    csharp,
   },
   {
-    nodejs
-  }
+    nodejs,
+  },
+  {
+    python,
+  },
 ];
 
 export default example;

@@ -1,19 +1,23 @@
 import csharp from '!!raw-loader!./sealPosition.cs';
 import nodejs from '!!raw-loader!./sealPosition.node.ts';
+import python from '!!raw-loader!./sealPosition.py';
 import { Example } from '../misc';
 import { query, variables } from './sealPosition.graphql';
 
-const example : Example[] = [
+const example: Example[] = [
   {
     query,
-    variables
+    variables,
   },
   {
-    csharp
+    csharp,
   },
   {
-    nodejs
-  }
+    nodejs,
+  },
+  {
+    python,
+  },
 ];
 
 export default example;

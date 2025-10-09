@@ -1,0 +1,12 @@
+[project]
+name = "examples"
+version = "0.1.0"
+requires-python = ">=3.13"
+dependencies = [
+    "criipto-signatures>=0.1.0a5",
+    "pyright>=1.1.406",
+    "ruff>=0.13.3",
+]
+
+[tool.ruff]
+indent-width = 2
