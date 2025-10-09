@@ -353,15 +353,17 @@ Criipto does not attempt to parse or validate the value, we only pass on what is
 
 To start accepting real users with Swedish BankID, you must first request a certificate to identify your organization.
 
-Criipto acts as a reseller for Swedbank, which means that you will have to go through a simple approval process with Swedbank. The process is managed by Criipto.
+Criipto acts as a reseller for Swedbank, which means that you will have to go through a simple approval process with Swedbank. The process is managed by Criipto, and can take up to **10 business days**.
 
 import template from './files/swedbank-verksamhetsinfo-bankid-template.pdf';
 
+### Ordering the certificate
+
 To order the actual certificate simply <a href={template} download>download this form</a> and return a filled out copy to <a href="mailto:orders@criipto.com?subject=Swedish BankID for ...">orders@criipto.com</a>.
 
-## Next steps
+### Next steps
 
-After Criipto has received the filled out form, we send it to Swedbank where it will be reviewed and typically approved within a few business days.
+After Criipto has received the filled out form, we send it to Swedbank where it will be reviewed. **The entire process can take up to 10 business days**.
 
-Once your organization and your intended use of BankID has been approved we will create and install the actual certificate in your Criipto tenant. and you will be ready to continue the process in the [getting ready for production guide](/verify/guides/production).
+Once your organization and your intended use of BankID has been approved we will create and install the actual certificate in your Criipto tenant. and you will be ready to continue the process in the [Get ready for production](/verify/guides/production) guide.
 

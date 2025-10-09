@@ -212,7 +212,7 @@ Text signing has a different eID cost than authentication, please [contact Criip
 
 ## Ordering Norwegian BankID
 
-To start accepting real users with Norwegian BankID, you must first request your _client credentials_ from Bidbax. The credentials consists of a _client id_ and a _client secret_.
+To start accepting real users with Norwegian BankID, you must first request your _client credentials_ from Bidbax. The credentials consists of a _client id_ and a _client secret_. The process typically takes **7-10 business days**.
 
 <Highlight icon="file-lines">
 
@@ -222,7 +222,7 @@ In order to apply for the BankID client credentials for a company you must meet 
 
 - Your company must be a customer of a Norwegian Bank. Most banks in Norway are part of the BankID network.
 - The person that will sign the contract must be in possession of one of these personal eIDs: Norwegian BankID, Swedish BankID, or Danish MitID.
-- You must have completed step 5 in the [Getting ready for production](/verify/guides/production) guide. You will need the production domain to complete the order for your client credentials.
+- You must have completed step 4 in the [Get ready for production](/verify/guides/production) guide. You will need the production domain to complete the order for your client credentials.
 
 </Highlight>
 
@@ -285,7 +285,7 @@ To order production credentials please send a request to
 
 <p style={{textIndent: "50px"}}><a href="mailto:orders@criipto.com?subject=NO BankID for ...">orders@criipto.com</a></p>
 
-with answers to these questions:
+with answers to these questions.:
 
 1. A short description of what your application does and why it needs BankID.
 2. Your company: _Name, organisation number, and address_.
@@ -295,7 +295,7 @@ with answers to these questions:
 6. Contact person with authorization to receive the client credentials and client secret: _Name, mobile phone, and email_.
 7. Contact person with authorization to block/revoke the use of BankID: _Name, mobile phone, and email_.
 8. The display name to appear in the login app. E.g. the name of your company or your specific service (see the image below).
-9. The URL of your Criipto Verify production domain as setup in step 4 of the [Getting ready for production](/verify/guides/production) guide.
+9. The URL of your Criipto Verify production domain as setup in step 4 of the [Get ready for production](/verify/guides/production) guide.
 10. If you need access to social security numbers (“fødselsnummer”) please provide a thorough explanation of why and reference the Norwegian law and paragraph that grants you the right to receive them. If SSN is needed, then the reference to the Norwegian Law and Paragraph is mandatory.
 11. Finally - if you are not a Norwegian company - you must enclose a company certificate from the official business registry of the country of incoporation.
 
@@ -303,8 +303,8 @@ with answers to these questions:
 
 ### Next steps
 
-After Criipto has received the above information, we order the client credntials from your bank by filling out an online agreement, which is then sent to the appointed persons at your company for signing. Criipto will also sign the agreement.
+After Criipto has received the above information, we order the client credentials from your bank by filling out an online agreement, which is then sent to the appointed persons at your company for signing. Criipto will also sign the agreement.
 
-When all signatures are in place the signed agreement is sent to your bank for further processing and eventual issuance of your client credentials.
+When all signatures are in place the signed agreement is sent to your bank for further processing and eventual issuance of your client credentials. **The entire process typically takes 7-10 business days**.
 
 Once you have received credentials, they must be entered into the Criipto Verify management UI to configure your NO BankID integration.
