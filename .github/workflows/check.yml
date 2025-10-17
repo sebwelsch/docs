@@ -6,21 +6,22 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v5
       - name: Setup kernel for build, increase watchers
         run: echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
       - name: Use Node.js 24.10.0
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v6
         with:
           node-version: 24.10.0
+          cache: 'npm'
       - name: Setup dotnet
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: '7.0.201'
       - name: Setup python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
       - name: Install uv
-        uses: astral-sh/setup-uv@v6
+        uses: astral-sh/setup-uv@v7
         with:
           enable-cache: true
           version: '0.8.5'
