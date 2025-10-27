@@ -9,7 +9,7 @@ export default function ConsentRevocation() {
       <Paragraph>
         You can add a "forget-me" link on your website if you want to let users revoke the consent
         again. Use a normal authorize request as target, but add a{' '}
-        <strong>prompt=consent_revoke</strong> query parameter to the request. Criipto will then run
+        <strong>prompt=consent_revoke</strong> query parameter to the request. Idura will then run
         a login flow (to be able to recognize the end user), and delete the granted consent.
       </Paragraph>
       <Paragraph>

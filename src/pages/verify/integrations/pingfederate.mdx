@@ -3,40 +3,40 @@ product: verify
 category: Integrations
 sort: 3
 title: PingFederate
-subtitle: This tutorial demonstrates how to integrate Criipto Verify with PingFederate
+subtitle: This tutorial demonstrates how to integrate Idura Verify with PingFederate
 ---
 
-This tutorial demonstrates how to integrate Criipto Verify with PingFederate. The following steps are required to complete your first login:
+This tutorial demonstrates how to integrate Idura Verify with PingFederate. The following steps are required to complete your first login:
 
-1. [Prepare an application in Criipto Verify that represents your PingFederate tenant](#prepare-criipto-verify-application)
-2. [Create an authentication source in your PingFederate tenant which connects to the Criipto Verify application](#create-pingfederate-authentication-source)
-3. [Complete the application configuration in Criipto Verify](#complete-the-application-configuration-in-criipto-verify)
+1. [Prepare an application in Idura Verify that represents your PingFederate tenant](#prepare-criipto-verify-application)
+2. [Create an authentication source in your PingFederate tenant which connects to the Idura Verify application](#create-pingfederate-authentication-source)
+3. [Complete the application configuration in Idura Verify](#complete-the-application-configuration-in-criipto-verify)
 4. [Integrate your own application with PingFederate](#integrate-your-own-application-with-pingfederate)
 
-In the following you will be configuring first Criipto Verify, then PingFederate, and then back to finalizing the configuration in Criipto Verify.
+In the following you will be configuring first Idura Verify, then PingFederate, and then back to finalizing the configuration in Idura Verify.
 
 The final step in this excercise is needed because of a catch-22 between the requirements of the configuration steps on the two platforms, respectively:
 
-- Creating an application in Criipto Verify requires you to specify a callback URL to PingFederate before you can save the application configuration and get your hands on the generated client secret.
-- Getting the callback URL to PingFederate requires that you create an authentication source, which in turn requires the client secret from Criipto Verify, but you don't have the secret yet because you need the callback URL `[deadlock detected]`
+- Creating an application in Idura Verify requires you to specify a callback URL to PingFederate before you can save the application configuration and get your hands on the generated client secret.
+- Getting the callback URL to PingFederate requires that you create an authentication source, which in turn requires the client secret from Idura Verify, but you don't have the secret yet because you need the callback URL `[deadlock detected]`
 
-which _is_ a bit of a chicken-and-egg-problem, unfortunately. We suggest that you break the deadlock by configuring a temporary (bogus) callback URL in the first step in Criipto Verify, and then replace it with the actual value available after the authentication source is created.
+which _is_ a bit of a chicken-and-egg-problem, unfortunately. We suggest that you break the deadlock by configuring a temporary (bogus) callback URL in the first step in Idura Verify, and then replace it with the actual value available after the authentication source is created.
 
-As the setup requires some switching back-and-forth between Criipto and PingFederate's respective management dashboards, we recommend that you have them open simultaneously to make the process fairly smooth.
+As the setup requires some switching back-and-forth between Idura and PingFederate's respective management dashboards, we recommend that you have them open simultaneously to make the process fairly smooth.
 
 Once configured you may test that everything works from PingFederate's `OAuth Playground`.
 
-## Prepare Criipto Verify application
+## Prepare Idura Verify application
 
-First, you must register your PingFederate tenant as an application in Criipto Verify.
+First, you must register your PingFederate tenant as an application in Idura Verify.
 
-Once you register your PingFederate tenant, you will also need some of the information for configuring PingFederate to communicate with Criipto Verify. You get these details from the settings of the application in the dashboard.
+Once you register your PingFederate tenant, you will also need some of the information for configuring PingFederate to communicate with Idura Verify. You get these details from the settings of the application in the dashboard.
 
 Specifically you need the following information to integrate with PingFederate:
 
-- _Client ID_ to identify your PingFederate tenant to Criipto Verify. In the case below we chose `urn:criipto:verify`
-- _Domain_ on which you will be communicating with Criipto Verify. Could be for example `samples.criipto.id`
-- _Client secret_ which PingFederate needs to fetch actual user information from Criipto Verify during login.
+- _Client ID_ to identify your PingFederate tenant to Idura Verify. In the case below we chose `urn:idura:verify`
+- _Domain_ on which you will be communicating with Idura Verify. Could be for example `samples.idura.id`
+- _Client secret_ which PingFederate needs to fetch actual user information from Idura Verify during login.
   The secret is generated when you save the new application.
 
 ![Prepare App](./images/pingfederate-prepare-application.png)
@@ -62,7 +62,7 @@ Click the **Next** button, choose `BROWSER SSO` in `Connection Options`
 
 Click the **Next** button, enter your specific _Domain_ authority in the `ISSUER` field and click the **Load Metadata** button
 
-Give the connection a recognizable name, copy-paste the _Client ID_ and _Client secret_ values from your Criipto Verify application
+Give the connection a recognizable name, copy-paste the _Client ID_ and _Client secret_ values from your Idura Verify application
 
 ![General Info](./images/pingfederate-connection-general.png)
 
@@ -80,15 +80,15 @@ Click the **Next** button and add the claim types that you want to consume in th
 
 You can find the available claim types [here](/getting-started/token-contents).
 
-Click the **Save** button and the callback URL you need to finalize the Criipto Verify application configuration is displayed - in PingFederate terms, though, the callback URL is called a `Redirect URI`.
+Click the **Save** button and the callback URL you need to finalize the Idura Verify application configuration is displayed - in PingFederate terms, though, the callback URL is called a `Redirect URI`.
 
 ![Callback URL](./images/pingfederate-connection-callback-url.png)
 
-## Complete the application configuration in Criipto Verify
+## Complete the application configuration in Idura Verify
 
 Expand the details of the application configuration if you haven't already done so in the first step.
 
-Replace the temporary callback URL (from step 1, `https://example.com` in this article) in your Criipto Verify application with the actual value now available from your PingFederate authentication source configuration (the value of the `Redirect URI` above)
+Replace the temporary callback URL (from step 1, `https://example.com` in this article) in your Idura Verify application with the actual value now available from your PingFederate authentication source configuration (the value of the `Redirect URI` above)
 
 ![Finalize Application](./images/pingfederate-finalize-application-config.png)
 
@@ -104,7 +104,7 @@ If you plan on using single-signon, you must also register your PingFederate `po
 
 How to integrate your application with PingFederate depends on the technology you are working with. Refer to the [PingFederate developer documentation](https://developer.pingidentity.com/en/cloud-software/pingfederate.html) for more details.
 
-If you want to use pass-through of `login_hint` values sent from your own application to Criipto Verify via PingFederate, you must enable it via a `Policy` in your `IDP AUTHENTICATION POLICIES`.
+If you want to use pass-through of `login_hint` values sent from your own application to Idura Verify via PingFederate, you must enable it via a `Policy` in your `IDP AUTHENTICATION POLICIES`.
 
 If you haven't already done so, create a `Policy Contract` with the attributes you wish to consume
 
@@ -112,14 +112,14 @@ If you haven't already done so, create a `Policy Contract` with the attributes y
 
 - available claim types can be found [here](/verify/e-ids)
 
-Then create a `Policy` for your `IdP Connection` to Criipto Verify and set the `Options` for `Incoming User ID` to be sourced from `Context` and use the `Requested User` value.
+Then create a `Policy` for your `IdP Connection` to Idura Verify and set the `Options` for `Incoming User ID` to be sourced from `Context` and use the `Requested User` value.
 
 ![Policy](./images/pingfederate-relay-login_hint.png)
 
 <Highlight icon="file-lines">
 
-You can read more about which per-authorize-request parameters you can use to control the runtime behavior of Criipto Verify [here (prefilled fields)](/verify/guides/prefilled-fields) and [here (acr_values)](/how-to/choose-eid-method#login-hint-embedded).
+You can read more about which per-authorize-request parameters you can use to control the runtime behavior of Idura Verify [here (prefilled fields)](/verify/guides/prefilled-fields) and [here (acr_values)](/how-to/choose-eid-method#login-hint-embedded).
 
-Leveraging these features makes you authentication source setup in PingFederate as simple as possible - you just need to register Criipto Verify once, and reuse it for all the eID methods you need to consume.
+Leveraging these features makes you authentication source setup in PingFederate as simple as possible - you just need to register Idura Verify once, and reuse it for all the eID methods you need to consume.
 
 </Highlight>

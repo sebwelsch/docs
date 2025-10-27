@@ -13,7 +13,7 @@ Some of the eID methods require additional dialogs outside of those of the actua
 These may be styled and enhanced to your liking using one of the following approaches:
 
 1. [Adding your own stylesheet](#custom-css): if your goal is to apply basic styling, including a custom CSS file is all you need.
-2. [Adding custom HTML and CSS](#custom-html): can be used for creating more complex UIs (e.g. a layout with extra information around the Criipto login box).
+2. [Adding custom HTML and CSS](#custom-html): can be used for creating more complex UIs (e.g. a layout with extra information around the Idura login box).
 
 <Highlight icon="info">
 
@@ -23,13 +23,13 @@ These may be styled and enhanced to your liking using one of the following appro
 
 ## Content Security Policy considerations
 
-Strict **Content-Security-Policy** rules apply to all kinds of custom styling of Criipto Verify dialogs.
+Strict **Content-Security-Policy** rules apply to all kinds of custom styling of Idura Verify dialogs.
 This means that if you are referencing any resources via URLs, you must explicitly add the corresponding authorities in the `Style origins` list found in the `General` tab.
 
 <Highlight icon="warning">
 
 **Note** that the live previews you can see in the browser _DO NOT_ enforce a `Content-Security-Policy` - this is only present in the actual login flow.
-You can always use the built-in `Try` feature for the various e-ID methods to run an actual login flow in the browser, where `Content-Security-Policy` rules will apply.
+You can always use the built-in `Try` feature for the various eID methods to run an actual login flow in the browser, where `Content-Security-Policy` rules will apply.
 You can use your browser's developer tools (Console tab) for troubleshooting.
 
 </Highlight>
@@ -54,14 +54,14 @@ You can enter a URL to your own (self-hosted) style sheet just above the preview
 
 ### 'Dynamic' style sheets
 
-In some cases, bundling all of your CSS in just one style sheet can be tricky and/or infeasible. Criipto Verify supports overriding the _path_ part of the style sheet URL on a per-authorize request basis.
+In some cases, bundling all of your CSS in just one style sheet can be tricky and/or infeasible. Idura Verify supports overriding the _path_ part of the style sheet URL on a per-authorize request basis.
 
 You can specify a `css_path:/a/b/...?c=d&e=f&...` token in the `login_hint` query parameter in your authorize request, which will then override the path and query parts of the pre-configured style sheet URL.
-Criipto Verify will use the authority part of your pre-configured URL as a "base" URL, and then set the value you specify in the `css_path` token as the path name and query part of the style sheet URL.
+Idura Verify will use the authority part of your pre-configured URL as a "base" URL, and then set the value you specify in the `css_path` token as the path name and query part of the style sheet URL.
 
 <Highlight icon="file-lines">
 
-If you have not configured a custom style sheet URL, Criipto Verify ignores the `css_path` token in the `login_hint` query parameter.
+If you have not configured a custom style sheet URL, Idura Verify ignores the `css_path` token in the `login_hint` query parameter.
 
 </Highlight>
 
@@ -79,7 +79,7 @@ as a custom style sheet, and you construct an authorize request containing a
 css_path:dynamic/subpath?q=x
 ```
 
-in the `login_hint` parameter, the resulting CSS URL put in the HTML responses from Criipto Verify will change to
+in the `login_hint` parameter, the resulting CSS URL put in the HTML responses from Idura Verify will change to
 
 ```
 https://my.css.host/dynamic/subpath?q=x
@@ -111,7 +111,7 @@ Depending on the eID, the `lang-sv` class will be replaced with `lang-da`, `lang
 
 ### Desktop screen sizes
 
-#### Above the Criipto Verify frame
+#### Above the Idura Verify frame
 
 ```html
 <header id="header" class="default-hidden desktop-show">
@@ -141,7 +141,7 @@ You can change the texts in the `<h1 id="headline">` element via the following C
 }
 ```
 
-#### Below the Criipto Verify frame
+#### Below the Idura Verify frame
 
 ```html
 <aside id="description" class="centered default-hidden desktop-show">
@@ -234,7 +234,7 @@ If you want to show text in one of the hidden-by-default `<p>` elements, you can
 Each `<body>` element has up to 5 CSS classes attached to it:
 
 1. Indicator of the eID method in use - such as `sebankid`.
-2. Indicator that this is a page from Criipto Verify - `broker`. This makes it possible to target our pages specifically, even if you use the same CSS file for different websites.
+2. Indicator that this is a page from Idura Verify - `broker`. This makes it possible to target our pages specifically, even if you use the same CSS file for different websites.
 3. Indicator of the flow in use - authentication (`auth`) or signature (`sign`).
 4. Indicator of which DNS name the page is loaded on.
 5. (Optional) Your very own CSS class name on a per-application basis. You can set it in the management UI as well.
@@ -251,7 +251,7 @@ you will have the following CSS class content on the `body` tag:
 <body class="sebankid broker auth host-identity-yourdomain-com app-one" />
 ```
 
-You can use these dynamically added CSS classes to customize the UI on a per-application basis, which may be quite practical for, say, Single Sign-On scenarios where you reuse a Criipto Verify DNS domain across web applications with very different branding requirements.
+You can use these dynamically added CSS classes to customize the UI on a per-application basis, which may be quite practical for, say, Single Sign-On scenarios where you reuse an Idura Verify DNS domain across web applications with very different branding requirements.
 
 #### Dialog specific
 
@@ -278,7 +278,7 @@ Should you also want to change the wording for signature flow, you could add the
 
 ## Custom HTML
 
-You can create your preferred webpage structure around the login box on the Criipto login screens by adding custom HTML (with accompanying CSS).
+You can create your preferred webpage structure around the login box on the Idura login screens by adding custom HTML (with accompanying CSS).
 
 This can be done from the `Styling` -> `Custom UI` tab of your management dashboard on [dashboard.criipto.com](https://dashboard.criipto.com/styling).
 
@@ -292,7 +292,7 @@ The preview of the user-facing dialogs will be rendered as you save your code (`
 
 ![Custom HTML Preview](./images/custom-ui-preview.png)
 
-Your HTML must always include the `<verify />` element, as this will define the position of the Criipto login box on the login screen.
+Your HTML must always include the `<verify />` element, as this will define the position of the Idura login box on the login screen.
 
 import StyleOriginsSnippet from '../../../snippets/style-origins.mdx';
 

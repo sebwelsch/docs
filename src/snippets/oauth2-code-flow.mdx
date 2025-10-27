@@ -4,7 +4,7 @@ After saving, you can configure the OAuth2 Code Flow for this application by fol
 
 1. Go to the **OpenID Connect** section of your Application settings and **Enable OAuth2 Code Flow**.
    ![OAuth2 client secret](./images/oauth2-enable.png)
-2. Copy the generated client secret. _Note that this is the only time you will be shown the actual value of the client secret. Criipto only stores this as a hashed value, which means you cannot retrieve the value once it has been generated and stored._
+2. Copy the generated client secret. _Note that this is the only time you will be shown the actual value of the client secret. Idura only stores this as a hashed value, which means you cannot retrieve the value once it has been generated and stored._
    ![OAuth2 client secret](./images/oauth2-client-secret.png)
 3. Set the user info response strategy to `plainJson` to enable retrieval of plain JSON user information from the `/oauth2/userinfo` endpoint.
    ![OAuth2 code flow](./images/plain-json.png)
@@ -15,7 +15,7 @@ After saving, you can configure the OAuth2 Code Flow for this application by fol
 
 <Highlight icon="file-lines">
 
-Criipto Verify supports four modes for retrieving user information:
+Idura Verify supports four modes for retrieving user information:
 
 - Plain JSON object (`plainJson`): User information is returned from the `userinfo` endpoint as a standard JSON object.
 - Signed JWT (`signedJwt`): User information is returned from the `userinfo` endpoint as a digitally signed [JSON Web Token](/verify/getting-started/glossary/#jwt-json-web-token).

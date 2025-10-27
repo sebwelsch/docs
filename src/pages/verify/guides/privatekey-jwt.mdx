@@ -3,7 +3,7 @@ product: verify
 category: Guides & Tools
 sort: 1
 title: Private key JWT authentication
-subtitle: How to use private key JWT to authenticate your Criipto application
+subtitle: How to use private key JWT to authenticate your Idura application
 ---
 
 Private Key JWT Authentication is one of the client authentication methods defined in [Open ID Connect Core Client Authentication](https://openid.net/specs/openid-connect-core-1_0.html#ClientAuthentication).
@@ -16,7 +16,7 @@ for client authentication in [traditional server-based web applications](/verify
 
 </Highlight>
 
-You can configure your [Criipto Verify Application](https://docs.criipto.com/verify/getting-started/basics/#applications) to use `private_key_jwt` for client authentication.
+You can configure your [Idura Verify Application](https://docs.criipto.com/verify/getting-started/basics/#applications) to use `private_key_jwt` for client authentication.
 
 ## Authenticate with Private Key JWT
 
@@ -26,9 +26,9 @@ To use `private_key_jwt` for client authentication, follow these three steps:
 
 2. Build the client assertion.
 
-3. Use the client assertion to authenticate your application against Criipto Verify.
+3. Use the client assertion to authenticate your application against Idura Verify.
 
-You can use one of the recommended libraries for working with JWTs (the list is available at [jwt.io](https://jwt.io/libraries)), or leverage Criipto's [criipto-oidc-js](https://github.com/criipto/criipto-oidc-js) library. We strongly recommend utilizing an established tooling or a third-party library rather than building your own solution.
+You can use one of the recommended libraries for working with JWTs (the list is available at [jwt.io](https://jwt.io/libraries)), or leverage Idura's [criipto-oidc-js](https://github.com/criipto/criipto-oidc-js) library. We strongly recommend utilizing an established tooling or a third-party library rather than building your own solution.
 
 ### Generate an RSA key pair and JWKS
 
@@ -79,11 +79,11 @@ The client assertion is a JWT signed by the private key of the [RSA key pair](/v
 
 `alg`: The algorithm used to sign the JWT. Should be set to `RS256`.
 
-`iss`: The Client ID of your Criipto Verify application. You can find it in the General tab of your Application settings under `Client ID/Realm`.
+`iss`: The Client ID of your Idura Verify application. You can find it in the General tab of your Application settings under `Client ID/Realm`.
 
 `sub`: Your application's Client ID (the same as in the `iss` claim).
 
-`aud`: Your Criipto Verify domain that will receive the assertion, e.g. `https://{{YOUR_CRIIPTO_DOMAIN}}.criipto.id`.
+`aud`: Your Idura Verify domain that will receive the assertion, e.g. `https://{{YOUR_CRIIPTO_DOMAIN}}.criipto.id`.
 
 `iat` and `exp`: Issued At and Expiration claims set to the correct timestamps. The client assertion JWT should be used only once and should have a short lifespan. We recommend a maximum expiry time of 5 minutes.
 
@@ -128,7 +128,7 @@ The `client_assertion_type` must be set to `urn:ietf:params:oauth:client-asserti
 ```curl
 # Replace `$client_assertion` with your JWT assertion
 # Replace `AUTHORIZATION_CODE` with the authorization code received in the initial authorization request
-# Replace `YOUR_DOMAIN.criipto.id` with your Criipto domain
+# Replace `YOUR_DOMAIN.criipto.id` with your Idura domain
 # Replace `YOUR_RETURN_URL` with the redirect URI used in the initial authorization request
 
 HTTP POST https://YOUR_DOMAIN.criipto.id/oauth2/token
@@ -156,18 +156,18 @@ In your Application settings, go to `OpenID Connect` > `Client JWKS`. You can ad
 
 `private_key_jwt` offers enhanced security compared to traditional `client_secret` authentication methods by removing the need for a pre-shared symmetric key (client secret).
 
-Instead, you generate a pair of asymmetric keys and have Criipto point to the JWKS in your system. During authentication, your application signs its request with the private key, creating a signed client assertion. Criipto Verify can then use the public key from the JWKS to decrypt and verify the assertion.
+Instead, you generate a pair of asymmetric keys and have Idura point to the JWKS in your system. During authentication, your application signs its request with the private key, creating a signed client assertion. Idura Verify can then use the public key from the JWKS to decrypt and verify the assertion.
 
-Additionally, by using `private_key_jwt` with a _JWKS endpoint_ rather than a static JWKS, you can benefit from seamless key rollover by eliminating the need to make any changes in the Criipto Dashboard if you choose to rotate your keys.
+Additionally, by using `private_key_jwt` with a _JWKS endpoint_ rather than a static JWKS, you can benefit from seamless key rollover by eliminating the need to make any changes in the Idura Dashboard if you choose to rotate your keys.
 
 <Highlight icon="file-lines">
 
 With `client_secret`:
 
-Criipto Verify generates the `client_secret`. Every time the application wants to perform client authentication, it must send the `client_secret` in order to obtain an access token.
+Idura Verify generates the `client_secret`. Every time the application wants to perform client authentication, it must send the `client_secret` in order to obtain an access token.
 
 With `private_key_jwt`:
 
-You generate your own asymmetric key pair and register it with Criipto Verify by supplying your JWKS. Therefore, the private key is under your control and is never shared or transmitted over the network.
+You generate your own asymmetric key pair and register it with Idura Verify by supplying your JWKS. Therefore, the private key is under your control and is never shared or transmitted over the network.
 
 </Highlight>

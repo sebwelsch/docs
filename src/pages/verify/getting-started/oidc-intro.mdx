@@ -3,20 +3,20 @@ product: verify
 category: Getting Started
 sort: 2
 title: Using OpenID Connect
-subtitle: Learn how Criipto supports the OpenID Connect protocol.
+subtitle: Learn how Idura supports the OpenID Connect protocol.
 ---
 
-## Using OpenID Connect to integrate with Criipto Verify
+## Using OpenID Connect to integrate with Idura Verify
 
-Criipto Verify is an OpenID Provider. It is integrated through the authentication API which follows the <a href='https://openid.net/specs/openid-connect-core-1_0.html' target="_blank">OpenID Connect</a> and <a href='https://datatracker.ietf.org/doc/html/rfc6749' target="_blank">OAuth 2.0</a> specifications.
+Idura Verify is an OpenID Provider. It is integrated through the authentication API which follows the <a href='https://openid.net/specs/openid-connect-core-1_0.html' target="_blank">OpenID Connect</a> and <a href='https://datatracker.ietf.org/doc/html/rfc6749' target="_blank">OAuth 2.0</a> specifications.
 
 ### Supported OpenID Connect Flows
 
-The OpenID Connect(OIDC) protocol defines different strategies (flows) to authenticate users. Criipto Verify supports five different OpenID Connect flows:
+The OpenID Connect(OIDC) protocol defines different strategies (flows) to authenticate users. Idura Verify supports five different OpenID Connect flows:
 
 #### [1. The Authorization Code Flow](/verify/getting-started/oidc-intro/#authenticate-with-back-channel-authorization-code-flow)
 
-The Authorization Code Flow is used for traditional server-based web applications, also referred to as _confidential clients_. These applications can securely store a client secret and establish back-channel communication with the Criipto Verify service. This facilitates a secure [code-for-token exchange](#exchange-the-code-for-a-token) during authentication.
+The Authorization Code Flow is used for traditional server-based web applications, also referred to as _confidential clients_. These applications can securely store a client secret and establish back-channel communication with the Idura Verify service. This facilitates a secure [code-for-token exchange](#exchange-the-code-for-a-token) during authentication.
 
 #### [2. The PKCE Flow](/verify/getting-started/oidc-intro/#authenticate-with-pkce)
 
@@ -32,7 +32,7 @@ The CIBA flow is designed for use cases where the client application isn't direc
 
 #### [5. The Headless flow](/verify/getting-started/oidc-intro/#authenticate-with-headless)
 
-The Headless flow is a custom protocol by Criipto that allows interacting with eIDs which offers a poll based workflow, where user agent redirect is not required.
+The Headless flow is a custom protocol by Idura that allows interacting with eIDs which offers a poll based workflow, where user agent redirect is not required.
 
 **The choice of the OpenID Connect flow depends on the requirements and architecture of the client application implementing the OIDC authentication.**
 
@@ -49,7 +49,7 @@ To begin the login flow, you will need to authenticate the user at the [identity
 
 To authenticate the user, your app must send the user to the _OAuth2 authorization endpoint (`/oauth2/authorize`)_ with the appropriate set of parameters.
 
-You can find the URL for the _OAuth2 authorization endpoint_ in the OpenID Connect Discovery Document exposed on your [Criipto Verify Domain](/verify/getting-started/basics/#domains):
+You can find the URL for the _OAuth2 authorization endpoint_ in the OpenID Connect Discovery Document exposed on your [Idura Verify Domain](/verify/getting-started/basics/#domains):
 
 ```
 GET https://YOUR_SUBDOMAIN.criipto.id/.well-known/openid-configuration
@@ -88,7 +88,7 @@ If you want to receive the response in another way you must specify the `respons
     <tr>
       <td>`response_type`</td>
       <td>
-        Denotes the kind of credential that Criipto will return (`code` or `id_token`). If you are
+        Denotes the kind of credential that Idura will return (`code` or `id_token`). If you are
         integrating a traditional server based web application (back-channel flow) or a
         *PKCE-enabled* client, use `code`. Use `id_token` for legacy single page applications using
         a front-channel flow.{' '}
@@ -97,7 +97,7 @@ If you want to receive the response in another way you must specify the `respons
     <tr>
       <td>`client_id`</td>
       <td>
-        Your application's Client ID. You can find this value in the Criipto Verify UI in the
+        Your application's Client ID. You can find this value in the Idura Verify UI in the
         settings for actual application.{' '}
       </td>
     </tr>
@@ -105,12 +105,12 @@ If you want to receive the response in another way you must specify the `respons
       <td>`redirect_uri`</td>
       <td>
         {' '}
-        The URL to which Criipto will redirect the browser after authentication has been completed.
+        The URL to which Idura will redirect the browser after authentication has been completed.
         The authorization code and the `id_token` will be available in the `code` and `id_token` URL
         parameter for the back-channel flow and on a URL query parameter for the front-channel flow.
         This URL must be pre-registered as a valid callback URL in your application settings.
         <br /> <br /> **Warning:** Per the [OAuth 2.0
-        Specification](https://tools.ietf.org/html/rfc6749#section-3.1.2), Criipto removes
+        Specification](https://tools.ietf.org/html/rfc6749#section-3.1.2), Idura removes
         everything after the hash and does *not* honor any fragments.{' '}
       </td>
     </tr>
@@ -150,7 +150,7 @@ If you want to receive the response in another way you must specify the `respons
       <td>`state`</td>
       <td>
         (optional but recommended) An opaque arbitrary alphanumeric string your app adds to the
-        initial request that Criipto includes when redirecting back to your application.{' '}
+        initial request that Idura includes when redirecting back to your application.{' '}
       </td>
     </tr>
     <tr>
@@ -254,7 +254,7 @@ grant_type=authorization_code&code=AUTHORIZATION_CODE&client_id=CLIENT_ID&redire
 
 **_Note_** _We do also support receiving the client credentials in the payload, but this usage is discouraged by the OAuth2 specification, and we strongly recommend that you send the credentials in the `Authorization: Basic ...` HTTP header value as described above._
 
-The client id and secret are retrieved from the Criipto Verify management UI and the `redirect_uri` must be exactly the same you used in the authorization request in the previous step.
+The client id and secret are retrieved from the Idura Verify management UI and the `redirect_uri` must be exactly the same you used in the authorization request in the previous step.
 
 <Highlight icon="exclamation" warning>
 
@@ -337,7 +337,7 @@ Client-Initiated Backchannel Authentication (<a href="https://openid.net/specs/o
 
 The caller provides a hint that triggers an authentication request to the user's authentication device, typically a phone. The user can then approve the request and complete the authentication process as usual.
 
-CIBA is an extension to OpenID Connect. However, unlike in other OpenID Connect flows, there is a direct communication between your application and the OpenID Provider (Criipto Verify), without redirects through the user's browser.
+CIBA is an extension to OpenID Connect. However, unlike in other OpenID Connect flows, there is a direct communication between your application and the OpenID Provider (Idura Verify), without redirects through the user's browser.
 
 CIBA supports use cases not covered by other OpenID Connect flows, such as:
 
@@ -345,7 +345,7 @@ CIBA supports use cases not covered by other OpenID Connect flows, such as:
 - Using a smartphone to authorize a payment at a point of sale terminal.
 - Enabling a bank agent to authenticate a customer in a bank branch during a face-to-face interaction.
 
-Criipto Verify supports CIBA for the [Swedish BankID Phone Authentication](/verify/e-ids/swedish-bankid/#bankid-phone-authentication).
+Idura Verify supports CIBA for the [Swedish BankID Phone Authentication](/verify/e-ids/swedish-bankid/#bankid-phone-authentication).
 
 ### Example request
 
@@ -405,18 +405,18 @@ The token will be issued upon successful user identification:
 
 ## Authenticate with Headless
 
-Headless flow is a custom protocol provided by Criipto that is very similar to <a href="https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html" target="_blank">CIBA</a> but with a few key differences.
+Headless flow is a custom protocol provided by Idura that is very similar to <a href="https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html" target="_blank">CIBA</a> but with a few key differences.
 
 Where CIBA requires that the user is known in advance so that a request may be sent directly to the authentication device, headless instead returns values to the relying party so that they may trigger necessary UI or interaction elements with the user directly.
 
-Headless is an extension to OpenID Connect. However, unlike in other OpenID Connect flows, there is a direct communication between your application and the OpenID Provider (Criipto Verify), without redirects through the user's browser.
+Headless is an extension to OpenID Connect. However, unlike in other OpenID Connect flows, there is a direct communication between your application and the OpenID Provider (Idura Verify), without redirects through the user's browser.
 
 Headless supports use cases not covered by other OpenID Connect flows, such as:
 
-- Rendering UI elements in your own webpage instead of via a Criipto redirect
+- Rendering UI elements in your own webpage instead of via a Idura redirect
 - Performing app2app where a browser is not required
 
-Criipto Verify currently supports Headless for Swedish BankID.
+Idura Verify currently supports Headless for Swedish BankID.
 
 ### Example request
 
@@ -496,7 +496,7 @@ You can now proceed with validating the `JWT` returned in response and access th
 The validation step is required; without it, you cannot trust the contained end-user information.
 
 We strongly recommend that you find a battle-hardened library for your specific platform to do this heavy lifting.
-You can find an extensive list of libraries on <a href='https://jwt.io/libraries' target="_blank">jwt.io</a>. Alternatively, Criipto provides a list of [integrations](/verify/integrations) that handle most of the authentication process, including JWT validation.
+You can find an extensive list of libraries on <a href='https://jwt.io/libraries' target="_blank">jwt.io</a>. Alternatively, Idura provides a list of [integrations](/verify/integrations) that handle most of the authentication process, including JWT validation.
 
 For more informaiton, see [OpenID Connect security best practices](/verify/getting-started/best-security-practices/#always-validating-id-tokens) and <a href='https://www.criipto.com/blog/jwt-validation-guide' target="_blank">JWT validation guide</a>.
 
@@ -507,9 +507,9 @@ You can use the `scope` query parameter to specify which user data you want on a
 <Highlight icon="file-lines">
 
 You must explicitly enable this feature [per application](https://dashboard.criipto.com/applications).
-By default, Criipto Verify uses the configured settings per eID (thus effectively ignoring any other `scope` values than `openid`).
+By default, Idura Verify uses the configured settings per eID (thus effectively ignoring any other `scope` values than `openid`).
 Activate the "Enable dynamic scopes" toggle on an application to start using this feature.
-Once you do that, Criipto Verify will switch from using the per eID configured scope options to the ones you specify in the authorize request.
+Once you do that, Idura Verify will switch from using the per eID configured scope options to the ones you specify in the authorize request.
 
 </Highlight>
 
@@ -538,7 +538,7 @@ Consult the [authorize URL builder](/verify/guides/authorize-url-builder/#auth-m
 
 Just as for [the `scope` parameter](#the-scope-parameter), the `login_hint` parameter can contain multiple values. Each value here must also be separated by a single blank character.
 
-Criipto Verify supports controlling the runtime behavior in quite a few aspects by values sent in this parameter.
+Idura Verify supports controlling the runtime behavior in quite a few aspects by values sent in this parameter.
 We chose this approach as it is most often possible to send them through intermediaries if your architecture has such components (other OpenID Providers such as Azure AD or Auth0).
 
 Also, we use it as a fallback for cases where intermediaries do not let you pass values via otherwise standardized OpenID Connect query parameters (most notably `scope` and `acr_values`).

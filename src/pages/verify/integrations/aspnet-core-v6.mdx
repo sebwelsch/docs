@@ -3,31 +3,31 @@ product: verify
 category: Integrations
 sort: 0
 title: ASP.NET Core 6.0
-subtitle: Accept MitID, Swedish BankID, Norwegian BankID and other eID logins with ASP.NET Core 6.0 and Criipto Verify
+subtitle: Accept MitID, Swedish BankID, Norwegian BankID and other eID logins with ASP.NET Core 6.0 and Idura Verify
 ---
 
-This tutorial demonstrates how to integrate Criipto Verify into a fresh ASP.NET Core 6.0 application created with `dotnet new mvc`.
+This tutorial demonstrates how to integrate Idura Verify into a fresh ASP.NET Core 6.0 application created with `dotnet new mvc`.
 The principles should apply to any ASP.NET Core 6.0 application.
 
 You can download a [sample application from GitHub](https://github.com/criipto/samples/tree/master/Verify/dotnet-core-v6.x).
 
-## Register Your Application in Criipto Verify
+## Register Your Application in Idura Verify
 
-After you signed up for Criipto Verify, you must [register an application](https://dashboard.criipto.com/applications/add) before you can actually try logging in with any eID.
+After you signed up for Idura Verify, you must [register an application](https://dashboard.criipto.com/applications/add) before you can actually try logging in with any eID.
 
-Once you register your application, you will also need some of the information for communicating with Criipto Verify. You get these details from the application settings in the dashboard.
+Once you register your application, you will also need some of the information for communicating with Idura Verify. You get these details from the application settings in the dashboard.
 
 Specifically you need the following information to configure you application
 
-- _Client ID_ to identify you application to Criipto Verify.
-- _[Domain](/verify/getting-started/basics/#domains)_ on which you will be communicating with Criipto Verify.
+- _Client ID_ to identify you application to Idura Verify.
+- _[Domain](/verify/getting-started/basics/#domains)_ on which you will be communicating with Idura Verify.
 - _Client Secret_ to perform code exchange.
 
 ### Register callback URLs
 
-Before you can start sending authentication requests to Criipto Verify, you need to register the URLs on which you want to receive the returned _JSON Web Token_, JWT.
+Before you can start sending authentication requests to Idura Verify, you need to register the URLs on which you want to receive the returned _JSON Web Token_, JWT.
 
-The Callback URL of your application is the URL where Criipto Verify will redirect to after the user has authenticated in order for the OpenID Connect ASP.NET middleware to complete the authentication process.
+The Callback URL of your application is the URL where Idura Verify will redirect to after the user has authenticated in order for the OpenID Connect ASP.NET middleware to complete the authentication process.
 
 You will need to add these URLs to the list of allowed URLs for your application:
 
@@ -48,7 +48,7 @@ import CodeFlowSnippet from '../../../snippets/oauth2-code-flow.mdx';
 
 ## Install dependencies
 
-To integrate Criipto Verify with ASP.NET Core you will use the Cookie and OpenID Connect (OIDC) authentication handlers. `Microsoft.AspNetCore.Authentication.Cookies` is usually included but `Microsoft.AspNetCore.Authentication.OpenIdConnect` will need to be installed:
+To integrate Idura Verify with ASP.NET Core, you will use the Cookie and OpenID Connect (OIDC) authentication handlers. `Microsoft.AspNetCore.Authentication.Cookies` is usually included but `Microsoft.AspNetCore.Authentication.OpenIdConnect` will need to be installed:
 
 ```shell
 dotnet add package Microsoft.AspNetCore.Authentication.OpenIdConnect
@@ -96,7 +96,7 @@ builder.Services.AddAuthentication(options => {
     options.Authority = $"https://{builder.Configuration["Criipto:Domain"]}/";
     options.ResponseType = "code";
 
-    // The next to settings must match the Callback URLs in Criipto Verify
+    // The next to settings must match the Callback URLs in Idura Verify
     options.CallbackPath = new PathString("/callback");
     options.SignedOutCallbackPath = new PathString("/signout");
 });
@@ -138,7 +138,7 @@ Note that you may plug in your own Authorization handlers derived from `Microsof
 
 ### Explicit logout
 
-Logout requires both terminating the local session by removing the cookies as well as telling Criipto Verify that the session is over.
+Logout requires both terminating the local session by removing the cookies as well as telling Idura Verify that the session is over.
 
 ```csharp
 public async Task Logout()
@@ -157,9 +157,9 @@ In summary, the steps above will lead to a runtime flow that looks like this:
 
 1. The web server starts the application, which configures and initializes the OpenID Connect middleware. The middleware is configured with a URL from which it retrieves the metadata describing the various endpoints (e.g., `token` and `userinfo`) and encryption keys, as well as the token signing certificates.
 2. A request for a resource protected by the `[Authorization]` kicks off the OIDC middleware login flow.
-3. The user's browser is redirected to the Criipto Verify service, where the actual login takes place.
+3. The user's browser is redirected to the Idura Verify service, where the actual login takes place.
 4. A callback with an issued _authorization code_ is sent back to the application and intercepted by the OIDC middleware.
-5. The middleware calls the Criipto Verify service to exchange the code for an _access token_. Note that this is a direct server-to-server call which, unlike the other communication, does not pass through the browser.
+5. The middleware calls the Idura Verify service to exchange the code for an _access token_. Note that this is a direct server-to-server call which, unlike the other communication, does not pass through the browser.
 6. The access token is used by the OIDC middleware to retrieve the available user information, which is set as claims on the user principal.
 
 If you want to inspect the runtime flow, the browser's developer tools (e.g., in Chrome) can be used to examine the network traffic.

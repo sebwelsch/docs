@@ -20,11 +20,11 @@ export default function DefaultLayout(props: {
   const { frontmatter } = props.pageContext;
   const description = frontmatter?.description || frontmatter?.subtitle;
   const suffix =
-    frontmatter?.title === 'Criipto Documentation'
+    frontmatter?.title === 'Idura Documentation'
       ? ''
       : frontmatter?.product
-        ? ` - Criipto ${upperFirst(frontmatter.product)} Documentation`
-        : ' - Criipto Documentation';
+        ? ` - Idura ${upperFirst(frontmatter.product)} Documentation`
+        : ' - Idura Documentation';
 
   const isEmbedded = props.pageContext?.isEmbedded;
   const category = frontmatter?.category ? ` - ${frontmatter.category}` : '';

@@ -26,7 +26,7 @@ It is currently not possible to sign documents that have previously been signed,
 
 ### Changing authentication options
 
-You can modify Criipto Verify evidence provider settings to change the runtime behavior:
+You can modify Idura Verify evidence provider settings to change the runtime behavior:
 
 - To change authentication methods displayed, add [`acrValues`](/verify/getting-started/oidc-intro#authorize-request-parameters).
 - To disable popups, set `"alwaysRedirect": true`.
@@ -58,7 +58,7 @@ import uiExample from '../../../examples/createSignatureOrder/ui';
 ### Requiring unique eIDs for each signatory
 
 If you do not wish signatories to be able to sign multiple times (i.e. not using a "role" system or just have issues with persons sharing eID),
-you can configure the Criipto Verify evidence provider to enforce uniqueness via the `uniqueEvidenceKey: 'sub'` setting.
+you can configure the Idura Verify evidence provider to enforce uniqueness via the `uniqueEvidenceKey: 'sub'` setting.
 
 import uniqueEvidenceKeyExample from '../../../examples/createSignatureOrder/uniqueEvidenceKey';
 
@@ -111,7 +111,7 @@ import addSignatoryBasicExample from '../../../examples/addSignatory/basic';
 
 If you wish to validate the user signing, you should use the `evidenceValidation` input for `addSignatory`.
 
-Evidence validation keys must match what will be found in the token claims when signing. You can inspect the [JWTs issued by Criipto Verify](https://docs.criipto.com/verify/getting-started/token-contents/) to see the keys that can be used for evidence validation. _Tip: Hover over a claim in the JWT payload to view its description._
+Evidence validation keys must match what will be found in the token claims when signing. You can inspect the [JWTs issued by Idura Verify](https://docs.criipto.com/verify/getting-started/token-contents/) to see the keys that can be used for evidence validation. _Tip: Hover over a claim in the JWT payload to view its description._
 
 Evidence will be hashed before storage and compared when a user tries to sign. If the evidence does not match, an error will be displayed to the user, and they will be prompted to try again.
 
@@ -258,7 +258,7 @@ This can be customized (per signatory) to either override the name completely or
 
 Below is an example of how one might render a business name together with the username, and fallback to a non-business scenario.
 
-This feature currently ONLY works with CriiptoVerify-based signatures.
+This feature currently ONLY works with Verify-based signatures.
 
 import addSignatoryDisplayNameExample from '../../../examples/addSignatory/displayName';
 
@@ -278,7 +278,7 @@ import addSignatoryFooterExample from '../../../examples/addSignatory/footer';
 
 When all signatories have signed the signature order, you can close it to retrieve your signed PDFs.
 
-The PDFs are deleted from Criipto servers upon calling `closeSignatureOrder`. (Unless you define the `retainDocumentsForDays` setting.)
+The PDFs are deleted from Idura servers upon calling `closeSignatureOrder`. (Unless you define the `retainDocumentsForDays` setting.)
 
 import basicCloseSignatureOrderExample from '../../../examples/closeSignatureOrder/basic';
 
@@ -286,7 +286,7 @@ import basicCloseSignatureOrderExample from '../../../examples/closeSignatureOrd
 
 ### With document retention
 
-If you wish, you can ask Criipto to retain the documents for up to 7 days after closing the signature order:
+If you wish, you can ask Idura to retain the documents for up to 7 days after closing the signature order:
 
 import retentionCloseSignatureOrderExample from '../../../examples/closeSignatureOrder/retention';
 

@@ -3,32 +3,32 @@ product: verify
 category: Integrations
 sort: 0
 title: Node.js (Express)
-subtitle: Accept MitID, Swedish BankID, Norwegian BankID and other eID logins with Node.js (Express) and Criipto Verify
+subtitle: Accept MitID, Swedish BankID, Norwegian BankID and other eID logins with Node.js (Express) and Idura Verify
 ---
 
-This guide shows you how to use Criipto Verify in a Node.js web application with Express, optionally Passport and [@criipto/verify-express](https://www.npmjs.com/package/@criipto/verify-express).
+This guide shows you how to use Idura Verify in a Node.js web application with Express, optionally Passport and [@criipto/verify-express](https://www.npmjs.com/package/@criipto/verify-express).
 
 You may get a completed and ready to run [sample from GitHub](https://github.com/criipto/criipto-verify-express/tree/master/example) showing the below recipe in the simplest of Node.js Express applications.
 
-## Register Your Application in Criipto Verify
+## Register Your Application in Idura Verify
 
-After you signed up for Criipto Verify, you must register an application before you can actually try logging in with any eID.
+After you signed up for Idura Verify, you must register an application before you can actually try logging in with any eID.
 
-Once you register your application you will also need some of the information for communicating with Criipto Verify. You get these details from the settings of the application in the dashboard.
+Once you register your application, you will also need some of the information for communicating with Idura Verify. You get these details from the settings of the application in the dashboard.
 
-Specifically you need the following information to configure you application
+Specifically, you need the following information to configure your application:
 
-- _Client ID_ to identify your application to Criipto Verify.
-- _Client Secret_ for token exchange in redirect based flows, shown when you enable OAUth2 code flow.
-- _Domain_ on which you will be communicating with Criipto Verify.
+- _Client ID_ to identify your application to Idura Verify.
+- _Client Secret_ for token exchange in redirect based flows, shown when you enable OAuth2 code flow.
+- _Domain_ on which you will be communicating with Idura Verify.
 
 If you do not have a client secret, you can generate or regenerate one by going to [Applications](https://dashboard.criipto.com/applications) and selecting the "OpenID Connect" tab.
 
 ### Register callback URLs
 
-Before you can start sending authentication requests to Criipto Verify you need to register the URLs on which you want to receive the returned _JSON Web Token_, JWT.
+Before you can start sending authentication requests to Idura Verify you need to register the URLs on which you want to receive the returned _JSON Web Token_, JWT.
 
-The Callback URL of your application is the URL where Criipto Verify will redirect to after the user has authenticated in order for the OpenID Connect middleware to complete the authentication process.
+The Callback URL of your application is the URL where Idura Verify will redirect to after the user has authenticated in order for the OpenID Connect middleware to complete the authentication process.
 
 You will need to add this URL to the list of allowed URLs for your application.
 
@@ -53,7 +53,7 @@ npm install @criipto/verify-express
 
 Sessions must be setup when using redirect based authentication.
 
-You must also register a Callback URL on your Criipto Application matching the URL of your redirect handling route.
+You must also register a Callback URL on your Idura Application matching the URL of your redirect handling route.
 
 ```javascript
 // server.js
@@ -191,7 +191,7 @@ app.get('/error', function (req, res, next) {
 SPAs can utilize frontend frameworks like [@criipto/auth-js](https://www.npmjs.com/package/@criipto/auth-js) or [@criipto/verify-react](https://www.npmjs.com/package/@criipto/verify-react)
 to handle the login in the frontend and then send a Bearer token to their API.
 
-You must register a Callback URL on your Criipto Application matching the `href` of the URL you are triggering SPA login from.
+You must register a Callback URL on your Idura Application matching the `href` of the URL you are triggering SPA login from.
 
 ### Passport
 

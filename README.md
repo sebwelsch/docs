@@ -1,4 +1,4 @@
-# Criipto Documentation
+# Idura Documentation
 
 ## Developing
 

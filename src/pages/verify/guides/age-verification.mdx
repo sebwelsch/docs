@@ -3,7 +3,7 @@ product: verify
 category: Guides & Tools
 sort: 0
 title: Age Verification
-subtitle: How to leverage Criipto Verify's Age Verification extension
+subtitle: How to leverage Idura Verify's Age Verification extension
 ---
 
 With the Age Verification extension, you can verify user ages without collecting personal data.
@@ -11,7 +11,7 @@ The authentication result will simply confirm if the user meets the age requirem
 
 <Highlight icon="info">
 
-Age Verification does not require you to set up your own eID provider, as it defaults to using shared Criipto-provided eID providers. This batteries included approach comes with certain limitations, such as the absence of many tenant-specific features.
+Age Verification does not require you to set up your own eID provider, as it defaults to using shared Idura-provided eID providers. This batteries included approach comes with certain limitations, such as the absence of many tenant-specific features.
 
 For instance, the [Custom styling feature](https://docs.criipto.com/verify/guides/custom-styling/) is not available out of the box for Age Verification applications. To enable it, you can switch to using [your own MitID provider](https://docs.criipto.com/verify/guides/age-verification/#optional-use-your-own-mitid-service-provider).
 
@@ -19,7 +19,7 @@ For instance, the [Custom styling feature](https://docs.criipto.com/verify/guide
 
 ## Prerequisites
 
-You'll need a [Criipto tenant](https://docs.criipto.com/verify/getting-started/basics/#tenants) and [domain](https://dashboard.criipto.com/domains) to get started.
+You'll need an [Idura tenant](/verify/getting-started/basics/#tenants) and [domain](/verify/getting-started/basics/#domains) to get started.
 
 ## Create Age Verification application
 
@@ -74,9 +74,9 @@ import AuthorizeURLBuilder from '../../../components/AuthorizeURLBuilder';
 
 ## Optional: use your own MitID service provider
 
-If you prefer to use your own MitID service provider instead of the one provided by Criipto, you have the option to do so.
+If you prefer to use your own MitID service provider instead of the one provided by Idura, you have the option to do so.
 
-[During installation](/verify/guides/age-verification/#installation), flip the **Use own MitID** setting to enabled, and then ensure that your Criipto application has allowed `https://{YOUR_CRIIPTO_DOMAIN}/extensions/ext_ageverification/api/callback` as a callback URL.
+[During installation](/verify/guides/age-verification/#installation), flip the **Use own MitID** setting to enabled, and then ensure that your Idura application has allowed `https://{YOUR_CRIIPTO_DOMAIN}/extensions/ext_ageverification/api/callback` as a callback URL.
 ![Extensions Catalogue](./images/age-verification-own-MitID.png)
 _Note: You need to [apply for MitID production access](/verify/e-ids/danish-mitid/#apply-for-production-access) for Age Verification logins **only** if using your own MitID service provider._
 
@@ -86,7 +86,7 @@ _Note: You need to [apply for MitID production access](/verify/e-ids/danish-miti
 
 The `id_token` is issued in such a way that you can safely store it without worrying about personal data.
 
-The `id_token` contains a reference to a Criipto managed audit log that contains the users MitID `uuid`,
-upon request an `id_token` can be presented to Criipto and we can help prove the identity (and thus age) of the user.
+The `id_token` contains a reference to an Idura-managed audit log that contains the users MitID `uuid`,
+upon request an `id_token` can be presented to Idura and we can help prove the identity (and thus age) of the user.
 
 For e-commerce scenarios we suggest storing the `id_token` together with the order.

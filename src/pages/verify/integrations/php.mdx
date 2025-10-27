@@ -3,7 +3,7 @@ product: verify
 category: Integrations
 sort: 10
 title: PHP
-subtitle: Accept MitID, Swedish BankID, Norwegian BankID and other eID logins with PHP and Criipto Verify
+subtitle: Accept MitID, Swedish BankID, Norwegian BankID and other eID logins with PHP and Idura Verify
 ---
 
 ## Setup OpenID-Connect-PHP
@@ -46,6 +46,6 @@ $name = $oidc->getVerifiedClaims('name');
 
 ## Register callback URLs
 
-You will need to register whichever URL you are calling `$oidc->authenticate()` on as a Callback URL on your Criipto Application.
+You will need to register whichever URL you are calling `$oidc->authenticate()` on as a Callback URL on your Idura Application.
 
 If you're testing locally using `php -S localhost:8000` and a file called `auth.php` the callback url, as an example, would be `https://localhost:8000/auth.php`

@@ -6,25 +6,25 @@ title: Vue.js
 subtitle: Accept Danish MitID, Swedish BankID, Norwegian BankID and more eID logins in your Vue.js application with @criipto/auth-js.
 ---
 
-This guide shows how to use Criipto Verify in a Vue.js application.
+This guide shows how to use Idura Verify in a Vue.js application.
 
 Read [the full `@criipto/auth-js` documentation](https://github.com/criipto/criipto-auth.js) or download a [sample Vue 3 application from GitHub](https://github.com/criipto/samples/tree/master/Verify/vue-3).
 
-## Register Your Application in Criipto Verify
+## Register Your Application in Idura Verify
 
-After you signed up for Criipto Verify, you must [register an application](https://dashboard.criipto.com/applications/add) before you can try logging in with any eID.
+After you signed up for Idura Verify, you must [register an application](https://dashboard.criipto.com/applications/add) before you can try logging in with any eID.
 
-Once your application is registered, the dashboard will contain the necessary details to configure your application to communicate with Criipto Verify.
+Once your application is registered, the dashboard will contain the necessary details to configure your application to communicate with Idura Verify.
 You will need the following information from the General tab of your application settings:
 
-- _Client ID_ to identify your application to Criipto Verify.
-- _Domain_ on which you will be communicating with Criipto Verify.
+- _Client ID_ to identify your application to Idura Verify.
+- _Domain_ on which you will be communicating with Idura Verify.
 
 ### Register callback URLs
 
-Before you can start sending authentication requests to Criipto Verify, you need to register the URLs on which you want to receive the returned _JSON Web Token_, JWT.
+Before you can start sending authentication requests to Idura Verify, you need to register the URLs on which you want to receive the returned _JSON Web Token_, JWT.
 
-The Callback URL of your application is the URL where Criipto Verify will redirect to after the user has authenticated in order for the OpenID Connect middleware to complete the authentication process.
+The Callback URL of your application is the URL where Idura Verify will redirect to after the user has authenticated in order for the OpenID Connect middleware to complete the authentication process.
 
 You will need to add this URL to the list of allowed URLs for your application.
 
@@ -60,8 +60,8 @@ var criiptoAuth = new CriiptoAuth({
 
 The `CriiptoAuth` constructor takes an object with the following parameters:
 
-- `domain (required, string)`: The domain your Criipto Application belongs to, such as `example.criipto.id`.
-- `clientID (required, string)`: The Client ID for your Criipto Application.
+- `domain (required, string)`: The domain your Idura Application belongs to, such as `example.criipto.id`.
+- `clientID (required, string)`: The Client ID for your Idura Application.
 
 Use your application's [domain and client ID](#register-your-application-in-criipto-verify) as the values for `domain` and `clientID` respectively.
 
@@ -72,7 +72,7 @@ Additional authorization parameters can be passed in the `CriiptoAuth` construct
 You can use the following methods to authorize the user:
 
 - [`criiptoAuth.popup.authorize`](#authorization-with-popup) - Opens a popup window to authenticate the user.
-- [`criiptoAuth.redirect.authorize`](#authorization-with-redirect) - Redirects the user to the Criipto Verify login page.
+- [`criiptoAuth.redirect.authorize`](#authorization-with-redirect) - Redirects the user to the Idura Verify login page.
 
 ### Authorization with popup
 
@@ -121,12 +121,12 @@ const loginWithEid = () => {
 
 ### Authorization with redirect
 
-Will redirect the user to the Criipto Verify login page.
+Will redirect the user to the Idura Verify login page.
 
 #### authorize
 
 Redirects the users browser tab to the authorization url. After authorization, the user will be redirected back to the provided `redirectUri`.
-The `redirectUri` should be [whitelisted in the "Callback URLs" section](#register-callback-URLs) in your Criipto application settings.
+The `redirectUri` should be [whitelisted in the "Callback URLs" section](#register-callback-URLs) in your Idura application settings.
 
 #### match
 
