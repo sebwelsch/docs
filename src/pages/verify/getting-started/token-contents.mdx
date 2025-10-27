@@ -15,8 +15,6 @@ import DanishMitIDAddressJwtSnippet from '../../../snippets/jwt-payloads/danish-
 import DanishMitIDCompanySignatoryJwtSnippet from '../../../snippets/jwt-payloads/danish-mitid-erhverv-company-signatory';
 import DanishMitIDErhvervJwtSnippet from '../../../snippets/jwt-payloads/danish-mitid-erhverv';
 import FtnJwtSnippet from '../../../snippets/jwt-payloads/finnish-trust-network';
-import BelgianEidJwtSnippet from '../../../snippets/jwt-payloads/belgian-eid';
-import BelgianItsmeJwtSnippet from '../../../snippets/jwt-payloads/belgian-itsme';
 
 Below you will find the structure and example content for the JSON Web Tokens, the ID tokens, returned when signing in with each of the supported eID types.
 
@@ -83,15 +81,3 @@ The `hetu` field is the personal identity code.
 ### Finnish Trust Network - Mobillivarmenne
 
 Same as BankID, except the `satu` property will have a value as well.
-
-## Belgium
-
-### Itsme - Basic level, with Extra ID Data and Security Data enabled
-
-<BelgianItsmeJwtSnippet />
-
-<a id="beeid"></a>
-
-### eID - verified, with national number, personal info, photo and address enabled
-
-<BelgianEidJwtSnippet />

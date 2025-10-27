@@ -88,20 +88,6 @@ export const PROVIDERS: Provider[] = [
     page: '/verify/e-ids/swedish-bankid',
   },
   {
-    title: 'ItsME',
-    authMethods: [
-      {
-        title: 'Basic',
-        acrValue: 'urn:grn:authn:itsme:basic',
-      },
-      {
-        title: 'Advanced',
-        acrValue: 'urn:grn:authn:itsme:advanced',
-      },
-    ],
-    page: '/verify/e-ids/itsme',
-  },
-  {
     title: 'Norwegian BankID',
     authMethods: [
       {
@@ -127,16 +113,6 @@ export const PROVIDERS: Provider[] = [
       },
     ],
     page: '/verify/e-ids/norwegian-vipps',
-  },
-  {
-    title: 'Belgium',
-    authMethods: [
-      {
-        title: 'Verified e-ID',
-        acrValue: 'urn:grn:authn:be:eid:verified',
-      },
-    ],
-    page: '/verify/e-ids/belgian-eid',
   },
   {
     title: 'Netherlands',
