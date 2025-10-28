@@ -67,8 +67,8 @@ The OIDC middleware requests both the `openid` and `profile` scopes by default, 
 ```json
 // appsettings.json
 {
-  "Criipto": {
-    "Domain": "{{YOUR_CRIIPTO_DOMAIN}}",
+  "Idura": {
+    "Domain": "{{YOUR_IDURA_DOMAIN}}",
     "ClientId": "{{YOUR_CLIENT_ID}}",
     "ClientSecret": "YOUR_CLIENT_SECRET"
   }
@@ -91,9 +91,9 @@ builder.Services.AddAuthentication(options => {
 })
 .AddCookie()
 .AddOpenIdConnect(options => {
-    options.ClientId = builder.Configuration["Criipto:ClientId"];
-    options.ClientSecret = builder.Configuration["Criipto:ClientSecret"];
-    options.Authority = $"https://{builder.Configuration["Criipto:Domain"]}/";
+    options.ClientId = builder.Configuration["Idura:ClientId"];
+    options.ClientSecret = builder.Configuration["Idura:ClientSecret"];
+    options.Authority = $"https://{builder.Configuration["Idura:Domain"]}/";
     options.ResponseType = "code";
 
     // The next to settings must match the Callback URLs in Idura Verify

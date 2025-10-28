@@ -94,13 +94,13 @@ The CPR number _will not_ be issued in the JWT in this case, even if the user wa
 ### Example (partial) authorize request with scope
 
 ```text
-https://YOUR_SUBDOMAIN.criipto.id/oauth2/authorize?scope=openid address&...
+https://YOUR_SUBDOMAIN.idura.broker/oauth2/authorize?scope=openid address&...
 ```
 
 Alternatively, you can send it in the `login_hint`
 
 ```text
-https://YOUR_SUBDOMAIN.criipto.id/oauth2/authorize?...&login_hint=scope:address&...
+https://YOUR_SUBDOMAIN.idura.broker/oauth2/authorize?...&login_hint=scope:address&...
 ```
 
 which can be a useful if you are working with technology that does not let you control the `scope` value.
@@ -115,7 +115,7 @@ To provide a reference message text, you must provide [the `message` login hint]
 Example:
 
 ```text
-https://YOUR_SUBDOMAIN.criipto.id/oauth2/authorize?...&login_hint=message:TG9naW4gYXQgVGVzdCBDb21wYW50...
+https://YOUR_SUBDOMAIN.idura.broker/oauth2/authorize?...&login_hint=message:TG9naW4gYXQgVGVzdCBDb21wYW50...
 ```
 
 [Authorize URL builder example](/verify/guides/authorize-url-builder/?acr_values=urn:grn:authn:dk:mitid:low&action=approve&message=Transfer%20EUR%20100%20to%20IBAN%20DK123456781234)
@@ -152,7 +152,7 @@ We suggest that you instead use the ReAuthentication flow to transfer the user i
 To initiate a Controlled Transfer, send a `POST` request to
 
 ```text
-https://{YOUR_CRIIPTO_DOMAIN}/DkMitId/ControlledTransfer
+https://{YOUR_IDURA_DOMAIN}/DkMitId/ControlledTransfer
 ```
 
 containing the following information in JSON format:

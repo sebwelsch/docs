@@ -52,7 +52,7 @@ To authenticate the user, your app must send the user to the _OAuth2 authorizati
 You can find the URL for the _OAuth2 authorization endpoint_ in the OpenID Connect Discovery Document exposed on your [Idura Verify Domain](/verify/getting-started/basics/#domains):
 
 ```
-GET https://YOUR_SUBDOMAIN.criipto.id/.well-known/openid-configuration
+GET https://YOUR_SUBDOMAIN.idura.broker/.well-known/openid-configuration
 ```
 
 The response from this endpoint is a JSON document, with an `authorization_endpoint` property. The corresponding property value is the URL of the _OAuth2 authorization endpoint_.
@@ -62,7 +62,7 @@ The response from this endpoint is a JSON document, with an `authorization_endpo
 The following initiates the authentication through an OAuth2 authorization request:
 
 ```
-GET https://YOUR_SUBDOMAIN.criipto.id/oauth2/authorize?
+GET https://YOUR_SUBDOMAIN.idura.broker/oauth2/authorize?
     response_type=code|id_token&
     client_id=CLIENT_ID&
     redirect_uri=YOUR_RETURN_URL&
@@ -176,7 +176,7 @@ When adding login to your application, you will build the authorization URL (als
 
 ```html
 <a
-  href="https://acme-corp.criipto.id/oauth2/authorize?
+  href="https://acme-corp.idura.broker/oauth2/authorize?
   response_type=id_token&
   client_id=urn:debug:jwt.io&
   acr_values=urn:grn:authn:no:bankid&
@@ -205,7 +205,7 @@ After completing the steps specific to your chosen flow, you can proceed to [val
 ### Example request
 
 ```text
-GET https://YOUR_SUBDOMAIN.criipto.id/oauth2/authorize?
+GET https://YOUR_SUBDOMAIN.idura.broker/oauth2/authorize?
     response_type=code&
     response_mode=query&
     client_id=CLIENT_ID&
@@ -243,7 +243,7 @@ For traditional back-channel flows, note that you must use a HTML-form-style HTT
 You <strong>must also x-www-form-urlencode</strong> the values of the `CLIENT_ID` and `CLIENT_SECRET`, respectively, before constructing the `Authorization` header in `Basic` format.
 
 ```text
-HTTP POST https://YOUR_SUBDOMAIN.criipto.id/oauth2/token
+HTTP POST https://YOUR_SUBDOMAIN.idura.broker/oauth2/token
 Content-Type: application/x-www-form-urlencoded
 Authorization: Basic BASE64(xWwwFormUrlEncode(CLIENT_ID):xWwwFormUrlEncode(CLIENT_SECRET))
 
@@ -273,7 +273,7 @@ PKCE allows you to use one-time secrets to perform code exchange. The format of 
 ### Example request
 
 ```
-GET https://YOUR_SUBDOMAIN.criipto.id/oauth2/authorize?
+GET https://YOUR_SUBDOMAIN.idura.broker/oauth2/authorize?
     response_type=code&
     response_mode=query&
     client_id=CLIENT_ID&
@@ -299,7 +299,7 @@ Location: YOUR_RETURN_URL?code=AUTHORIZATION_CODE&state=YOUR_STATE
 As opposed to the back-channel authorization flow, you should not include a static client secret when authenticating with PCKE. Instead, you include a `code_verifier`, which was generated in the previous step.
 
 ```text
-HTTP POST https://YOUR_SUBDOMAIN.criipto.id/oauth2/token
+HTTP POST https://YOUR_SUBDOMAIN.idura.broker/oauth2/token
 Content-Type: application/x-www-form-urlencoded
 
 grant_type=authorization_code&code=AUTHORIZATION_CODE&client_id=CLIENT_ID&redirect_uri=YOUR_RETURN_URL&code_verifier=YOUR_CODE_VERIFIER
@@ -314,7 +314,7 @@ Implicit Flow, which returns an `id_token` directly in the browser via the `#` f
 ### Example request
 
 ```
-GET https://YOUR_SUBDOMAIN.criipto.id/oauth2/authorize?
+GET https://YOUR_SUBDOMAIN.idura.broker/oauth2/authorize?
     response_type=id_token&
     response_mode=fragment&
     client_id=CLIENT_ID&
@@ -353,7 +353,7 @@ The client application shall make an `HTTP POST` request to the backchannel auth
 _The CIBA flow is only available for confidential clients, and the example below uses [private key JWTs](/verify/guides/privatekey-jwt/) for client authentication._
 
 ```text
-HTTP POST https://YOUR_SUBDOMAIN.criipto.id/ciba/bc-authorize
+HTTP POST https://YOUR_SUBDOMAIN.idura.broker/ciba/bc-authorize
 Content-Type: application/x-www-form-urlencoded
 
 scope=openid
@@ -381,7 +381,7 @@ Successful response will contain the request id, `auth_req_id`:
 Poll the token endpoint (`/oauth2/token`) providing the `auth_req_id`:
 
 ```text
-HTTP POST https://YOUR_DOMAIN.criipto.id/oauth2/token
+HTTP POST https://YOUR_DOMAIN.idura.broker/oauth2/token
 Content-Type: application/x-www-form-urlencoded
 
 auth_req_id=AUTH_REQ_ID
@@ -424,7 +424,7 @@ The client application sends an `HTTP POST` request to the backchannel authentic
 _The Headless flow is only available for confidential clients, and the example below uses [private key JWTs](/verify/guides/privatekey-jwt/) for client authentication._
 
 ```text
-HTTP POST https://YOUR_SUBDOMAIN.criipto.id/headless/authorize
+HTTP POST https://YOUR_SUBDOMAIN.idura.broker/headless/authorize
 Content-Type: application/x-www-form-urlencoded
 
 scope=openid
@@ -452,7 +452,7 @@ Content-Type: application/json
 Poll the token endpoint (`/oauth2/token`) providing the `headless_req_id`:
 
 ```text
-HTTP POST https://YOUR_DOMAIN.criipto.id/oauth2/token
+HTTP POST https://YOUR_DOMAIN.idura.broker/oauth2/token
 Content-Type: application/x-www-form-urlencoded
 
 headless_req_id=HEADLESS_REQ_ID
@@ -583,26 +583,26 @@ The maximum length of the message for Swedish BankID is 1500 characters <em>afte
 
 ```php
 # PHP
-"Authorization" => "Basic ".base64_encode(urlencode(CRIIPTO_CLIENT_ID).":".urlencode(CRIIPTO_SECRET))
+"Authorization" => "Basic ".base64_encode(urlencode(IDURA_CLIENT_ID).":".urlencode(IDURA_SECRET))
 ```
 
 ```javascript
 // Node.js
-'Authorization': "Basic " + Buffer.from(`${encodeURIComponent(CRIIPTO_CLIENT_ID)}:${encodeURIComponent(CRIIPTO_SECRET)}`).toString('base64')
+'Authorization': "Basic " + Buffer.from(`${encodeURIComponent(IDURA_CLIENT_ID)}:${encodeURIComponent(IDURA_SECRET)}`).toString('base64')
 
 // Javascript
-'Authorization': "Basic " + btoa(`${encodeURIComponent(CRIIPTO_CLIENT_ID)}:${encodeURIComponent(CRIIPTO_SECRET)}`)
+'Authorization': "Basic " + btoa(`${encodeURIComponent(IDURA_CLIENT_ID)}:${encodeURIComponent(IDURA_SECRET)}`)
 ```
 
 ```csharp
 // C#
 using System;
 using System.Text;
-"Basic " + Convert.ToBase64String(Encoding.ASCII.GetBytes(Uri.EscapeDataString(CRIIPTO_CLIENT_ID) + ":" + Uri.EscapeDataString(CRIIPTO_SECRET)))
+"Basic " + Convert.ToBase64String(Encoding.ASCII.GetBytes(Uri.EscapeDataString(IDURA_CLIENT_ID) + ":" + Uri.EscapeDataString(IDURA_SECRET)))
 
 // C# - if you have a dependency on System.Web.dll or you are willing to take it
 using System;
 using System.Text;
 using System.Web.Security.AntiXss;
-"Basic " + Convert.ToBase64String(Encoding.ASCII.GetBytes(AntiXssEncoder.UrlEncode(CRIIPTO_CLIENT_ID) + ":" + AntiXssEncoder.UrlEncode(CRIIPTO_SECRET)))
+"Basic " + Convert.ToBase64String(Encoding.ASCII.GetBytes(AntiXssEncoder.UrlEncode(IDURA_CLIENT_ID) + ":" + AntiXssEncoder.UrlEncode(IDURA_SECRET)))
 ```

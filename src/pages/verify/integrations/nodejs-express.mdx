@@ -90,7 +90,7 @@ passport.deserializeUser(function (user, done) {
 
 const redirectPassport = new CriiptoVerifyRedirectPassportStrategy(
   {
-    domain: '{{YOUR_CRIIPTO_DOMAIN}}',
+    domain: '{{YOUR_IDURA_DOMAIN}}',
     clientID: '{{YOUR_CLIENT_ID}}',
     clientSecret: '{{YOUR_CLIENT_SECRET}}',
     // Should match an express route that is an allowed callback URL in your application
@@ -143,7 +143,7 @@ const CriiptoVerifyExpressRedirect =
   require('@criipto/verify-express').CriiptoVerifyExpressRedirect;
 
 const expressRedirect = new CriiptoVerifyExpressRedirect({
-  domain: '{{YOUR_CRIIPTO_DOMAIN}}',
+  domain: '{{YOUR_IDURA_DOMAIN}}',
   clientID: '{{YOUR_CLIENT_ID}}',
   clientSecret: '{{YOUR_CLIENT_SECRET}}',
   // Should match an express route that is an allowed callback URL in your application
@@ -216,7 +216,7 @@ passport.use(
   'criiptoVerifyJwt',
   new CriiptoVerifyJwtPassportStrategy(
     {
-      domain: '{{YOUR_CRIIPTO_DOMAIN}}',
+      domain: '{{YOUR_IDURA_DOMAIN}}',
       clientID: '{{YOUR_CLIENT_ID}}',
     },
     // Map claims to an express user
@@ -257,7 +257,7 @@ const CriiptoVerifyExpressJwt = require('@criipto/verify-express').CriiptoVerify
 const app = express();
 
 const expressJwt = new CriiptoVerifyExpressJwt({
-  domain: '{{YOUR_CRIIPTO_DOMAIN}}',
+  domain: '{{YOUR_IDURA_DOMAIN}}',
   clientID: '{{YOUR_CLIENT_ID}}',
 });
 

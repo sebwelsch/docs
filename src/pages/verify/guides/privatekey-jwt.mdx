@@ -83,7 +83,7 @@ The client assertion is a JWT signed by the private key of the [RSA key pair](/v
 
 `sub`: Your application's Client ID (the same as in the `iss` claim).
 
-`aud`: Your Idura Verify domain that will receive the assertion, e.g. `https://{{YOUR_CRIIPTO_DOMAIN}}.criipto.id`.
+`aud`: Your Idura Verify domain that will receive the assertion, e.g. `https://{{YOUR_IDURA_DOMAIN}}.idura.broker`.
 
 `iat` and `exp`: Issued At and Expiration claims set to the correct timestamps. The client assertion JWT should be used only once and should have a short lifespan. We recommend a maximum expiry time of 5 minutes.
 
@@ -107,7 +107,7 @@ async function generateJWT(signingKey) {
       .setIssuedAt()
       .setIssuer('CLIENT_ID')
       .setSubject('CLIENT_ID')
-      .setAudience('YOUR_CRIIPTO_DOMAIN')
+      .setAudience('YOUR_IDURA_DOMAIN')
       .setExpirationTime('5m')
       .sign(signingKey);
     console.log('JWT:', jwt);
@@ -128,10 +128,10 @@ The `client_assertion_type` must be set to `urn:ietf:params:oauth:client-asserti
 ```curl
 # Replace `$client_assertion` with your JWT assertion
 # Replace `AUTHORIZATION_CODE` with the authorization code received in the initial authorization request
-# Replace `YOUR_DOMAIN.criipto.id` with your Idura domain
+# Replace `YOUR_DOMAIN.idura.broker` with your Idura domain
 # Replace `YOUR_RETURN_URL` with the redirect URI used in the initial authorization request
 
-HTTP POST https://YOUR_DOMAIN.criipto.id/oauth2/token
+HTTP POST https://YOUR_DOMAIN.idura.broker/oauth2/token
 Content-Type: application/x-www-form-urlencoded
 
 grant_type=authorization_code

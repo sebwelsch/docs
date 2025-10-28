@@ -52,7 +52,7 @@ npm install --save @criipto/auth-js
 import CriiptoAuth from '@criipto/auth-js';
 
 var criiptoAuth = new CriiptoAuth({
-  domain: '{{YOUR_CRIIPTO_DOMAIN}}',
+  domain: '{{YOUR_IDURA_DOMAIN}}',
   clientID: '{{YOUR_CLIENT_ID}}',
   store: sessionStorage,
 });
@@ -60,7 +60,7 @@ var criiptoAuth = new CriiptoAuth({
 
 The `CriiptoAuth` constructor takes an object with the following parameters:
 
-- `domain (required, string)`: The domain your Idura Application belongs to, such as `example.criipto.id`.
+- `domain (required, string)`: The domain your Idura Application belongs to, such as `example.idura.broker`.
 - `clientID (required, string)`: The Client ID for your Idura Application.
 
 Use your application's [domain and client ID](#register-your-application-in-criipto-verify) as the values for `domain` and `clientID` respectively.

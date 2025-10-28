@@ -93,9 +93,9 @@ public void ConfigureServices(IServiceCollection services)
     })
     .AddCookie()
     .AddOpenIdConnect(options => {
-        options.ClientId = Configuration["Criipto:ClientId"]; // ClientID from application registration
-        options.ClientSecret = Configuration["Criipto:ClientSecret"]; // Client secret from oauth2 code flow
-        options.Authority = $"https://{Configuration["Criipto:Domain"]}/"; // Domain from application registration
+        options.ClientId = Configuration["Idura:ClientId"]; // ClientID from application registration
+        options.ClientSecret = Configuration["Idura:ClientSecret"]; // Client secret from oauth2 code flow
+        options.Authority = $"https://{Configuration["Idura:Domain"]}/"; // Domain from application registration
         options.ResponseType = "code";
 
         // The next to settings must match the Callback URLs in Idura Verify
