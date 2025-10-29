@@ -37,10 +37,14 @@ export type AddSignatoryInput = {
   evidenceValidation?: InputMaybe<Array<SignatoryEvidenceValidationInput>>;
   /** Will not be displayed to signatories, can be used as a reference to your own system. */
   reference?: InputMaybe<Scalars['String']['input']>;
-  /** Define a role for the signatory, i.e. 'Chairman'. Will be visible in the document output. */
+  /** Deprecated in favor of 'signingAs'. Define a role for the signatory, i.e. 'Chairman'. Will be visible in the document output. */
   role?: InputMaybe<Scalars['String']['input']>;
   signatureAppearance?: InputMaybe<SignatureAppearanceInput>;
   signatureOrderId: Scalars['ID']['input'];
+  /** Define the who signatory is signing as, i.e., 'Chairman'. Will be visible in the document output. */
+  signingAs?: InputMaybe<Scalars['String']['input']>;
+  /** Defines signing sequence order for sequential signing. If two signatories have the same number they can sign in parallel. Default: 2147483647 */
+  signingSequence?: InputMaybe<Scalars['Int']['input']>;
   /** Override UI settings for signatory, defaults to UI settings for signature order */
   ui?: InputMaybe<SignatoryUiInput>;
 };
@@ -158,10 +162,14 @@ export type ChangeSignatoryInput = {
   evidenceValidation?: InputMaybe<Array<SignatoryEvidenceValidationInput>>;
   /** Will not be displayed to signatories, can be used as a reference to your own system. */
   reference?: InputMaybe<Scalars['String']['input']>;
-  /** Define a role for the signatory, i.e. 'Chairman'. Will be visible in the document output. */
+  /** Deprecated in favor of 'signingAs'. Define a role for the signatory, i.e. 'Chairman'. Will be visible in the document output. */
   role?: InputMaybe<Scalars['String']['input']>;
   signatoryId: Scalars['ID']['input'];
   signatureAppearance?: InputMaybe<SignatureAppearanceInput>;
+  /** Define the who signatory is signing as, i.e., 'Chairman'. Will be visible in the document output. */
+  signingAs?: InputMaybe<Scalars['String']['input']>;
+  /** Defines signing sequence order for sequential signing. If two signatories have the same number they can sign in parallel. Default: 2147483647 */
+  signingSequence?: InputMaybe<Scalars['Int']['input']>;
   /** Override UI settings for signatory, defaults to UI settings for signature order */
   ui?: InputMaybe<SignatoryUiInput>;
 };
@@ -176,6 +184,8 @@ export type ChangeSignatureOrderInput = {
   /** Max allowed signatories (as it influences pages needed for seals). Cannot be changed after first signer. */
   maxSignatories?: InputMaybe<Scalars['Int']['input']>;
   signatureOrderId: Scalars['ID']['input'];
+  /** Signature order webhook settings */
+  webhook?: InputMaybe<CreateSignatureOrderWebhookInput>;
 };
 
 export type ChangeSignatureOrderOutput = {
@@ -299,9 +309,13 @@ export type CreateSignatureOrderSignatoryInput = {
   evidenceValidation?: InputMaybe<Array<SignatoryEvidenceValidationInput>>;
   /** Will not be displayed to signatories, can be used as a reference to your own system. */
   reference?: InputMaybe<Scalars['String']['input']>;
-  /** Define a role for the signatory, i.e. 'Chairman'. Will be visible in the document output. */
+  /** Deprecated in favor of 'signingAs'. Define a role for the signatory, i.e. 'Chairman'. Will be visible in the document output. */
   role?: InputMaybe<Scalars['String']['input']>;
   signatureAppearance?: InputMaybe<SignatureAppearanceInput>;
+  /** Define the who signatory is signing as, i.e., 'Chairman'. Will be visible in the document output. */
+  signingAs?: InputMaybe<Scalars['String']['input']>;
+  /** Defines signing sequence order for sequential signing. If two signatories have the same number they can sign in parallel. Default: 2147483647 */
+  signingSequence?: InputMaybe<Scalars['Int']['input']>;
   /** Override UI settings for signatory, defaults to UI settings for signature order */
   ui?: InputMaybe<SignatoryUiInput>;
 };
@@ -336,6 +350,13 @@ export type CriiptoVerifyEvidenceProviderRedirect = {
   state: Scalars['String']['output'];
 };
 
+export enum CriiptoVerifyEvidenceProviderVersion {
+  /** Version 1 is the original version. Deprecated in favour of Version 2. */
+  V1 = 'V1',
+  /** Version 2 adds increased observability and newer signing features. */
+  V2 = 'V2'
+}
+
 /** Criipto Verify based evidence for signatures. */
 export type CriiptoVerifyProviderInput = {
   acrValues?: InputMaybe<Array<Scalars['String']['input']>>;
@@ -350,6 +371,7 @@ export type CriiptoVerifyProviderInput = {
   scope?: InputMaybe<Scalars['String']['input']>;
   /** Enforces that signatories sign by unique evidence by comparing the values of previous evidence on the key you define. For Criipto Verify you likely want to use `sub` which is a unique pseudonym value present in all e-ID tokens issued. */
   uniqueEvidenceKey?: InputMaybe<Scalars['String']['input']>;
+  version?: InputMaybe<CriiptoVerifyEvidenceProviderVersion | '%future added value'>;
 };
 
 export type CriiptoVerifySignatureEvidenceProvider = SignatureEvidenceProvider & SingleSignatureEvidenceProvider & {
@@ -366,6 +388,7 @@ export type CriiptoVerifySignatureEvidenceProvider = SignatureEvidenceProvider &
   message?: Maybe<Scalars['String']['output']>;
   name: Scalars['String']['output'];
   scope?: Maybe<Scalars['String']['output']>;
+  version: CriiptoVerifyEvidenceProviderVersion | '%future added value';
 };
 
 export type DeleteApplicationApiKeyInput = {
@@ -387,6 +410,15 @@ export type DeleteSignatoryOutput = {
   __typename?: 'DeleteSignatoryOutput';
   signatureOrder: SignatureOrder;
 };
+
+export type DeviceInput = {
+  os?: InputMaybe<DeviceOperatingSystem | '%future added value'>;
+};
+
+export enum DeviceOperatingSystem {
+  ANDROID = 'ANDROID',
+  IOS = 'IOS'
+}
 
 export type Document = {
   blob?: Maybe<Scalars['Blob']['output']>;
@@ -883,6 +915,7 @@ export type SignActingAsOutput = {
 
 export type SignAllOfInput = {
   criiptoVerify?: InputMaybe<SignCriiptoVerifyInput>;
+  criiptoVerifyV2?: InputMaybe<SignCriiptoVerifyV2Input>;
   drawable?: InputMaybe<SignDrawableInput>;
   noop?: InputMaybe<Scalars['Boolean']['input']>;
   oidc?: InputMaybe<SignOidcInput>;
@@ -890,6 +923,11 @@ export type SignAllOfInput = {
 
 export type SignCriiptoVerifyInput = {
   jwt: Scalars['String']['input'];
+};
+
+export type SignCriiptoVerifyV2Input = {
+  code: Scalars['String']['input'];
+  state: Scalars['String']['input'];
 };
 
 export type SignDocumentFormFieldInput = {
@@ -914,6 +952,7 @@ export type SignDrawableInput = {
 export type SignInput = {
   allOf?: InputMaybe<SignAllOfInput>;
   criiptoVerify?: InputMaybe<SignCriiptoVerifyInput>;
+  criiptoVerifyV2?: InputMaybe<SignCriiptoVerifyV2Input>;
   documents?: InputMaybe<Array<SignDocumentInput>>;
   drawable?: InputMaybe<SignDrawableInput>;
   /** EvidenceProvider id */
@@ -941,9 +980,12 @@ export type Signatory = {
   href: Scalars['String']['output'];
   id: Scalars['ID']['output'];
   reference?: Maybe<Scalars['String']['output']>;
+  /** @deprecated Deprecated in favor of signingAs */
   role?: Maybe<Scalars['String']['output']>;
   /** Signature order for the signatory. */
   signatureOrder: SignatureOrder;
+  signingAs?: Maybe<Scalars['String']['output']>;
+  signingSequence: SignatorySigningSequence;
   spanId: Scalars['String']['output'];
   /** The current status of the signatory. */
   status: SignatoryStatus | '%future added value';
@@ -977,8 +1019,10 @@ export type SignatoryDocumentEdge = {
 
 export type SignatoryDocumentInput = {
   id: Scalars['ID']['input'];
-  /** Define custom position for PDF seal. Uses PDF coordinate system (bottom-left as 0,0). If defined for one signatory/document, must be defined for all. */
+  /** Deprecated in favor of `pdfSealPositions`. Define custom position for PDF seal. Uses PDF coordinate system (bottom-left as 0,0). If defined for one signatory/document, must be defined for all. */
   pdfSealPosition?: InputMaybe<PdfSealPosition>;
+  /** Define custom positions for PDF seals. Uses PDF coordinate system (bottom-left as 0,0). If defined for one signatory/document, must be defined for all. */
+  pdfSealPositions?: InputMaybe<Array<PdfSealPosition>>;
   preapproved?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
@@ -1013,6 +1057,11 @@ export enum SignatoryFrontendEvent {
   DOWNLOAD_LINK_OPENED = 'DOWNLOAD_LINK_OPENED',
   SIGN_LINK_OPENED = 'SIGN_LINK_OPENED'
 }
+
+export type SignatorySigningSequence = {
+  __typename?: 'SignatorySigningSequence';
+  initialNumber: Scalars['Int']['output'];
+};
 
 export enum SignatoryStatus {
   DELETED = 'DELETED',
@@ -1199,7 +1248,10 @@ export type SingleSignatureEvidenceProvider = {
 
 export type StartCriiptoVerifyEvidenceProviderInput = {
   acrValue: Scalars['String']['input'];
+  device?: InputMaybe<DeviceInput>;
   id: Scalars['ID']['input'];
+  /** Use the id_token of a previous login to infer, for instance, reauthentication or other hints for the next login. */
+  idTokenHint?: InputMaybe<Scalars['String']['input']>;
   redirectUri: Scalars['String']['input'];
   stage: EvidenceValidationStage | '%future added value';
 };
