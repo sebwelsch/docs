@@ -44,16 +44,16 @@ wheels = [
 
 [[package]]
 name = "criipto-signatures"
-version = "0.1.0a5"
+version = "0.1.0a6"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "gql", extra = ["httpx"] },
     { name = "httpx" },
     { name = "pydantic" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/a2/39/bc4dd24430aa3272ea60e91dc99e02d4de022c1d55ef0bef21485fb957e0/criipto_signatures-0.1.0a5.tar.gz", hash = "sha256:3d7acda762771721a757dde7c3f1836a7fb9f7337f19afb7bb61543b93ec2f5b", size = 540792, upload-time = "2025-10-02T11:03:30.535Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/d6/2b/8b5a193dc43176be63614e531793c3324fe5d327a02a6d1b98fc4d9e649c/criipto_signatures-0.1.0a6.tar.gz", hash = "sha256:48d04ddcd8575bb958f7a40c2366c297962107fb974712e80777b9822af90610", size = 541321, upload-time = "2025-10-29T11:07:41.322Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/79/55/6bafeaf4d1c054be51eac472727cdecf1266d109f8daebed08264a40e761/criipto_signatures-0.1.0a5-py3-none-any.whl", hash = "sha256:12a033bdf19d4ac343f8fcb392ff2209a20950484f272f04405ee3781a31af2d", size = 543983, upload-time = "2025-10-02T11:03:28.525Z" },
+    { url = "https://files.pythonhosted.org/packages/6c/47/dc0a1a37ef09fc83b33f28e80fecc07978d70c807226f0ab25b9faa09de3/criipto_signatures-0.1.0a6-py3-none-any.whl", hash = "sha256:a08c197a1aa04d29b39d33028b0d8b7524d9b776ff350838d7056ede1bfc3b24", size = 544752, upload-time = "2025-10-29T11:07:38.226Z" },
 ]
 
 [[package]]
@@ -68,7 +68,7 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
-    { name = "criipto-signatures", specifier = ">=0.1.0a5" },
+    { name = "criipto-signatures", specifier = ">=0.1.0a6" },
     { name = "pyright", specifier = ">=1.1.406" },
     { name = "ruff", specifier = ">=0.13.3" },
 ]

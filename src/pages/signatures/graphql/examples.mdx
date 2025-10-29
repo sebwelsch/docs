@@ -192,6 +192,20 @@ import addSignatoryOverrideEvidenceProviderSettings from '../../../examples/addS
 
 <GraphQLExample example={addSignatoryOverrideEvidenceProviderSettings} />
 
+### Signing Sequence
+
+In some cases you might want to enforce a signing sequence, e.g., on a rental contract.
+In such a case, you are able to define the signing sequence number for a signatory where the lowest number in the sequence needs to sign before others.
+If multiple signatories have defined the same signing sequence number, they can sign in parallel.
+
+The sequence number must be a positive integer. It defaults to the maximum int32 value.
+
+If you want to patch in signatories along the way, it might be a good idea to define intervals, e.g. signatory A is 5, signatory B is 10 and signatory C is 15.
+
+import addSignatorySigningSequence from '../../../examples/addSignatory/signingSequence';
+
+<GraphQLExample example={addSignatorySigningSequence} />
+
 ## Signature Appearance
 
 Signature appearance (inside the PDF/document) can be configured via the `signatureAppearance` input object on `createSignatureOrder`.
