@@ -8,9 +8,11 @@ import * as createBatchSignatoryExample from './basic.graphql';
 import * as closeSignatureOrderExample from '../../examples/closeSignatureOrder.graphql';
 import {
   AddSignatoryOutput,
+  BatchSignatoryItem,
   BatchSignatoryItemInput,
   CloseSignatureOrderOutput,
   CreateSignatureOrderOutput,
+  CreateBatchSignatoryOutput,
 } from '../../../graphql-signatures-types';
 import { useAppDispatch, useAppSelector } from '../../state/hooks';
 import GraphQLExplorer, {
@@ -20,7 +22,6 @@ import GraphQLExplorer, {
 } from '../../components/GraphQLExplorer';
 import { H2, Paragraph } from '../../components/MdxProvider';
 import { clearExampleData } from '../../state/store';
-import { CreateBatchSignatoryOutput } from '@criipto/signatures/dist/graphql-sdk';
 
 type Step =
   | 'authenticate'
@@ -113,7 +114,7 @@ export default function InteractiveTour() {
         setBatchSignatory(createBatchSignatory.batchSignatory);
 
         const batchSignatorySignatureOrders = createBatchSignatory.batchSignatory.items.map(
-          so => so.signatureOrder.id,
+          (so: BatchSignatoryItem) => so.signatureOrder.id,
         );
         setSignatureOrders(signatureOrders =>
           signatureOrders.filter(so => batchSignatorySignatureOrders.includes(so.id)),
