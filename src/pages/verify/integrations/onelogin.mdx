@@ -14,33 +14,21 @@ This tutorial demonstrates how to integrate Idura Verify with OneLogin. The foll
 
 ## Register your OneLogin tenant in Idura Verify
 
-1. Login to you Idura Verify account - [https://dashboard.criipto.com/applications/add](https://dashboard.criipto.com/applications/add)
-2. Navigate to Applications
-3. Select the `+` sign to add a new application
-4. Provide the necessary information on the Register Application Screen
+First, you must create a new [application](/verify/getting-started/basics/#applications) for your OneLogin tenant in Idura Verify. This is done via the [Idura Dashboard](https://dashboard.criipto.com/applications/add?tags=authentications).
 
-- A name for the application. For this example OneLogin has been chosen.
-- Select the relevant domain from the `Available on domain` section. This will be the domain used to communicate to OneLogin. If you only subscribe to one Idura Verify domain, only one will be listed.
-- Add a Client ID/Realm to identify the OneLogin Tenant in Idura Verify. In this example `urn:onelogin:criipto` has been assigned.
-- Add the applicable Callback URL for you OneLogin tenant in the format of `https://<SUBDOMAIN>.onelogin.com/access/idp`.
-- Choose the relevant legal/bank identities you would like to integrate.
-- Once you are happy to proceed select `Save`.
+![Create Application](./images/onelogin-create-application.png)
 
-A completed application registration will look as follows:
+Once the application is created, you'll need some of its details for configuring OneLogin to communicate with Idura Verify. Gather the following information from the application settings:
 
-![Add New App](./images/onelogin-add-new-application.png)
-![Choose eID's](./images/onelogin-choose-eids.png)
+- **Client ID** to identify your OneLogin tenant to Idura Verify. We chose `urn:idura:samples:onelogin` for this example.
+- **Client secret** is needed if you choose the [back-channel](/verify/getting-started/oidc-intro/#authenticate-with-back-channel-authorization-code-flow) approach. The secret is generated when you [configure OAuth2 Code Flow](/verify/integrations/onelogin/#configure-oauth2-code-flow) for your application.
+- **Domain** on which you will be communicating with Idura Verify. If your company name is Acme Corp, it could be, for example, `acme-corp.idura.broker`.
 
-## Configure the OAuth2 flow
+## Configure OAuth2 Code Flow
 
-1. Navigate to applications
-2. Select the application configured in the previous section
-3. Scroll down to the OpenID Connect application section and enable `Enable OAuth2 Code Flow` by selecting the corresponding toggle:
-   ![Client secret on save](./images/onelogin-client-secret-on-save.png)
-4. Click `Save`
-5. The client secret will be displayed - This will be needed when configuring the Trusted IDP within OneLogin. Please note this is the only time the client secret will be displayed. Idura only stores the client secret as a hashed value, meaning it can not be retrieved again once generated and stored.
-   ![OAuth2 config](./images/oauth2-client-secret.png)
-6. Leave remaining settings as default.
+import CodeFlowSnippet from '../../../snippets/oauth2-code-flow.mdx';
+
+<CodeFlowSnippet />
 
 ## Create a OneLogin Trusted IDP for Idura Verify
 
@@ -56,7 +44,7 @@ A completed application registration will look as follows:
    ![Show login option](./images/onelogin-show-login-option.jpeg)
 6. In the Configurations section, enter the Issuer URL. This will be the domain chosen during the Idura Verify signup process.
 
-- To review your domain in Idura Veirfy navigate to Domains from the admin console and be sure to prefix `https://`
+- To review your domain in Idura Verify, navigate to Domains from the admin console and be sure to prefix `https://`
 
 7. (OPTIONAL) The Email Domains field is used to automatically invoke this Trusted IdP when a user enters their email address at login time - if the email address is unrecognized, but belongs to one of the domains listed, then this TIdP will be invoked via an authentication request. This setting can be left blank if invoking this Trusted IDP from the OneLogin login panel is the preferred method.
 8. Check `Sign Users into OneLogin` and deselect `Sign Users into additional applications`.

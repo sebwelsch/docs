@@ -8,9 +8,9 @@ subtitle: This tutorial demonstrates how to integrate Idura Verify with PingFede
 
 This tutorial demonstrates how to integrate Idura Verify with PingFederate. The following steps are required to complete your first login:
 
-1. [Prepare an application in Idura Verify that represents your PingFederate tenant](#prepare-criipto-verify-application)
+1. [Create an application in Idura Verify that represents your PingFederate tenant](#create-idura-verify-application)
 2. [Create an authentication source in your PingFederate tenant which connects to the Idura Verify application](#create-pingfederate-authentication-source)
-3. [Complete the application configuration in Idura Verify](#complete-the-application-configuration-in-criipto-verify)
+3. [Complete the application configuration in Idura Verify](#complete-the-application-configuration-in-idura-verify)
 4. [Integrate your own application with PingFederate](#integrate-your-own-application-with-pingfederate)
 
 In the following you will be configuring first Idura Verify, then PingFederate, and then back to finalizing the configuration in Idura Verify.
@@ -26,7 +26,7 @@ As the setup requires some switching back-and-forth between Idura and PingFedera
 
 Once configured you may test that everything works from PingFederate's `OAuth Playground`.
 
-## Prepare Idura Verify application
+## Create Idura Verify application
 
 First, you must register your PingFederate tenant as an application in Idura Verify.
 
@@ -34,17 +34,17 @@ Once you register your PingFederate tenant, you will also need some of the infor
 
 Specifically you need the following information to integrate with PingFederate:
 
-- _Client ID_ to identify your PingFederate tenant to Idura Verify. In the case below we chose `urn:idura:verify`
-- _Domain_ on which you will be communicating with Idura Verify. Could be for example `samples.idura.id`
-- _Client secret_ which PingFederate needs to fetch actual user information from Idura Verify during login.
-  The secret is generated when you save the new application.
+- **Client ID** to identify your PingFederate tenant to Idura Verify. We'll use `urn:idura:samples:pingfederate` for this example.
+- **Client secret** which PingFederate needs to fetch actual user information from Idura Verify during login. The secret is generated when you [configure the OAuth2 code flow](/verify/integrations/pingfederate/#configure-the-oauth2-code-flow) for your application.
+- **Domain** on which you will be communicating with Idura Verify. We'll use `acme-corp.idura.broker`.
 
-![Prepare App](./images/pingfederate-prepare-application.png)
+![Create App](./images/pingfederate-create-application.png)
 
-Click the **Save** button - and a popup will appear after a little while with your client secret.
-Make a copy of it (preferably by pasting it directly into your PingFederate authentication source configuration).
+## Configure the OAuth2 code flow
 
-The application details pane will be hidden automatically - you can expand it again by clicking anywhere on the line item with the name of your new application (in this article, that would be `PingFederate`).
+import OAuth2CodeFlowSnippet from '../../../snippets/oauth2-code-flow.mdx';
+
+<OAuth2CodeFlowSnippet />
 
 ## Create PingFederate authentication source
 
@@ -80,19 +80,13 @@ Click the **Next** button and add the claim types that you want to consume in th
 
 You can find the available claim types [here](/getting-started/token-contents).
 
-Click the **Save** button and the callback URL you need to finalize the Idura Verify application configuration is displayed - in PingFederate terms, though, the callback URL is called a `Redirect URI`.
+Click the **Save** button. You'll need to add the Redirect URI shown at this step to your Idura Verify application configuration. 
 
 ![Callback URL](./images/pingfederate-connection-callback-url.png)
 
 ## Complete the application configuration in Idura Verify
 
-Expand the details of the application configuration if you haven't already done so in the first step.
-
-Replace the temporary callback URL (from step 1, `https://example.com` in this article) in your Idura Verify application with the actual value now available from your PingFederate authentication source configuration (the value of the `Redirect URI` above)
-
-![Finalize Application](./images/pingfederate-finalize-application-config.png)
-
-and click the **Save** button.
+Back on the Idura Dashboard, go to your PingFederate application settings and add the Redirect URI from PingFederate to the list of Redirect URLs.
 
 <Highlight icon="file-lines">
 
