@@ -6,6 +6,6 @@ export const query = basic.query;
 export const variables = (data: ExampleData): { input: AddSignatoryInput } => ({
   input: {
     ...basic.variables(data).input,
-    role: 'Chairman',
+    signingAs: 'Chairman',
   },
 });

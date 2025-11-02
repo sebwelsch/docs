@@ -18,7 +18,7 @@ const signatureOrder = await client.createSignatureOrder({
 
 // Add signatory
 var signatory = await client.addSignatory(signatureOrder.id, {
-  role: 'Chairman',
+  signingAs: 'Chairman',
 });
 
 console.log(signatory.href); // Signing link, redirect user to this link, or send it in an email

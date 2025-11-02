@@ -27,7 +27,7 @@ using (var client = new CriiptoSignaturesClient("{YOUR_CRIIPTO_CLIENT_ID}", "{YO
     var signatory = await client.AddSignatory(
         signatureOrder.id,
         new AddSignatoryInput() {
-            role = "Chairman"
+            signingAs = "Chairman"
         }
     );
     Console.WriteLine(signatory.href); // Signing link, redirect user to this link, or send it in an email
