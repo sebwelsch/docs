@@ -70,7 +70,7 @@ Given the values above, and assuming that your Criipto Verify domain is `acme-co
 2. _Client Secret_: The secret generated for you by Criipto Verify during the `OAuth code flow` setup
 3. _Scopes_: `openid` will suffice
 4. _Issuer_: `https://acme-corp.criipto.id`
-5. _Authorization endpoint_: `https://acme-corp.criipto.id/oauth2/authorize?acr_values=urn:grn:authn:itsme:basic`
+5. _Authorization endpoint_: `https://acme-corp.criipto.id/oauth2/authorize?acr_values=urn:grn:authn:se:bankid`
 6. _Token endpoint_: `https://acme-corp.criipto.id/oauth2/token`
 7. _JWKS endpoint_: `https://acme-corp.criipto.id/.well-known/jwks`
 
@@ -78,7 +78,7 @@ The _Name_ is entirely up to you, and you don't have to specify the optional _Us
 
 <Highlight icon="file-lines">
 
-This setup assumes you are looking to authenticate your users with `Itsme` in `basic` mode. If you have other needs, replace the value of the `acr_values` parametery in the _Authorization endpoint_, or set up several _Identity Providers_ in your Okta tenant - see below for a list of all supported values.
+This setup assumes you are looking to authenticate your users with the Swedish BankID. If you have other needs, replace the value of the `acr_values` parametery in the _Authorization endpoint_, or set up several _Identity Providers_ in your Okta tenant - see below for a list of all supported values.
 
 </Highlight>
 
