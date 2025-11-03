@@ -30,7 +30,7 @@ signatureOrder = client.createSignatureOrder(
 
 # Add signatory
 signatory = client.addSignatory(
-  AddSignatoryInput(signatureOrderId=signatureOrder.id, role="Chairman")
+  AddSignatoryInput(signatureOrderId=signatureOrder.id, signingAs="Chairman")
 )
 
 print(
