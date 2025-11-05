@@ -5,6 +5,7 @@ import { DesktopNavigation, MobileNavigation } from '../components/Navigation';
 import Header from '../components/Header';
 import { PageNavigationItem } from '../components/PageNavigation';
 import { Link } from 'gatsby';
+import { IduraBanner } from '../components/IduraBanner';
 
 function upperFirst(input: string) {
   if (!input) return input;
@@ -16,6 +17,8 @@ export default function DefaultLayout(props: {
   location: Location;
   pageContext: any;
   pageNavigationItems?: PageNavigationItem[];
+  isIduraBannerVisible: boolean;
+  onCloseBanner: () => void;
 }) {
   const { frontmatter } = props.pageContext;
   const description = frontmatter?.description || frontmatter?.subtitle;
@@ -52,7 +55,6 @@ export default function DefaultLayout(props: {
         <link rel="canonical" href={`https://docs.criipto.com${props.location.pathname}`} />
         {description && <meta name="description" content={description} />}
       </head>
-
       <Header path={props.location.pathname} className={isEmbedded ? 'hidden' : ''} />
       <MobileNavigation
         key="mobileNav"
@@ -74,6 +76,11 @@ export default function DefaultLayout(props: {
         >
           <DesktopNavigation key="desktopNav" path={props.location.pathname} hidden={isEmbedded} />
           <a id="overview" />
+          <IduraBanner
+            onClose={props.onCloseBanner}
+            isVisible={props.isIduraBannerVisible}
+            className="xl:hidden"
+          />
           {frontmatter && (
             <header id="header" className="relative z-20 mb-8">
               <div>

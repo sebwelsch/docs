@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import cx from 'classnames';
+import { IduraBanner } from './IduraBanner';
 
 export interface PageNavigationItem {
   title: string;
@@ -7,14 +8,19 @@ export interface PageNavigationItem {
   items?: PageNavigationItem[];
   onClick?: () => void;
 }
-interface Props {
+interface PageNavigationProps {
   items: PageNavigationItem[];
   title?: string;
   onNavigate?: () => void;
   isEmbedded: boolean;
 }
 
-export function PageNavigation(props: Props) {
+interface DesktopPageNavigationProps extends PageNavigationProps {
+  isIduraBannerVisible?: boolean;
+  onCloseBanner?: () => void;
+}
+
+export function PageNavigation(props: PageNavigationProps) {
   const { items, onNavigate } = props;
   const [active, setActive] = useState<PageNavigationItem | null>(null);
 
@@ -113,14 +119,17 @@ export function PageNavigation(props: Props) {
   );
 }
 
-export function DesktopPageNavigation(props: Props) {
+export function DesktopPageNavigation(props: DesktopPageNavigationProps) {
   return (
     <div
-      className={cx('fixed z-20 bottom-0 w-[19.5rem] px-8 overflow-y-auto hidden xl:block', {
-        'top-[3.8125rem] right-[max(0px,calc(50%-768px))] py-10': !props.isEmbedded,
-        'top-0 right-0': props.isEmbedded,
-      })}
+      className={cx(
+        'fixed z-20 bottom-0 w-[19.5rem] px-8 overflow-y-auto hidden xl:block',
+        props.isEmbedded
+          ? 'top-0 right-0'
+          : 'top-[3.3125rem] right-[max(0px,calc(50%-768px))] py-10 mb-3',
+      )}
     >
+      <IduraBanner isVisible={props.isIduraBannerVisible} onClose={props.onCloseBanner} />
       <PageNavigation {...props} />
     </div>
   );
