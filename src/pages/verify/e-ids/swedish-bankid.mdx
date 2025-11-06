@@ -104,7 +104,7 @@ Criipto Verify facilitates Swedish BankID phone authentication via the [CIBA flo
 
 ### Implementing BankID Phone Authentication
 
-The CIBA flow is only available to traditional server-based web applications (confidential clients) and requires client validation for authentication requests. We'll use [private key JWTs](/verify/guides/privatekey-jwt/) for authenticaiton in the example below. An alternative (_less secure_) approach is to use `client_secret` for authentication.
+The CIBA flow is only available to traditional server-based web applications (confidential clients) and requires client validation for authentication requests. We'll use [private key JWTs](/verify/guides/privatekey-jwt/) for authentication in the example below. An alternative (_less secure_) approach is to use `client_secret` for authentication.
 
 1. Make an `HTTP POST` request to the `/ciba/bc-authorize` endpoint:
 
@@ -223,7 +223,7 @@ Criipto Verify facilitates Swedish BankID headless authentication via the [Headl
 
 ### Implementing BankID Headless Authentication
 
-The Headless flow is only available to traditional server-based web applications (confidential clients) and requires client validation for authentication requests. We'll use [private key JWTs](/verify/guides/privatekey-jwt/) for authenticaiton in the example below. An alternative (_less secure_) approach is to use `client_secret` for authentication.
+The Headless flow is only available to traditional server-based web applications (confidential clients) and requires client validation for authentication requests. We'll use [private key JWTs](/verify/guides/privatekey-jwt/) for authentication in the example below. An alternative (_less secure_) approach is to use `client_secret` for authentication.
 
 1. `HTTP POST` request to the `/headless/authorize` endpoint:
 
