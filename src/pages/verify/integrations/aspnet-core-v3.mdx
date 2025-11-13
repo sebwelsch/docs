@@ -3,16 +3,16 @@ product: verify
 category: Integrations
 sort: 0
 title: ASP.NET Core 3.1
-subtitle: Accept MitID, Swedish BankID, Norwegian BankID and other eID logins with ASP.NET Core 3.1 and Criipto Verify
+subtitle: Accept MitID, Swedish BankID, Norwegian BankID and other eID logins with ASP.NET Core 3.1 and Idura Verify
 ---
 
 This tutorial demonstrates how to add user login to the existing ASP.NET Core 3.x application. If you are migrating .NET Core v2.x application to .NET Core v3.1, skip to the [Migrate .NET Core v2.x sample to .NET Core v3.1](#migrate-aspnet-core-v2x-sample-to-v3x) section.
 
 Four steps are required to complete your first test login:
 
-1. [Register your application in Criipto Verify](#register-your-application-in-criipto-verify)
+1. [Register your application in Idura Verify](#register-your-application-in-idura-verify)
 2. [Configure OAuth2 Code Flow](#configure-the-oauth2-code-flow)
-3. [Configure your application to use Criipto Verify](#configure-your-application-to-use-criipto-verify)
+3. [Configure your application to use Idura Verify](#configure-your-application-to-use-idura-verify)
 4. [Trigger authentication in your application](#trigger-login-and-logout-in-your-application)
 
 This explains how to set up your application and test with test users. To use real eIDs for login the setup is the same, but you must be [set up for Production](#setting-up-for-production).
@@ -21,22 +21,22 @@ And note that you need test eID users to see your code in action. How to get tho
 
 You may get a completed and ready to run [sample from GitHub](https://github.com/criipto/dotnet-core-v3.x-sample) showing the below recipe in the simplest of ASP.NET Core MVC applications.
 
-To modify your existing application to work with Criipto Verify follow the steps below.
+To modify your existing application to work with Idura Verify, follow the steps below.
 
-## Register Your Application in Criipto Verify
+## Register Your Application in Idura Verify
 
-After you signed up for Criipto Verify, you must register an application before you can actually try logging in with any eID.
+After you signed up for Idura Verify, you must register an application before you can actually try logging in with any eID.
 
-Once your application is registered, the dashboard will contain the necessary details to configure your application to communicate with Criipto Verify. You will need the following information from the **General** tab of your application settings:
+Once your application is registered, the dashboard will contain the necessary details to configure your application to communicate with Idura Verify. You will need the following information from the **General** tab of your application settings:
 
-- _Client ID_ to identify you application to Criipto Verify.
-- _[Domain](/verify/getting-started/basics/#domains)_ on which you will be communicating with Criipto Verify.
+- **Client ID** to identify you application to Idura Verify.
+- **Domain](/verify/getting-started/basics/#domains)** on which you will be communicating with Idura Verify.
 
 ### Register callback URLs
 
-Before you can start sending authentication requests to Criipto Verify you need to register the URLs on which you want to receive the returned _JSON Web Token_, JWT.
+Before you can start sending authentication requests to Idura Verify, you need to register the URLs on which you want to receive the returned _JSON Web Token_, JWT.
 
-The Callback URL of your application is the URL where Criipto Verify will redirect to after the user has authenticated in order for the OpenID Connect ASP.NET middleware to complete the authentication process.
+The Callback URL of your application is the URL where Idura Verify will redirect to after the user has authenticated in order for the OpenID Connect ASP.NET middleware to complete the authentication process.
 
 You will need to add these URLs to the list of allowed URLs for your application:
 
@@ -57,7 +57,7 @@ import CodeFlowSnippet from '../../../snippets/oauth2-code-flow.mdx';
 
 ## Install dependencies
 
-To integrate Criipto Verify with ASP.NET Core you will use the Cookie and OpenID Connect (OIDC) authentication handlers. The seed project already references the ASP.NET Core meta package (Microsoft.AspNetCore.App) which includes all NuGet packages shipped by Microsoft as part of ASP.NET Core 3.1, including the packages for the Cookie and OIDC authentication handlers.
+To integrate Idura Verify with ASP.NET Core, you will use the Cookie and OpenID Connect (OIDC) authentication handlers. The seed project already references the ASP.NET Core meta package (Microsoft.AspNetCore.App) which includes all NuGet packages shipped by Microsoft as part of ASP.NET Core 3.1, including the packages for the Cookie and OIDC authentication handlers.
 
 If you are adding this to your own existing project, and you have not referenced the meta package, then please make sure that you add the Microsoft.AspNetCore.Authentication.Cookies and Microsoft.AspNetCore.Authentication.OpenIdConnect packages to your application.
 
@@ -73,7 +73,7 @@ Go to the `ConfigureServices` method of your `Startup` class. To add the authent
 
 Next, configure the OIDC authentication handler. Add a call to `AddOpenIdConnect`. Configure the necessary parameters, such as `ClientId`, `ClientSecret`, `ResponseType`, and not least the `Authority`. The latter is used by the middleware to get the metadata describing the relevant endpoints, the signing keys etc.
 
-The OIDC middleware requests both the `openid` and `profile` scopes by default, but note that Criipto Verify by nature returns only the information derived from the underlying eID service. Changing the scopes does not affect the amount and nature of information delivered from the user information endpoint.
+The OIDC middleware requests both the `openid` and `profile` scopes by default, but note that Idura Verify by nature returns only the information derived from the underlying eID service. Changing the scopes does not affect the amount and nature of information delivered from the user information endpoint.
 
 ```csharp
 // Startup.cs
@@ -93,12 +93,12 @@ public void ConfigureServices(IServiceCollection services)
     })
     .AddCookie()
     .AddOpenIdConnect(options => {
-        options.ClientId = Configuration["Criipto:ClientId"]; // ClientID from application registration
-        options.ClientSecret = Configuration["Criipto:ClientSecret"]; // Client secret from oauth2 code flow
-        options.Authority = $"https://{Configuration["Criipto:Domain"]}/"; // Domain from application registration
+        options.ClientId = Configuration["Idura:ClientId"]; // ClientID from application registration
+        options.ClientSecret = Configuration["Idura:ClientSecret"]; // Client secret from oauth2 code flow
+        options.Authority = $"https://{Configuration["Idura:Domain"]}/"; // Domain from application registration
         options.ResponseType = "code";
 
-        // The next to settings must match the Callback URLs in Criipto Verify
+        // The next to settings must match the Callback URLs in Idura Verify
         options.CallbackPath = new PathString("/callback");
         options.SignedOutCallbackPath = new PathString("/signout");
 
@@ -181,7 +181,7 @@ Note that you may plug in your own Authorization handlers derived from `Microsof
 
 ### Explicit logout
 
-Logout requires both terminating the local session by removing the cookies as well as telling Criipto Verify that the session is over.
+Logout requires both terminating the local session by removing the cookies as well as telling Idura Verify that the session is over.
 
 ```csharp
 public async Task Logout()
@@ -207,9 +207,9 @@ In summary, the steps above will lead to a runtime flow that looks like this:
 1. The web server starts the application, which configures and initializes the OpenID Connect middleware. The middleware is configured with a URL from which it retrieves the metadata describing the various endpoints (e.g., `token` and `userinfo`) and encryption keys, as well as the token signing certificates.
 2. The user picks the login method, or the application is hardcoded to use one of the [authentication options](#choosing-the-specific-login-method).
 3. A request for a resource protected by the `[Authorization]` kicks off the OIDC middleware login flow.
-4. The user's browser is redirected to the Criipto Verify service, where the actual login takes place.
+4. The user's browser is redirected to the Idura Verify service, where the actual login takes place.
 5. A callback with an issued _authorization code_ is sent back to the application and intercepted by the OIDC middleware.
-6. The middleware calls the Criipto Verify service to exchange the code for an _access token_. Note that this is a direct server-to-server call which, unlike the other communication, does not pass through the browser.
+6. The middleware calls the Idura Verify service to exchange the code for an _access token_. Note that this is a direct server-to-server call which, unlike the other communication, does not pass through the browser.
 7. The access token is used by the OIDC middleware to retrieve the available user information, which is set as claims on the user principal.
 
 If you want to inspect the runtime flow, the browser's developer tools (e.g., in Chrome) can be used to examine the network traffic.

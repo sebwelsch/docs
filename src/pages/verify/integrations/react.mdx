@@ -6,11 +6,11 @@ title: React
 subtitle: Accept Danish MitID, Swedish BankID, Norwegian BankID and more eID logins in your React app with @criipto/verify-react.
 ---
 
-This guide shows you how to use Criipto Verify in a React single page application. Read the [full documentation](https://github.com/criipto/criipto-verify-react) or [download a sample application from GitHub](https://github.com/criipto/criipto-verify-react/tree/master/example).
+This guide shows you how to use Idura Verify in a React single page application. Read the [full documentation](https://github.com/criipto/criipto-verify-react) or [download a sample application from GitHub](https://github.com/criipto/criipto-verify-react/tree/master/example).
 
 ## App switch support
 
-`@criipto/verify-react` supports app switching for Danish MitID by a best-effort mobile-os detection and setting the relevant Criipto Verify login hints.
+`@criipto/verify-react` supports app switching for Danish MitID by a best-effort mobile-os detection and setting the relevant Idura Verify login hints.
 
 ## Installation
 
@@ -20,9 +20,9 @@ Using [npm](https://npmjs.org/)
 npm install @criipto/verify-react
 ```
 
-## Setup SDK
+## Set up SDK
 
-Setup the Criipto Verify SDK by wrapping your application in `CriiptoVerifyProvider`:
+Set up the Idura Verify SDK by wrapping your application in `CriiptoVerifyProvider`:
 
 ```jsx
 // src/index.js
@@ -34,7 +34,7 @@ import App from './App';
 
 ReactDOM.render(
   <CriiptoVerifyProvider
-    domain="{{YOUR_CRIIPTO_DOMAIN}}"
+    domain="{{YOUR_IDURA_DOMAIN}}"
     clientID="{{YOUR_CLIENT_ID}}"
     redirectUri={window.location.href}
   >
@@ -116,7 +116,7 @@ import App from './App';
 
 ReactDOM.render(
   <CriiptoVerifyProvider
-    domain="{{YOUR_CRIIPTO_DOMAIN}}"
+    domain="{{YOUR_IDURA_DOMAIN}}"
     clientID="{{YOUR_CLIENT_ID}}"
     redirectUri={window.location.href}
     sessionStore={window.sessionStorage} // or window.localStorage
@@ -129,9 +129,9 @@ ReactDOM.render(
 
 When a sessionStore is configured the library will store the id_token your chosen storage (sessionStorage or localStorage) and invalidate the token once it expires.
 
-The library will also attempt to retrieve a user token on page load via SSO (if your criipto domain has SSO enabled).
+The library will also attempt to retrieve a user token on page load via SSO (if your Idura domain has SSO enabled).
 
-You may wish to increase the "Token lifetime" setting of your Criipto Application.
+You may wish to increase the "Token lifetime" setting of your Idura Application.
 
 ```jsx
 // src/App.js

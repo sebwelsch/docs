@@ -3,7 +3,7 @@ product: verify
 category: Guides & Tools
 sort: 0
 title: FAQ
-subtitle: Common issues and questions when using Criipto Verify
+subtitle: Common issues and questions when using Idura Verify
 ---
 
 ## Unknown Access Code error
@@ -21,9 +21,9 @@ You can use the copy application feature from test to production to ensure the s
 
 If you encounter the `mitid_core_client_error` while running test logins, it indicates issues with the MitID PP environment.
 In relation to this error, you may also see error messages such as `unknown: Error loading authenticator`, `unknown: API xhr time error` or `unknown: undefined is not an object`.
-The errors come directly from the MitID core client, and are just passed through to your application by Criipto.
+The errors come directly from the MitID core client, and are just passed through to your application by Idura.
 Please note that the MitID PP environment may occasionally experience instability, and MitID does not provide SLAs or status updates for this environment.
-Criipto does not have control over the MitID Test Tools.
+Idura does not have control over the MitID Test Tools.
 
 You may also occasionally see the `mitid_core_client_error` in production.
 This error is not actionable (i.e. there is nothing you or we can do to fix it), but the error can almost always be solved by the end user by trying to authenticate again.
@@ -35,4 +35,4 @@ In some cases, only App Simulator test users may be affected. If you are experie
 ## Why are users asked for their CPR during MitID Erhverv login?
 
 This allows to look up [company signatories](/verify/e-ids/danish-mitid-erhverv/#employees-and-company-signatories) from the business registry, in case the user has a company that is not registered with MitID Erhverv.
-If you don't need this feature, you can turn it off. Go to your Criipto Dashboard and **Disable signatories for MitID business logins** under **eID Providers** > **Danish MitID**.
+If you don't need this feature, you can turn it off. Go to your Idura Dashboard and **Disable signatories for MitID business logins** under **eID Providers** > **Danish MitID**.

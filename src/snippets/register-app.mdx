@@ -1,19 +1,19 @@
-After you signed up for Criipto Verify, you must register an application before you can actually try logging in with any eID.
+After you signed up for Idura Verify, you must register an application before you can actually try logging in with any eID.
 
-Once you register your application you will also need some of the information for communicating with Criipto Verify. You get these details from the settings of the application in the dashboard.
+Once you register your application you will also need some of the information for communicating with Idura Verify. You get these details from the settings of the application in the dashboard.
 
 Specifically you need the following information to configure you application
 
-- _Client ID_ to identify you application to Criipto Verify. In the case below we chose `urn:criipto:samples:no1`
-- _Domain_ on which you will be communicating with Criipto Verify. Could be for example `samples.criipto.id`
+- **Client ID** to identify you application to Idura Verify. In the case below we chose `urn:idura:samples:no1`
+- **Domain** on which you will be communicating with Idura Verify. Could be for example `samples.idura.broker`
 
 ![Register App](/images/register-app.png)
 
 ### Register callback URLs
 
-Before you can start sending authentication requests to Criipto Verify you need to register the URLs on which you want to receive the returned _JSON Web Token_, JWT.
+Before you can start sending authentication requests to Idura Verify you need to register the URLs on which you want to receive the returned _JSON Web Token_, JWT.
 
-The Callback URL of your application is the URL where Criipto Verify will redirect to after the user has authenticated in order for the OpenID Connect ASP.NET middleware to complete the authentication process.
+The Callback URL of your application is the URL where Idura Verify will redirect to after the user has authenticated in order for the OpenID Connect ASP.NET middleware to complete the authentication process.
 
 You will need to add this URL to the list of allowed URLs for your application. The Callback URL for the sample project project is https://localhost:5001/callback and http://localhost:5000/callback, so be sure to add this to the Callback URLs section of your application. Put each URL on a new line.
 

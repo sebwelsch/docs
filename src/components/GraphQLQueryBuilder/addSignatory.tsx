@@ -133,7 +133,7 @@ export default function AddSignatoryQueryBuilder() {
       </div>
       <H3>Evidence Validation</H3>
       <Paragraph>
-        Evidence validation lets you validate the token provided by Criipto Verify when the user
+        Evidence validation lets you validate the token provided by Idura Verify when the user
         signs.
         <br />
         For Denmark, cprNumberIdentifier can be a useful evidence validation key.
@@ -144,7 +144,7 @@ export default function AddSignatoryQueryBuilder() {
           target="_blank"
           rel="noopener"
         >
-          Criipto Verify tokens
+          Idura Verify tokens
         </a>{' '}
         for more details.
       </Paragraph>

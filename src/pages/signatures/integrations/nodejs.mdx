@@ -3,11 +3,11 @@ product: signatures
 category: Integrations
 sort: 1
 title: Node.js
-subtitle: Integrate Criipto Signatures with Node.js to sign PDFs using MitID, Swedish BankID, Norwegian BankId or other eIDs.
+subtitle: Integrate Idura Signatures with Node.js to sign PDFs using MitID, Swedish BankID, Norwegian BankId or other eIDs.
 ---
 
-This guide shows you how to use implement Criipto Signatures in Node.js to sign
-PAdeS-LTA documents using MitID, BankID or any other eID supported by Criipto.
+This guide shows you how to use implement Idura Signatures in Node.js to sign
+PAdeS-LTA documents using MitID, BankID or any other eID supported by Idura.
 
 ## Getting started
 
@@ -28,7 +28,7 @@ yarn add @criipto/signatures
 
 ```javascript
 import CriiptoSignatures from '@criipto/signatures';
-const client = new CriiptoSignatures('{YOUR_CRIIPTO_CLIENT_ID}', '{YOUR_CRIIPTO_CLIENT_SECRET}');
+const client = new CriiptoSignatures('{YOUR_IDURA_CLIENT_ID}', '{YOUR_IDURA_CLIENT_SECRET}');
 ```
 
 ## Creating your first signature order
@@ -37,7 +37,7 @@ Create a signature order by
 
 ```javascript
 import CriiptoSignatures from '@criipto/signatures';
-const client = new CriiptoSignatures('{YOUR_CRIIPTO_CLIENT_ID}', '{YOUR_CRIIPTO_CLIENT_SECRET}');
+const client = new CriiptoSignatures('{YOUR_IDURA_CLIENT_ID}', '{YOUR_IDURA_CLIENT_SECRET}');
 
 // Create signature order
 const signatureOrder = await client.createSignatureOrder({
@@ -75,7 +75,7 @@ console.log(signatory.href); // The signatory.href is the signing link that you 
 Once everyone has signed you must close the signature order to finalize the process and extract the signed documents.
 
 ```javascript
-const client = new CriiptoSignatures('{YOUR_CRIIPTO_CLIENT_ID}', '{YOUR_CRIIPTO_CLIENT_SECRET}');
+const client = new CriiptoSignatures('{YOUR_IDURA_CLIENT_ID}', '{YOUR_IDURA_CLIENT_SECRET}');
 var signatureOrderId = '...'; // The id from when you previosuly created the signature order
 
 // Close signature order
@@ -88,4 +88,4 @@ closedSignatureOrder.documents.forEach(document => {
 
 ## More examples
 
-More [Node.js examples](/signatures/graphql/examples/) are provided for all the options supported by the Criipto Signatures API.
+More [Node.js examples](/signatures/graphql/examples/) are provided for all the options supported by the Idura Signatures API.

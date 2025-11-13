@@ -147,15 +147,15 @@ function ClaimTooltip(props: ClaimTooltipProps) {
     return ucCnd.endsWith(`/${ucPath}`) || ucCnd.endsWith(`:${ucPath}`);
   };
 
-  if (isClaimPath(claim, 'iss')) tooltip = 'Your Criipto domain';
-  if (isClaimPath(claim, 'aud')) tooltip = 'ClientID/Realm of your Criipto Application';
+  if (isClaimPath(claim, 'iss')) tooltip = 'Your Idura domain';
+  if (isClaimPath(claim, 'aud')) tooltip = 'ClientID/Realm of your Idura Application';
   if (isClaimPath(claim, 'iat')) tooltip = 'Issued at (seconds since Unix epoch)';
   if (isClaimPath(claim, 'nbf')) tooltip = 'Not valid before (seconds since Unix epoch)';
   if (isClaimPath(claim, 'exp')) tooltip = 'Expiration time (seconds since Unix epoch)';
   if (isClaimPath(claim, 'identityscheme')) tooltip = 'Overall eID used to authenticate';
   if (isClaimPath(claim, 'nameidentifier')) tooltip = `Legacy format of 'sub'`;
   if (isClaimPath(claim, 'sub'))
-    tooltip = `Persistent pseudonym. Uniquely identifies an eID user (per Criipto Verify tenant)`;
+    tooltip = `Persistent pseudonym. Uniquely identifies an eID user (per Idura Verify tenant)`;
   if (isClaimPath(claim, 'authenticationtype')) tooltip = `acr_values used to authenticate`;
   if (isClaimPath(claim, 'socialno')) tooltip = 'Social security number';
   if (isClaimPath(claim, 'ssn')) tooltip = 'Social security number';

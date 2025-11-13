@@ -10,16 +10,16 @@ subtitle: A list of identity terms used in this documentation
 
 ### ACR (Authentication Context Class Reference)
 
-A specific value or set of values sent in an authorization request (as `acr_values`) to request a specific authentication method (e.g., a particular eID like Swedish BankID). Criipto uses `acr_values` to determine which eID provider or authentication method should be invoked.
+A specific value or set of values sent in an authorization request (as `acr_values`) to request a specific authentication method (e.g., a particular eID like Swedish BankID). Idura uses `acr_values` to determine which eID provider or authentication method should be invoked.
 
 ### Application (Client Application)
 
-Your software (e.g., a web application, mobile application, or backend service) that integrates with Criipto Verify to authenticate users.
+Your software (e.g., a web application, mobile application, or backend service) that integrates with Idura Verify to authenticate users.
 We use the term "application" as defined by the client role in <a href="https://datatracker.ietf.org/doc/html/rfc6749#page-6" target="_blank">OAuth 2.0</a>.
-Functionally, your software acts as the client in a <a href="https://en.wikipedia.org/wiki/Client%E2%80%93server_model" target="_blank">client-server model</a>, where Criipto Verify serves as the Authentication Server.
+Functionally, your software acts as the client in a <a href="https://en.wikipedia.org/wiki/Client%E2%80%93server_model" target="_blank">client-server model</a>, where Idura Verify serves as the Authentication Server.
 
-You create and configure an **Application** in your Criipto Dashboard as a digital representation of your software.
-Each dashboard Application is assigned a unique Client ID upon creation, which identifies your software in authentication requests to Criipto Verify.
+You create and configure an **Application** in your Idura Dashboard as a digital representation of your software.
+Each dashboard Application is assigned a unique Client ID upon creation, which identifies your software in authentication requests to Idura Verify.
 It also holds configurations for the specific eID providers your software will interact with to authenticate end-users.
 
 ### Authorization Code Flow
@@ -29,8 +29,8 @@ This code is then securely exchanged for tokens (ID Token, Access Token) at the 
 
 ### Authorization Flow (Authorization Grant)
 
-In <a href="https://oauth.net/2/grant-types/" target="_blank">OAuth 2.0</a>, an Authorization Flow describes a sequential workflow a client application follows to obtain an Authorization Grant (permission) from an Authorization Server (e.g., Criipto Verify) to access protected resources on behalf of a user.
-With Criipto Verify, client applications can use Authorization Code Flow, PKCE, CIBA or Implicit Flow (for testing only). The choice of the flow depends on the application's requirements and characteristics, such as its ability to securely store a Client Secret or hold a private key (if using Private Key JWT for client authentication).
+In <a href="https://oauth.net/2/grant-types/" target="_blank">OAuth 2.0</a>, an Authorization Flow describes a sequential workflow a client application follows to obtain an Authorization Grant (permission) from an Authorization Server (e.g., Idura Verify) to access protected resources on behalf of a user.
+With Idura Verify, client applications can use Authorization Code Flow, PKCE, CIBA or Implicit Flow (for testing only). The choice of the flow depends on the application's requirements and characteristics, such as its ability to securely store a Client Secret or hold a private key (if using Private Key JWT for client authentication).
 
 ### Authorization Request (Authorize URL)
 
@@ -40,28 +40,28 @@ The Authorize URL contains several parameters (e.g., `scope`, `response_type`, `
 ### Authorization Server
 
 An Authorization Server is the service in OAuth 2.0 and OpenID Connect that manages user authentication and issues access tokens and ID tokens to client applications.
-Criipto Verify acts as an Authorization Server, handling the connection to eID providers and issuing ID tokens to your application.
+Idura Verify acts as an Authorization Server, handling the connection to eID providers and issuing ID tokens to your application.
 
 ## C
 
 ### CIBA (Client Initiated Backchannel Authentication)
 
 A new OAuth 2.0 Authorization Flow where the client application initiates authentication on behalf of the end-user.
-Unlike other OIDC flows, there are no browser redirects; communication occurs directly between the client and the OpenID Provider (Criipto Verify) over a "backchannel."
+Unlike other OIDC flows, there are no browser redirects; communication occurs directly between the client and the OpenID Provider (Idura Verify) over a "backchannel."
 The user then completes authentication on a separate device (e.g., their phone), enabling use cases like confirming identity during a phone call.
 
 ### Claims
 
-Statements about an end-user or about the authentication event itself (e.g., authentication time) that are included in an ID token issued by the Authorization Server (Criipto Verify) following successful authentication.
+Statements about an end-user or about the authentication event itself (e.g., authentication time) that are included in an ID token issued by the Authorization Server (Idura Verify) following successful authentication.
 Claims can include name, date of birth, and national identity number (e.g., SSN, CPR), depending on what the eID provider supports and what your application requests via scopes.
 
 ### Client ID
 
-A public identifier for your application, registered with Criipto Verify. It is sent in authorization requests to identify your application to Criipto's service.
+A public identifier for your application, registered with Idura Verify. It is sent in authorization requests to identify your application to Idura's service.
 
 ### Client Secret
 
-A confidential key known only to your application and Criipto's Authorization Server.
+A confidential key known only to your application and Idura's Authorization Server.
 It is used to authenticate your application when it exchanges an authorization code for tokens at the token endpoint.
 An alternative and more secure client authentication method for confidential clients is Private Key JWT authentication.
 _Note: public clients (like single-page applications or mobile apps) must use PKCE instead of a Client Secret for security reasons._
@@ -78,15 +78,16 @@ According to the OAuth 2.0 protocol, client applications are categorized as eith
 A Confidential Client is an application that can keep its credentials, typically because it runs on a trusted backend server.
 Confidential clients can use authorization flows that require them to authenticate by specifying their Client ID and Client Secret when calling the Authorization Server's Token Endpoint.
 
-### Criipto Dashboard
+### Criipto
 
-Your administrative interface for managing and configuring all Criipto services. Here, you can create and configure your Criipto domain and application, handle specific eID provider configurations, control billing, and access other tools and features.
+The former name of Idura. Our SDK packages (e.g., `@criipto/auth-js`) will continue to use `"@criipto"` to maintain backward compatibility.
 
 ## D
 
-### Domain (Criipto Domain)
+### Domain (Idura Domain)
 
-Your unique subdomain on the criipto.id platform (e.g., _your-company.criipto.id_) on which you call our service to perform authentication. Your domain hosts the OIDC discovery document, authorization endpoint, token endpoint, etc. You create a domain via the Criipto dashboard.
+Your unique subdomain on the `idura.broker` root domain (e.g., _your-company.idura.broker_) on which you call our service to perform authentication. Your domain hosts the OIDC discovery document, authorization endpoint, token endpoint, etc. You create a domain via the Idura dashboard.
+_Note: Starting at the end of 2025, all newly created domains will use the `idura.broker` root domain. The `criipto.id` root domain will remain operational._
 
 ## E
 
@@ -100,15 +101,19 @@ eIDs enable secure online authentication, transactions, and digital signing of d
 ### ID Token
 
 A token that contains claims about the authenticated user and the authentication event. It is a primary result of an OpenID Connect authentication flow and is intended for the client application to understand who the user is.
-Criipto issues ID tokens in a JWT format.
+Idura issues ID tokens in a JWT format.
+
+### Idura Dashboard
+
+Your administrative interface for managing and configuring all Idura services. Here, you can create and configure your Idura domain and application, handle specific eID provider configurations, control billing, and access other tools and features.
 
 ### Identity Provider (IdP)
 
-The entity that manages and authenticates identities. In the context of Criipto Verify, the national eID schemes (like the Danish MitID and Swedish BankID) function as the primary Identity Providers. Criipto acts as an eID broker, connecting your application to various eID providers.
+The entity that manages and authenticates identities. In the context of Idura Verify, the national eID schemes (like the Danish MitID and Swedish BankID) function as the primary Identity Providers. Idura acts as an eID broker, connecting your application to various eID providers.
 
 ### Identity Broker
 
-Acts as an intermediary between client applications and multiple Identity Providers (IdPs). It simplifies the integration process for applications by providing a single point of connection to several IdPs. Criipto Verify acts as an Identity Broker for national eIDs.
+Acts as an intermediary between client applications and multiple Identity Providers (IdPs). It simplifies the integration process for applications by providing a single point of connection to several IdPs. Idura Verify acts as an Identity Broker for national eIDs.
 
 ### Implicit Flow
 
@@ -119,7 +124,7 @@ An OAuth 2.0 Authorization Flow where an ID Token is returned directly to the cl
 ### JSON Web Token (JWT)
 
 An open standard (<a href="https://datatracker.ietf.org/doc/html/rfc7519" target="_blank">RFC 7519</a>) that defines a compact, URL-safe means of representing claims to be transferred between two parties as a JSON object.
-JWTs are digitally signed using [JSON Web Signatures (JWS)](/verify/getting-started/glossary/#json-web-signature-jws). Criipto issues ID tokens in a JWT format. You can decode well-formatted JWTs at <a href="https://jwt.io/" target="_blank">jwt.io</a> to see their claims.
+JWTs are digitally signed using [JSON Web Signatures (JWS)](/verify/getting-started/glossary/#json-web-signature-jws). Idura issues ID tokens in a JWT format. You can decode well-formatted JWTs at <a href="https://jwt.io/" target="_blank">jwt.io</a> to see their claims.
 
 ### JSON Web Encryption (JWE)
 
@@ -144,11 +149,11 @@ An authorization standard that allows a user to grant limited access to their re
 
 ### OpenID Connect (OIDC)
 
-An identity layer built on top of OAuth 2.0. It allows client applications to verify the identity of an end-user based on the authentication performed by an Authorization Server, as well as to obtain basic profile information about the end-user. Criipto Verify's API is based on OIDC.
+An identity layer built on top of OAuth 2.0. It allows client applications to verify the identity of an end-user based on the authentication performed by an Authorization Server, as well as to obtain basic profile information about the end-user. Idura Verify's API is based on OIDC.
 
 ### OIDC Discovery Document (.well-known/openid-configuration)
 
-A JSON document found at a well-known URI on your Criipto domain (e.g., _https://your-domain.criipto.id/.well-known/openid-configuration_). It contains metadata about the OpenID Provider's configuration, such as the locations of its authorization, token, and userinfo endpoints.
+A JSON document found at a well-known URI on your Idura domain (e.g., _https://your-domain.idura.broker/.well-known/openid-configuration_). It contains metadata about the OpenID Provider's configuration, such as the locations of its authorization, token, and userinfo endpoints.
 
 ## P
 
@@ -174,7 +179,7 @@ Mobile apps and single-page applications (SPAs) are public clients. As they cann
 ### Redirect URI (Callback URL)
 
 The URL in your application where the user's browser is redirected after authentication is complete (or has failed).
-You have to register all redirect URIs in your Criipto Application via the Dashboard.
+You have to register all redirect URIs in your Idura Application via the Dashboard.
 
 ### Response Type
 
@@ -188,13 +193,13 @@ An OIDC/OAuth 2.0 mechanism to limit an application's access to a user's data. `
 
 ### Single Sign-On (SSO)
 
-An authentication scheme that allows a user to log in with a single ID and password to several related software systems. Criipto can be part of an SSO solution where an eID is used as the primary authenticator.
+An authentication scheme that allows a user to log in with a single ID and password to several related software systems. Idura can be part of an SSO solution where an eID is used as the primary authenticator.
 
 ## T
 
 ### Token Endpoint
 
-The OIDC/OAuth 2.0 endpoint at the Authorization Server (Criipto Verify), where a client application exchanges an authorization code for an ID Token.
+The OIDC/OAuth 2.0 endpoint at the Authorization Server (Idura Verify), where a client application exchanges an authorization code for an ID Token.
 
 ## U
 

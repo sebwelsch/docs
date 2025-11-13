@@ -62,7 +62,7 @@ It can take up to 1 hour before a newly created test user is activated.
 
 </Highlight>
 
-You can test it out at [our authentication demo site](https://verify-login.azurewebsites.net), which is a small sample hosted by Criipto.
+You can test it out at [our authentication demo site](https://verify-login.azurewebsites.net), which is a small sample hosted by Idura.
 
 ### Renewing netcentric test users
 
@@ -151,13 +151,13 @@ For applications configured to use a `dynamic` `scope` strategy, the following `
 #### Example (partial) authorize request with scopes
 
 ```text
-https://YOUR_SUBDOMAIN.criipto.id/oauth2/authorize?scope=openid ssn&...
+https://YOUR_SUBDOMAIN.idura.broker/oauth2/authorize?scope=openid ssn&...
 ```
 
 Alternatively, you can send them in the `login_hint`
 
 ```text
-https://YOUR_SUBDOMAIN.criipto.id/oauth2/authorize?...&login_hint=scope:ssn&...
+https://YOUR_SUBDOMAIN.idura.broker/oauth2/authorize?...&login_hint=scope:ssn&...
 ```
 
 which can be a useful if you are working with technology that does not let you control the `scope` value.
@@ -180,11 +180,11 @@ If you request SSN, it will be treated as a required value. End users will not b
 
 All other additional data are treated as optional values. A login may complete even if the user does not consent to release the requested data.
 
-Consent to SSN will be stored by Criipto for 1 year for your tenant, after which the user must provide explicit SSN consent again.
+Consent to SSN will be stored by Idura for 1 year for your tenant, after which the user must provide explicit SSN consent again.
 
 <Highlight icon="info">
 
-Criipto _does not_ store the SSN itself, just the fact that the user has granted your tenant access to it.
+Idura _does not_ store the SSN itself, just the fact that the user has granted your tenant access to it.
 
 </Highlight>
 
@@ -192,7 +192,7 @@ Criipto _does not_ store the SSN itself, just the fact that the user has granted
 
 ### Configuration
 
-You can use the Criipto management dashboard [dashboard.criipto.com](https://dashboard.criipto.com/providers/NO_BANKID) to configure access to the optional user data, in the **Identity Sources** -> **NO BankID** section.
+You can use the [Idura Dashboard](https://dashboard.criipto.com/providers/NO_BANKID) to configure access to the optional user data, in the **Identity Sources** -> **NO BankID** section.
 
 ## Signing text
 
@@ -205,7 +205,7 @@ Text signing is triggered by using the `action` and `message` parameters [via lo
 
 _Note: Signing produces very large JWTs that are not appropriate for authentication/Bearer header use_
 
-Text signing has a different eID cost than authentication, please [contact Criipto sales](https://www.criipto.com/contact) if you have questions.
+Text signing has a different eID cost than authentication, please [contact Idura sales](https://www.criipto.com/contact) if you have questions.
 
 <details>
   <summary><strong>Example</strong></summary>
@@ -248,7 +248,7 @@ BankID Biometrics assurance level is “Substantial”.
 
 [Learn more about assurance levels](https://ec.europa.eu/digital-building-blocks/wikis/display/DIGITAL/eIDAS+Levels+of+Assurance).
 
-If you can only use assurance level “High” in your login flow, you must explicitly specify the [login_hint=BID](/verify/guides/prefilled-fields/) in your authorize requests to Criipto Verify. _Please note that using `login_hint=BID` will disable biometrics in the BankID app._
+If you can only use assurance level “High” in your login flow, you must explicitly specify the [login_hint=BID](/verify/guides/prefilled-fields/) in your authorize requests to Idura Verify. _Please note that using `login_hint=BID` will disable biometrics in the BankID app._
 
 ### Modifying user flows
 
@@ -318,7 +318,7 @@ with answers to these questions:
 6. Contact person with authorization to receive the client credentials and client secret: _Name, mobile phone, and email_.
 7. Contact person with authorization to block/revoke the use of BankID: _Name, mobile phone, and email_.
 8. The display name to appear in the login app. E.g. the name of your company or your specific service (see the image below).
-9. The URL of your Criipto Verify production domain as setup in step 4 of the [Getting ready for production](/verify/guides/production) guide.
+9. The URL of your Idura Verify production domain as setup in step 4 of the [Getting ready for production](/verify/guides/production) guide.
 10. If you need access to social security numbers (“fødselsnummer”) please provide a thorough explanation of why and reference the Norwegian law and paragraph that grants you the right to receive them. If SSN is needed, then the reference to the Norwegian Law and Paragraph is mandatory.
 11. Finally - if you are not a Norwegian company - you must enclose a company certificate from the official business registry of the country of incoporation.
 
@@ -326,8 +326,8 @@ with answers to these questions:
 
 ### Next steps
 
-After Criipto has received the above information, we order the client credntials from your bank by filling out an online agreement, which is then sent to the appointed persons at your company for signing. Criipto will also sign the agreement.
+After Idura has received the above information, we order the client credntials from your bank by filling out an online agreement, which is then sent to the appointed persons at your company for signing. Idura will also sign the agreement.
 
 When all signatures are in place the signed agreement is sent to your bank for further processing and eventual issuance of your client credentials.
 
-Once you have received credentials, they must be entered into the Criipto Verify management UI to configure your NO BankID integration.
+Once you have received credentials, they must be entered into the Idura Verify management UI to configure your NO BankID integration.

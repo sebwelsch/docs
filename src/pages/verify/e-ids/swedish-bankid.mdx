@@ -100,7 +100,7 @@ The example above demonstrates what it looks like when the customer is calling t
 
 ### The underlying CIBA flow
 
-Criipto Verify facilitates Swedish BankID phone authentication via the [CIBA flow](/verify/getting-started/oidc-intro/#authenticate-with-ciba).
+Idura Verify facilitates Swedish BankID phone authentication via the [CIBA flow](/verify/getting-started/oidc-intro/#authenticate-with-ciba).
 
 ### Implementing BankID Phone Authentication
 
@@ -110,12 +110,12 @@ The CIBA flow is only available to traditional server-based web applications (co
 
 ```sh
 # Replace `$client_assertion` with your JWT assertion
-# Replace `YOUR_DOMAIN.criipto.id` with your Criipto domain
+# Replace `YOUR_DOMAIN.idura.broker` with your Idura domain
 # Replace `SSN` with a valid Swedish BankID SSN
 # Replace `BINDING_MESSAGE` with the text that will be presented to the end user
 # `callInitiator` must be either "RP"("Relying Party", e.g. a customer service agent) or "user", depending on who initiated the call.
 
-HTTP POST https://YOUR_DOMAIN.criipto.id/ciba/bc-authorize
+HTTP POST https://YOUR_DOMAIN.idura.broker/ciba/bc-authorize
 Content-Type: application/x-www-form-urlencoded
 
 scope=openid
@@ -143,7 +143,7 @@ scope=openid
 # Replace `AUTH_REQ_ID` with the id returned by authentication response
 # Replace `$client_assertion` with your JWT assertion
 
-HTTP POST https://YOUR_DOMAIN.criipto.id/oauth2/token
+HTTP POST https://YOUR_DOMAIN.idura.broker/oauth2/token
 Content-Type: application/x-www-form-urlencoded
 
 auth_req_id=AUTH_REQ_ID
@@ -154,7 +154,7 @@ auth_req_id=AUTH_REQ_ID
 
 _**Polling Frequency:** Bear in mind, that the authentication process requires interacting multiple times with the end-user, so the identification process could take some time. Consequently, the token endpoint should be polled every 5 seconds._
 
-_**Token Delivery Modes:** CIBA allows three token delivery methods: Poll, Ping and Push. Criipto Verify only supports the Poll mode at the moment._
+_**Token Delivery Modes:** CIBA allows three token delivery methods: Poll, Ping and Push. Idura Verify only supports the Poll mode at the moment._
 
 4. The result of a poll request will depend on the state of the process:
 
@@ -219,7 +219,7 @@ For instance you could render the QR flow in your own website, or trigger app2ap
 
 ### The underlying Headless flow
 
-Criipto Verify facilitates Swedish BankID headless authentication via the [Headless flow](/verify/getting-started/oidc-intro/#authenticate-headless).
+Idura Verify facilitates Swedish BankID headless authentication via the [Headless flow](/verify/getting-started/oidc-intro/#authenticate-headless).
 
 ### Implementing BankID Headless Authentication
 
@@ -229,9 +229,9 @@ The Headless flow is only available to traditional server-based web applications
 
 ```sh
 # Replace `$client_assertion` with your JWT assertion
-# Replace `YOUR_DOMAIN.criipto.id` with your Criipto domain
+# Replace `YOUR_DOMAIN.idura.broker` with your Idura domain
 
-HTTP POST https://YOUR_DOMAIN.criipto.id/headless/authorize
+HTTP POST https://YOUR_DOMAIN.idura.broker/headless/authorize
 Content-Type: application/x-www-form-urlencoded
 
 scope=openid
@@ -261,7 +261,7 @@ scope=openid
 # Replace `HEADLESS_REQ_ID` with the id returned by authentication response
 # Replace `$client_assertion` with your JWT assertion
 
-HTTP POST https://YOUR_DOMAIN.criipto.id/oauth2/token
+HTTP POST https://YOUR_DOMAIN.idura.broker/oauth2/token
 Content-Type: application/x-www-form-urlencoded
 
 headless_req_id=HEADLESS_REQ_ID
@@ -321,7 +321,7 @@ Text signing is triggered by using the `action` and `message` parameters [via lo
 
 _Note: Signing produces very large JWTs that are not appropriate for authentication/Bearer header use_
 
-Text signing has a different eID cost than authentication, please [contact Criipto sales](https://www.criipto.com/contact) if you have questions.
+Text signing has a different eID cost than authentication. If you have questions, please [contact sales](https://www.criipto.com/contact).
 
 <details>
   <summary><strong>Example</strong></summary>
@@ -341,7 +341,7 @@ which they will then embed in the `evidence` claim after a flow completes succes
 
 You can supply this value via a `nonVisibleData` parameter in the `login_hint`.
 The supplied value _must be_ base64 encoded.
-Criipto does not attempt to parse or validate the value, we only pass on what is given to the native provider API.
+Idura does not attempt to parse or validate the value, we only pass on what is given to the native provider API.
 
 <details>
   <summary><strong>Example</strong></summary>
@@ -356,7 +356,7 @@ Try out the example in [our URL builder](/verify/guides/authorize-url-builder/?a
 
 To start accepting real users with Swedish BankID, you must first request a certificate to identify your organization.
 
-Criipto acts as a reseller for Swedbank, which means that you will have to go through a simple approval process with Swedbank. The process is managed by Criipto.
+Idura acts as a reseller for Swedbank, which means that you will have to go through a simple approval process with Swedbank. The process is managed by Idura.
 
 import template from './files/swedbank-verksamhetsinfo-bankid-template.pdf';
 
@@ -364,6 +364,6 @@ To order the actual certificate simply <a href={template} download>download this
 
 ## Next steps
 
-After Criipto has received the filled out form, we send it to Swedbank where it will be reviewed and typically approved within a few business days.
+After Idura has received the filled out form, we send it to Swedbank where it will be reviewed and typically approved within a few business days.
 
-Once your organization and your intended use of BankID has been approved we will create and install the actual certificate in your Criipto tenant. and you will be ready to continue the process in the [getting ready for production guide](/verify/guides/production).
+Once your organization and your intended use of BankID has been approved, we will create and install the actual certificate in your Idura tenant. You will then be ready to proceed with the steps outlined in the [Getting ready for production guide](/verify/guides/production).

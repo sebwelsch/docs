@@ -3,42 +3,39 @@ product: verify
 category: Integrations
 sort: 3
 title: Okta
-subtitle: This tutorial demonstrates how to integrate Criipto Verify with Okta
+subtitle: This tutorial demonstrates how to integrate Idura Verify with Okta
 ---
 
-This tutorial demonstrates how to integrate Criipto Verify with Okta. The following steps are required to complete your first login:
+This tutorial demonstrates how to integrate Idura Verify with Okta. The following steps are required to complete your first login:
 
-1. [Register your Okta tenant in Criipto Verify](#register-your-okta-tenant-in-criipto-verify)
+1. [Register your Okta tenant in Idura Verify](#register-your-okta-tenant-in-idura-verify)
 2. [Configure your OAuth2 flow](#configure-the-oauth2-code-flow)
-3. [Create Criipto Verify identity provider in Okta](#create-okta-identity-provider)
+3. [Create Idura Verify identity provider in Okta](#create-okta-identity-provider)
 4. [Integrate your application with Okta](#integrate-your-own-application-with-okta)
 
-In the following you will be configuring first Criipto Verify, then Okta.
-Once configured you may test that everything works from Okta.
+In the following you will be configuring first Idura Verify, then Okta.
+Once configured, you may test that everything works from Okta.
 
-The setup requires a bit of switching back-and-forth between Criipto and Okta's respective management dashboards, so we recommend that you have them open simultaneously to make the process really smooth.
+The setup requires a bit of switching back-and-forth between Idura and Okta's respective management dashboards, so we recommend that you have them open simultaneously to make the process really smooth.
 
 Before you get started, you will need the following information:
 
-- The callback URL for your Okta tenant - this will depend on the DNS name you use in Okta for running your logins. The value will probably look something like `https://your-company-name.okta.com/oauth2/v1/authorize/callback`, but check your Okta settings to make sure. We have used `criipto-samples` as a replacement for `your-company-name` in this tutorial.
+- The callback URL for your Okta tenant - this will depend on the DNS name you use in Okta for running your logins. The value might look something like `https://your-company-name.okta.com/oauth2/v1/authorize/callback`, but check your Okta settings to make sure. We'll use `acme-corp` as a replacement for `your-company-name` in this tutorial.
 - _[Optional]_ The `post_logout_redirect_url` for your Okta tenant.
 
-## Register your Okta tenant in Criipto Verify
+## Register your Okta tenant in Idura Verify
 
-First, you must register your Okta tenant as an application in Criipto Verify.
-
-Once you register your Okta tenant, you will also need some of the information for configuring Okta to communicate with Criipto Verify. You get these details from the settings of the application in the dashboard.
-
-Specifically you need the following information to integrate with Okta:
-
-- _Client ID_ to identify your Okta tenant to Criipto Verify. In the case below we chose `urn:criipto:verify`
-- _Domain_ on which you will be communicating with Criipto Verify. Could be for example `samples.criipto.id`
-- _Client secret_ which Okta needs to fetch actual user information from Criipto Verify during login.
-  The secret is generated and copied as described further down.
+First, create a new [application](/verify/getting-started/basics/#applications) for your Okta tenant in Idura Verify. This is done via the [Idura Dashboard](https://dashboard.criipto.com/applications/add?tags=authentications).
 
 ![Register Application](./images/okta-register-application.png)
 
-If you plan on using single-signon, you must also register your Okta `post_logout_redirect_url` here so you can run single-logouts.
+Once the application is created, you'll need some of its details for configuring Okta to communicate with Idura Verify. Gather the following information from the application settings:
+
+- **Client ID** to identify your Okta tenant to Idura Verify. We chose `urn:idura:samples:okta` for this example.
+- **Domain** on which you will be communicating with Idura Verify. We used `acme-corp.idura.broker`.
+- **Client secret** which Okta needs to fetch actual user information from Idura Verify during login. The secret is generated when you [configure the OAuth2 code flow](/verify/integrations/okta/#configure-the-oauth2-code-flow) for your application.
+
+If you plan on using [single sign-on](/verify/guides/sso/), you must also register your Okta `post_logout_redirect_url` as a redirect URL in your Idura application, so you can run single logouts.
 
 ## Configure the OAuth2 code flow
 
@@ -46,39 +43,35 @@ import OAuth2CodeFlowSnippet from '../../../snippets/oauth2-code-flow.mdx';
 
 <OAuth2CodeFlowSnippet />
 
-## Create Okta identity provider
-
-Make sure you are in `Classic UI` mode, and click on the `Security -> Identity Providers` item.
-
-![Identity Providers](./images/okta-identity-providers.png)
-
-and click on the `Add Identity Provider` button, select `OIDC` for protocol.
-
-![Add identity provider](./images/okta-add-identity-provider.png)
-
-Select `Add OpenID Connect IdP`
-
-![OIDC](./images/okta-add-oidc-identityprovider.png)
-
-Fill in the form with values for you Criipto Verify application, similar to the following example
-
-![Example identity provider](./images/okta-add-criipto-verify-example-identityprovider.png)
-
-Given the values above, and assuming that your Criipto Verify domain is `acme-corp.criipto.id` you must add
-
-1. _Client ID_: `urn:criipto:verify` (if you have set a different value in your Criipto Verify `Client ID/Realm`, use that value instead here - they must match)
-2. _Client Secret_: The secret generated for you by Criipto Verify during the `OAuth code flow` setup
-3. _Scopes_: `openid` will suffice
-4. _Issuer_: `https://acme-corp.criipto.id`
-5. _Authorization endpoint_: `https://acme-corp.criipto.id/oauth2/authorize?acr_values=urn:grn:authn:se:bankid`
-6. _Token endpoint_: `https://acme-corp.criipto.id/oauth2/token`
-7. _JWKS endpoint_: `https://acme-corp.criipto.id/.well-known/jwks`
-
-The _Name_ is entirely up to you, and you don't have to specify the optional _Userinfo endpoint_ if you at the same time ensure that you configure your Criipto Verify application to use `fromTokenEndpoint` in the `User info response strategy` dropdown.
+### Add a new Identity Provider in Okta
 
 <Highlight icon="file-lines">
 
-This setup assumes you are looking to authenticate your users with the Swedish BankID. If you have other needs, replace the value of the `acr_values` parametery in the _Authorization endpoint_, or set up several _Identity Providers_ in your Okta tenant - see below for a list of all supported values.
+These steps are based on [Okta developer documentation](https://developer.okta.com/docs/guides/add-an-external-idp/openidconnect/configure-idp-in-okta/) for configuring an OIDC Identity Provider.
+
+</Highlight>
+
+1. In your Okta Admin Console, go to **Security** > **Identity Providers**.
+2. Select **Add Identity Provider**, then select **OpenID Connect IdP**. Click **Next**.
+3. Fill in the **Configure OpenID Connect IdP** form similar to the following example:
+
+![Example identity provider](./images/okta-add-idura-verify-example-identityprovider.png)
+
+Assuming that your Idura Verify domain is `acme-corp.idura.broker`, configure the fields as follows:
+
+1. **Name**: A name for Idura Verify identity provider. It's entirely up to you.
+2. **Scopes**: `openid` will suffice.
+3. **Client ID**: `urn:idura:samples:okta` (the **Client ID/Realm** value from your Idura Verify application).
+4. **Client Secret**: The secret generated for you by Idura Verify during the [OAuth2 code flow](/verify/integrations/okta/#configure-the-oauth2-code-flow) setup.
+5. **Issuer**: `https://acme-corp.idura.broker/` (the Idura domain your application is registered on).
+6. **Authorization endpoint**: `https://acme-corp.idura.broker/oauth2/authorize?acr_values=urn:grn:authn:dk:mitid:substantial`
+7. **Token endpoint**: `https://acme-corp.idura.broker/oauth2/token`
+8. **JWKS endpoint**: `https://acme-corp.idura.broker/.well-known/jwks`
+9. **Userinfo endpoint**: `https://acme-corp.idura.broker/oauth2/userinfo`; If you specify the optional **Userinfo endpoint**, make sure your Idura Verify application [user info response strategy](/verify/integrations/okta/#configure-the-oauth2-code-flow) is set to `plainJson`.
+
+<Highlight icon="file-lines">
+
+This setup assumes you are planning to authenticate your users with the [Danish MitID](/verify/e-ids/danish-mitid/). If you need other eIDs, replace the value of the `acr_values` parameter in the **Authorization endpoint**, or set up several **Identity Providers** in your Okta tenant - see below for a list of supported values.
 
 </Highlight>
 
@@ -87,12 +80,6 @@ This setup assumes you are looking to authenticate your users with the Swedish B
 import LoginMethodsSnippet from '../../../snippets/login-methods.mdx';
 
 <LoginMethodsSnippet />
-
-<Highlight icon="file-lines">
-
-You can [find more details here](https://developer.okta.com/docs/guides/add-an-external-idp/openidconnect/configure-idp-in-okta/)
-
-</Highlight>
 
 ### Test users
 

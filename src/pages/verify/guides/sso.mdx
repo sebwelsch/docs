@@ -3,20 +3,20 @@ product: verify
 category: Guides & Tools
 sort: 0
 title: Single Sign-on
-subtitle: How to control the session behavior of your Criipto Verify domain
+subtitle: How to control the session behavior of your Idura Verify domain
 ---
 
-Enabling Single Sign-On, SSO, for a Criipto Verify domain will let your users get access to several of your systems with a minimum of effort. They will only be prompted for a login once per browsing session when you are using SSO. Subsequent authentication requests on the same domain (and for the same eID method) will be completed automatically by Criipto Verify, thereby reducing the UX friction.
+Enabling Single Sign-On, SSO, for an Idura Verify domain will let your users get access to several of your systems with a minimum of effort. They will only be prompted for a login once per browsing session when you are using SSO. Subsequent authentication requests on the same domain (and for the same eID method) will be completed automatically by Idura Verify, thereby reducing the UX friction.
 
 <Highlight icon="file-lines">
 
-The session information needed to maintain an SSO session is maintained in `HTTP-only`, `Secure` cookies, created with `SameSite=None`. This means that the session can be established and maintained even if your users access your Criipto Verify domain in third-party context. Cookies and therefore also the SSO session is tied to a single Criipto Verify domain.
+The session information needed to maintain an SSO session is maintained in `HTTP-only`, `Secure` cookies, created with `SameSite=None`. This means that the session can be established and maintained even if your users access your Idura Verify domain in third-party context. Cookies and therefore also the SSO session is tied to a single Idura Verify domain.
 
 </Highlight>
 
 ## How to enable Single Sign-on
 
-You enable and disable `SSO` per DNS domain through the management dashboard for Criipto Verify. Go to the `Domains` tab on [dashboard.criipto.com](https://dashboard.criipto.com/domains) and click on the domain you choose for SSO. The following options are available:
+You enable and disable `SSO` per DNS domain through the management dashboard for Idura Verify. Go to the `Domains` tab on [dashboard.criipto.com](https://dashboard.criipto.com/domains) and click on the domain you choose for SSO. The following options are available:
 
 ![Single Sign-On Settings](./images/sso-settings-for-domain.png)
 
@@ -24,7 +24,7 @@ You enable and disable `SSO` per DNS domain through the management dashboard for
 
 You can tweak this behavior on a per-authentication-request basis by specifying an additional query parameter in the request for authentication. There are 2 options:
 
-- **Silent check**: Check if the user has an existing session. Criipto Verify will never require any user interactions in this case. You specify this by adding an extra query parameter `prompt=none`
+- **Silent check**: Check if the user has an existing session. Idura Verify will never require any user interactions in this case. You specify this by adding an extra query parameter `prompt=none`.
 - **Forced login**: Ignore an existing session and force a new login. You specify this option by adding an extra query parameter `prompt=login`.
 
 If you send a `prompt=none` and the user has no session, an error response will be sent back to your supplied callback URL with an `error=login_required` value.

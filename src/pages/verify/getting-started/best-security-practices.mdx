@@ -11,13 +11,13 @@ In OpenID Connect(OIDC) authentication flows, there are two main roles:
 1. **Authorization Server (OpenID Provider)**: the server that authenticates the user and issues ID tokens and access tokens. It handles user authentication and returns the user’s identity information to the client application.
 2. **Client Application**: the application requesting authentication on behalf of the end user.
 
-Criipto Verify is an OpenID Provider, handling most of the process. However, it is important for developers of client applications to also follow security best practices.
+Idura Verify is an OpenID Provider, handling most of the process. However, it is important for developers of client applications to also follow security best practices.
 
 ## Authorization Code Flow
 
 The most secure method of performing OIDC authentication is the [Authorization Code Flow](/verify/getting-started/oidc-intro/#authenticate-with-back-channel-authorization-code-flow), or its extended version — [Authorization Code Flow with PKCE](/verify/getting-started/oidc-intro/#authenticate-with-pkce).
 
-In the Authorization Code Flow, the client application exchanges an authorization code for tokens at the token endpoint. When using Criipto Verify for eID authentication: After the end user successfully logs in with their [eID](/verify/e-ids) and is redirected back to the client application through the redirect URL, the client application retrieves the authorization code from the URL. The client application then uses this code to request an ID token from Criipto Verify (see [code for token exchange](/verify/getting-started/oidc-intro/#exchange-the-code-for-a-token)).
+In the Authorization Code Flow, the client application exchanges an authorization code for tokens at the token endpoint. When using Idura Verify for eID authentication: After the end user successfully logs in with their [eID](/verify/e-ids) and is redirected back to the client application through the redirect URL, the client application retrieves the authorization code from the URL. The client application then uses this code to request an ID token from Idura Verify (see [code for token exchange](/verify/getting-started/oidc-intro/#exchange-the-code-for-a-token)).
 
 The Authorization Code Flow enhances security by mitigating replay attempts by attackers (when an attacker tries to reuse a valid intercepted token) and generally reduces the attack surface since ID tokens are not exposed in URLs.
 
@@ -59,19 +59,19 @@ Overall, the `state` parameter allows the client application to verify that the 
 
 ## Always validating JWTs
 
-Upon successful user authentication, Criipto Verify will issue an **[ID token](/verify/getting-started/token-contents/)** to the client application. `id_token` contains user authentication information in the form of a JSON Web Token (JWT).
+Upon successful user authentication, Idura Verify will issue an **[ID token](/verify/getting-started/token-contents/)** to the client application. `id_token` contains user authentication information in the form of a JSON Web Token (JWT).
 However, receiving a JWT is not enough - your application must also [validate it](/verify/getting-started/oidc-intro/#validate-the-jwt). Without validation, there’s no guarantee that the token hasn’t been tampered with or forged.
 
 _Note: `id_token` must be validated, even if using the `/userInfo` endpoint for personal data._
 
-**Best practice:** Always delegate token validation to trusted libraries like <a href='https://github.com/panva/jose' target="_blank">jose</a> or choose one of [Criipto's integrations](/verify/integrations). Libraries like these handle all the complexities involved in checking JWT signatures, token expiration, etc. Manual validation should be avoided.
+**Best practice:** Always delegate token validation to trusted libraries like <a href='https://github.com/panva/jose' target="_blank">jose</a> or choose one of [Idura's integrations](/verify/integrations). Libraries like these handle all the complexities involved in checking JWT signatures, token expiration, etc. Manual validation should be avoided.
 More information on how JWT validation works is available in our <a href='https://www.criipto.com/blog/jwt-validation-guide' target="_blank">JWT validation guide</a>.
 
 ## Client authentication
 
 For client authentication, it is recommended to use asymmetric cryptography, such as [Private Key JWTs](/verify/guides/privatekey-jwt/). This provides stronger security compared to symmetric key methods.
 
-When using asymmetric cryptography, authorization servers do not need to store sensitive symmetric keys, reducing the risk of key leakage. Additionally, key rotation is simplified because you can provide a JWT keys set in a URL, allowing Criipto Verify to dynamically fetch the updated keys.
+When using asymmetric cryptography, authorization servers do not need to store sensitive symmetric keys, reducing the risk of key leakage. Additionally, key rotation is simplified because you can provide a JWT keys set in a URL, allowing Idura Verify to dynamically fetch the updated keys.
 
 **Best practice:** Use Private Key JWTs for client authentication to enhance security and simplify key management.
 

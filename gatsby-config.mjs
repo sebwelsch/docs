@@ -22,7 +22,7 @@ const adapter = netlify.default;
 const config = {
   siteMetadata: {
     siteUrl: 'https://docs.criipto.com',
-    title: 'Criipto Documentation for Verify and Signatures',
+    title: 'Idura Documentation for Verify and Signatures',
   },
   adapter: adapter({
     excludeDatastoreFromEngineFunction: false,
@@ -66,13 +66,13 @@ const config = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: 'Criipto Documentation',
-        short_name: 'Criipto Docs',
+        name: 'Idura Documentation',
+        short_name: 'Idura Docs',
         start_url: '/',
         background_color: '#204c82',
         theme_color: '#204c82',
         display: 'browser',
-        icon: 'src/images/icon.png',
+        icon: 'src/images/idura-brandmark.svg',
       },
     },
     {

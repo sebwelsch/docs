@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useReducer } from 'react';
 import cx from 'classnames';
 
 import DefaultLayout from './default';
@@ -16,8 +16,31 @@ export default function MdxLayout(props: {
   const page = pages.nodes.find(s => `/${s.fields.slug}/` === props.path);
   const isEmbedded = props.pageContext?.isEmbedded;
 
+  const [isIduraBannerVisible, setIsIduraBannerVisible] = useReducer(
+    (_: boolean, newVal: boolean) => {
+      if (typeof window === 'undefined') return false;
+      // window.localStorage.setItem('iduraBannerVisible', JSON.stringify(newVal));
+      return newVal;
+    },
+    false,
+    // typeof window !== 'undefined'
+    //   ? localStorage.getItem('iduraBannerVisible') !== 'false'
+    //     ? true
+    //     : false
+    //   : false,
+  );
+
+  const handleCloseBanner = () => {
+    setIsIduraBannerVisible(false);
+  };
+
   return (
-    <DefaultLayout {...props} pageNavigationItems={page?.tableOfContents?.items}>
+    <DefaultLayout
+      {...props}
+      pageNavigationItems={page?.tableOfContents?.items}
+      isIduraBannerVisible={isIduraBannerVisible}
+      onCloseBanner={handleCloseBanner}
+    >
       <div
         className={cx('relative z-20 prose max-w-none', {
           'pb-48': !isEmbedded,
@@ -25,7 +48,13 @@ export default function MdxLayout(props: {
       >
         <CustomMDXProvider>{props.children}</CustomMDXProvider>
       </div>
-      <DesktopPageNavigation isEmbedded={isEmbedded} items={page?.tableOfContents.items ?? []} />
+      {/*right-side navigation*/}
+      <DesktopPageNavigation
+        isEmbedded={isEmbedded}
+        items={page?.tableOfContents.items ?? []}
+        isIduraBannerVisible={isIduraBannerVisible}
+        onCloseBanner={handleCloseBanner}
+      />
     </DefaultLayout>
   );
 }

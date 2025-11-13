@@ -815,7 +815,7 @@ export default function AuthorizeURLBuilder(props: {
               ))}
             </select>
             <small>
-              Setting action will change header texts on Criipto pages and also the action text
+              Setting action will change header texts on Idura pages and also the action text
               inside the MitID login box.
             </small>
           </div>

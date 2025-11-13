@@ -3,32 +3,29 @@ product: verify
 category: Integrations
 sort: 3
 title: Auth0
-subtitle: This tutorial demonstrates how to integrate Criipto Verify with Auth0.
+subtitle: This tutorial demonstrates how to integrate Idura Verify with Auth0.
 ---
 
-This tutorial demonstrates how to integrate Criipto Verify with Auth0. The following steps are required to complete your first login:
+This tutorial demonstrates how to integrate Idura Verify with Auth0. The following steps are required to complete your first login:
 
-1. [Register your Auth0 tenant in Criipto Verify](#register-your-auth0-tenant-in-criipto-verify)
+1. [Register your Auth0 tenant in Idura Verify](#register-your-auth0-tenant-in-idura-verify)
 2. [Configure OAuth2 Code Flow](#configure-the-oauth2-code-flow)
 3. [Create Auth0 connections](#create-auth0-connections)
 4. [Integrate your application with Auth0](#integrate-your-application-with-auth0)
 
-In the following, you'll first configure Criipto Verify, then Auth0, and finally complete the Criipto Verify configuration with the information you get from Auth0. Once everything's configured, you can test your integration from Auth0.
+In the following, you'll first configure Idura Verify, then Auth0, and finally complete the Idura Verify configuration with the information you get from Auth0. Once everything's configured, you can test your integration from Auth0.
 
-## Register your Auth0 tenant in Criipto Verify
+## Register your Auth0 tenant in Idura Verify
 
-First, you must register your Auth0 tenant as an [application](/verify/getting-started/basics/#applications) in Criipto Verify.
+First, create a new [application](/verify/getting-started/basics/#applications) for your Auth0 tenant in Idura Verify. This is done via the [Idura Dashboard](https://dashboard.criipto.com/applications/add?tags=authentications).
 
-Once you register your Auth0 tenant, you will also need some of the information for configuring Auth0 to communicate with Criipto Verify. You get these details from your application settings in the dashboard.
+![Register Application](./images/auth0-register-application.png)
 
-Specifically, you need the following information to integrate with Auth0:
+Once the application is created, you'll need some of its details for configuring Auth0 to communicate with Idura Verify. Gather the following information from the application settings:
 
-- _Client ID_ to identify your Auth0 tenant to Criipto Verify. In the case below, we chose `urn:criipto:samples:myapplication:no1`
-- _[Domain](/verify/getting-started/basics/#domains)_ on which you will be communicating with Criipto Verify. It could be, for example, `samples.criipto.io`
-- _Client secret_ is needed if you choose the [back-channel](/verify/getting-started/oidc-intro/#authenticate-with-back-channel-authorization-code-flow) approach.
-  The secret is generated when you [configure OAuth2 Code Flow](/verify/integrations/auth0/#configure-oauth2-code-flow).
-
-![Register App](./images/register-app.png)
+- **Client ID** to identify your Auth0 tenant to Idura Verify. We chose `urn:idura:samples:auth0` for this example.
+- **Domain** on which you will be communicating with Idura Verify. If your company name is Acme Corp, it could be, for example, `acme-corp.idura.broker`.
+- **Client secret** is needed if you choose the [back-channel](/verify/getting-started/oidc-intro/#authenticate-with-back-channel-authorization-code-flow) approach. The secret is generated when you [configure OAuth2 Code Flow](/verify/integrations/auth0/#configure-oauth2-code-flow) for your application.
 
 ## Configure OAuth2 Code Flow
 
@@ -38,23 +35,23 @@ import CodeFlowSnippet from '../../../snippets/oauth2-code-flow.mdx';
 
 ## Create Auth0 connections
 
-You can leverage either an [Enterprise Connection](#enterprise-connection), or a [Custom Social Connection](#custom-social-connection) to connect Criipto Verify with Auth0.
+You can leverage either an [Enterprise Connection](#enterprise-connection), or a [Custom Social Connection](#custom-social-connection) to connect Idura Verify with Auth0.
 
 ### Login-method specific endpoints
 
-To integrate Criipto Verify with Auth0, you create an Auth0 OpenID Connect(OIDC) connection to communicate with Criipto Verify. Because Auth0 will not pass the `acr_values` to Criipto Verify, you will have to create a new connection for every eID option that you intend to use. (`acr_values` is a parameter in the `/authorize` request to Criipto Verify needed to specify which kind of eID is requested).
+To integrate Idura Verify with Auth0, you create an Auth0 OpenID Connect(OIDC) connection to communicate with Idura Verify. Because Auth0 will not pass the `acr_values` to Idura Verify, you will have to create a new connection for every eID option that you intend to use. (`acr_values` is a parameter in the `/authorize` request to Idura Verify needed to specify which kind of eID is requested).
 
 For those cases, you can leverage our login-method specific metadata endpoints (for [Enterprise Connections](#enterprise-connection)) and authorize URLs (for [Custom Social Connections](#custom-social-connection)). Each of these contain an embedded and base64-encoded variant of the "raw" value normally supplied in the `acr_values`.
 
 Syntax:
 
-- Issuer metadata endpoint: `https://yourdomain.criipto.id/BASE64(acr_values)/.well-known/openid-configuration`
-- Authorize URL: `https://yourdomain.criipto.id/BASE64(acr_values)/oauth2/authorize`
+- Issuer metadata endpoint: `https://yourdomain.idura.broker/BASE64(acr_values)/.well-known/openid-configuration`
+- Authorize URL: `https://yourdomain.idura.broker/BASE64(acr_values)/oauth2/authorize`
 
 For example, the `acr_values` of Norwegian BankID login method is `urn:grn:authn:no:bankid`. This translates to `dXJuOmdybjphdXRobjpubzpiYW5raWQ=` in base64 (UTF-8 charset), so the syntax will be:
 
-- Issuer metadata endpoint: `https://yourdomain.criipto.id/dXJuOmdybjphdXRobjpubzpiYW5raWQ=/.well-known/openid-configuration`
-- Authorize URL: `https://yourdomain.criipto.id/dXJuOmdybjphdXRobjpubzpiYW5raWQ=/oauth2/authorize`
+- Issuer metadata endpoint: `https://yourdomain.idura.broker/dXJuOmdybjphdXRobjpubzpiYW5raWQ=/.well-known/openid-configuration`
+- Authorize URL: `https://yourdomain.idura.broker/dXJuOmdybjphdXRobjpubzpiYW5raWQ=/oauth2/authorize`
 
 #### Choose the specific login method
 
@@ -68,7 +65,7 @@ import LoginMethodsSnippet from '../../../snippets/login-methods-and-path-encode
 
 ### Enterprise Connection
 
-You can connect Auth0 to Criipto Verify by creating an OIDC Enterprise Connection. You create an OIDC connection for [every login method](#login-method-specific-endpoints) you intend to use.
+You can connect Auth0 to Idura Verify by creating an OIDC Enterprise Connection. You create an OIDC connection for [every login method](#login-method-specific-endpoints) you intend to use.
 
 #### Create the OIDC connection(s)
 
@@ -76,15 +73,15 @@ You can connect Auth0 to Criipto Verify by creating an OIDC Enterprise Connectio
 2. Select **OpenID Connect** and create a new connection.
 3. Enter **Connection name**.
 4. Under **Issuer URL** enter the login-method specific URL, as described [above](#login-method-specific-endpoints).
-5. Under **Client ID** enter the **Client ID/Realm** from your Criipto Verify application.
-6. Copy the **Callback URL** generated by Auth0 and enter it under **Callback URLs** in Criipto Verify application management.
+5. Under **Client ID** enter the **Client ID/Realm** from your Idura Verify application.
+6. Copy the **Callback URL** generated by Auth0. In your Idura dashboard, open the General tab of your application settings and paste this URL into the **Redirect URLs** field.
 7. Back in the Auth0 dashboard, create a connection by clicking **Create**.
 8. After the connection is created, go to the **Settings** tab.
 9. Choose _Front Channel_ or _Back Channel_ as a **Type**, depending on how you intend to integrate it with your application.
 
 - you should choose _Front Channel_ only if you are developing a pure SPA application. Otherwise, choose _Back Channel_.
 
-10. If you chose _Back Channel_ as a **Type**, enter the **Client Secret** generated by Criipto Verify when you enabled the OAuth2 Code Flow.
+10. If you chose _Back Channel_ as a **Type**, enter the **Client Secret** generated by Idura Verify when you enabled the OAuth2 Code Flow.
 11. Select **Save Changes**.
 12. Make sure to enable the created connection for your Auth0 application.
 
@@ -92,7 +89,7 @@ You can connect Auth0 to Criipto Verify by creating an OIDC Enterprise Connectio
 
 After you save a connection, you may get an error: "Error! Something happened while trying to save your connection: Issuer metadata missing the following attributes: token_endpoint".
 
-This is due to a bug in Auth0's frontend, nothing to worry about. In this case, under the **Issuer URL** select **Show Issuer Details** and under **Token Endpoint** enter `https://<YOUR COMPANY>.criipto.id/oauth2/token`
+This is due to a bug in Auth0's frontend, nothing to worry about. In this case, under the **Issuer URL** select **Show Issuer Details** and under **Token Endpoint** enter `https://<YOUR COMPANY>.idura.broker/oauth2/token`
 
 </Highlight>
 
@@ -108,24 +105,24 @@ To test your OpenID Connect connection, go back to the list of all OpenID Connec
 
 ### Custom Social Connection
 
-Alternatively, you can leverage a <a href="https://auth0.com/docs/authenticate/identity-providers/social-identity-providers/oauth2" target="_blank">Custom Social Connection</a> to integrate with Criipto Verify via OpenID Connect. Create an OIDC connection for [every login method](#login-method-specific-endpoints) you intend to use.
+Alternatively, you can leverage a <a href="https://auth0.com/docs/authenticate/identity-providers/social-identity-providers/oauth2" target="_blank">Custom Social Connection</a> to integrate with Idura Verify via OpenID Connect. Create an OIDC connection for [every login method](#login-method-specific-endpoints) you intend to use.
 
 #### Create the OIDC connection(s)
 
 1. Go to Auth0 dashboard for your tenant and under **Authentication** choose **Social**.
 2. Select **Create Connection**, go to the bottom of the list, then choose **Create Custom**.
 3. Enter **Connection name**.
-4. Under **Authorization URL** enter a [login-method specific](#login-method-specific-endpoints) [authorize URL](https://docs.criipto.com/verify/guides/authorize-url-builder/) to which your users will be redirected to log in to your application, e.g. `https://yourdomain.criipto.id/dXJuOmdybjphdXRobjpubzpiYW5raWQ=/oauth2/authorize?scope=openid&client_id=urn:criipto:samples:no1&redirect_uri=https://jwt.io&response_type=code`
-5. Under **Token URL**, enter your token endpoint: `https://yourdomain.criipto.id/oauth2/token`
-6. Under **Client ID** enter the **Client ID/Realm** from your Criipto Verify application.
-7. Under **Client Secret** enter the **Client Secret** generated by Criipto Verify when you enabled the [OAuth2 Code Flow](##configure–the-oauth2-code-flow).
+4. Under **Authorization URL**, enter a [login-method specific](#login-method-specific-endpoints) [authorize URL](/verify/guides/authorize-url-builder/) to which your users will be redirected to log in to your application, e.g. `https://yourdomain.idura.broker/dXJuOmdybjphdXRobjpubzpiYW5raWQ=/oauth2/authorize?scope=openid&client_id=urn:idura:acme-corp:auth0&redirect_uri=https://jwt.io&response_type=code`
+5. Under **Token URL**, enter your token endpoint: `https://yourdomain.idura.broker/oauth2/token`
+6. Under **Client ID** enter the **Client ID/Realm** from your Idura Verify application.
+7. Under **Client Secret** enter the **Client Secret** generated by Idura Verify when you enabled the [OAuth2 Code Flow](##configure–the-oauth2-code-flow).
 8. Add the required <a href="https://auth0.com/docs/authenticate/identity-providers/social-identity-providers/oauth2#fetch-user-profile-script" target="_blank">Fetch User Profile Script</a> using your `userInfo` endpoint, e.g.:
 
 ```javascript
 function fetchUserProfile(accessToken, context, callback) {
   request.get(
     {
-      url: 'https://yourdomain.criipto.id/oauth2/userinfo',
+      url: 'https://yourdomain.idura.broker/oauth2/userinfo',
       headers: {
         Authorization: 'Bearer ' + accessToken,
       },
@@ -155,7 +152,9 @@ function fetchUserProfile(accessToken, context, callback) {
 
 9. Create a connection by clicking **Create**.
 10. Make sure to enable the created connection for your Auth0 application.
-11. Lastly, add Auth0's callback URL (`https://{yourAuth0Domain}/login/callback`) to your Criipto Verify application. Go to your Criipto Dashboard, and enter the Auth0 Callback URL under **Callback URLs** in Criipto Verify application management.
+11. Lastly, add Auth0's callback URL (`https://{{yourAuth0Domain}}/login/callback`) to the **Redirect URLs** section of your Idura Verify application settings.
+
+![Auth0 Callback URL](./images/auth0-add-callback-url.png)
 
 #### Test the connection
 

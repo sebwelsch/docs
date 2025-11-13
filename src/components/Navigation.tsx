@@ -95,7 +95,7 @@ export default function Navigation(props: Props) {
             className="block mb-3 font-medium text-primary-600 text-lg"
             onClick={props.onLinkClick}
           >
-            Criipto Verify
+            Idura Verify
           </Link>
           <ul className="space-y-2 border-l border-gray-100 text-md font-normal">
             {VERIFY_CATEGORIES.map((category, index) => (
@@ -124,7 +124,7 @@ export default function Navigation(props: Props) {
             className="block mb-3 font-medium text-primary-600 text-lg"
             onClick={props.onLinkClick}
           >
-            Criipto Signatures
+            Idura Signatures
           </Link>
           <ul className="space-y-2 border-l border-gray-100 text-md font-normal">
             {SIGNATURES_CATEGORIES.map((category, index) => (
