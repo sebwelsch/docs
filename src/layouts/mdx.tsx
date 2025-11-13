@@ -18,10 +18,15 @@ export default function MdxLayout(props: {
 
   const [isIduraBannerVisible, setIsIduraBannerVisible] = useReducer(
     (_: boolean, newVal: boolean) => {
-      localStorage.setItem('iduraBannerVisible', JSON.stringify(newVal));
+      if (typeof window === 'undefined') return false;
+      window.localStorage.setItem('iduraBannerVisible', JSON.stringify(newVal));
       return newVal;
     },
-    localStorage.getItem('iduraBannerVisible') !== 'false' ? true : false,
+    typeof window !== 'undefined'
+      ? localStorage.getItem('iduraBannerVisible') !== 'false'
+        ? true
+        : false
+      : false,
   );
 
   const handleCloseBanner = () => {
