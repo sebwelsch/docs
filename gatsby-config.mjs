@@ -21,7 +21,7 @@ const adapter = netlify.default;
  */
 const config = {
   siteMetadata: {
-    siteUrl: 'https://docs.criipto.com',
+    siteUrl: 'https://docs.idura.app',
     title: 'Idura Documentation for Verify and Signatures',
   },
   adapter: adapter({
