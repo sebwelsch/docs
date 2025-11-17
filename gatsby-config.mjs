@@ -46,7 +46,7 @@ const config = {
         },
         {
           key: `Content-Security-Policy`,
-          value: `frame-ancestors 'self' https://dashboard.criipto.com https://dashboard-test.criipto.com https://deploy-preview-*.dashboard-test.criipto.com http://localhost:5001`,
+          value: `frame-ancestors 'self' https://dashboard.criipto.com https://dashboard-test.criipto.com https://deploy-preview-*.dashboard-test.criipto.com https://dashboard.idura.app https://dashboard.int-idura.app https://deploy-preview-*.dashboard.int-idura.app http://localhost:5001`,
         },
       ],
     },
