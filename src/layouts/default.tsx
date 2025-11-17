@@ -52,7 +52,7 @@ export default function DefaultLayout(props: {
       <head>
         <meta charSet="utf-8" />
         {title && <title>{title}</title>}
-        <link rel="canonical" href={`https://docs.criipto.com${props.location.pathname}`} />
+        <link rel="canonical" href={`https://docs.idura.app${props.location.pathname}`} />
         {description && <meta name="description" content={description} />}
       </head>
       <Header path={props.location.pathname} className={isEmbedded ? 'hidden' : ''} />
