@@ -163,3 +163,36 @@ export const createPages: GatsbyNode['createPages'] = ({ actions }) => {
     force: true,
   });
 };
+
+// https://www.gatsbyjs.com/docs/conceptual/data-fetching/#source-data-to-be-queried-at-build-time
+// https://www.gatsbyjs.com/docs/tutorial/creating-a-source-plugin/part-2/#createnode
+export const sourceNodes: GatsbyNode['sourceNodes'] = async ({
+  actions,
+  createContentDigest,
+  createNodeId,
+}) => {
+  const { createNode } = actions;
+
+  const res = await fetch(
+    `https://raw.githubusercontent.com/criipto/idura-verify-android/refs/heads/master/README.md`,
+  );
+  if (!res.ok) {
+    throw new Error(`Fetching idura-verify-android failed`);
+  }
+
+  const data = (await res.text()).replace('# idura-verify-android', '');
+  createNode({
+    // Arbitrary fields, which can be queried from gql
+    iduraVerifyAndroidReadme: data,
+
+    // required fields
+    id: createNodeId('idura-verify-android-readme'),
+    parent: null,
+    children: [],
+    internal: {
+      type: `github`,
+      mediaType: `text/markdown`,
+      contentDigest: createContentDigest(data),
+    },
+  });
+};
