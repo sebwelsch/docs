@@ -187,7 +187,10 @@ const config = {
             },
           ]
         : [],
-    ),
+    )
+    .concat([
+      'static-redirects'
+    ]),
 };
 
 export default config;
