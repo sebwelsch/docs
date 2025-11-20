@@ -8,13 +8,16 @@ subtitle: How to use Idura Verify in app-switch mode
 
 ## Native apps
 
-If you are building a native app, and would like to get the smoothest possible UX, you can use Idura Verify's app-switching capabilities (for eIDs that support it).
-
-This will require that you take on a bit more work to orchestrate the login process in comparison
+If you are building a native app, and would like to get the smoothest possible UX, you can use Idura
+Verify's app-switching capabilities (for eIDs that support it). It requires a bit more work to orchestrate the login process in comparison
 with just going with the browser-based flow, but the net result is a much better UX.
 
 App switching actually includes two switches, one from your app to the verification app of the eID
 provider, and one switch back to your app, after the user has completed the verification process.
+
+App-switching is fully supported by the [Idura Android SDK](/verify/integrations/kotlin), so you
+should use that if at all possible. We are working on an iOS SDK as well. In the meantime, the rest
+of this guide will show you how to implement app-switching on iOS.
 
 You must augment the authorize request you send to Idura Verify so it contains one of the following values (also OS dependent)
 
@@ -31,10 +34,9 @@ The initial switch to the MitID app is outside of your control. The MitID Core C
 button to the user, allowing them to switch to the MitID app, regardless of whether you set the
 `appswitch` `login_hint` parameter.
 
-You must (still) use a either a `Custom Tab` (on `Android`) or an `ASWebAuthenticationSession` (on `iOS`) to run the login flow in your app.
+You must use an `ASWebAuthenticationSession` to run the login flow in your app.
 
-Once the flow completes, the MitID app will perform an app-switch back to your app, which makes the
-`Custom Tab` / `ASWebAuthenticationSession` resume its operation. This initial resuming of your app will not include any `OAuth2` parameters, however in resuming your app the MitID login request will continue in the web component,
+Once the flow completes, the MitID app will perform an app-switch back to your app, which makes the `ASWebAuthenticationSession` resume its operation. This initial resuming of your app will not include any `OAuth2` parameters, however in resuming your app the MitID login request will continue in the web component,
 completing the login process which will issue an `OAuth2` formatted response.
 
 Assuming your `redirect_uri` is also pointing to your native app, you will need to handle two sets of deep links,
@@ -47,71 +49,9 @@ The `resumeUrl` login_hint must be combined with your other appswitch login_hint
 `appswitch:android%20appswitch:resumeUrl:{UNIVERSAL LINK}`
 
 <Highlight icon="info">
-  We offer examples projects in [Kotlin](https://github.com/criipto/criipto-verify-android-example)
-  and [Swift](https://github.com/criipto/criipto-verify-ios-example), which shows you how to do app
-  switching.
+  We offer an example projects in [Swift](https://github.com/criipto/criipto-verify-ios-example),
+  which shows you how to do app switching.
 </Highlight>
-
-#### Android notes
-
-It is not entirely intuitive how the switchback / resume flow can be handled on this OS.
-The following setup has been observed to work:
-
-1. Set a dedicated activity for the eID login UI flow, and set the following properties in your applications `Manifest.xml`.
-
-<Highlight icon="exclamation">
-
-Remember to replace the values of the `android.host` and `android.pathPattern` properties in the `data` node.
-These values must correspond to the [App Link for your app](https://developer.android.com/training/app-links).
-You can read more about [how App Links work here](https://developer.android.com/training/app-links/verify-site-associations).
-
-</Highlight>
-
-```xml
-<activity
-        android:name=".activities.mitIDLoginActivity"
-        android:launchMode="singleTop">
-           <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data
-                        android:host="yourwebdomain.com"
-                        android:pathPattern="/yourRedirectUrlPath"
-                        android:scheme="https" />
-            </intent-filter>
-</activity>
-```
-
-After the app links are configured properly, register the app link as a _Callback URL_ in Idura, and set it as the `redirect_uri` query parameter in the `authorize request` towards Idura Verify.
-You can read more about the anatomy of the `authorize request` in our [authorize URL builder](/verify/guides/authorize-url-builder/#auth-methods--acr-values).
-
-Show the custom tab in the `mitIDLoginActivity`, and the user will be taken to MitID app during the login process.
-After Login, the context switches back to your app automatically because of the app link used in the `redirect_uri`.
-When the custom tab tries to load your app link, you can access the returned `code` value in an override of the `onNewIntent` function of the `mitIDLoginActivity`:
-
-```java
-override fun onNewIntent(intent: Intent?) {
-    super.onNewIntent(intent)
-    val data = intent?.data
-    if (data != null && data.isHierarchical) {
-        if (data.getQueryParameter("error") != null) {
-            val error = data.getQueryParameter("error")
-            if (data.getQueryParameter("error_description") != null) {
-              val error_description = data.getQueryParameter("error_description")
-            }
-            // Handle error in a way that matches your UX requirements
-        }
-        if (data.getQueryParameter("code") != null) {
-            val code = data.getQueryParameter("code")
-            // Exchange the `code` to a token using the standard OAuth2/OIDC protocols.
-            // Exactly how to do this depends on your choice of flow.
-            // If you are using the PKCE flow, you can run the exchange directly from your app.
-            // If you are using the traditional authorization code flow, send the code to your server backend so it can run the exchange.
-        }
-    }
-}
-```
 
 ## Web apps
 
