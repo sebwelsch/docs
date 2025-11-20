@@ -6,11 +6,19 @@ title: Kotlin (Android)
 subtitle: Accept Danish MitID, Swedish BankID, Norwegian BankID and more eID logins in your Android app.
 ---
 
-We are working on a Kotlin SDK, but until then, we offer an [example
-project](https://github.com/criipto/criipto-verify-android-example), which shows how to integrate
-Idura Verify using the [AppAuth library](https://github.com/openid/AppAuth-Android/).
+import Markdown from 'react-markdown';
+import { graphql as gatsbyGraphql } from 'gatsby';
 
-In addition to Verify logins, the example project also shows how to do app switching for MitID.
+export const pageQuery = gatsbyGraphql`
+  query {
+    github {
+      iduraVerifyAndroidReadme
+    }
+  }
+`;
 
-If you have any questions related to the example projects, feel free to open a GitHub issue, or
-[reach out on Slack](https://dashboard.criipto.com/support).
+Idura provides an Android SDK, which is hosted at <a
+href="https://github.com/criipto/idura-verify-android"
+target="_blank">https://github.com/criipto/idura-verify-android</a>.
+
+{<Markdown source={props.data.github.iduraVerifyAndroidReadme}/>}
